@@ -6,6 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8D1F0ECD304930EF00D4B273 /* Domain in Frameworks */ = {isa = PBXBuildFile; productRef = 8D1F0ECC304930EF00D4B273 /* Domain */; };
+		8D1F0ECF304930F400D4B273 /* EVEStaticData in Frameworks */ = {isa = PBXBuildFile; productRef = 8D1F0ECE304930F400D4B273 /* EVEStaticData */; };
+		8D1F0ED2304930F500D4B273 /* EVEAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8D1F0ED1304930F500D4B273 /* EVEAuth */; };
+		8D1F0EE1304930F600D4B273 /* sde.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 8D1F0EE0304930F600D4B273 /* sde.sqlite */; };
+		8D2A0EFA304932F700D4B273 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D2A0EF9304932F700D4B273 /* WidgetKit.framework */; };
+		8D2A0EFC304932F700D4B273 /* CanopusWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8D2A0EF0304932F700D4B273 /* CanopusWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		8D1F0E9B304929ED00D4B273 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,12 +30,36 @@
 			remoteGlobalIDString = 8D1F0E8C304929EB00D4B273;
 			remoteInfo = Canopus;
 		};
+		8D2A0EFE304932F700D4B273 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8D1F0E85304929EB00D4B273 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D2A0EF1304932F700D4B273;
+			remoteInfo = CanopusWidget;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8D2A0EFB304932F700D4B273 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8D2A0EFC304932F700D4B273 /* CanopusWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8D1F0E8D304929EB00D4B273 /* Canopus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Canopus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1F0E9A304929ED00D4B273 /* CanopusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CanopusTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D1F0EA4304929ED00D4B273 /* CanopusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CanopusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D1F0EE0304930F600D4B273 /* sde.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; name = sde.sqlite; path = Canopus/Resources/sde.sqlite; sourceTree = SOURCE_ROOT; };
+		8D2A0EF0304932F700D4B273 /* CanopusWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CanopusWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D2A0EF9304932F700D4B273 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -45,6 +78,11 @@
 			path = CanopusUITests;
 			sourceTree = "<group>";
 		};
+		8D2A0EF8304932F700D4B273 /* CanopusWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = CanopusWidget;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +90,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D1F0ECD304930EF00D4B273 /* Domain in Frameworks */,
+				8D1F0ECF304930F400D4B273 /* EVEStaticData in Frameworks */,
+				8D1F0ED2304930F500D4B273 /* EVEAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +110,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8D2A0EF7304932F700D4B273 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D2A0EFA304932F700D4B273 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,7 +127,10 @@
 				8D1F0E8F304929EB00D4B273 /* Canopus */,
 				8D1F0E9D304929ED00D4B273 /* CanopusTests */,
 				8D1F0EA7304929ED00D4B273 /* CanopusUITests */,
+				8D2A0EF8304932F700D4B273 /* CanopusWidget */,
+				8D1F0ECB304930EF00D4B273 /* Frameworks */,
 				8D1F0E8E304929EB00D4B273 /* Products */,
+				8D1F0F3630493FB000D4B273 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,8 +140,25 @@
 				8D1F0E8D304929EB00D4B273 /* Canopus.app */,
 				8D1F0E9A304929ED00D4B273 /* CanopusTests.xctest */,
 				8D1F0EA4304929ED00D4B273 /* CanopusUITests.xctest */,
+				8D2A0EF0304932F700D4B273 /* CanopusWidget.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8D1F0ECB304930EF00D4B273 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8D1F0F3630493FB000D4B273 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				8D1F0EE0304930F600D4B273 /* sde.sqlite */,
+				8D2A0EF9304932F700D4B273 /* WidgetKit.framework */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,16 +171,21 @@
 				8D1F0E89304929EB00D4B273 /* Sources */,
 				8D1F0E8A304929EB00D4B273 /* Frameworks */,
 				8D1F0E8B304929EB00D4B273 /* Resources */,
+				8D2A0EFB304932F700D4B273 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8D2A0EFD304932F700D4B273 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8D1F0E8F304929EB00D4B273 /* Canopus */,
 			);
 			name = Canopus;
 			packageProductDependencies = (
+				8D1F0ECC304930EF00D4B273 /* Domain */,
+				8D1F0ECE304930F400D4B273 /* EVEStaticData */,
+				8D1F0ED1304930F500D4B273 /* EVEAuth */,
 			);
 			productName = Canopus;
 			productReference = 8D1F0E8D304929EB00D4B273 /* Canopus.app */;
@@ -163,6 +237,28 @@
 			productReference = 8D1F0EA4304929ED00D4B273 /* CanopusUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		8D2A0EF1304932F700D4B273 /* CanopusWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D2A0EF2304932F700D4B273 /* Build configuration list for PBXNativeTarget "CanopusWidget" */;
+			buildPhases = (
+				8D2A0EF5304932F700D4B273 /* Sources */,
+				8D2A0EF7304932F700D4B273 /* Frameworks */,
+				8D2A0EF6304932F700D4B273 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8D2A0EF8304932F700D4B273 /* CanopusWidget */,
+			);
+			name = CanopusWidget;
+			packageProductDependencies = (
+			);
+			productName = CanopusWidget;
+			productReference = 8D2A0EF0304932F700D4B273 /* CanopusWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +280,9 @@
 						CreatedOnToolsVersion = 26.6;
 						TestTargetID = 8D1F0E8C304929EB00D4B273;
 					};
+					8D2A0EF1304932F700D4B273 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 				};
 			};
 			buildConfigurationList = 8D1F0E88304929EB00D4B273 /* Build configuration list for PBXProject "Canopus" */;
@@ -195,6 +294,11 @@
 			);
 			mainGroup = 8D1F0E84304929EB00D4B273;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8D1F0EC93049309A00D4B273 /* XCLocalSwiftPackageReference "Packages/Domain" */,
+				8D1F0ECA304930B600D4B273 /* XCLocalSwiftPackageReference "Packages/EVEStaticData" */,
+				8D1F0ED0304930F500D4B273 /* XCLocalSwiftPackageReference "Packages/EVEAuth" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8D1F0E8E304929EB00D4B273 /* Products */;
 			projectDirPath = "";
@@ -203,6 +307,7 @@
 				8D1F0E8C304929EB00D4B273 /* Canopus */,
 				8D1F0E99304929ED00D4B273 /* CanopusTests */,
 				8D1F0EA3304929ED00D4B273 /* CanopusUITests */,
+				8D2A0EF1304932F700D4B273 /* CanopusWidget */,
 			);
 		};
 /* End PBXProject section */
@@ -212,6 +317,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D1F0EE1304930F600D4B273 /* sde.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +329,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8D1F0EA2304929ED00D4B273 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D2A0EF6304932F700D4B273 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +366,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8D2A0EF5304932F700D4B273 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +385,11 @@
 			isa = PBXTargetDependency;
 			target = 8D1F0E8C304929EB00D4B273 /* Canopus */;
 			targetProxy = 8D1F0EA5304929ED00D4B273 /* PBXContainerItemProxy */;
+		};
+		8D2A0EFD304932F700D4B273 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D2A0EF1304932F700D4B273 /* CanopusWidget */;
+			targetProxy = 8D2A0EFE304932F700D4B273 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -390,6 +515,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Canopus/Canopus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NCAY392TAZ;
@@ -434,6 +560,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Canopus/Canopus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NCAY392TAZ;
@@ -575,6 +702,64 @@
 			};
 			name = Release;
 		};
+		8D2A0EF3304932F700D4B273 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = CanopusWidget/CanopusWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NCAY392TAZ;
+				INFOPLIST_FILE = "CanopusWidget-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AlexPlumbing.Canopus.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.5;
+			};
+			name = Debug;
+		};
+		8D2A0EF4304932F700D4B273 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = CanopusWidget/CanopusWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NCAY392TAZ;
+				INFOPLIST_FILE = "CanopusWidget-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../../Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 26.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = AlexPlumbing.Canopus.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 26.5;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -614,7 +799,49 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8D2A0EF2304932F700D4B273 /* Build configuration list for PBXNativeTarget "CanopusWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D2A0EF3304932F700D4B273 /* Debug */,
+				8D2A0EF4304932F700D4B273 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		8D1F0EC93049309A00D4B273 /* XCLocalSwiftPackageReference "Packages/Domain" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Domain;
+		};
+		8D1F0ECA304930B600D4B273 /* XCLocalSwiftPackageReference "Packages/EVEStaticData" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/EVEStaticData;
+		};
+		8D1F0ED0304930F500D4B273 /* XCLocalSwiftPackageReference "Packages/EVEAuth" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/EVEAuth;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8D1F0ECC304930EF00D4B273 /* Domain */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D1F0EC93049309A00D4B273 /* XCLocalSwiftPackageReference "Packages/Domain" */;
+			productName = Domain;
+		};
+		8D1F0ECE304930F400D4B273 /* EVEStaticData */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D1F0ECA304930B600D4B273 /* XCLocalSwiftPackageReference "Packages/EVEStaticData" */;
+			productName = EVEStaticData;
+		};
+		8D1F0ED1304930F500D4B273 /* EVEAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8D1F0ED0304930F500D4B273 /* XCLocalSwiftPackageReference "Packages/EVEAuth" */;
+			productName = EVEAuth;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8D1F0E85304929EB00D4B273 /* Project object */;
 }

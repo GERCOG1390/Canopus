@@ -1,0 +1,20 @@
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Внешний шестигранный чип EVE -->
+  <path d="M14 2L24.5 8V20L14 26L3.5 20V8L14 2Z" 
+        stroke="currentColor" 
+        stroke-width="1.75" 
+        stroke-linejoin="round"/>
+
+  <!-- Знак ISK (Z с горизонтальным перекрытием) -->
+  <path d="M9 8.5H19L9 19.5H19" 
+        stroke="currentColor" 
+        stroke-width="2" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+        
+  <!-- Центральный горизонтальный штрих валюты -->
+  <path d="M7 14H21" 
+        stroke="currentColor" 
+        stroke-width="1.75" 
+        stroke-linecap="round"/>
+</svg>

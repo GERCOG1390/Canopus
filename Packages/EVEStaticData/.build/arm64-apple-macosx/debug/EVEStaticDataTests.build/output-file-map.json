@@ -1,0 +1,19 @@
+{
+  "": {
+    "swift-dependencies": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/primary.swiftdeps"
+  },
+  "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/Tests/EVEStaticDataTests/DogmaEngineTests.swift": {
+    "dependencies": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/DogmaEngineTests.d",
+    "object": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/DogmaEngineTests.swift.o",
+    "swiftmodule": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/DogmaEngineTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/DogmaEngineTests.swiftdeps",
+    "diagnostics": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/DogmaEngineTests.dia"
+  },
+  "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/Tests/EVEStaticDataTests/SDERepositoryTests.swift": {
+    "dependencies": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/SDERepositoryTests.d",
+    "object": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/SDERepositoryTests.swift.o",
+    "swiftmodule": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/SDERepositoryTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/SDERepositoryTests.swiftdeps",
+    "diagnostics": "/Users/oleksandrderiugin/Documents/Canopus/Packages/EVEStaticData/.build/arm64-apple-macosx/debug/EVEStaticDataTests.build/SDERepositoryTests.dia"
+  }
+}

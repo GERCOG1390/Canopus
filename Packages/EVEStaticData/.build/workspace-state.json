@@ -1,0 +1,44 @@
+{
+  "object" : {
+    "artifacts" : [
+
+    ],
+    "dependencies" : [
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "domain",
+          "kind" : "fileSystem",
+          "location" : "/Users/oleksandrderiugin/Documents/Canopus/Packages/Domain",
+          "name" : "Domain"
+        },
+        "state" : {
+          "name" : "fileSystem",
+          "path" : "/Users/oleksandrderiugin/Documents/Canopus/Packages/Domain"
+        },
+        "subpath" : "domain"
+      },
+      {
+        "basedOn" : null,
+        "packageRef" : {
+          "identity" : "grdb.swift",
+          "kind" : "remoteSourceControl",
+          "location" : "https://github.com/groue/GRDB.swift.git",
+          "name" : "GRDB"
+        },
+        "state" : {
+          "checkoutState" : {
+            "revision" : "b83108d10f42680d78f23fe4d4d80fc88dab3212",
+            "version" : "7.11.1"
+          },
+          "name" : "sourceControlCheckout"
+        },
+        "subpath" : "GRDB.swift"
+      }
+    ],
+    "prebuilts" : [
+
+    ]
+  },
+  "version" : 7
+}
