@@ -96,12 +96,32 @@ struct SkillsView: View {
             let response = try await service.skills()
             skillsState = response
 
-            // Build category-grouped skill list using SDE.
+            // Batch-fetch all skill types in one query.
+            let skillIds = Set(response.skills.map(\.skillId))
+            let typeMap = (try? await repo.types(ids: skillIds)) ?? [:]
+
+            // Resolve unique group IDs → category IDs (each group fetched once).
+            let groupIds = Set(typeMap.values.map(\.groupId))
+            for groupId in groupIds where groupCategoryCache[groupId] == nil {
+                if let g = try? await repo.group(id: groupId) {
+                    groupCategoryCache[groupId] = g.categoryId
+                }
+            }
+
+            // Resolve unique category IDs.
+            let catIds = Set(groupCategoryCache.values)
+            var catMap: [Int: ItemCategory] = [:]
+            for catId in catIds {
+                catMap[catId] = (try? await repo.category(id: catId))
+                    ?? ItemCategory(id: catId, name: "Unknown", published: true)
+            }
+
+            // Build category-grouped skill list.
             var byCategory: [Int: (ItemCategory, [SkillRow])] = [:]
             for item in response.skills {
-                guard let typeInfo = try? await repo.type(id: item.skillId) else { continue }
-                let catId = try await categoryId(for: typeInfo.groupId, repo: repo)
-                let cat = try await repo.category(id: catId) ?? ItemCategory(id: catId, name: "Unknown", published: true)
+                guard let typeInfo = typeMap[item.skillId] else { continue }
+                let catId = groupCategoryCache[typeInfo.groupId] ?? 0
+                let cat = catMap[catId] ?? ItemCategory(id: catId, name: "Unknown", published: true)
                 let row = SkillRow(id: item.skillId, name: typeInfo.name,
                                    level: item.trainedSkillLevel, sp: item.skillpointsInSkill)
                 byCategory[catId, default: (cat, [])].1.append(row)
@@ -112,14 +132,6 @@ struct SkillsView: View {
         } catch {
             self.error = error
         }
-    }
-
-    private func categoryId(for groupId: Int, repo: SDERepository) async throws -> Int {
-        if let cached = groupCategoryCache[groupId] { return cached }
-        let group = try await repo.group(id: groupId)
-        let catId = group?.categoryId ?? 0
-        groupCategoryCache[groupId] = catId
-        return catId
     }
 
     private func formatSP(_ n: Int) -> String {

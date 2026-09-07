@@ -1,8 +1,11 @@
 import SwiftUI
 import EVEAuth
+import EVEStaticData
+import Domain
 
 struct MiningLedgerView: View {
     let characterService: CharacterService
+    @Environment(AppEnvironment.self) private var env
 
     @State private var entries: [ESIMiningEntry] = []
     @State private var typeNames: [Int: String] = [:]
@@ -175,10 +178,11 @@ struct MiningLedgerView: View {
                 prices[p.typeId] = p.adjustedPrice ?? p.averagePrice ?? 0
             }
 
-            // Resolve type names via ESI names endpoint
+            // Resolve type names from local SDE (avoids an extra ESI round-trip).
             let ids = Set(mined.map(\.typeId))
-            if let resolved = try? await characterService.resolveNames(ids: Array(ids)) {
-                for r in resolved { typeNames[r.id] = r.name }
+            if let repo = env.repository,
+               let map = try? await repo.types(ids: ids) {
+                for (id, t) in map { typeNames[id] = t.name }
             }
         } catch { self.error = error }
     }

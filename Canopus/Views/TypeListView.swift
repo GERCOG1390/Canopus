@@ -13,7 +13,7 @@ struct TypeListView: View {
             NavigationLink(value: type) {
                 HStack(spacing: 10) {
                     EVETypeIcon(typeId: type.id, size: 36)
-                        .cornerRadius(4)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
                     VStack(alignment: .leading, spacing: 2) {
                         Text(type.name)
                         if let vol = type.volume {

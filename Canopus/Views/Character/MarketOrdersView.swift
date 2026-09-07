@@ -64,10 +64,9 @@ struct MarketOrdersView: View {
         do {
             orders = try await characterService.marketOrders()
             let ids = Set(orders.map(\.typeId))
-            if let repo = env.repository {
-                for id in ids {
-                    if let t = try? await repo.type(id: id) { typeNames[id] = t.name }
-                }
+            if let repo = env.repository,
+               let map = try? await repo.types(ids: ids) {
+                for (id, t) in map { typeNames[id] = t.name }
             }
         } catch {
             self.error = error

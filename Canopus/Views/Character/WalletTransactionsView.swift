@@ -213,8 +213,8 @@ struct WalletTransactionsView: View {
     private func resolveTypeNames(_ txs: [ESIWalletTransaction]) async {
         guard let repo = env.repository else { return }
         let unknownTypes = Set(txs.map(\.typeId)).subtracting(typeNames.keys)
-        for id in unknownTypes {
-            if let t = try? await repo.type(id: id) { typeNames[id] = t.name }
+        if let map = try? await repo.types(ids: unknownTypes) {
+            for (id, t) in map { typeNames[id] = t.name }
         }
     }
 

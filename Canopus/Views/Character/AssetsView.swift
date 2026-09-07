@@ -161,8 +161,8 @@ struct AssetsView: View {
             var typeNames: [Int: String] = [:]
             if let repo = env.repository {
                 let typeIds = Set(raw.map(\.typeId))
-                for id in typeIds {
-                    if let t = try? await repo.type(id: id) { typeNames[id] = t.name }
+                if let map = try? await repo.types(ids: typeIds) {
+                    typeNames = map.mapValues(\.name)
                 }
             }
 

@@ -78,10 +78,9 @@ struct IndustryView: View {
                 if let p = job.productTypeId { ids.append(p) }
                 return ids
             })
-            if let repo = env.repository {
-                for id in ids {
-                    if let t = try? await repo.type(id: id) { typeNames[id] = t.name }
-                }
+            if let repo = env.repository,
+               let map = try? await repo.types(ids: ids) {
+                for (id, t) in map { typeNames[id] = t.name }
             }
         } catch {
             self.error = error

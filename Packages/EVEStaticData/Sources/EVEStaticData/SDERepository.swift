@@ -114,6 +114,21 @@ public struct SDERepository: Sendable {
         }
     }
 
+    /// Batch lookup — returns typeId → ItemType for all requested IDs in one query.
+    public func types(ids: Set<Int>) async throws -> [Int: ItemType] {
+        guard !ids.isEmpty else { return [:] }
+        return try await dbReader.read { db in
+            let sorted = ids.sorted()
+            let placeholders = sorted.map { _ in "?" }.joined(separator: ",")
+            let sql = "SELECT * FROM types WHERE id IN (\(placeholders))"
+            var result: [Int: ItemType] = [:]
+            for record in try TypeRecord.fetchAll(db, sql: sql, arguments: StatementArguments(sorted)) {
+                result[record.id] = record.toDomain()
+            }
+            return result
+        }
+    }
+
     // MARK: - Attributes
 
     public func attributes(typeId: Int) async throws -> [TypeAttributeDetail] {

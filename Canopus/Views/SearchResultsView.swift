@@ -14,7 +14,7 @@ struct SearchResultsView: View {
             NavigationLink(value: type) {
                 HStack(spacing: 10) {
                     EVETypeIcon(typeId: type.id, size: 32)
-                        .cornerRadius(4)
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
                     Text(type.name)
                 }
             }

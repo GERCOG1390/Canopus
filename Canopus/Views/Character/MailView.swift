@@ -195,7 +195,7 @@ struct MailView: View {
             }
 
             mails = headers.sorted { $0.timestamp > $1.timestamp }
-            hasMore = headers.count == 50
+            hasMore = !headers.isEmpty && headers.count % 50 == 0
 
             await resolveNames(in: headers)
         } catch {
@@ -212,7 +212,7 @@ struct MailView: View {
             let more = try await characterService.mailHeaders(lastMailId: lastId)
             let newMails = more.filter { m in !mails.contains(where: { $0.mailId == m.mailId }) }
             mails += newMails.sorted { $0.timestamp > $1.timestamp }
-            hasMore = more.count == 50
+            hasMore = !more.isEmpty && more.count % 50 == 0
             await resolveNames(in: newMails)
         } catch {
             self.error = error

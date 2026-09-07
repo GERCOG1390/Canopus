@@ -72,10 +72,9 @@ struct LoyaltyPointsView: View {
         defer { isLoading = false }
         do {
             points = try await characterService.loyaltyPoints()
-            for lp in points {
-                if let info = try? await characterService.corporationInfo(corpId: lp.corporationId) {
-                    corpNames[lp.corporationId] = info.name
-                }
+            let ids = points.map(\.corporationId)
+            if let resolved = try? await characterService.resolveNames(ids: ids) {
+                for r in resolved { corpNames[r.id] = r.name }
             }
         } catch {
             self.error = error

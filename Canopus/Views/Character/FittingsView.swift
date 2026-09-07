@@ -187,8 +187,8 @@ struct FittingsView: View {
     private func resolveNames() async {
         guard let repo = env.repository else { return }
         let ids = Set(fittings.flatMap { [$0.shipTypeId] + $0.items.map(\.typeId) })
-        for id in ids {
-            if let t = try? await repo.type(id: id) { typeNames[id] = t.name }
+        if let map = try? await repo.types(ids: ids) {
+            for (id, t) in map { typeNames[id] = t.name }
         }
     }
 }
@@ -986,13 +986,12 @@ struct FitDetailView: View {
     }
 
     private func resolveLocalNames(repo: SDERepository, typeIds: Set<Int>) async {
-        for id in typeIds where localTypes[id] == nil {
-            if let t = try? await repo.type(id: id) {
-                localTypes[id] = t
-                if typeNames[id] == nil {
-                    localTypeNames[id] = t.name
-                }
-            }
+        let missing = typeIds.filter { localTypes[$0] == nil }
+        guard !missing.isEmpty else { return }
+        guard let map = try? await repo.types(ids: Set(missing)) else { return }
+        for (id, t) in map {
+            localTypes[id] = t
+            if typeNames[id] == nil { localTypeNames[id] = t.name }
         }
     }
 

@@ -11,7 +11,7 @@ struct WalletJournalView: View {
     private var filtered: [ESIWalletEntry] {
         if searchText.isEmpty { return entries }
         return entries.filter {
-            refLabel($0.refType).localizedCaseInsensitiveContains(searchText) ||
+            eveRefLabel($0.refType).localizedCaseInsensitiveContains(searchText) ||
             ($0.description?.localizedCaseInsensitiveContains(searchText) == true)
         }
     }
@@ -56,36 +56,6 @@ struct WalletJournalView: View {
     }
 }
 
-private func refLabel(_ refType: String) -> String {
-    switch refType {
-    case "player_trading":               return "Trade"
-    case "market_escrow":               return "Market Escrow"
-    case "transaction_tax":             return "Transaction Tax"
-    case "brokers_fee":                 return "Brokers Fee"
-    case "bounty_prizes":               return "Bounty"
-    case "contract_price":              return "Contract"
-    case "contract_reward":             return "Contract Reward"
-    case "contract_collateral":         return "Contract Collateral"
-    case "contract_deposit":            return "Contract Deposit"
-    case "contract_deposit_refund":     return "Contract Refund"
-    case "agent_mission_reward":        return "Mission Reward"
-    case "agent_mission_time_bonus_reward": return "Mission Bonus"
-    case "character_donation":          return "Donation"
-    case "corporation_account_withdrawal": return "Corp Withdrawal"
-    case "manufacturing":               return "Manufacturing"
-    case "reprocessing_tax":            return "Reprocessing Tax"
-    case "jump_clone_activation_fee":   return "Clone Jump Fee"
-    case "planetary_export_tax":        return "PI Export Tax"
-    case "planetary_import_tax":        return "PI Import Tax"
-    case "skill_purchase":              return "Skill Purchase"
-    case "insurance":                   return "Insurance"
-    case "inheritance":                 return "Inheritance"
-    default:
-        return refType
-            .replacingOccurrences(of: "_", with: " ")
-            .capitalized
-    }
-}
 
 private struct WalletEntryRow: View {
     let entry: ESIWalletEntry
@@ -98,7 +68,7 @@ private struct WalletEntryRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(refLabel(entry.refType))
+                Text(eveRefLabel(entry.refType))
                     .font(.body)
                 Spacer()
                 if let amount = entry.amount {

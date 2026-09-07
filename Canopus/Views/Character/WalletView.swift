@@ -12,7 +12,7 @@ struct WalletTabView: View {
     private var filtered: [ESIWalletEntry] {
         guard !searchText.isEmpty else { return entries }
         return entries.filter {
-            refLabel($0.refType).localizedCaseInsensitiveContains(searchText) ||
+            eveRefLabel($0.refType).localizedCaseInsensitiveContains(searchText) ||
             ($0.description?.localizedCaseInsensitiveContains(searchText) == true)
         }
     }
@@ -120,7 +120,7 @@ struct WalletTabView: View {
 
         return HStack(alignment: .center, spacing: 12) {
             VStack(alignment: .leading, spacing: 5) {
-                Text(refLabel(entry.refType))
+                Text(eveRefLabel(entry.refType))
                     .font(.system(size: 13, weight: .medium))
                     .foregroundStyle(Color.eveText)
                     .lineLimit(1)
@@ -187,32 +187,3 @@ struct WalletTabView: View {
     }
 }
 
-// MARK: - Legacy passthrough (used by older nav paths)
-
-struct WalletView: View {
-    let balance: Double?
-    var body: some View { EmptyView() }
-}
-
-private func refLabel(_ refType: String) -> String {
-    switch refType {
-    case "player_trading":               return "Trade"
-    case "market_escrow":                return "Market Escrow"
-    case "transaction_tax":              return "Transaction Tax"
-    case "brokers_fee":                  return "Brokers Fee"
-    case "bounty_prizes":                return "Bounty"
-    case "contract_price":               return "Contract"
-    case "contract_reward":              return "Contract Reward"
-    case "agent_mission_reward":         return "Mission Reward"
-    case "agent_mission_time_bonus_reward": return "Mission Bonus"
-    case "character_donation":           return "Donation"
-    case "manufacturing":                return "Manufacturing"
-    case "jump_clone_activation_fee":    return "Clone Jump Fee"
-    case "planetary_export_tax":         return "PI Export Tax"
-    case "planetary_import_tax":         return "PI Import Tax"
-    case "insurance":                    return "Insurance"
-    case "skill_purchase":               return "Skill Purchase"
-    default:
-        return refType.replacingOccurrences(of: "_", with: " ").capitalized
-    }
-}

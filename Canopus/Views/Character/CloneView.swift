@@ -96,12 +96,9 @@ struct CloneView: View {
             }
 
             // Resolve implant names from SDE
-            if let repo: SDERepository = env.repository {
-                for id in ids {
-                    if let t: ItemType = try? await repo.type(id: id) {
-                        implantNames[id] = t.name
-                    }
-                }
+            if let repo = env.repository,
+               let map = try? await repo.types(ids: Set(ids)) {
+                for (id, t) in map { implantNames[id] = t.name }
             }
         } catch {
             self.error = error

@@ -221,30 +221,38 @@ struct KillBoardView: View {
     }
 
     private func resolveRecords(_ entries: [ZKBEntry]) async -> [KBRecord] {
-        await withTaskGroup(of: KBRecord?.self) { g in
-            for entry in entries {
-                g.addTask {
-                    guard let km = try? await self.characterService.killMailDetail(
-                        id: entry.killmailId, hash: entry.killmailHash) else { return nil }
-                    return KBRecord(
-                        id: entry.killmailId,
-                        hash: entry.killmailHash,
-                        time: km.killmailTime,
-                        victimShipTypeId: km.victim.shipTypeId,
-                        victimShipName: nil,
-                        victimCharId: km.victim.characterId,
-                        attackerCount: km.attackers.count,
-                        finalBlow: km.attackers.first(where: \.finalBlow),
-                        totalValue: entry.zkb.totalValue,
-                        solo: entry.zkb.solo,
-                        allAttackers: km.attackers
-                    )
+        // Limit concurrent ESI killmail requests to avoid rate-limiting.
+        let batchSize = 20
+        var result: [KBRecord] = []
+        for batch in stride(from: 0, to: entries.count, by: batchSize) {
+            let slice = Array(entries[batch ..< min(batch + batchSize, entries.count)])
+            let records = await withTaskGroup(of: KBRecord?.self) { g in
+                for entry in slice {
+                    g.addTask {
+                        guard let km = try? await self.characterService.killMailDetail(
+                            id: entry.killmailId, hash: entry.killmailHash) else { return nil }
+                        return KBRecord(
+                            id: entry.killmailId,
+                            hash: entry.killmailHash,
+                            time: km.killmailTime,
+                            victimShipTypeId: km.victim.shipTypeId,
+                            victimShipName: nil,
+                            victimCharId: km.victim.characterId,
+                            attackerCount: km.attackers.count,
+                            finalBlow: km.attackers.first(where: \.finalBlow),
+                            totalValue: entry.zkb.totalValue,
+                            solo: entry.zkb.solo,
+                            allAttackers: km.attackers
+                        )
+                    }
                 }
+                var out: [KBRecord] = []
+                for await r in g { if let r { out.append(r) } }
+                return out
             }
-            var result: [KBRecord] = []
-            for await r in g { if let r { result.append(r) } }
-            return result.sorted { $0.time > $1.time }
+            result.append(contentsOf: records)
         }
+        return result.sorted { $0.time > $1.time }
     }
 
     private func iskCompact(_ v: Double) -> String {

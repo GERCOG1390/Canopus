@@ -166,9 +166,8 @@ struct SkillQueueView: View {
             let raw = try await service.skillQueue()
             if let repo = env.repository {
                 let ids = Set(raw.map(\.skillId))
-                var names: [Int: String] = [:]
-                for id in ids { if let t = try? await repo.type(id: id) { names[id] = t.name } }
-                entries = raw.map { makeEntry($0, name: names[$0.skillId]) }
+                let nameMap = (try? await repo.types(ids: ids))?.mapValues(\.name) ?? [:]
+                entries = raw.map { makeEntry($0, name: nameMap[$0.skillId]) }
             } else {
                 entries = raw.map { makeEntry($0) }
             }
