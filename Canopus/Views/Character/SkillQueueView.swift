@@ -33,7 +33,7 @@ struct SkillQueueView: View {
                         .padding(.horizontal, 20)
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
             if isLoading { ProgressView().tint(Color.eveCyan) }
         }

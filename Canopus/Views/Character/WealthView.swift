@@ -51,7 +51,7 @@ struct WealthView: View {
                             .padding(.top, 12)
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
             if isLoading { ProgressView().tint(Color.eveCyan) }
         }

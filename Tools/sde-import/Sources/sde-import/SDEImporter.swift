@@ -20,6 +20,9 @@ struct SDEImporter {
         print("→ Importing types…")
         print("  \(try await importTypes())")
 
+        print("→ Importing type bonuses…")
+        print("  \(try await importTypeBonuses())")
+
         print("→ Importing dogma attributes…")
         print("  \(try await importDogmaAttributes())")
 
@@ -123,9 +126,61 @@ struct SDEImporter {
                         r.metaGroupID, r.variationParentTypeID, r.factionID, r.raceID,
                     ]
                 )
+                try insertTraits(r.traits, forTypeId: r.id, into: database)
             }
         }
         return "\(records.count) types"
+    }
+
+    private func insertTraits(_ traits: SDETypeTraits?, forTypeId typeId: Int, into database: Database) throws {
+        guard let traits else { return }
+        var sort = 0
+
+        for bonus in (traits.roleBonuses ?? []) + (traits.miscBonuses ?? []) {
+            let text = bonus.displayText
+            guard !text.isEmpty else { continue }
+            let skillId: Int? = nil
+            try database.execute(
+                sql: "INSERT INTO type_traits (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
+                arguments: [typeId, skillId, bonus.bonus, bonus.unitID, text, sort]
+            )
+            sort += 1
+        }
+
+        for key in (traits.types ?? [:]).keys.sorted(by: localizedNumericLessThan) {
+            guard let skillId = Int(key), let bonuses = traits.types?[key] else { continue }
+            for bonus in bonuses {
+                let text = bonus.displayText
+                guard !text.isEmpty else { continue }
+                try database.execute(
+                    sql: "INSERT INTO type_traits (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
+                    arguments: [typeId, skillId, bonus.bonus, bonus.unitID, text, sort]
+                )
+                sort += 1
+            }
+        }
+    }
+
+    private func localizedNumericLessThan(_ lhs: String, _ rhs: String) -> Bool {
+        lhs.localizedStandardCompare(rhs) == .orderedAscending
+    }
+
+    private func importTypeBonuses() async throws -> String {
+        guard let url = findFile("typeBonus.yaml") else {
+            return "⚠️  typeBonus.yaml not found"
+        }
+
+        let records = try parseTypeBonusYAML(url)
+        try await db.write { database in
+            try database.execute(sql: "DELETE FROM type_traits")
+            for record in records {
+                try database.execute(
+                    sql: "INSERT INTO type_traits (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
+                    arguments: [record.typeId, record.skillId, record.bonus, record.unitId, record.text, record.sort]
+                )
+            }
+        }
+        return "\(records.count) type bonuses"
     }
 
     private func importDogmaAttributes() async throws -> String {
@@ -303,5 +358,165 @@ struct SDEImporter {
             }
         }
         return results
+    }
+
+    private func parseTypeBonusYAML(_ url: URL) throws -> [SDETypeBonusRecord] {
+        let content = try String(contentsOf: url, encoding: .utf8)
+        var records: [SDETypeBonusRecord] = []
+        records.reserveCapacity(3_000)
+
+        var typeId: Int?
+        var section: String?
+        var skillId: Int?
+        var sort = 0
+
+        var hasEntry = false
+        var entrySkillId: Int?
+        var entryBonus: Double?
+        var entryUnitId: Int?
+        var entryTextParts: [String] = []
+        var capturingEnglishText = false
+        var englishTextIndent = 0
+
+        func leadingSpaces(_ line: String) -> Int {
+            line.prefix { $0 == " " }.count
+        }
+
+        func cleanYAMLText(_ value: String) -> String {
+            var text = value.trimmingCharacters(in: .whitespaces)
+            if ["|", ">", "|-", ">-"].contains(text) {
+                return ""
+            }
+            if text.count >= 2,
+               let first = text.first,
+               let last = text.last,
+               (first == "\"" && last == "\"") || (first == "'" && last == "'") {
+                text.removeFirst()
+                text.removeLast()
+            }
+            return text
+        }
+
+        func isLanguageLine(_ trimmedLine: String) -> Bool {
+            guard let colonIndex = trimmedLine.firstIndex(of: ":") else { return false }
+            let key = trimmedLine[..<colonIndex]
+            return key.count == 2 && key.allSatisfy(\.isLetter)
+        }
+
+        func flushEntry() {
+            guard hasEntry, let typeId else {
+                hasEntry = false
+                entryTextParts.removeAll(keepingCapacity: true)
+                return
+            }
+            let text = entryTextParts
+                .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+                .filter { !$0.isEmpty }
+                .joined(separator: " ")
+
+            if !text.isEmpty {
+                records.append(SDETypeBonusRecord(
+                    typeId: typeId,
+                    skillId: entrySkillId,
+                    bonus: entryBonus,
+                    unitId: entryUnitId,
+                    text: text,
+                    sort: sort
+                ))
+                sort += 1
+            }
+
+            hasEntry = false
+            entrySkillId = nil
+            entryBonus = nil
+            entryUnitId = nil
+            entryTextParts.removeAll(keepingCapacity: true)
+            capturingEnglishText = false
+            englishTextIndent = 0
+        }
+
+        for line in content.split(separator: "\n", omittingEmptySubsequences: false).map(String.init) {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+
+            if leadingSpaces(line) == 0, trimmed.hasSuffix(":") {
+                let key = String(trimmed.dropLast())
+                if let parsedTypeId = Int(key) {
+                    flushEntry()
+                    typeId = parsedTypeId
+                    section = nil
+                    skillId = nil
+                    sort = 0
+                    continue
+                }
+            }
+
+            if leadingSpaces(line) == 2, ["roleBonuses:", "miscBonuses:", "types:"].contains(trimmed) {
+                flushEntry()
+                section = String(trimmed.dropLast())
+                skillId = nil
+                continue
+            }
+
+            if section == "types", leadingSpaces(line) == 4, trimmed.hasSuffix(":") {
+                let key = String(trimmed.dropLast())
+                if let parsedSkillId = Int(key) {
+                    flushEntry()
+                    skillId = parsedSkillId
+                    continue
+                }
+            }
+
+            if trimmed.hasPrefix("- bonus:") {
+                flushEntry()
+                let value = trimmed
+                    .dropFirst("- bonus:".count)
+                    .trimmingCharacters(in: .whitespaces)
+                hasEntry = true
+                entrySkillId = section == "types" ? skillId : nil
+                entryBonus = Double(value)
+                entryUnitId = nil
+                entryTextParts.removeAll(keepingCapacity: true)
+                continue
+            }
+
+            guard hasEntry else { continue }
+
+            if trimmed.hasPrefix("unitID:") {
+                let value = trimmed
+                    .dropFirst("unitID:".count)
+                    .trimmingCharacters(in: .whitespaces)
+                entryUnitId = Int(value)
+                capturingEnglishText = false
+                continue
+            }
+
+            if trimmed.hasPrefix("en:") {
+                capturingEnglishText = true
+                englishTextIndent = leadingSpaces(line)
+                let value = trimmed
+                    .dropFirst("en:".count)
+                    .trimmingCharacters(in: .whitespaces)
+                let text = cleanYAMLText(value)
+                if !text.isEmpty {
+                    entryTextParts.append(text)
+                }
+                continue
+            }
+
+            if capturingEnglishText {
+                let indent = leadingSpaces(line)
+                if trimmed.isEmpty || indent <= englishTextIndent || isLanguageLine(trimmed) {
+                    capturingEnglishText = false
+                } else {
+                    let text = cleanYAMLText(trimmed)
+                    if !text.isEmpty {
+                        entryTextParts.append(text)
+                    }
+                }
+            }
+        }
+
+        flushEntry()
+        return records
     }
 }

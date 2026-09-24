@@ -136,7 +136,7 @@ struct WalletTransactionsView: View {
                     .disabled(isLoadingMore)
                 }
             }
-            .padding(.bottom, 40)
+            .padding(.bottom, EVELayout.scrollBottomClearance)
         }
     }
 

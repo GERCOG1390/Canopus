@@ -73,13 +73,44 @@ struct SDEType: Codable {
     let raceID: Int?
     let packagedVolume: Double?
     let published: Bool?
+    let traits: SDETypeTraits?
 
     enum CodingKeys: String, CodingKey {
         case id = "_key"
         case groupID, name, description, mass, volume, capacity
         case portionSize, basePrice, marketGroupID, metaGroupID
-        case variationParentTypeID, factionID, raceID, packagedVolume, published
+        case variationParentTypeID, factionID, raceID, packagedVolume, published, traits
     }
+}
+
+struct SDETypeTraits: Codable {
+    let roleBonuses: [SDETypeTraitBonus]?
+    let miscBonuses: [SDETypeTraitBonus]?
+    let types: [String: [SDETypeTraitBonus]]?
+}
+
+struct SDETypeTraitBonus: Codable {
+    let bonus: Double?
+    let unitID: Int?
+    let text: LocalizedString?
+    let bonusText: LocalizedString?
+
+    var displayText: String {
+        text?.english.nilIfEmpty ?? bonusText?.english.nilIfEmpty ?? ""
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case bonus, unitID, text, bonusText
+    }
+}
+
+struct SDETypeBonusRecord {
+    let typeId: Int
+    let skillId: Int?
+    let bonus: Double?
+    let unitId: Int?
+    let text: String
+    let sort: Int
 }
 
 // MARK: - Market Groups
@@ -181,4 +212,10 @@ struct SDEDogmaAttributeValue: Codable {
 struct SDEDogmaEffectRef: Codable {
     let effectID: Int
     let isDefault: Bool?
+}
+
+private extension String {
+    var nilIfEmpty: String? {
+        isEmpty ? nil : self
+    }
 }

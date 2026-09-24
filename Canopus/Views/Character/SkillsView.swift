@@ -111,7 +111,13 @@ struct SkillsView: View {
 
             VStack(spacing: 0) {
                 ForEach(queue.prefix(6)) { row in
-                    queueRow(row)
+                    NavigationLink {
+                        TypeDetailView(typeId: row.skillId, typeName: row.name)
+                    } label: {
+                        queueRow(row)
+                    }
+                    .buttonStyle(.plain)
+
                     if row.id != queue.prefix(6).last?.id {
                         Divider().overlay(Color.white.opacity(0.08)).padding(.leading, 40)
                     }
@@ -286,12 +292,7 @@ struct SkillsView: View {
             let skillIds = Set(response.skills.map(\.skillId)).union(rawQueue.map(\.skillId))
             let typeMap = (try? await repo.types(ids: skillIds)) ?? [:]
 
-            var groupMap: [Int: ItemGroup] = [:]
-            for groupId in Set(typeMap.values.map(\.groupId)) {
-                if let group = try? await repo.group(id: groupId) {
-                    groupMap[groupId] = group
-                }
-            }
+            let groupMap = (try? await repo.groups(ids: Set(typeMap.values.map(\.groupId)))) ?? [:]
 
             let queueBySkill = Dictionary(grouping: rawQueue, by: \.skillId)
             queue = rawQueue
@@ -477,7 +478,12 @@ private struct SkillGroupDetailView: View {
 
                     VStack(spacing: 0) {
                         ForEach(group.skills) { skill in
-                            skillRow(skill)
+                            NavigationLink {
+                                TypeDetailView(typeId: skill.id, typeName: skill.name)
+                            } label: {
+                                skillRow(skill)
+                            }
+                            .buttonStyle(.plain)
 
                             if skill.id != group.skills.last?.id {
                                 Divider().overlay(Color.white.opacity(0.08)).padding(.leading, 58)

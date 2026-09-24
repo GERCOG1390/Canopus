@@ -427,6 +427,132 @@ struct DogmaEngineTests {
         #expect(abs(stats.turretDPS - expectedDPS) < 0.001)
     }
 
+    @Test func turretDamageUsesLoadedChargeDamageAndTurretMultiplier() {
+        let projectileTurret = 90_024
+        let protonCharge = 90_025
+        let ship = TypeProfile(
+            attrs: [
+                263: 1_000,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let turret = TypeProfile(
+            attrs: [
+                51: 10_000,
+                64: 5,
+            ],
+            effectIds: [],
+            groupId: 55
+        )
+        let charge = TypeProfile(
+            attrs: [
+                116: 8,
+                118: 12,
+            ],
+            effectIds: []
+        )
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [
+                projectileTurret: turret,
+            ],
+            modules: [
+                FittedModuleInput(
+                    flag: "HiSlot0",
+                    typeId: projectileTurret,
+                    state: .active,
+                    chargeTypeId: protonCharge,
+                    chargeAttrs: charge.attrs,
+                    chargeProfile: charge
+                ),
+            ]
+        )
+
+        #expect(abs(stats.turretDPS - 10) < 0.001)
+        #expect(abs(stats.missileDPS) < 0.001)
+    }
+
+    @Test func hullLocationRequiredBonusesAffectTurretDamageAndRateOfFire() {
+        let mediumProjectileTurret = 3_305
+        let minmatarBattlecruiser = 33_098
+        let autocannon = 9_135
+        let titaniumSabot = 190
+        let ship = TypeProfile(
+            attrs: [
+                263: 1_000,
+                479: 1_000_000,
+                748: 5,
+                749: -5,
+            ],
+            effectIds: [5_352, 5_353]
+        )
+        let turret = TypeProfile(
+            attrs: [
+                51: 10_000,
+                64: 4,
+            ],
+            effectIds: [],
+            groupId: 55,
+            requiredSkillIds: [mediumProjectileTurret]
+        )
+        let charge = TypeProfile(
+            attrs: [
+                116: 10,
+            ],
+            effectIds: []
+        )
+        let shipSkill = TypeProfile(
+            attrs: [280: 0],
+            effectIds: [5_290, 5_291]
+        )
+        let modifiers: [Int: [ModifierRow]] = [
+            5_290: [
+                ModifierRow(domain: "shipID", function_: "ItemModifier", groupId: nil,
+                            modifiedAttrId: 748, modifyingAttrId: 280, operation: 0,
+                            skillTypeId: nil),
+            ],
+            5_291: [
+                ModifierRow(domain: "shipID", function_: "ItemModifier", groupId: nil,
+                            modifiedAttrId: 749, modifyingAttrId: 280, operation: 0,
+                            skillTypeId: nil),
+            ],
+            5_352: [
+                ModifierRow(domain: "shipID", function_: "LocationRequiredSkillModifier", groupId: nil,
+                            modifiedAttrId: 64, modifyingAttrId: 748, operation: 6,
+                            skillTypeId: mediumProjectileTurret),
+            ],
+            5_353: [
+                ModifierRow(domain: "shipID", function_: "LocationRequiredSkillModifier", groupId: nil,
+                            modifiedAttrId: 51, modifyingAttrId: 749, operation: 6,
+                            skillTypeId: mediumProjectileTurret),
+            ],
+        ]
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [
+                autocannon: turret,
+            ],
+            modules: [
+                FittedModuleInput(
+                    flag: "HiSlot0",
+                    typeId: autocannon,
+                    state: .active,
+                    chargeTypeId: titaniumSabot,
+                    chargeAttrs: charge.attrs,
+                    chargeProfile: charge
+                ),
+            ],
+            characterSkills: [minmatarBattlecruiser: 5],
+            skillProfiles: [minmatarBattlecruiser: shipSkill],
+            effectModifiers: modifiers
+        )
+
+        #expect(abs(stats.turretDPS - 6.6666667) < 0.001)
+    }
+
     @Test func hullLocationRequiredSkillModifiersAffectModuleFittingCost() {
         let astrometrics = 3412
         let tengu = TypeProfile(
@@ -460,9 +586,11 @@ struct DogmaEngineTests {
         #expect(abs(stats.cpuUsed - 0.15) < 0.001)
     }
 
-    @Test func legacyCpuNeedSkillEffectAffectsModulesRequiringThatSkill() {
+    @Test func weaponUpgradesDoesNotReduceModulesThatRequireWeaponUpgradesItself() {
         let weaponUpgrades = 3318
-        let ballisticControl = 15_681
+        let missileLauncherOperation = 3_319
+        let ballisticControl = 22_291
+        let launcher = 25_715
         let ship = TypeProfile(
             attrs: [
                 263: 1_000,
@@ -470,14 +598,19 @@ struct DogmaEngineTests {
             ],
             effectIds: []
         )
-        let module = TypeProfile(
-            attrs: [50: 24],
+        let damageMod = TypeProfile(
+            attrs: [50: 40],
             effectIds: [],
             requiredSkillIds: [weaponUpgrades]
         )
+        let hamLauncher = TypeProfile(
+            attrs: [50: 50],
+            effectIds: [],
+            requiredSkillIds: [missileLauncherOperation]
+        )
         let skill = TypeProfile(
             attrs: [280: 0, 310: -5],
-            effectIds: [211, 672]
+            effectIds: [211, 672, 677]
         )
         let modifiers: [Int: [ModifierRow]] = [
             211: [
@@ -490,18 +623,33 @@ struct DogmaEngineTests {
                             modifiedAttrId: 50, modifyingAttrId: 280, operation: 0,
                             skillTypeId: nil),
             ],
+            677: [
+                ModifierRow(domain: "shipID", function_: "LocationRequiredSkillModifier", groupId: nil,
+                            modifiedAttrId: 50, modifyingAttrId: 310, operation: 6,
+                            skillTypeId: missileLauncherOperation),
+            ],
         ]
 
         let stats = DogmaEngine.calculate(
             shipProfile: ship,
-            moduleProfiles: [ballisticControl: module],
-            modules: [FittedModuleInput(flag: "LowSlot0", typeId: ballisticControl, state: .online)],
+            moduleProfiles: [
+                ballisticControl: damageMod,
+                launcher: hamLauncher,
+            ],
+            modules: [
+                FittedModuleInput(flag: "LowSlot0", typeId: ballisticControl, state: .online),
+                FittedModuleInput(flag: "HiSlot0", typeId: launcher, state: .online),
+            ],
             characterSkills: [weaponUpgrades: 5],
             skillProfiles: [weaponUpgrades: skill],
             effectModifiers: modifiers
         )
 
-        #expect(abs(stats.cpuUsed - 18) < 0.001)
+        #expect(abs(stats.cpuUsed - 77.5) < 0.001)
+        let ballisticControlCPU = stats.moduleCosts.first { $0.typeId == ballisticControl }?.cpu ?? 0
+        let launcherCPU = stats.moduleCosts.first { $0.typeId == launcher }?.cpu ?? 0
+        #expect(abs(ballisticControlCPU - 40) < 0.001)
+        #expect(abs(launcherCPU - 37.5) < 0.001)
     }
 
     @Test func postMulLocationRequiredSkillModifierAffectsModuleFittingCost() {
@@ -755,10 +903,23 @@ struct DogmaEngineTests {
         )
         let skill = TypeProfile(
             attrs: [
+                280: 0,
                 1139: -10,
             ],
-            effectIds: []
+            effectIds: [2725, 6705]
         )
+        let modifiers: [Int: [ModifierRow]] = [
+            2725: [
+                ModifierRow(domain: "itemID", function_: "ItemModifier", groupId: nil,
+                            modifiedAttrId: 1139, modifyingAttrId: 280, operation: 0,
+                            skillTypeId: nil),
+            ],
+            6705: [
+                ModifierRow(domain: "shipID", function_: "LocationGroupModifier", groupId: 774,
+                            modifiedAttrId: 1138, modifyingAttrId: 1139, operation: 6,
+                            skillTypeId: nil),
+            ],
+        ]
 
         let stats = DogmaEngine.calculate(
             shipProfile: ship,
@@ -773,7 +934,8 @@ struct DogmaEngineTests {
             ],
             skillProfiles: [
                 shieldRigging: skill,
-            ]
+            ],
+            effectModifiers: modifiers
         )
 
         #expect(abs(stats.signatureRadius - 105) < 0.001)
@@ -806,10 +968,23 @@ struct DogmaEngineTests {
         )
         let skill = TypeProfile(
             attrs: [
+                280: 0,
                 1139: -10,
             ],
-            effectIds: []
+            effectIds: [2725, 6704]
         )
+        let modifiers: [Int: [ModifierRow]] = [
+            2725: [
+                ModifierRow(domain: "itemID", function_: "ItemModifier", groupId: nil,
+                            modifiedAttrId: 1139, modifyingAttrId: 280, operation: 0,
+                            skillTypeId: nil),
+            ],
+            6704: [
+                ModifierRow(domain: "shipID", function_: "LocationGroupModifier", groupId: 779,
+                            modifiedAttrId: 1138, modifyingAttrId: 1139, operation: 6,
+                            skillTypeId: nil),
+            ],
+        ]
 
         let stats = DogmaEngine.calculate(
             shipProfile: ship,
@@ -826,7 +1001,8 @@ struct DogmaEngineTests {
             ],
             skillProfiles: [
                 launcherRigging: skill,
-            ]
+            ],
+            effectModifiers: modifiers
         )
 
         #expect(abs(stats.cpuUsed - 105) < 0.001)
@@ -916,6 +1092,55 @@ struct DogmaEngineTests {
         )
 
         #expect(abs(stats.cpuUsed - 95) < 0.001)
+    }
+
+    @Test func implantLocationGroupModifiersAffectModuleFittingCost() {
+        let launcherGroup = 771
+        let implant = 90_735
+        let launcher = 90_736
+        let ship = TypeProfile(
+            attrs: [
+                263: 1_000,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let cpuImplant = TypeProfile(
+            attrs: [
+                310: -10,
+            ],
+            effectIds: [678]
+        )
+        let hamLauncher = TypeProfile(
+            attrs: [
+                50: 100,
+            ],
+            effectIds: [],
+            groupId: launcherGroup
+        )
+        let modifiers: [Int: [ModifierRow]] = [
+            678: [
+                ModifierRow(domain: "shipID", function_: "LocationGroupModifier", groupId: launcherGroup,
+                            modifiedAttrId: 50, modifyingAttrId: 310, operation: 6,
+                            skillTypeId: nil),
+            ],
+        ]
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [
+                launcher: hamLauncher,
+            ],
+            modules: [
+                FittedModuleInput(flag: "HiSlot0", typeId: launcher, state: .online),
+            ],
+            implantProfiles: [
+                implant: cpuImplant,
+            ],
+            effectModifiers: modifiers
+        )
+
+        #expect(abs(stats.cpuUsed - 90) < 0.001)
     }
 
     @Test func implantSetBonusScalesImplantShipModifierAttributes() {
@@ -1287,5 +1512,235 @@ struct DogmaEngineTests {
         )
 
         #expect(abs(stats.shieldEMRes - expectedResist) < 0.001)
+    }
+
+    @Test func activeReactiveArmorHardenerAppliesUniformArmorResonanceReduction() {
+        let reactiveArmorHardener = 4_403
+        let ship = TypeProfile(
+            attrs: [
+                263: 1_000,
+                265: 1_000,
+                267: 0.4,
+                268: 0.9,
+                269: 0.75,
+                270: 0.65,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let hardener = TypeProfile(
+            attrs: [
+                267: 0.85,
+                268: 0.85,
+                269: 0.85,
+                270: 0.85,
+            ],
+            effectIds: [4_928]
+        )
+
+        #expect(DogmaEngine.isActiveModule(hardener.attrs, effectIds: hardener.effectIds))
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [
+                reactiveArmorHardener: hardener,
+            ],
+            modules: [
+                FittedModuleInput(flag: "LoSlot0", typeId: reactiveArmorHardener, state: .active),
+            ]
+        )
+
+        #expect(abs(stats.armorEMRes - 66) < 0.001)
+        #expect(abs(stats.armorExpRes - 23.5) < 0.001)
+        #expect(abs(stats.armorKinRes - 36.25) < 0.001)
+        #expect(abs(stats.armorThermRes - 44.75) < 0.001)
+    }
+
+    @Test func rigDrawbackReductionIsAppliedOnceToLauncherCpuPenalty() {
+        let launcherRigging = 26_260
+        let missileLauncherOperation = 3_319
+        let launcher = 25_715
+        let launcherRig = 31_588
+
+        let ship = TypeProfile(
+            attrs: [
+                48: 625,
+                263: 1_000,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let hamLauncher = TypeProfile(
+            attrs: [
+                50: 50,
+            ],
+            effectIds: [],
+            groupId: 771,
+            requiredSkillIds: [missileLauncherOperation]
+        )
+        let bayLoadingRig = TypeProfile(
+            attrs: [
+                1138: 10,
+            ],
+            effectIds: [2714],
+            groupId: 779
+        )
+        let riggingSkill = TypeProfile(
+            attrs: [
+                280: 0,
+                1139: -10,
+            ],
+            effectIds: [2725, 6704]
+        )
+        let modifiers: [Int: [ModifierRow]] = [
+            2725: [
+                ModifierRow(domain: "itemID", function_: "ItemModifier", groupId: nil,
+                            modifiedAttrId: 1139, modifyingAttrId: 280, operation: 0,
+                            skillTypeId: nil),
+            ],
+            6704: [
+                ModifierRow(domain: "shipID", function_: "LocationGroupModifier", groupId: 779,
+                            modifiedAttrId: 1138, modifyingAttrId: 1139, operation: 6,
+                            skillTypeId: nil),
+            ],
+        ]
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [
+                launcher: hamLauncher,
+                launcherRig: bayLoadingRig,
+            ],
+            modules: [
+                FittedModuleInput(flag: "HiSlot0", typeId: launcher, state: .online),
+                FittedModuleInput(flag: "RigSlot0", typeId: launcherRig, state: .online),
+            ],
+            characterSkills: [launcherRigging: 5],
+            skillProfiles: [launcherRigging: riggingSkill],
+            effectModifiers: modifiers
+        )
+
+        #expect(abs(stats.cpuUsed - 52.5) < 0.001)
+    }
+
+    @Test func activeAfterburnerAppliesMassBasedSpeedBoost() {
+        let afterburner = 12_058
+        let ship = TypeProfile(
+            attrs: [
+                4: 10_000_000,
+                37: 200,
+                552: 100,
+                263: 1_000,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let module = TypeProfile(
+            attrs: [
+                20: 150,
+                567: 15_000_000,
+                796: 5_000_000,
+            ],
+            effectIds: [6731]
+        )
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [afterburner: module],
+            modules: [
+                FittedModuleInput(flag: "MedSlot0", typeId: afterburner, state: .active),
+            ]
+        )
+
+        #expect(abs(stats.maxVelocity - 500) < 0.001)
+    }
+
+    @Test func accelerationControlAffectsActivePropulsionSpeedFactor() {
+        let accelerationControl = 3_452
+        let microwarpdrive = 12_076
+        let ship = TypeProfile(
+            attrs: [
+                4: 10_000_000,
+                37: 200,
+                552: 100,
+                263: 1_000,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let module = TypeProfile(
+            attrs: [
+                20: 500,
+                554: 500,
+                567: 15_000_000,
+                796: 5_000_000,
+            ],
+            effectIds: [6730],
+            groupId: 46
+        )
+        let skill = TypeProfile(
+            attrs: [
+                280: 0,
+                318: 5,
+            ],
+            effectIds: [228, 1176]
+        )
+        let modifiers: [Int: [ModifierRow]] = [
+            228: [
+                ModifierRow(domain: "itemID", function_: "ItemModifier", groupId: nil,
+                            modifiedAttrId: 318, modifyingAttrId: 280, operation: 0,
+                            skillTypeId: nil),
+            ],
+            1176: [
+                ModifierRow(domain: "shipID", function_: "LocationGroupModifier", groupId: 46,
+                            modifiedAttrId: 20, modifyingAttrId: 318, operation: 6,
+                            skillTypeId: nil),
+            ],
+        ]
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [microwarpdrive: module],
+            modules: [
+                FittedModuleInput(flag: "MedSlot0", typeId: microwarpdrive, state: .active),
+            ],
+            characterSkills: [accelerationControl: 5],
+            skillProfiles: [accelerationControl: skill],
+            effectModifiers: modifiers
+        )
+
+        #expect(abs(stats.maxVelocity - 1_450) < 0.001)
+        #expect(abs(stats.signatureRadius - 600) < 0.001)
+    }
+
+    @Test func inactiveAfterburnerDoesNotApplySpeedBoost() {
+        let afterburner = 12_058
+        let ship = TypeProfile(
+            attrs: [
+                4: 10_000_000,
+                37: 200,
+                263: 1_000,
+                479: 1_000_000,
+            ],
+            effectIds: []
+        )
+        let module = TypeProfile(
+            attrs: [
+                20: 150,
+                567: 15_000_000,
+                796: 5_000_000,
+            ],
+            effectIds: [6731]
+        )
+
+        let stats = DogmaEngine.calculate(
+            shipProfile: ship,
+            moduleProfiles: [afterburner: module],
+            modules: [
+                FittedModuleInput(flag: "MedSlot0", typeId: afterburner, state: .online),
+            ]
+        )
+
+        #expect(abs(stats.maxVelocity - 200) < 0.001)
     }
 }

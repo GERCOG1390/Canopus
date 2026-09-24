@@ -22,6 +22,7 @@ struct WalletJournalView: View {
                 WalletEntryRow(entry: entry)
             }
         }
+        .eveTabBarClearance()
         .searchable(text: $searchText, prompt: "Search journal…")
         .navigationTitle("Wallet Journal")
         .navigationBarTitleDisplayMode(.large)

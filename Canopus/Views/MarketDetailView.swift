@@ -6,6 +6,13 @@ struct MarketDetailView: View {
     let typeId: Int
     let typeName: String
 
+    private static let historyDateParser: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.timeZone = .init(identifier: "UTC")
+        return formatter
+    }()
+
     @State private var region: EVERegion = .theForge
     @State private var chartData: [HistoryPoint] = []
     @State private var orders: [ESIRegionalOrder] = []
@@ -37,7 +44,7 @@ struct MarketDetailView: View {
                     Color.eveAmber.opacity(0.14).frame(height: 1)
                     ordersSection
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
             if isLoadingOrders && orders.isEmpty && isLoadingChart && chartData.isEmpty {
                 ProgressView().tint(Color.eveCyan)
@@ -226,9 +233,8 @@ struct MarketDetailView: View {
     private func loadHistory() async {
         defer { isLoadingChart = false }
         guard let raw = try? await market.history(regionId: region.rawValue, typeId: typeId) else { return }
-        let fmt = DateFormatter(); fmt.dateFormat = "yyyy-MM-dd"; fmt.timeZone = .init(identifier: "UTC")
         chartData = raw.compactMap { h -> HistoryPoint? in
-            guard let d = fmt.date(from: h.date) else { return nil }
+            guard let d = Self.historyDateParser.date(from: h.date) else { return nil }
             return HistoryPoint(date: d, average: h.average, highest: h.highest, lowest: h.lowest, volume: h.volume)
         }.sorted { $0.date < $1.date }
     }

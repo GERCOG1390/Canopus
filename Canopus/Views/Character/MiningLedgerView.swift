@@ -7,6 +7,19 @@ struct MiningLedgerView: View {
     let characterService: CharacterService
     @Environment(AppEnvironment.self) private var env
 
+    private static let ledgerDateParser: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter
+    }()
+
+    private static let ledgerDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .none
+        return formatter
+    }()
+
     @State private var entries: [ESIMiningEntry] = []
     @State private var typeNames: [Int: String] = [:]
     @State private var prices: [Int: Double] = [:]
@@ -51,7 +64,7 @@ struct MiningLedgerView: View {
                         }
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
             if isLoading { ProgressView().tint(Color.eveCyan) }
         }
@@ -204,9 +217,7 @@ struct MiningLedgerView: View {
     }
 
     private func formattedDate(_ dateStr: String) -> String {
-        let fmt = DateFormatter(); fmt.dateFormat = "yyyy-MM-dd"
-        guard let d = fmt.date(from: dateStr) else { return dateStr }
-        let out = DateFormatter(); out.dateStyle = .medium; out.timeStyle = .none
-        return out.string(from: d).uppercased()
+        guard let date = Self.ledgerDateParser.date(from: dateStr) else { return dateStr }
+        return Self.ledgerDateFormatter.string(from: date).uppercased()
     }
 }

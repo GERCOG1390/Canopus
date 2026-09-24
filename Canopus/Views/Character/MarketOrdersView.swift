@@ -37,6 +37,7 @@ struct MarketOrdersView: View {
                 }
             }
         }
+        .eveTabBarClearance()
         .navigationTitle("Market Orders")
         .navigationBarTitleDisplayMode(.large)
         .overlay {

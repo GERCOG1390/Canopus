@@ -1,6 +1,7 @@
 import SwiftUI
 import Domain
 import EVEAuth
+import EVEStaticData
 import AuthenticationServices
 
 // MARK: - Tab definition
@@ -44,10 +45,18 @@ struct ContentView: View {
 
             tabContent
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .safeAreaInset(edge: .bottom) { Color.clear.frame(height: 55) }
+                .safeAreaInset(edge: .bottom) { Color.clear.frame(height: EVELayout.tabBarClearance) }
 
             HUDTabBar(selected: $selectedTab)
+
+            // Tritanium-style Floating SDE Update Modal Overlay
+            if env.showSDEUpdateSheet {
+                SDEUpdateView()
+                    .transition(.opacity.combined(with: .scale(scale: 0.95)))
+                    .zIndex(999)
+            }
         }
+        .animation(.easeInOut(duration: 0.25), value: env.showSDEUpdateSheet)
         .eveScanlinesOverlay()
         .preferredColorScheme(.dark)
         .task { env.loadIfNeeded() }
@@ -64,11 +73,19 @@ struct ContentView: View {
                     LoginView()
                         .navigationTitle("Canopus")
                         .background(Color.eveBackground)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                updateDatabaseButton
+                            }
+                        }
                 } else {
                     CharacterRootView(switchToTab: { selectedTab = $0 })
                         .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                addButton
+                            ToolbarItem(placement: .topBarTrailing) {
+                                HStack(spacing: 12) {
+                                    updateDatabaseButton
+                                    addButton
+                                }
                             }
                         }
                 }
@@ -77,7 +94,7 @@ struct ContentView: View {
         case .skills:
             NavigationStack {
                 if env.characterStore.selectedService != nil {
-                    SkillQueueView()
+                    SkillsView()
                 } else {
                     noCharacterView
                 }
@@ -106,8 +123,14 @@ struct ContentView: View {
                 itemsBrowser
                     .navigationTitle("Items")
                     .searchable(text: $itemsSearchText, prompt: "Search types…")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            updateDatabaseButton
+                        }
+                    }
                     .navigationDestination(for: ItemCategory.self) { GroupListView(category: $0) }
                     .navigationDestination(for: ItemGroup.self) { TypeListView(group: $0) }
+                    .navigationDestination(for: MarketGroup.self) { MarketGroupListView(marketGroup: $0) }
                     .navigationDestination(for: ItemType.self) {
                         TypeDetailView(typeId: $0.id, typeName: $0.name)
                     }
@@ -129,6 +152,16 @@ struct ContentView: View {
         case .ready:
             if itemsSearchText.isEmpty { CategoryListView() }
             else { SearchResultsView(query: itemsSearchText) }
+        }
+    }
+
+    private var updateDatabaseButton: some View {
+        Button {
+            env.showSDEUpdateSheet = true
+        } label: {
+            Image(systemName: "externaldrive.badge.arrow.down")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(Color.eveCyan)
         }
     }
 
@@ -160,6 +193,17 @@ struct HUDTabBar: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            LinearGradient(
+                colors: [
+                    Color.eveBackground.opacity(0.0),
+                    Color.eveBackground.opacity(0.82)
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .frame(height: 18)
+            .allowsHitTesting(false)
+
             Color.eveAmber.opacity(0.20).frame(height: 1)
 
             HStack(spacing: 0) {
