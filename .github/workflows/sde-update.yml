@@ -8,11 +8,16 @@ on:
 
 jobs:
   build-and-update-sde:
-    runs-on: macos-14
+    runs-on: macos-15
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Select Xcode with Swift 6 toolchain
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
 
       - name: Download latest SDE from CCP Developers portal
         run: |
