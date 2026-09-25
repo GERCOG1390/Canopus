@@ -13,13 +13,13 @@ struct ImportCommand: AsyncParsableCommand {
               sde-import --input /path/to/extracted-sde/ --output /path/to/sde.sqlite
 
             WORKFLOW
-              1. Download the latest SDE JSONL zip from:
-                 https://developers.eveonline.com/static-data/tranquility/eve-online-static-data-latest-jsonl.zip
+              1. Download the latest SDE zip from CCP's official mirror:
+                 https://eve-static-data-export.s3-eu-west-1.amazonaws.com/tranquility/sde.zip
               2. Unzip to a directory (e.g. ~/sde-latest/).
               3. Run this tool pointing --input at that directory.
               4. Copy the generated sde.sqlite into Canopus/Resources/ in Xcode.
 
-            The tool looks for JSONL files in <input>/ and <input>/fsd/.
+            The tool looks for fsd/*.yaml files under <input>/fsd/.
             """
     )
 
@@ -134,12 +134,20 @@ struct ImportCommand: AsyncParsableCommand {
     }
 
     private func buildNumberFromDirectory(_ url: URL) -> String {
-        // Try to extract a build number from the directory name, e.g.
-        // eve-online-static-data-20240101-001.0 → 20240101
+        // CCP's official fsd/ export doesn't embed a build number anywhere in the
+        // zip or its file names, unlike some older SDE distributions. Try the
+        // directory-name heuristic first (in case a differently-packaged input is
+        // used), then fall back to today's date — monotonically increasing, so
+        // SDEUpdateManager's numeric "is remote newer" comparison still works.
         let name = url.lastPathComponent
         let parts = name.split(separator: "-")
-        return parts.first(where: { $0.count == 8 && $0.allSatisfy(\.isNumber) })
-            .map(String.init) ?? "unknown"
+        if let dated = parts.first(where: { $0.count == 8 && $0.allSatisfy(\.isNumber) }) {
+            return String(dated)
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter.string(from: Date())
     }
 
     private func writeManifest(

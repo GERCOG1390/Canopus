@@ -1,16 +1,19 @@
 import Foundation
 
-// Codable structs matching CCP's SDE JSONL format (build 3489895+).
+// Codable structs matching CCP's official SDE YAML export (fsd/*.yaml, downloaded
+// from https://eve-static-data-export.s3-eu-west-1.amazonaws.com/tranquility/sde.zip).
 //
-// Primary ID of every entity is stored in "_key".
-// Cross-references (groupID, categoryID, etc.) use CCP's original numeric IDs.
+// Every fsd/*.yaml file is a single top-level YAML mapping keyed by the entity's
+// numeric ID — the ID is never repeated as a field inside the entity itself
+// (except a few files that redundantly echo it, which we ignore). Callers decode
+// each file as [String: T] and convert the string key to Int themselves.
 //
-// Files (all in the root of the extracted zip):
-//   categories.jsonl, groups.jsonl, types.jsonl
-//   dogmaAttributes.jsonl, dogmaEffects.jsonl, typeDogma.jsonl
-//   marketGroups.jsonl
+// Files (all under <input>/fsd/):
+//   categories.yaml, groups.yaml, types.yaml
+//   dogmaAttributes.yaml, dogmaEffects.yaml, typeDogma.yaml
+//   marketGroups.yaml
 
-struct LocalizedString: Codable {
+struct LocalizedString: Decodable {
     let en: String?
     let de: String?
     let fr: String?
@@ -25,84 +28,33 @@ struct LocalizedString: Codable {
 }
 
 // MARK: - Categories
-// {"_key": 1, "name": {"en": "Owner", ...}, "published": false}
+// 2:
+//   name: {en: Celestial, ...}
+//   published: true
 
-struct SDECategory: Codable {
-    let id: Int
+struct SDECategory: Decodable {
     let name: LocalizedString?
     let published: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case name, published
-    }
 }
 
 // MARK: - Groups
-// {"_key": 18, "categoryID": 4, "name": {"en": "Mineral", ...}, "published": true}
+// 18:
+//   categoryID: 4
+//   name: {en: Mineral, ...}
+//   published: true
 
-struct SDEGroup: Codable {
-    let id: Int
+struct SDEGroup: Decodable {
     let categoryID: Int?
     let name: LocalizedString?
     let published: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case categoryID, name, published
-    }
 }
 
 // MARK: - Types
-// {"_key": 34, "groupID": 18, "name": {"en": "Tritanium"}, "published": true, "mass": 0.0, ...}
-
-struct SDEType: Codable {
-    let id: Int
-    let groupID: Int?
-    let name: LocalizedString?
-    let description: LocalizedString?
-    let mass: Double?
-    let volume: Double?
-    let capacity: Double?
-    let portionSize: Int?
-    let basePrice: Double?
-    let marketGroupID: Int?
-    let metaGroupID: Int?
-    let variationParentTypeID: Int?
-    let factionID: Int?
-    let raceID: Int?
-    let packagedVolume: Double?
-    let published: Bool?
-    let traits: SDETypeTraits?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case groupID, name, description, mass, volume, capacity
-        case portionSize, basePrice, marketGroupID, metaGroupID
-        case variationParentTypeID, factionID, raceID, packagedVolume, published, traits
-    }
-}
-
-struct SDETypeTraits: Codable {
-    let roleBonuses: [SDETypeTraitBonus]?
-    let miscBonuses: [SDETypeTraitBonus]?
-    let types: [String: [SDETypeTraitBonus]]?
-}
-
-struct SDETypeTraitBonus: Codable {
-    let bonus: Double?
-    let unitID: Int?
-    let text: LocalizedString?
-    let bonusText: LocalizedString?
-
-    var displayText: String {
-        text?.english.nilIfEmpty ?? bonusText?.english.nilIfEmpty ?? ""
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case bonus, unitID, text, bonusText
-    }
-}
+//
+// types.yaml and typeDogma.yaml are ~150MB/~26MB with tens of thousands of
+// entries — too large for Yams' Codable path to decode in reasonable time
+// (see SDEImporter.importTypes/importTypeDogma). Those two are parsed via a
+// direct Node-tree walk instead, so no Decodable structs are needed for them.
 
 struct SDETypeBonusRecord {
     let typeId: Int
@@ -114,50 +66,54 @@ struct SDETypeBonusRecord {
 }
 
 // MARK: - Market Groups
-// {"_key": 4, "name": {"en": "Ships"}, "description": {...}, "hasTypes": false, "iconID": 1443}
+// 4:
+//   parentGroupID: ...
+//   nameID: {en: Ships, ...}
+//   descriptionID: {...}
+//   hasTypes: false
+//   iconID: 1443
+//
+// Note the "ID" suffix on the localized fields here — unlike categories/groups/types,
+// which use plain "name"/"description".
 
-struct SDEMarketGroup: Codable {
-    let id: Int
+struct SDEMarketGroup: Decodable {
     let parentGroupID: Int?
-    let name: LocalizedString?
-    let description: LocalizedString?
+    let nameID: LocalizedString?
+    let descriptionID: LocalizedString?
     let iconID: Int?
     let hasTypes: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case parentGroupID, name, description, iconID, hasTypes
-    }
 }
 
 // MARK: - Dogma Attributes
-// {"_key": 3, "name": "damage", "displayName": {"en": "Item Damage", ...},
-//  "highIsGood": false, "stackable": true, "published": true, "unitID": 113}
+// 3:
+//   name: damage
+//   displayNameID: {en: Item Damage, ...}
+//   highIsGood: false
+//   stackable: true
+//   published: true
+//   unitID: 113
 
-struct SDEDogmaAttribute: Codable {
-    let id: Int
+struct SDEDogmaAttribute: Decodable {
     let name: String?
-    let displayName: LocalizedString?
+    let displayNameID: LocalizedString?
     let unitID: Int?
     let iconID: Int?
     let highIsGood: Bool?
     let stackable: Bool?
     let defaultValue: Double?
     let published: Bool?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case name, displayName, unitID, iconID
-        case highIsGood, stackable, defaultValue, published
-    }
 }
 
 // MARK: - Dogma Effects
-// {"_key": 4, "name": "shieldBoosting", "effectCategoryID": 1,
-//  "isOffensive": false, "isAssistance": false, "durationAttributeID": 73,
-//  "modifierInfo": [{"domain":"shipID","func":"ItemModifier",...}], ...}
+// 4:
+//   effectName: shieldBoosting
+//   effectCategory: 1
+//   isOffensive: false
+//   isAssistance: false
+//   durationAttributeID: 73
+//   modifierInfo: [{domain: shipID, func: ItemModifier, ...}]
 
-struct SDEModifierInfo: Codable {
+struct SDEModifierInfo: Decodable {
     let domain: String?
     let `func`: String?
     let groupID: Int?
@@ -167,10 +123,9 @@ struct SDEModifierInfo: Codable {
     let skillTypeID: Int?
 }
 
-struct SDEDogmaEffect: Codable {
-    let id: Int
-    let name: String?
-    let effectCategoryID: Int?
+struct SDEDogmaEffect: Decodable {
+    let effectName: String?
+    let effectCategory: Int?
     let isOffensive: Bool?
     let isAssistance: Bool?
     let durationAttributeID: Int?
@@ -180,42 +135,4 @@ struct SDEDogmaEffect: Codable {
     let trackingSpeedAttributeID: Int?
     let fittingUsageChanceAttributeID: Int?
     let modifierInfo: [SDEModifierInfo]?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case name, effectCategoryID, isOffensive, isAssistance
-        case durationAttributeID, dischargeAttributeID, rangeAttributeID
-        case falloffAttributeID, trackingSpeedAttributeID, fittingUsageChanceAttributeID
-        case modifierInfo
-    }
-}
-
-// MARK: - Type Dogma
-// {"_key": 18, "dogmaAttributes": [{"attributeID": 182, "value": 1.0}], "dogmaEffects": [...]}
-
-struct SDETypeDogma: Codable {
-    let id: Int
-    let dogmaAttributes: [SDEDogmaAttributeValue]?
-    let dogmaEffects: [SDEDogmaEffectRef]?
-
-    enum CodingKeys: String, CodingKey {
-        case id = "_key"
-        case dogmaAttributes, dogmaEffects
-    }
-}
-
-struct SDEDogmaAttributeValue: Codable {
-    let attributeID: Int
-    let value: Double
-}
-
-struct SDEDogmaEffectRef: Codable {
-    let effectID: Int
-    let isDefault: Bool?
-}
-
-private extension String {
-    var nilIfEmpty: String? {
-        isEmpty ? nil : self
-    }
 }
