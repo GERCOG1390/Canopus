@@ -38,6 +38,12 @@ struct ImportCommand: AsyncParsableCommand {
     @Option(name: .long, help: "Output manifest JSON path. Defaults to canopus-sde-manifest.json next to the SQLite output.")
     var manifest: String?
 
+    @Option(name: .long, help: "Path to the previously released sde.sqlite. When given, generates a named changelog (added/changed/removed types) against it.")
+    var previous: String?
+
+    @Option(name: .long, help: "Public HTTPS URL where the changelog JSON will be hosted. Defaults to --package-url's directory + canopus-sde-changelog.json.")
+    var changelogURL: String?
+
     func run() async throws {
         let inputURL = URL(fileURLWithPath: input).standardized
         let outputURL = URL(fileURLWithPath: output).standardized
@@ -111,6 +117,41 @@ struct ImportCommand: AsyncParsableCommand {
         print("")
         print("✓ Done — \(outputURL.lastPathComponent) (\(size) MB)")
 
+        // Changelog against the previous release, if one was supplied
+        var changelogPublicURL: String?
+        if let previous {
+            let previousURL = URL(fileURLWithPath: previous).standardized
+            if FileManager.default.fileExists(atPath: previousURL.path) {
+                print("")
+                print("→ Generating changelog against \(previousURL.lastPathComponent)…")
+                do {
+                    var previousConfig = Configuration()
+                    previousConfig.readonly = true
+                    let previousDB = try DatabaseQueue(path: previousURL.path, configuration: previousConfig)
+                    let changelog = try ChangelogGenerator.generate(oldDB: previousDB, newDB: dbQueue)
+
+                    let changelogPath = outputURL.deletingLastPathComponent().appendingPathComponent("canopus-sde-changelog.json")
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+                    try encoder.encode(changelog).write(to: changelogPath, options: .atomic)
+
+                    print("  +\(changelog.types.addedCount) types, ~\(changelog.types.changedCount) changed, -\(changelog.types.removedCount) removed")
+                    print("✓ Changelog — \(changelogPath.path)")
+
+                    if let packageURL {
+                        changelogPublicURL = changelogURL ?? URL(string: packageURL)?
+                            .deletingLastPathComponent()
+                            .appendingPathComponent("canopus-sde-changelog.json")
+                            .absoluteString
+                    }
+                } catch {
+                    print("  ⚠️  Changelog generation failed, continuing without one: \(error)")
+                }
+            } else {
+                print("⚠️  --previous file not found (\(previousURL.path)) — skipping changelog.")
+            }
+        }
+
         if let packageURL {
             let manifestURL = URL(fileURLWithPath: manifest ?? outputURL
                 .deletingLastPathComponent()
@@ -121,6 +162,7 @@ struct ImportCommand: AsyncParsableCommand {
                 sqliteURL: outputURL,
                 manifestURL: manifestURL,
                 publicPackageURL: packageURL,
+                changelogPublicURL: changelogPublicURL,
                 build: buildNumber,
                 generatedAt: generatedAt
             )
@@ -154,6 +196,7 @@ struct ImportCommand: AsyncParsableCommand {
         sqliteURL: URL,
         manifestURL: URL,
         publicPackageURL: String,
+        changelogPublicURL: String?,
         build: String,
         generatedAt: String
     ) throws {
@@ -168,6 +211,7 @@ struct ImportCommand: AsyncParsableCommand {
             generatedAt: generatedAt,
             schemaVersion: "1",
             sqliteURL: publicPackageURL,
+            changelogURL: changelogPublicURL,
             sha256: try sha256HexDigest(for: sqliteURL),
             byteSize: byteSize
         )
@@ -198,6 +242,7 @@ private struct SDEPackageManifest: Encodable {
     let generatedAt: String
     let schemaVersion: String
     let sqliteURL: String
+    let changelogURL: String?
     let sha256: String
     let byteSize: Int
 
@@ -206,6 +251,7 @@ private struct SDEPackageManifest: Encodable {
         case generatedAt = "generated_at"
         case schemaVersion = "schema_version"
         case sqliteURL = "sqlite_url"
+        case changelogURL = "changelog_url"
         case sha256
         case byteSize = "byte_size"
     }

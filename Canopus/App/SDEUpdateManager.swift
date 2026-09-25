@@ -8,6 +8,7 @@ public struct SDEUpdateManifest: Decodable, Equatable, Sendable {
     public let generatedAt: String?
     public let schemaVersion: String
     public let sqliteURL: URL
+    public let changelogURL: URL?
     public let sha256: String?
     public let byteSize: Int64?
     public let iconVersion: String?
@@ -17,9 +18,51 @@ public struct SDEUpdateManifest: Decodable, Equatable, Sendable {
         case generatedAt = "generated_at"
         case schemaVersion = "schema_version"
         case sqliteURL = "sqlite_url"
+        case changelogURL = "changelog_url"
         case sha256
         case byteSize = "byte_size"
         case iconVersion = "icon_version"
+    }
+}
+
+/// Named diff of one SDE table between the installed database and the one
+/// being offered. Mirrors Tools/sde-import's ChangelogGenerator output.
+public struct SDEChangelogSection: Decodable, Equatable, Sendable {
+    public let added: [String]
+    public let addedCount: Int
+    public let changed: [String]
+    public let changedCount: Int
+    public let removed: [String]
+    public let removedCount: Int
+
+    enum CodingKeys: String, CodingKey {
+        case added, changed, removed
+        case addedCount = "added_count"
+        case changedCount = "changed_count"
+        case removedCount = "removed_count"
+    }
+
+    public var isEmpty: Bool { addedCount == 0 && changedCount == 0 && removedCount == 0 }
+}
+
+public struct SDEChangelog: Decodable, Equatable, Sendable {
+    public let types: SDEChangelogSection
+    public let categoriesChanged: Int
+    public let groupsChanged: Int
+    public let dogmaAttributesChanged: Int
+    public let dogmaEffectsChanged: Int
+
+    enum CodingKeys: String, CodingKey {
+        case types
+        case categoriesChanged = "categories_changed"
+        case groupsChanged = "groups_changed"
+        case dogmaAttributesChanged = "dogma_attributes_changed"
+        case dogmaEffectsChanged = "dogma_effects_changed"
+    }
+
+    public var isEmpty: Bool {
+        types.isEmpty && categoriesChanged == 0 && groupsChanged == 0
+            && dogmaAttributesChanged == 0 && dogmaEffectsChanged == 0
     }
 }
 
@@ -59,6 +102,7 @@ public final class SDEUpdateManager {
     public private(set) var phase: Phase = .idle
     public private(set) var localMetadata: SDEDatabase.Metadata?
     public private(set) var remoteManifest: SDEUpdateManifest?
+    public private(set) var remoteChangelog: SDEChangelog?
 
     public init() {
         let savedURL = UserDefaults.standard.string(forKey: manifestURLKey)
@@ -92,6 +136,7 @@ public final class SDEUpdateManager {
         }
 
         phase = .checking
+        remoteChangelog = nil
 
         do {
             let (data, response) = try await URLSession.shared.data(from: manifestURL)
@@ -112,6 +157,19 @@ public final class SDEUpdateManager {
         } catch {
             phase = .failed(error.localizedDescription)
         }
+
+        if isUpdateAvailable, let changelogURL = remoteManifest?.changelogURL {
+            // Best-effort — a missing/broken changelog should never block the update itself.
+            remoteChangelog = try? await fetchChangelog(from: changelogURL)
+        }
+    }
+
+    private func fetchChangelog(from url: URL) async throws -> SDEChangelog {
+        let (data, response) = try await URLSession.shared.data(from: url)
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw SDEUpdateError.httpError(statusCode: (response as? HTTPURLResponse)?.statusCode ?? -1)
+        }
+        return try JSONDecoder().decode(SDEChangelog.self, from: data)
     }
 
     public func performStartupCheckAndAutoUpdate(reloadHandler: @escaping () async -> Void) async {

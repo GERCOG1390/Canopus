@@ -136,6 +136,11 @@ public struct SDEUpdateView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
 
+                // What's New (named diff against the installed database)
+                if let changelog = env.sdeUpdates.remoteChangelog, !changelog.isEmpty {
+                    whatsNewCard(changelog)
+                }
+
                 // Status message & progress
                 if statusMessage != nil || isDownloading {
                     VStack(spacing: 6) {
@@ -230,6 +235,55 @@ public struct SDEUpdateView: View {
     }
 
     // MARK: - Helper Views & Computed Properties
+
+    private func whatsNewCard(_ changelog: SDEChangelog) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("What's New")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(Color.eveText.opacity(0.85))
+
+            VStack(alignment: .leading, spacing: 8) {
+                changelogRow(label: "NEW", items: changelog.types.added, count: changelog.types.addedCount, color: .eveGreen)
+                changelogRow(label: "CHANGED", items: changelog.types.changed, count: changelog.types.changedCount, color: .eveCyan)
+                changelogRow(label: "REMOVED", items: changelog.types.removed, count: changelog.types.removedCount, color: Color.eveText.opacity(0.5))
+
+                let structuralChanges = changelog.categoriesChanged + changelog.groupsChanged
+                    + changelog.dogmaAttributesChanged + changelog.dogmaEffectsChanged
+                if structuralChanges > 0 {
+                    Text("+ \(structuralChanges) internal attribute/category updates")
+                        .font(.system(size: 10.5))
+                        .foregroundStyle(Color.eveText.opacity(0.4))
+                }
+            }
+        }
+        .padding(14)
+        .background(Color.black.opacity(0.35))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+    }
+
+    @ViewBuilder
+    private func changelogRow(label: String, items: [String], count: Int, color: Color) -> some View {
+        if count > 0 {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(label) (\(count))")
+                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .foregroundStyle(color)
+                Text(itemsPreview(items, totalCount: count))
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.eveText.opacity(0.8))
+                    .lineLimit(3)
+            }
+        }
+    }
+
+    private func itemsPreview(_ items: [String], totalCount: Int) -> String {
+        let shown = items.prefix(6)
+        var text = shown.joined(separator: ", ")
+        if totalCount > shown.count {
+            text += " and \(totalCount - shown.count) more"
+        }
+        return text
+    }
 
     private func versionRow(label: String, value: String, isHighlight: Bool) -> some View {
         HStack {

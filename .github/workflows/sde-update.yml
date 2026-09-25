@@ -31,14 +31,26 @@ jobs:
           unzip -q ccp_sde.zip -d sde_extracted
           test -n "$(ls -A sde_extracted)" # fail loudly rather than feed sde-import an empty directory
 
+      - name: Download previous release (for changelog diffing)
+        run: |
+          # Best-effort — absent on the very first run, or if nothing was ever released.
+          curl -fL -o previous_sde.sqlite \
+            "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus_sde.sqlite" \
+            || echo "No previous release found — changelog will be skipped for this run."
+
       - name: Convert SDE to Canopus SQLite format
         run: |
           echo "Running sde-import..."
+          PREVIOUS_ARGS=""
+          if [ -f previous_sde.sqlite ]; then
+            PREVIOUS_ARGS="--previous previous_sde.sqlite"
+          fi
           swift run --package-path Tools/sde-import sde-import \
             --input sde_extracted \
             --output canopus_sde.sqlite \
             --manifest canopus-sde-manifest.json \
-            --package-url "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus_sde.sqlite"
+            --package-url "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus_sde.sqlite" \
+            $PREVIOUS_ARGS
 
       - name: Upload SDE to GitHub Release
         uses: softprops/action-gh-release@v2
@@ -49,5 +61,6 @@ jobs:
           files: |
             canopus_sde.sqlite
             canopus-sde-manifest.json
+            canopus-sde-changelog.json
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

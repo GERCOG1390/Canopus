@@ -159,7 +159,7 @@ struct ContentView: View {
         Button {
             env.showSDEUpdateSheet = true
         } label: {
-            Image(systemName: "externaldrive.badge.arrow.down")
+            Image(systemName: "arrow.down.circle")
                 .font(.system(size: 16, weight: .medium))
                 .foregroundStyle(Color.eveCyan)
         }
