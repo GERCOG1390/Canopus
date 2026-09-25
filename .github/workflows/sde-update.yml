@@ -6,6 +6,9 @@ on:
     - cron: '0 12 * * 2,4'
   workflow_dispatch: # Allows manual trigger from GitHub Actions web page
 
+permissions:
+  contents: write  # required for softprops/action-gh-release to create/update the release
+
 jobs:
   build-and-update-sde:
     runs-on: macos-15
