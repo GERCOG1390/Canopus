@@ -124,6 +124,7 @@ public struct ShipStats: Sendable {
     public let shieldEHP: Double
     public let shieldRechargeMs: Double
     public let peakShieldRegen: Double
+    public let activeShieldBoostPerSec: Double
     public let shieldEMRes: Double
     public let shieldExpRes: Double
     public let shieldKinRes: Double
@@ -154,6 +155,12 @@ public struct ShipStats: Sendable {
     // Mobility
     public let maxVelocity: Double
     public let signatureRadius: Double
+    public let agility: Double
+    public let mass: Double
+    /// Align time in seconds: −ln(0.25) × mass(kg) × agility / 1_000_000
+    public let alignTime: Double
+    /// Warp speed in AU/s
+    public let warpSpeed: Double
 
     // Targeting
     public let maxTargetRange: Double
@@ -171,6 +178,12 @@ public struct ShipStats: Sendable {
     public let pgUsed: Double
     public let cpuTotal: Double
     public let cpuUsed: Double
+
+    // Fitting layout after hull/subsystem modifiers
+    public let highSlots: Double
+    public let mediumSlots: Double
+    public let lowSlots: Double
+    public let rigSlots: Double
 
     // Offense
     public let turretDPS: Double
@@ -190,6 +203,11 @@ public struct DogmaEngine: Sendable {
         static let capNeed          = 6
         static let hullHP           = 9
         static let pgOutput         = 11
+        static let lowSlots         = 12
+        static let mediumSlots      = 13
+        static let highSlots        = 14
+        static let mass             = 4
+        static let speedFactor      = 20
         static let powerLoad        = 30
         static let cargoCapacity    = 38
         static let maxVelocity      = 37
@@ -199,6 +217,7 @@ public struct DogmaEngine: Sendable {
         static let cpu              = 50
         static let turretRoFMs      = 51
         static let chargeRate       = 56
+        static let shieldBonus      = 68
         static let capRechargeMs    = 55
         static let dmgMultiplier    = 64
         static let agility          = 70
@@ -226,14 +245,21 @@ public struct DogmaEngine: Sendable {
         static let skillLevel       = 280
         static let shieldRechargeMs = 479
         static let capCapacity      = 482
-        static let signatureRadius  = 552
-        static let warpSpeedMultiplier = 600
+        static let signatureRadius      = 552
+        static let signatureRadiusBonus = 554   // MWD active sig-radius penalty attr
+        static let speedBoostFactor     = 567
+        static let warpSpeedMultiplier  = 600
+        static let massAddition         = 796
         static let scanResolution   = 564
         static let drawback         = 1138
         static let rigDrawbackBonus = 1139
+        static let rigSlots         = 1137
         static let reloadTimeMs     = 1795
         static let scanGeneric      = 1169
         static let droneBandwidth   = 1271
+        static let highSlotModifier = 1374
+        static let mediumSlotModifier = 1375
+        static let lowSlotModifier  = 1376
         static let cpuNeedBonus     = 310
         static let droneControlDistance = 458
         static let missileDmgMul    = 212  // missileDamageMultiplier on charges — modified by BCS
@@ -249,14 +275,24 @@ public struct DogmaEngine: Sendable {
 
     private static let chargeDamageAttrIds: Set<Int> = [A.emDmg, A.expDmg, A.kinDmg, A.thermDmg]
 
-    // Attributes with stackable=0 from SDE — stacking penalty applies when multiple modules modify them.
+    // Attributes with stackable=0 from SDE (verified against dogma_attributes.stackable column).
+    // Stacking penalty applies when multiple modules modify these via multipliers.
+    // NOTE: hullResists (974-977) are stackable=1 — intentionally excluded.
+    //       legacyHullResists (109-113) are stackable=0 — included.
     private static let stackPenaltyAttrs: Set<Int> = [
         A.shieldEMRes, A.shieldExpRes, A.shieldKinRes, A.shieldThermRes,
         A.armorEMRes,  A.armorExpRes,  A.armorKinRes,  A.armorThermRes,
-        A.hullEMRes,   A.hullExpRes,   A.hullKinRes,   A.hullThermRes,
         A.legacyHullEMRes, A.legacyHullExpRes, A.legacyHullKinRes, A.legacyHullThermRes,
         A.maxVelocity, A.turretRoFMs,  A.dmgMultiplier, A.signatureRadius,
         A.missileDmgMul,
+        A.agility,           // Nanofibers, Inertial Stabilizers, armor rigs
+        A.maxTargetRange,    // Sensor Boosters, Omnidirectional Tracking Links
+        A.scanResolution,    // Sensor Boosters, Signal Amplifiers
+        A.scanRadar,         // Signal Amplifiers (sensor-type-specific)
+        A.scanLadar,
+        A.scanMagnetometric,
+        A.scanGravimetric,
+        A.warpSpeedMultiplier, // Hyperspatial Rigs
     ]
 
     // Legacy missile damage effects — no modifierInfo in SDE.
@@ -267,9 +303,51 @@ public struct DogmaEngine: Sendable {
     // as +% to RoF of modules requiring the skill.
     private static let legacyRoFEffect = 1851
     private static let damageControlEffect = 2302
-    // Legacy CPU effect — Weapon Upgrades stores the per-level percentage in
-    // attr310, while effect 672 only exposes an itemID cpu/skillLevel modifier.
-    private static let legacyCpuNeedSkillEffects: Set<Int> = [672]
+    private static let activePropulsionEffects: Set<Int> = [6730, 6731]
+    private static let adaptiveArmorHardenerEffect = 4928
+
+    /// Fit-relevant dogma effects that are behavior flags in the SDE rather than
+    /// modifier rows. Keep this list synchronized with `DogmaCoverageTests`.
+    public static let handledBehaviorEffectIds: Set<Int> = [
+        4,     // shieldBoosting
+        9,     // missileLaunching
+        16,    // online
+        27,    // armorRepair
+        34,    // projectileFired
+        38,    // empWave
+        101,   // useMissiles
+        103,   // defenderMissileLaunching
+        104,   // fofMissileLaunching
+        127,   // torpedoLaunching
+        660,   // missileEMDmgBonus
+        661,   // missileExplosiveDmgBonus
+        662,   // missileThermalDmgBonus
+        668,   // missileKineticDmgBonus2
+        1730,  // droneDmgBonus
+        1851,  // selfRof
+        2302,  // damageControl
+        2663,  // rigSlot
+        3772,  // subSystem
+        4928,  // adaptiveArmorHardener
+        4936,  // fueledShieldBoosting
+        5275,  // fueledArmorRepair
+        6730,  // moduleBonusMicrowarpdrive
+        6731,  // moduleBonusAfterburner
+    ]
+
+    /// Fit-relevant no-modifier effects that are intentionally not applied to
+    /// local ship stats. They are activation, targeting, remote assistance,
+    /// mining, command burst, superweapon, scan, or validation-only effects.
+    public static let intentionallyIgnoredBehaviorEffectIds: Set<Int> = [
+        10, 11, 12, 13, 26, 40, 42, 46, 47, 48, 54, 55, 67, 263,
+        848, 1738, 2255, 2413, 2726, 2757, 2971, 3380, 3773, 3774,
+        3793, 4921, 6063, 6184, 6185, 6186, 6187, 6188, 6197, 6201,
+        6208, 6422, 6423, 6424, 6425, 6426, 6427, 6428, 6470, 6472,
+        6473, 6474, 6476, 6477, 6478, 6479, 6481, 6482, 6484, 6513,
+        6651, 6652, 6714, 6719, 6732, 6733, 6734, 6735, 6736, 6753,
+        6995, 7166, 8037, 8093, 8364, 11691, 12126, 12174, 12916,
+        4489, 4490, 4491, 4492,
+    ]
 
     private static let rigDrawbackSkillByGroup: [Int: Int] = [
         773: 26253, // Armor Rigging
@@ -324,7 +402,11 @@ public struct DogmaEngine: Sendable {
         ]), // drawbackCapRepPGNeed
     ]
 
-    public static func isActiveModule(_ attrs: [Int: Double]) -> Bool {
+    public static func isActiveModule(_ attrs: [Int: Double], effectIds: Set<Int> = []) -> Bool {
+        if !effectIds.isDisjoint(with: activePropulsionEffects) || effectIds.contains(adaptiveArmorHardenerEffect) {
+            return true
+        }
+
         if (attrs[A.duration] ?? 0) > 0 {
             return true
         }
@@ -555,6 +637,7 @@ public struct DogmaEngine: Sendable {
         var pgUsed   = 0.0
         var cpuUsed  = 0.0
         var capDrain = 0.0
+        var activeShieldBoost = 0.0
         var moduleCosts: [FittedModuleCost] = []
 
         // ── Pre-Phase: Per-module attribute modifier lookups ─────────────────────
@@ -582,11 +665,6 @@ public struct DogmaEngine: Sendable {
                     }
                 }
 
-                if legacyCpuNeedSkillEffects.contains(effectId),
-                   let bonus = sAttrs[A.cpuNeedBonus],
-                   let factor = multiplier(value: bonus, operation: 6) {
-                    skillLocReqMuls[A.cpu, default: [:]][skillId, default: 1.0] *= factor
-                }
             }
         }
 
@@ -613,6 +691,11 @@ public struct DogmaEngine: Sendable {
         // Online fitted modules/subsystems can also modify attributes of other modules
         // by group. T3 subsystem fitting reductions live here, not on the hull.
         var moduleLocGrpMuls: [Int: [Int: Double]] = [:]
+        // [modifiedAttrId → [requiredSkillTypeId → cumulative factor]]
+        // Handles rigs (e.g. Large Core Defense Capacitor Safeguard) and T3 subsystems
+        // that apply LocationRequiredSkillModifier to reduce cpu/cap/pg/duration of modules
+        // requiring a specific skill. Missed previously — caused wrong cap drain on battleship fits.
+        var moduleLocReqMuls: [Int: [Int: Double]] = [:]
         for source in modules where source.state.isOnline {
             guard let sourceProfile = moduleProfiles[source.typeId] else { continue }
             let sourceAttrs = effectiveModuleAttrsByType[source.typeId] ?? sourceProfile.attrs
@@ -633,6 +716,8 @@ public struct DogmaEngine: Sendable {
                           effectFires(category: m.effectCategory, state: source.state) else { continue }
                     if m.function_ == "LocationGroupModifier", let gid = m.groupId {
                         moduleLocGrpMuls[m.modifiedAttrId, default: [:]][gid, default: 1.0] *= factor
+                    } else if m.function_ == "LocationRequiredSkillModifier", let reqSkill = m.skillTypeId {
+                        moduleLocReqMuls[m.modifiedAttrId, default: [:]][reqSkill, default: 1.0] *= factor
                     } else if m.function_ == "LocationModifier" {
                         locationMuls[m.modifiedAttrId, default: 1.0] *= factor
                     }
@@ -640,17 +725,22 @@ public struct DogmaEngine: Sendable {
             }
         }
 
+        var implantLocGrpMuls: [Int: [Int: Double]] = [:]
         var implantLocReqMuls: [Int: [Int: Double]] = [:]
         for (implantTypeId, implant) in implantProfiles {
             let implantAttrs = effectiveImplantAttrs[implantTypeId] ?? implant.attrs
             for effectId in implant.effectIds {
                 for m in effectModifiers[effectId] ?? [] {
                     guard m.domain == "shipID",
-                          m.function_ == "LocationRequiredSkillModifier",
                           [0, 4, 5, 6].contains(m.operation),
-                          let reqSkill = m.skillTypeId,
                           let factor = multiplier(value: implantAttrs[m.modifyingAttrId] ?? 0, operation: m.operation) else { continue }
-                    implantLocReqMuls[m.modifiedAttrId, default: [:]][reqSkill, default: 1.0] *= factor
+                    if m.function_ == "LocationGroupModifier", let gid = m.groupId {
+                        implantLocGrpMuls[m.modifiedAttrId, default: [:]][gid, default: 1.0] *= factor
+                    } else if m.function_ == "LocationRequiredSkillModifier", let reqSkill = m.skillTypeId {
+                        implantLocReqMuls[m.modifiedAttrId, default: [:]][reqSkill, default: 1.0] *= factor
+                    } else if m.function_ == "LocationModifier" {
+                        locationMuls[m.modifiedAttrId, default: 1.0] *= factor
+                    }
                 }
             }
         }
@@ -660,10 +750,14 @@ public struct DogmaEngine: Sendable {
             var f = locationMuls[attrId] ?? 1.0
             f *= shipLocGrpMuls[attrId]?[groupId] ?? 1.0
             f *= moduleLocGrpMuls[attrId]?[groupId] ?? 1.0
+            f *= implantLocGrpMuls[attrId]?[groupId] ?? 1.0
             if let reqMap = shipLocReqMuls[attrId] {
                 for sk in reqSkills { f *= reqMap[sk] ?? 1.0 }
             }
             if let reqMap = skillLocReqMuls[attrId] {
+                for sk in reqSkills { f *= reqMap[sk] ?? 1.0 }
+            }
+            if let reqMap = moduleLocReqMuls[attrId] {
                 for sk in reqSkills { f *= reqMap[sk] ?? 1.0 }
             }
             if let reqMap = implantLocReqMuls[attrId] {
@@ -710,19 +804,10 @@ public struct DogmaEngine: Sendable {
         }
 
         func effectiveRigDrawbackPercent(for profile: TypeProfile, attrs: [Int: Double]) -> Double {
-            let baseDrawback = attrs[A.drawback] ?? 0
-            guard baseDrawback != 0,
-                  let skillId = rigDrawbackSkillByGroup[profile.groupId],
-                  let level = characterSkills[skillId],
-                  level > 0,
-                  let skillProfile = skillProfiles[skillId] else {
-                return baseDrawback
-            }
-
-            let perLevel = skillProfile.attrs[A.rigDrawbackBonus] ?? 0
-            guard perLevel != 0 else { return baseDrawback }
-            let reduction = perLevel * Double(level)
-            return baseDrawback * (1.0 + reduction / 100.0)
+            // Rigging skills modify attr 1138 (drawback) through normal SDE
+            // LocationGroupModifier effects before this function is called.
+            // Applying those skills again here undercounts launcher CPU / weapon PG drawbacks.
+            attrs[A.drawback] ?? 0
         }
 
         // Collect pending modifications, keyed by attrId
@@ -840,9 +925,22 @@ public struct DogmaEngine: Sendable {
                 let cap  = (mAttrs[A.capNeed]  ?? 0) * capF
                 let dur  = max(1, (mAttrs[A.duration] ?? 1) * durF)
                 if cap > 0 { capDrain += cap / (dur / 1000.0) }
+
+                let boostF = modAttrFactor(A.shieldBonus, groupId: mp.groupId, reqSkills: mp.requiredSkillIds)
+                let shieldBoost = (mAttrs[A.shieldBonus] ?? 0) * boostF
+                if shieldBoost > 0 {
+                    activeShieldBoost += shieldBoost / (dur / 1000.0)
+                }
             }
 
             for effectId in mp.effectIds {
+                if effectId == adaptiveArmorHardenerEffect {
+                    for attrId in [A.armorEMRes, A.armorExpRes, A.armorKinRes, A.armorThermRes] {
+                        guard let factor = mAttrs[attrId], factor > 0 else { continue }
+                        pendingMulDirect[attrId, default: []].append(factor)
+                    }
+                }
+
                 if let drawbackTarget = rigShipDrawbackEffectTargets[effectId] {
                     let drawback = effectiveRigDrawbackPercent(for: mp, attrs: mAttrs)
                     if drawback != 0 {
@@ -860,7 +958,9 @@ public struct DogmaEngine: Sendable {
                     guard effectFires(category: m.effectCategory, state: mod.state) else { continue }
 
                     let val = mAttrs[m.modifyingAttrId] ?? 0
-                    let stacks = stackPenaltyAttrs.contains(m.modifiedAttrId) && effectId != damageControlEffect
+                    // Subsystem slot modules are never stacking-penalized in EVE — only hi/mid/low/rig slots are.
+                    let isSubsystem = mod.flag.hasPrefix("SubSystem")
+                    let stacks = stackPenaltyAttrs.contains(m.modifiedAttrId) && effectId != damageControlEffect && !isSubsystem
                     switch m.operation {
                     case -1:
                         pendingPreAssign[m.modifiedAttrId] = val
@@ -880,13 +980,61 @@ public struct DogmaEngine: Sendable {
             }
         }
 
-        // Start from hull base attrs; skill and module modifiers all applied via pending above.
+        // Start from hull base attrs; skill, module and propulsion modifiers applied via pending.
         var a = effectiveShipBonusAttrs  // = shipProfile.attrs (Phase A only does op=0 on skills)
         for (id, value) in pendingPreAssign { a[id] = value }
         for (id, sum) in pendingAdd { a[id, default: 0] += sum }
         for (id, muls) in pendingMulStack  { a[id, default: 1] *= stackedProduct(muls) }
         for (id, muls) in pendingMulDirect { a[id, default: 1] *= muls.reduce(1.0, *) }
         for (id, value) in pendingPostAssign { a[id] = value }
+
+        // Strategic cruiser subsystems define the final slot layout with
+        // hi/med/low slot modifier attributes instead of normal ship slot attrs.
+        for mod in modules where mod.state.isOnline && mod.flag.hasPrefix("SubSystem") {
+            let attrs = effectiveModuleAttrs(for: mod)
+            a[A.highSlots, default: 0] += attrs[A.highSlotModifier] ?? 0
+            a[A.mediumSlots, default: 0] += attrs[A.mediumSlotModifier] ?? 0
+            a[A.lowSlots, default: 0] += attrs[A.lowSlotModifier] ?? 0
+        }
+
+        // ── Phase B2: Active propulsion behavior ────────────────────────────────
+        // MWD (6730) and AB (6731) have no dogma_modifiers rows. Their speed boost
+        // is not a normal maxVelocity multiplier: it depends on module thrust and
+        // current ship mass after passive Dogma has been applied.
+        var bestPropulsionSpeed = a[A.maxVelocity] ?? 0
+        var bestMWDSignatureFactor = 1.0
+        for mod in modules where mod.state.isActive {
+            guard let mp = moduleProfiles[mod.typeId],
+                  !mp.effectIds.isDisjoint(with: activePropulsionEffects) else { continue }
+
+            let mAttrs = effectiveModuleAttrs(for: mod)
+            let groupId = mp.groupId
+            let reqSkills = mp.requiredSkillIds
+            let speedFactor = (mAttrs[A.speedFactor] ?? 0)
+                * modAttrFactor(A.speedFactor, groupId: groupId, reqSkills: reqSkills)
+            let thrust = (mAttrs[A.speedBoostFactor] ?? 0)
+                * modAttrFactor(A.speedBoostFactor, groupId: groupId, reqSkills: reqSkills)
+            let addedMass = max(0, (mAttrs[A.massAddition] ?? 0)
+                * modAttrFactor(A.massAddition, groupId: groupId, reqSkills: reqSkills))
+            let effectiveMass = max(1, (a[A.mass] ?? 0) + addedMass)
+
+            if speedFactor != 0, thrust != 0 {
+                let propulsionFactor = 1.0 + (speedFactor / 100.0) * (thrust / effectiveMass)
+                bestPropulsionSpeed = max(bestPropulsionSpeed, (a[A.maxVelocity] ?? 0) * propulsionFactor)
+            }
+
+            if mp.effectIds.contains(6730) {
+                let sigBonus = (mAttrs[A.signatureRadiusBonus] ?? 0)
+                    * modAttrFactor(A.signatureRadiusBonus, groupId: groupId, reqSkills: reqSkills)
+                if sigBonus != 0, let factor = multiplier(value: sigBonus, operation: 6) {
+                    bestMWDSignatureFactor = max(bestMWDSignatureFactor, factor)
+                }
+            }
+        }
+        a[A.maxVelocity] = bestPropulsionSpeed
+        if bestMWDSignatureFactor != 1.0 {
+            a[A.signatureRadius, default: 0] *= bestMWDSignatureFactor
+        }
 
         // ── Phase C: Per-module-type RoF multipliers ─────────────────────────────
         // Sources: ship effects (LocationGroup), skill effects (LocationRequired + legacy),
@@ -909,9 +1057,19 @@ public struct DogmaEngine: Sendable {
             // 1. Ship effects → LocationGroupModifier (e.g. HAC RoF bonus) — direct
             for effectId in shipProfile.effectIds {
                 for m in effectModifiers[effectId] ?? [] {
-                    guard m.domain == "shipID", m.function_ == "LocationGroupModifier",
-                          m.modifiedAttrId == A.turretRoFMs,
-                          let gid = m.groupId, gid == mp.groupId else { continue }
+                    guard m.domain == "shipID", m.modifiedAttrId == A.turretRoFMs else { continue }
+                    let matches: Bool
+                    if m.function_ == "LocationGroupModifier",
+                       let gid = m.groupId, gid == mp.groupId {
+                        matches = true
+                    } else if m.function_ == "LocationRequiredSkillModifier",
+                              let reqSkill = m.skillTypeId,
+                              mp.requiredSkillIds.contains(reqSkill) {
+                        matches = true
+                    } else {
+                        matches = false
+                    }
+                    guard matches else { continue }
                     if let f = toFactor(effectiveShipBonusAttrs[m.modifyingAttrId] ?? 0, m.operation) {
                         directRofFactors.append(f)
                     }
@@ -1036,9 +1194,22 @@ public struct DogmaEngine: Sendable {
             if let hullF = shipLocGrpMuls[A.dmgMultiplier]?[mp.groupId], hullF != 1.0 {
                 directDmgFactors.append(hullF)
             }
+            if let reqMap = shipLocReqMuls[A.dmgMultiplier] {
+                for reqSkill in mp.requiredSkillIds {
+                    if let f = reqMap[reqSkill], f != 1.0 { directDmgFactors.append(f) }
+                }
+            }
 
             // Skill LocationRequiredSkillModifier on dmgMultiplier (e.g. Large Projectile Turret +5%/level)
             if let reqMap = skillLocReqMuls[A.dmgMultiplier] {
+                for reqSkill in mp.requiredSkillIds {
+                    if let f = reqMap[reqSkill], f != 1.0 { directDmgFactors.append(f) }
+                }
+            }
+
+            // Module LocationRequiredSkillModifier on dmgMultiplier (T3 offensive subsystems,
+            // Siege/Bastion modules giving +% damage to weapons requiring a specific skill).
+            if let reqMap = moduleLocReqMuls[A.dmgMultiplier] {
                 for reqSkill in mp.requiredSkillIds {
                     if let f = reqMap[reqSkill], f != 1.0 { directDmgFactors.append(f) }
                 }
@@ -1137,14 +1308,26 @@ public struct DogmaEngine: Sendable {
 
             rof *= rofMulsByTypeId[mod.typeId] ?? 1.0
 
-            let baseDmg = (mAttrs[A.emDmg]   ?? 0) + (mAttrs[A.expDmg]  ?? 0)
-                        + (mAttrs[A.kinDmg]  ?? 0) + (mAttrs[A.thermDmg] ?? 0)
-            if baseDmg > 0 {
-                // Turret weapon — damage is on the module itself.
-                // Base dmgMultiplier from module × additional from Gyro/MFS (turretDmgMulsByTypeId).
+            let moduleBaseDmg = (mAttrs[A.emDmg]   ?? 0) + (mAttrs[A.expDmg]  ?? 0)
+                              + (mAttrs[A.kinDmg]  ?? 0) + (mAttrs[A.thermDmg] ?? 0)
+            let cAttrs = effectiveChargeAttrs(for: mod)
+            let chargeBaseDmg: Double
+            if let cAttrs {
+                let chargeEM = cAttrs[A.emDmg] ?? 0
+                let chargeExp = cAttrs[A.expDmg] ?? 0
+                let chargeKin = cAttrs[A.kinDmg] ?? 0
+                let chargeTherm = cAttrs[A.thermDmg] ?? 0
+                chargeBaseDmg = chargeEM + chargeExp + chargeKin + chargeTherm
+            } else {
+                chargeBaseDmg = 0
+            }
+
+            if moduleBaseDmg > 0 || (chargeBaseDmg > 0 && (mAttrs[A.dmgMultiplier] ?? 0) > 0) {
+                // Turret weapon. Lasers/hybrids/projectiles normally carry damage
+                // on their charge, while the turret carries dmgMultiplier.
                 let dmgMul = (mAttrs[A.dmgMultiplier] ?? 1.0) * (turretDmgMulsByTypeId[mod.typeId] ?? 1.0)
-                turretDPS += baseDmg * dmgMul / (rof / 1000.0)
-            } else if let cAttrs = effectiveChargeAttrs(for: mod) {
+                turretDPS += max(moduleBaseDmg, chargeBaseDmg) * dmgMul / (rof / 1000.0)
+            } else if let cAttrs {
                 // Missile launcher — damage is on the charge.
                 // Per-charge multipliers: global (skills, ship, implants) × BCS × legacy missile skill.
                 var muls: [Int: Double] = [:]
@@ -1264,9 +1447,16 @@ public struct DogmaEngine: Sendable {
             get(A.scanGeneric),
         ].max() ?? 0
 
+        let shipMass    = get(A.mass, d: 1)
+        let shipAgility = get(A.agility, d: 1)
+        // EVE align time: time to reach 75% of max velocity = −ln(0.25) × I × agility
+        // where I = mass(kg) / 1_000_000 (in million kg)
+        let alignTime   = -log(0.25) * shipMass * shipAgility / 1_000_000.0
+
         return ShipStats(
             shieldHP: sHP, shieldEHP: sEHP,
             shieldRechargeMs: sRch, peakShieldRegen: peakShRegen,
+            activeShieldBoostPerSec: activeShieldBoost,
             shieldEMRes: pct(sEMR), shieldExpRes: pct(sExR),
             shieldKinRes: pct(sKiR), shieldThermRes: pct(sThR),
             armorHP: aHP, armorEHP: aEHP,
@@ -1280,6 +1470,10 @@ public struct DogmaEngine: Sendable {
             capRegenPerSec: capRegen, capDrainPerSec: capDrain,
             maxVelocity: get(A.maxVelocity),
             signatureRadius: get(A.signatureRadius),
+            agility: shipAgility,
+            mass: shipMass,
+            alignTime: alignTime,
+            warpSpeed: get(A.warpSpeedMultiplier, d: 1),
             maxTargetRange: get(A.maxTargetRange),
             scanResolution: get(A.scanResolution),
             maxLockedTargets: get(A.maxLockedTargets),
@@ -1289,6 +1483,10 @@ public struct DogmaEngine: Sendable {
             droneControlRange: get(A.droneControlDistance),
             pgTotal: get(A.pgOutput), pgUsed: pgUsed,
             cpuTotal: get(A.cpuOutput), cpuUsed: cpuUsed,
+            highSlots: get(A.highSlots),
+            mediumSlots: get(A.mediumSlots),
+            lowSlots: get(A.lowSlots),
+            rigSlots: get(A.rigSlots),
             turretDPS: turretDPS, missileDPS: missileDPS,
             missileReloadDPS: missileReloadDPS,
             moduleCosts: moduleCosts

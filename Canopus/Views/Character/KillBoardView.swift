@@ -121,7 +121,7 @@ struct KillBoardView: View {
                     }
                 }
             }
-            .padding(.bottom, 40)
+            .padding(.bottom, EVELayout.scrollBottomClearance)
         }
         .navigationDestination(for: KBRecord.self) { record in
             KillDetailView(record: record, characterService: characterService)
@@ -134,7 +134,7 @@ struct KillBoardView: View {
 
         return HStack(spacing: 13) {
             // Ship destroyed
-            EVETypeIcon(typeId: record.victimShipTypeId, size: 44)
+            EVERenderImage(typeId: record.victimShipTypeId, size: 44)
                 .clipShape(CutCorner(size: 7))
                 .overlay(CutCorner(size: 7).stroke(color.opacity(0.22), lineWidth: 1))
 
@@ -302,7 +302,7 @@ struct KillDetailView: View {
                     Color.eveAmber.opacity(0.14).frame(height: 1)
                     attackersSection(record.allAttackers)
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
             if isLoading { ProgressView().tint(Color.eveCyan) }
         }
@@ -316,7 +316,7 @@ struct KillDetailView: View {
     private func victimHeader(_ r: KBRecord) -> some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack(spacing: 14) {
-                EVETypeIcon(typeId: r.victimShipTypeId, size: 64)
+                EVERenderImage(typeId: r.victimShipTypeId, size: 64)
                     .clipShape(CutCorner(size: 10))
                     .overlay(CutCorner(size: 10).stroke(Color.eveRed.opacity(0.35), lineWidth: 1))
 

@@ -1,5 +1,10 @@
 import SwiftUI
 
+enum EVELayout {
+    static let tabBarClearance: CGFloat = 122
+    static let scrollBottomClearance: CGFloat = 154
+}
+
 // MARK: - Color palette
 
 extension Color {
@@ -57,6 +62,14 @@ private struct ScanlinesModifier: ViewModifier {
 extension View {
     func eveScanlinesOverlay() -> some View { modifier(ScanlinesModifier()) }
 
+    func eveTabBarClearance(_ height: CGFloat = EVELayout.tabBarClearance) -> some View {
+        safeAreaInset(edge: .bottom, spacing: 0) {
+            Color.clear
+                .frame(height: height)
+                .allowsHitTesting(false)
+        }
+    }
+
     func eveCard(cut: CGFloat = 10, border: Color = Color.white.opacity(0.08)) -> some View {
         self
             .background(Color.eveCard, in: CutCorner(size: cut))
@@ -78,6 +91,154 @@ struct HUDLabelModifier: ViewModifier {
 
 extension View {
     func hudLabel() -> some View { modifier(HUDLabelModifier()) }
+}
+
+// MARK: - Shared section headers
+
+struct EVESectionHeader<Trailing: View>: View {
+    let title: String
+    var accentColor: Color = Color.eveText.opacity(0.38)
+    var backgroundColor: Color = Color.eveCard
+    @ViewBuilder var trailing: () -> Trailing
+
+    init(
+        _ title: String,
+        accentColor: Color = Color.eveText.opacity(0.38),
+        backgroundColor: Color = Color.eveCard,
+        @ViewBuilder trailing: @escaping () -> Trailing
+    ) {
+        self.title = title
+        self.accentColor = accentColor
+        self.backgroundColor = backgroundColor
+        self.trailing = trailing
+    }
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Text(title).hudLabel()
+                .foregroundStyle(accentColor)
+            Spacer(minLength: 10)
+            trailing()
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(backgroundColor)
+    }
+}
+
+extension EVESectionHeader where Trailing == EmptyView {
+    init(
+        _ title: String,
+        accentColor: Color = Color.eveText.opacity(0.38),
+        backgroundColor: Color = Color.eveCard
+    ) {
+        self.init(title, accentColor: accentColor, backgroundColor: backgroundColor) {
+            EmptyView()
+        }
+    }
+}
+
+struct EVEDisclosureSectionHeader: View {
+    let title: String
+    let count: Int
+    let isExpanded: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            HStack(spacing: 10) {
+                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(Color.eveAmber)
+                    .frame(width: 12)
+                Text(title)
+                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                    .tracking(1.1)
+                    .foregroundStyle(Color.eveText.opacity(0.62))
+                    .lineLimit(2)
+                Spacer(minLength: 10)
+                Text("\(count)")
+                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                    .foregroundStyle(Color.eveText.opacity(0.42))
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 11)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(Color.eveCard)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+struct EVESeparator: View {
+    enum Kind {
+        case subtle
+        case section
+    }
+
+    var kind: Kind = .subtle
+
+    var body: some View {
+        Rectangle()
+            .fill(color)
+            .frame(height: 1)
+    }
+
+    private var color: Color {
+        switch kind {
+        case .subtle:
+            return Color.white.opacity(0.035)
+        case .section:
+            return Color.eveAmber.opacity(0.075)
+        }
+    }
+}
+
+struct EVEVerticalSeparator: View {
+    var body: some View {
+        Rectangle()
+            .fill(Color.white.opacity(0.035))
+            .frame(width: 1)
+    }
+}
+
+struct EVEActionIndicator: View {
+    enum Kind {
+        case navigate
+        case add
+    }
+
+    let kind: Kind
+
+    var body: some View {
+        Image(systemName: systemName)
+            .font(.system(size: size, weight: .bold))
+            .foregroundStyle(color)
+            .frame(width: 18, height: 18)
+    }
+
+    private var systemName: String {
+        switch kind {
+        case .navigate: return "chevron.right"
+        case .add: return "plus"
+        }
+    }
+
+    private var color: Color {
+        switch kind {
+        case .navigate: return Color.eveText.opacity(0.28)
+        case .add: return Color.eveAmber
+        }
+    }
+
+    private var size: CGFloat {
+        switch kind {
+        case .navigate: return 10
+        case .add: return 12
+        }
+    }
 }
 
 // MARK: - Wallet journal ref-type labels

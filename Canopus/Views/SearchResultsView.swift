@@ -19,6 +19,7 @@ struct SearchResultsView: View {
                 }
             }
         }
+        .eveTabBarClearance()
         .overlay {
             if isSearching {
                 ProgressView()

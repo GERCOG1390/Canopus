@@ -11,13 +11,19 @@ struct WidgetData: Codable {
     let updatedAt: Date
 
     static let appGroupID = "group.AlexPlumbing.Canopus"
-    static let defaultsKey = "canopus.widgetData"
+    static let fileName = "widgetData.json"
 
     static func load() -> WidgetData? {
-        guard let defaults = UserDefaults(suiteName: Self.appGroupID),
-              let data = defaults.data(forKey: Self.defaultsKey),
+        guard let url = fileURL,
+              let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode(WidgetData.self, from: data)
         else { return nil }
         return decoded
+    }
+
+    private static var fileURL: URL? {
+        FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)?
+            .appendingPathComponent(fileName)
     }
 }

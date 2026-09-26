@@ -23,6 +23,24 @@ public struct ItemGroup: Identifiable, Sendable, Hashable {
     }
 }
 
+public struct MarketGroup: Identifiable, Sendable, Hashable {
+    public let id: Int
+    public let parentId: Int?
+    public let name: String
+    public let description: String?
+    public let iconId: Int?
+    public let hasTypes: Bool
+
+    public init(id: Int, parentId: Int?, name: String, description: String?, iconId: Int?, hasTypes: Bool) {
+        self.id = id
+        self.parentId = parentId
+        self.name = name
+        self.description = description
+        self.iconId = iconId
+        self.hasTypes = hasTypes
+    }
+}
+
 public struct ItemType: Identifiable, Sendable, Hashable {
     public let id: Int
     public let groupId: Int
@@ -36,16 +54,65 @@ public struct ItemType: Identifiable, Sendable, Hashable {
     public let basePrice: Double?
     public let published: Bool
     public let metaGroupId: Int?
+    public let variationParentId: Int?
 
     public init(
         id: Int, groupId: Int, marketGroupId: Int?, name: String,
         typeDescription: String?, mass: Double?, volume: Double?, capacity: Double?,
-        portionSize: Int?, basePrice: Double?, published: Bool, metaGroupId: Int?
+        portionSize: Int?, basePrice: Double?, published: Bool, metaGroupId: Int?, variationParentId: Int?
     ) {
         self.id = id; self.groupId = groupId; self.marketGroupId = marketGroupId
         self.name = name; self.typeDescription = typeDescription; self.mass = mass
         self.volume = volume; self.capacity = capacity; self.portionSize = portionSize
         self.basePrice = basePrice; self.published = published; self.metaGroupId = metaGroupId
+        self.variationParentId = variationParentId
+    }
+}
+
+public struct TypeInfluence: Identifiable, Sendable, Hashable {
+    public var id: Int { type.id }
+    public let type: ItemType
+    public let categoryName: String
+    public let groupName: String
+    public let modifiedAttributes: [String]
+
+    public init(type: ItemType, categoryName: String, groupName: String, modifiedAttributes: [String]) {
+        self.type = type
+        self.categoryName = categoryName
+        self.groupName = groupName
+        self.modifiedAttributes = modifiedAttributes
+    }
+}
+
+public struct SkillInfluence: Identifiable, Sendable, Hashable {
+    public var id: Int { skill.id }
+    public let skill: ItemType
+    public let affectedGroups: [String]
+    public let modifiedAttributes: [String]
+
+    public init(skill: ItemType, affectedGroups: [String], modifiedAttributes: [String]) {
+        self.skill = skill
+        self.affectedGroups = affectedGroups
+        self.modifiedAttributes = modifiedAttributes
+    }
+}
+
+public struct TypeTrait: Identifiable, Sendable, Hashable {
+    public var id: String { "\(typeId):\(skillId ?? 0):\(sort):\(text)" }
+    public let typeId: Int
+    public let skillId: Int?
+    public let bonus: Double?
+    public let unitId: Int?
+    public let text: String
+    public let sort: Int
+
+    public init(typeId: Int, skillId: Int?, bonus: Double?, unitId: Int?, text: String, sort: Int) {
+        self.typeId = typeId
+        self.skillId = skillId
+        self.bonus = bonus
+        self.unitId = unitId
+        self.text = text
+        self.sort = sort
     }
 }
 
@@ -54,6 +121,7 @@ public struct DogmaAttribute: Identifiable, Sendable, Hashable {
     public let name: String
     public let displayName: String?
     public let unitId: Int?
+    public let iconId: Int?
     public let highIsGood: Bool
     public let stackable: Bool
     public let defaultValue: Double?
@@ -61,9 +129,9 @@ public struct DogmaAttribute: Identifiable, Sendable, Hashable {
 
     public init(
         id: Int, name: String, displayName: String?, unitId: Int?,
-        highIsGood: Bool, stackable: Bool, defaultValue: Double?, published: Bool
+        iconId: Int? = nil, highIsGood: Bool, stackable: Bool, defaultValue: Double?, published: Bool
     ) {
-        self.id = id; self.name = name; self.displayName = displayName; self.unitId = unitId
+        self.id = id; self.name = name; self.displayName = displayName; self.unitId = unitId; self.iconId = iconId
         self.highIsGood = highIsGood; self.stackable = stackable
         self.defaultValue = defaultValue; self.published = published
     }

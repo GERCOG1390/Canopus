@@ -35,6 +35,7 @@ struct ContractsView: View {
                 }
             }
         }
+        .eveTabBarClearance()
         .navigationTitle("Contracts")
         .navigationBarTitleDisplayMode(.large)
         .overlay {

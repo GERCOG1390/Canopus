@@ -63,6 +63,7 @@ struct CloneView: View {
                 }
             }
         }
+        .eveTabBarClearance()
         .navigationTitle("Clone Status")
         .navigationBarTitleDisplayMode(.large)
         .overlay { if isLoading { ProgressView() } }

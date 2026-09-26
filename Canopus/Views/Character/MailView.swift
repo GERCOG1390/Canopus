@@ -121,7 +121,7 @@ struct MailView: View {
                     }
                 }
             }
-            .padding(.bottom, 40)
+            .padding(.bottom, EVELayout.scrollBottomClearance)
         }
         .navigationDestination(for: ESIMailHeader.self) { mail in
             MailDetailView(characterService: characterService, header: mail, senderName: names[mail.from])
@@ -287,7 +287,7 @@ struct MailDetailView: View {
                             .padding(20)
                     }
                 }
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
         }
         .navigationTitle("MAIL")

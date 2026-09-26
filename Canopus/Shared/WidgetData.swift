@@ -10,20 +10,26 @@ struct WidgetData: Codable {
     let updatedAt: Date
 
     static let appGroupID = "group.AlexPlumbing.Canopus"
-    static let defaultsKey = "canopus.widgetData"
+    static let fileName = "widgetData.json"
 
     func save() {
-        guard let defaults = UserDefaults(suiteName: Self.appGroupID),
+        guard let url = Self.fileURL,
               let data = try? JSONEncoder().encode(self)
         else { return }
-        defaults.set(data, forKey: Self.defaultsKey)
+        try? data.write(to: url, options: [.atomic])
     }
 
     static func load() -> WidgetData? {
-        guard let defaults = UserDefaults(suiteName: Self.appGroupID),
-              let data = defaults.data(forKey: Self.defaultsKey),
+        guard let url = fileURL,
+              let data = try? Data(contentsOf: url),
               let decoded = try? JSONDecoder().decode(WidgetData.self, from: data)
         else { return nil }
         return decoded
+    }
+
+    private static var fileURL: URL? {
+        FileManager.default
+            .containerURL(forSecurityApplicationGroupIdentifier: appGroupID)?
+            .appendingPathComponent(fileName)
     }
 }

@@ -47,6 +47,7 @@ struct IndustryView: View {
                 }
             }
         }
+        .eveTabBarClearance()
         .navigationTitle("Industry")
         .navigationBarTitleDisplayMode(.large)
         .overlay {

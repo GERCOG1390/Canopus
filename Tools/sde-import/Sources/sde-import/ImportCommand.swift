@@ -1,4 +1,5 @@
 import ArgumentParser
+import CryptoKit
 import GRDB
 import Foundation
 
@@ -12,13 +13,13 @@ struct ImportCommand: AsyncParsableCommand {
               sde-import --input /path/to/extracted-sde/ --output /path/to/sde.sqlite
 
             WORKFLOW
-              1. Download the latest SDE JSONL zip from:
-                 https://developers.eveonline.com/static-data/tranquility/eve-online-static-data-latest-jsonl.zip
+              1. Download the latest SDE zip from CCP's official mirror:
+                 https://eve-static-data-export.s3-eu-west-1.amazonaws.com/tranquility/sde.zip
               2. Unzip to a directory (e.g. ~/sde-latest/).
               3. Run this tool pointing --input at that directory.
               4. Copy the generated sde.sqlite into Canopus/Resources/ in Xcode.
 
-            The tool looks for JSONL files in <input>/ and <input>/fsd/.
+            The tool looks for fsd/*.yaml files under <input>/fsd/.
             """
     )
 
@@ -31,9 +32,22 @@ struct ImportCommand: AsyncParsableCommand {
     @Flag(name: .long, help: "Skip integrity checks (faster, not recommended for releases).")
     var skipChecks: Bool = false
 
+    @Option(name: .long, help: "Public HTTPS URL where the generated sde.sqlite will be hosted. Enables manifest generation.")
+    var packageURL: String?
+
+    @Option(name: .long, help: "Output manifest JSON path. Defaults to canopus-sde-manifest.json next to the SQLite output.")
+    var manifest: String?
+
+    @Option(name: .long, help: "Path to the previously released sde.sqlite. When given, generates a named changelog (added/changed/removed types) against it.")
+    var previous: String?
+
+    @Option(name: .long, help: "Public HTTPS URL where the changelog JSON will be hosted. Defaults to --package-url's directory + canopus-sde-changelog.json.")
+    var changelogURL: String?
+
     func run() async throws {
         let inputURL = URL(fileURLWithPath: input).standardized
         let outputURL = URL(fileURLWithPath: output).standardized
+        let generatedAt = ISO8601DateFormatter().string(from: Date())
 
         guard FileManager.default.fileExists(atPath: inputURL.path) else {
             throw ValidationError("Input directory not found: \(inputURL.path)")
@@ -66,7 +80,7 @@ struct ImportCommand: AsyncParsableCommand {
         let buildNumber = buildNumberFromDirectory(inputURL)
         try await dbQueue.write { db in
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('build', ?)", arguments: [buildNumber])
-            try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('generated_at', ?)", arguments: [ISO8601DateFormatter().string(from: Date())])
+            try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('generated_at', ?)", arguments: [generatedAt])
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('schema_version', '1')")
         }
 
@@ -93,7 +107,7 @@ struct ImportCommand: AsyncParsableCommand {
 
         // Switch to DELETE journal mode before bundling — WAL cannot be opened
         // from a read-only iOS app bundle (no -wal/-shm files can be created there).
-        try await dbQueue.write { db in
+        try await dbQueue.writeWithoutTransaction { db in
             try db.execute(sql: "PRAGMA journal_mode = DELETE")
         }
 
@@ -102,16 +116,143 @@ struct ImportCommand: AsyncParsableCommand {
         let size = (attrs[.size] as? Int ?? 0) / 1_048_576
         print("")
         print("✓ Done — \(outputURL.lastPathComponent) (\(size) MB)")
+
+        // Changelog against the previous release, if one was supplied
+        var changelogPublicURL: String?
+        if let previous {
+            let previousURL = URL(fileURLWithPath: previous).standardized
+            if FileManager.default.fileExists(atPath: previousURL.path) {
+                print("")
+                print("→ Generating changelog against \(previousURL.lastPathComponent)…")
+                do {
+                    var previousConfig = Configuration()
+                    previousConfig.readonly = true
+                    let previousDB = try DatabaseQueue(path: previousURL.path, configuration: previousConfig)
+                    let changelog = try ChangelogGenerator.generate(oldDB: previousDB, newDB: dbQueue)
+
+                    let changelogPath = outputURL.deletingLastPathComponent().appendingPathComponent("canopus-sde-changelog.json")
+                    let encoder = JSONEncoder()
+                    encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+                    try encoder.encode(changelog).write(to: changelogPath, options: .atomic)
+
+                    print("  +\(changelog.types.addedCount) types, ~\(changelog.types.changedCount) changed, -\(changelog.types.removedCount) removed")
+                    print("✓ Changelog — \(changelogPath.path)")
+
+                    if let packageURL {
+                        changelogPublicURL = changelogURL ?? URL(string: packageURL)?
+                            .deletingLastPathComponent()
+                            .appendingPathComponent("canopus-sde-changelog.json")
+                            .absoluteString
+                    }
+                } catch {
+                    print("  ⚠️  Changelog generation failed, continuing without one: \(error)")
+                }
+            } else {
+                print("⚠️  --previous file not found (\(previousURL.path)) — skipping changelog.")
+            }
+        }
+
+        if let packageURL {
+            let manifestURL = URL(fileURLWithPath: manifest ?? outputURL
+                .deletingLastPathComponent()
+                .appendingPathComponent("canopus-sde-manifest.json")
+                .path)
+                .standardized
+            try writeManifest(
+                sqliteURL: outputURL,
+                manifestURL: manifestURL,
+                publicPackageURL: packageURL,
+                changelogPublicURL: changelogPublicURL,
+                build: buildNumber,
+                generatedAt: generatedAt
+            )
+            print("✓ Manifest — \(manifestURL.path)")
+        } else {
+            print("Manifest skipped. Pass --package-url https://.../sde.sqlite to generate canopus-sde-manifest.json.")
+        }
+
         print("")
         print("Next step: add sde.sqlite to Canopus/Resources/ in Xcode.")
     }
 
     private func buildNumberFromDirectory(_ url: URL) -> String {
-        // Try to extract a build number from the directory name, e.g.
-        // eve-online-static-data-20240101-001.0 → 20240101
+        // CCP's official fsd/ export doesn't embed a build number anywhere in the
+        // zip or its file names, unlike some older SDE distributions. Try the
+        // directory-name heuristic first (in case a differently-packaged input is
+        // used), then fall back to today's date — monotonically increasing, so
+        // SDEUpdateManager's numeric "is remote newer" comparison still works.
         let name = url.lastPathComponent
         let parts = name.split(separator: "-")
-        return parts.first(where: { $0.count == 8 && $0.allSatisfy(\.isNumber) })
-            .map(String.init) ?? "unknown"
+        if let dated = parts.first(where: { $0.count == 8 && $0.allSatisfy(\.isNumber) }) {
+            return String(dated)
+        }
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.timeZone = TimeZone(identifier: "UTC")
+        return formatter.string(from: Date())
+    }
+
+    private func writeManifest(
+        sqliteURL: URL,
+        manifestURL: URL,
+        publicPackageURL: String,
+        changelogPublicURL: String?,
+        build: String,
+        generatedAt: String
+    ) throws {
+        guard URL(string: publicPackageURL)?.scheme?.hasPrefix("http") == true else {
+            throw ValidationError("--package-url must be an absolute HTTP(S) URL.")
+        }
+
+        let values = try sqliteURL.resourceValues(forKeys: [.fileSizeKey])
+        let byteSize = values.fileSize ?? 0
+        let manifest = SDEPackageManifest(
+            build: build,
+            generatedAt: generatedAt,
+            schemaVersion: "1",
+            sqliteURL: publicPackageURL,
+            changelogURL: changelogPublicURL,
+            sha256: try sha256HexDigest(for: sqliteURL),
+            byteSize: byteSize
+        )
+
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]
+        let data = try encoder.encode(manifest)
+        try data.write(to: manifestURL, options: .atomic)
+    }
+
+    private func sha256HexDigest(for url: URL) throws -> String {
+        let handle = try FileHandle(forReadingFrom: url)
+        defer { try? handle.close() }
+
+        var hasher = SHA256()
+        while true {
+            let chunk = try handle.read(upToCount: 1_048_576) ?? Data()
+            if chunk.isEmpty { break }
+            hasher.update(data: chunk)
+        }
+
+        return hasher.finalize().map { String(format: "%02x", $0) }.joined()
+    }
+}
+
+private struct SDEPackageManifest: Encodable {
+    let build: String
+    let generatedAt: String
+    let schemaVersion: String
+    let sqliteURL: String
+    let changelogURL: String?
+    let sha256: String
+    let byteSize: Int
+
+    enum CodingKeys: String, CodingKey {
+        case build
+        case generatedAt = "generated_at"
+        case schemaVersion = "schema_version"
+        case sqliteURL = "sqlite_url"
+        case changelogURL = "changelog_url"
+        case sha256
+        case byteSize = "byte_size"
     }
 }

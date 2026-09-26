@@ -4,6 +4,25 @@ import EVEStaticData
 import Domain
 import UserNotifications
 
+private struct ShipLocationSummary: Hashable {
+    let locationName: String?
+    let systemName: String?
+    let locationKind: String
+
+    var displayText: String {
+        switch (locationName, systemName) {
+        case let (.some(location), .some(system)):
+            "\(location) · \(system)"
+        case let (.some(location), .none):
+            location
+        case let (.none, .some(system)):
+            "\(locationKind) · \(system)"
+        case (.none, .none):
+            locationKind
+        }
+    }
+}
+
 struct CharacterRootView: View {
     var switchToTab: (EVETab) -> Void = { _ in }
 
@@ -15,12 +34,13 @@ struct CharacterRootView: View {
     @State private var corpInfo: ESICorporationInfo?
     @State private var ship: ESICurrentShip?
     @State private var shipTypeName: String?
+    @State private var shipLocation: ShipLocationSummary?
     @State private var serverStatus: ESIServerStatus?
     @State private var switcherOpen = false
     @State private var error: Error?
 
     enum Destination: Hashable {
-        case characterSheet, wealth, mail, transactions, mining, fittings, killboard, clone, loyalty, journal, industry, orders, contracts
+        case characterSheet, wealth, mail, transactions, mining, fittings, activeShipFit, killboard, clone, loyalty, journal, industry, orders, contracts
     }
 
     private var svc: CharacterService? { env.characterStore.selectedService }
@@ -42,7 +62,7 @@ struct CharacterRootView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
 
             // Character switcher overlay
@@ -75,6 +95,20 @@ struct CharacterRootView: View {
             case .transactions:   WalletTransactionsView(characterService: s)
             case .mining:         MiningLedgerView(characterService: s)
             case .fittings:       FittingsView(characterService: s)
+            case .activeShipFit:
+                if let ship {
+                    FitDetailView(
+                        fit: ESIFitting(
+                            fittingId: -ship.shipItemId,
+                            name: ship.shipName,
+                            description: "Current active ship",
+                            shipTypeId: ship.shipTypeId,
+                            items: []
+                        ),
+                        typeNames: [ship.shipTypeId: shipTypeName ?? "Ship"],
+                        characterService: s
+                    )
+                }
             case .killboard:      KillBoardView(characterService: s)
             case .clone:          CloneView(characterService: s)
             case .loyalty:        LoyaltyPointsView(characterService: s)
@@ -328,28 +362,39 @@ struct CharacterRootView: View {
         if let ship {
             VStack(alignment: .leading, spacing: 9) {
                 Text("HANGAR").hudLabel()
-                HStack(spacing: 13) {
-                    EVETypeIcon(typeId: ship.shipTypeId, size: 44)
-                        .clipShape(CutCorner(size: 7))
-                        .overlay(CutCorner(size: 7).stroke(Color.white.opacity(0.10), lineWidth: 1))
+                NavigationLink(value: Destination.activeShipFit) {
+                    HStack(spacing: 13) {
+                        EVERenderImage(typeId: ship.shipTypeId, size: 44)
+                            .clipShape(CutCorner(size: 7))
+                            .overlay(CutCorner(size: 7).stroke(Color.white.opacity(0.10), lineWidth: 1))
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(ship.shipName)
-                            .font(.system(size: 13.5, weight: .medium))
-                            .foregroundStyle(Color.eveText)
-                        Text((shipTypeName ?? "Ship") + " · Active ship")
-                            .font(.system(size: 10.5))
-                            .tracking(1.0)
-                            .textCase(.uppercase)
-                            .foregroundStyle(Color.eveText.opacity(0.42))
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(ship.shipName)
+                                .font(.system(size: 13.5, weight: .medium))
+                                .foregroundStyle(Color.eveText)
+                                .lineLimit(1)
+                            Text((shipTypeName ?? "Ship") + " · Active ship")
+                                .font(.system(size: 10.5))
+                                .tracking(1.0)
+                                .textCase(.uppercase)
+                                .foregroundStyle(Color.eveGreen)
+                                .lineLimit(1)
+                            if let shipLocation {
+                                Text(shipLocation.displayText)
+                                    .font(.system(size: 10.5))
+                                    .foregroundStyle(Color.eveText.opacity(0.42))
+                                    .lineLimit(1)
+                            }
+                        }
+                        Spacer()
+                        Text("›")
+                            .font(.system(size: 18))
+                            .foregroundStyle(Color.eveText.opacity(0.3))
                     }
-                    Spacer()
-                    Text("›")
-                        .font(.system(size: 18))
-                        .foregroundStyle(Color.eveText.opacity(0.3))
+                    .padding(13)
+                    .eveCard()
                 }
-                .padding(13)
-                .eveCard()
+                .buttonStyle(.plain)
             }
         }
     }
@@ -492,6 +537,7 @@ struct CharacterRootView: View {
             totalSP = skillsResp.totalSp
             ship = shipInfo
             corpInfo = try? await service.corporationInfo(corpId: info.corporationId)
+            shipLocation = nil
 
             if let repo = env.repository {
                 skillQueue = try await resolveQueueNames(rawQueue, repo: repo)
@@ -500,12 +546,55 @@ struct CharacterRootView: View {
                 skillQueue = rawQueue.map { makeEntry($0) }
             }
 
+            if let location = try? await service.location() {
+                shipLocation = await resolveShipLocation(location, service: service)
+            }
+
             let active = skillQueue.first(where: \.isActive)
             saveWidgetData(service: service, activeEntry: active)
             await scheduleSkillNotification(entry: active, characterName: charName)
         } catch {
             self.error = error
         }
+    }
+
+    private func resolveShipLocation(
+        _ location: ESICharacterLocation,
+        service: CharacterService
+    ) async -> ShipLocationSummary {
+        let systemName = try? await service.systemInfo(id: location.solarSystemId).name
+
+        if let stationId = location.stationId,
+           let station = try? await service.stationInfo(id: stationId) {
+            var stationSystemName = systemName
+            if stationSystemName == nil {
+                stationSystemName = try? await service.systemInfo(id: station.systemId).name
+            }
+            return ShipLocationSummary(
+                locationName: station.name,
+                systemName: stationSystemName,
+                locationKind: "Station"
+            )
+        }
+
+        if let structureId = location.structureId,
+           let structure = try? await service.structureInfo(id: structureId) {
+            var structureSystemName = systemName
+            if structureSystemName == nil {
+                structureSystemName = try? await service.systemInfo(id: structure.solarSystemId).name
+            }
+            return ShipLocationSummary(
+                locationName: structure.name,
+                systemName: structureSystemName,
+                locationKind: "Structure"
+            )
+        }
+
+        return ShipLocationSummary(
+            locationName: nil,
+            systemName: systemName,
+            locationKind: "In Space"
+        )
     }
 
     private func makeEntry(_ item: ESISkillQueueItem, skillName: String? = nil) -> SkillQueueEntry {

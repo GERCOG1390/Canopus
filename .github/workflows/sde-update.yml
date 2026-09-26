@@ -1,0 +1,66 @@
+name: Auto Update EVE SDE
+
+on:
+  schedule:
+    # Runs automatically every Tuesday & Thursday at 12:00 UTC (after CCP game updates)
+    - cron: '0 12 * * 2,4'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions web page
+
+permissions:
+  contents: write  # required for softprops/action-gh-release to create/update the release
+
+jobs:
+  build-and-update-sde:
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode with Swift 6 toolchain
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Download latest SDE from CCP Developers portal
+        run: |
+          set -euo pipefail
+          echo "Downloading SDE from CCP Games..."
+          curl -fL -o ccp_sde.zip "https://eve-static-data-export.s3-eu-west-1.amazonaws.com/tranquility/sde.zip"
+          mkdir -p sde_extracted
+          unzip -q ccp_sde.zip -d sde_extracted
+          test -n "$(ls -A sde_extracted)" # fail loudly rather than feed sde-import an empty directory
+
+      - name: Download previous release (for changelog diffing)
+        run: |
+          # Best-effort — absent on the very first run, or if nothing was ever released.
+          curl -fL -o previous_sde.sqlite \
+            "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus_sde.sqlite" \
+            || echo "No previous release found — changelog will be skipped for this run."
+
+      - name: Convert SDE to Canopus SQLite format
+        run: |
+          echo "Running sde-import..."
+          PREVIOUS_ARGS=""
+          if [ -f previous_sde.sqlite ]; then
+            PREVIOUS_ARGS="--previous previous_sde.sqlite"
+          fi
+          swift run --package-path Tools/sde-import sde-import \
+            --input sde_extracted \
+            --output canopus_sde.sqlite \
+            --manifest canopus-sde-manifest.json \
+            --package-url "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus_sde.sqlite" \
+            $PREVIOUS_ARGS
+
+      - name: Upload SDE to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "sde-latest"
+          name: "Latest EVE Online SDE Database"
+          body: "Automated build of EVE Online SDE SQLite database for Canopus."
+          files: |
+            canopus_sde.sqlite
+            canopus-sde-manifest.json
+            canopus-sde-changelog.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

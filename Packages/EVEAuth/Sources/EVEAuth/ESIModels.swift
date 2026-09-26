@@ -161,6 +161,21 @@ public struct ESILoyaltyPoint: Decodable, Sendable, Identifiable {
     public let loyaltyPoints: Int
 }
 
+public struct ESILoyaltyStoreOffer: Decodable, Sendable, Identifiable {
+    public var id: Int { offerId }
+    public let offerId: Int
+    public let typeId: Int
+    public let quantity: Int
+    public let lpCost: Int
+    public let iskCost: Int
+    public let requiredItems: [ESILoyaltyStoreRequiredItem]
+}
+
+public struct ESILoyaltyStoreRequiredItem: Decodable, Sendable, Hashable {
+    public let typeId: Int
+    public let quantity: Int
+}
+
 // MARK: - Wallet Journal
 
 public struct ESIWalletEntry: Decodable, Sendable, Identifiable {
@@ -275,6 +290,14 @@ public struct ESIFitting: Decodable, Sendable, Identifiable {
     public let description: String
     public let shipTypeId: Int
     public let items: [ESIFittingItem]
+
+    public init(fittingId: Int, name: String, description: String, shipTypeId: Int, items: [ESIFittingItem]) {
+        self.fittingId = fittingId
+        self.name = name
+        self.description = description
+        self.shipTypeId = shipTypeId
+        self.items = items
+    }
 }
 
 public struct ESIFittingItem: Decodable, Sendable, Identifiable {
@@ -287,6 +310,68 @@ public struct ESIFittingItem: Decodable, Sendable, Identifiable {
         self.typeId = typeId
         self.flag = flag
         self.quantity = quantity
+    }
+}
+
+public struct ESICreateFitting: Encodable, Sendable {
+    public let name: String
+    public let description: String
+    public let shipTypeId: Int
+    public let items: [ESICreateFittingItem]
+
+    public init(name: String, description: String, shipTypeId: Int, items: [ESICreateFittingItem]) {
+        self.name = name
+        self.description = description
+        self.shipTypeId = shipTypeId
+        self.items = items
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case description
+        case shipTypeId = "ship_type_id"
+        case items
+    }
+}
+
+public struct ESICreateFittingItem: Encodable, Sendable {
+    public let typeId: Int
+    public let flag: String
+    public let quantity: Int
+
+    public init(typeId: Int, flag: String, quantity: Int) {
+        self.typeId = typeId
+        self.flag = flag
+        self.quantity = quantity
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case typeId = "type_id"
+        case flag
+        case quantity
+    }
+}
+
+public struct ESICreateFittingResponse: Decodable, Sendable {
+    public let fittingId: Int
+
+    public init(fittingId: Int) {
+        self.fittingId = fittingId
+    }
+
+    public init(from decoder: Decoder) throws {
+        if let keyed = try? decoder.container(keyedBy: CodingKeys.self),
+           let fittingId = try? keyed.decode(Int.self, forKey: .fittingId) {
+            self.fittingId = fittingId
+            return
+        }
+
+        let single = try decoder.singleValueContainer()
+        self.fittingId = try single.decode(Int.self)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case fittingId = "fitting_id"
     }
 }
 
@@ -395,20 +480,39 @@ public struct ESINameResult: Decodable, Sendable {
 
 // MARK: - JSON Decoder
 
+private enum ESIDateParser {
+    private static let lock = NSLock()
+
+    nonisolated(unsafe) private static let full: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+
+    nonisolated(unsafe) private static let short: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }()
+
+    static func date(from string: String) -> Date? {
+        lock.lock()
+        defer { lock.unlock() }
+
+        return full.date(from: string) ?? short.date(from: string)
+    }
+}
+
 extension JSONDecoder {
     /// Decoder configured for ESI responses: snake_case keys, ISO8601 dates.
     public static let esi: JSONDecoder = {
         let d = JSONDecoder()
         d.keyDecodingStrategy = .convertFromSnakeCase
-        let full = ISO8601DateFormatter()
-        full.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        let short = ISO8601DateFormatter()
-        short.formatOptions = [.withInternetDateTime]
         d.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()
             let s = try container.decode(String.self)
-            if let d = full.date(from: s) { return d }
-            if let d = short.date(from: s) { return d }
+            if let d = ESIDateParser.date(from: s) { return d }
+
             throw DecodingError.dataCorruptedError(in: container,
                 debugDescription: "Unrecognised date: \(s)")
         }

@@ -28,7 +28,7 @@ struct WalletTabView: View {
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 16)
-                .padding(.bottom, 40)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
             }
             if isLoading { ProgressView().tint(Color.eveCyan) }
         }
