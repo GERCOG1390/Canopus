@@ -77,6 +77,12 @@ public final class CharacterService {
         }
     }
 
+    public func allianceInfo(allianceId: Int) async throws -> ESIAllianceInfo {
+        try await cached("allianceInfo:\(allianceId)", ttl: 3_600) {
+            try await esiGetPublic("/alliances/\(allianceId)/", as: ESIAllianceInfo.self)
+        }
+    }
+
     // MARK: - Clones, Implants, Loyalty, Wallet Journal
 
     public func implants() async throws -> [Int] {

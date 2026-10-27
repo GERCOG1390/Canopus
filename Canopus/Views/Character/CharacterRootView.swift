@@ -32,6 +32,10 @@ struct CharacterRootView: View {
     @State private var totalSP: Int?
     @State private var charInfo: ESICharacterInfo?
     @State private var corpInfo: ESICorporationInfo?
+    @State private var allianceInfo: ESIAllianceInfo?
+    @State private var unallocatedSP: Int?
+    @State private var systemName: String?
+    @State private var systemSec: Double?
     @State private var ship: ESICurrentShip?
     @State private var shipTypeName: String?
     @State private var shipLocation: ShipLocationSummary?
@@ -50,25 +54,25 @@ struct CharacterRootView: View {
 
     var body: some View {
         ZStack {
-            Color.eveBackground.ignoresSafeArea()
+            C.bg.ignoresSafeArea()
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    headerRow
-                    if let e = activeEntry { trainingCard(e) }
-                    statRow
+                VStack(alignment: .leading, spacing: 12) {
+                    heroCard
+                    statGrid
                     alertsBlock
-                    hangarBlock
-                    commandBlock
+                    queueCard
+                    sectionsCard
                 }
-                .padding(.horizontal, 20)
-                .padding(.top, 10)
+                .padding(.horizontal, 16)
+                .padding(.top, 8)
                 .padding(.bottom, EVELayout.scrollBottomClearance)
             }
+            .refreshable { await load() }
 
             // Character switcher overlay
             if switcherOpen { switcherOverlay }
         }
-        .navigationTitle("")
+        .navigationTitle("Character")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { toolbarContent }
         .navigationDestination(for: Destination.self) { dest in
@@ -120,329 +124,274 @@ struct CharacterRootView: View {
         }
     }
 
-    // MARK: - Header
+    // MARK: - Hero (desktop .hero card)
 
-    private var headerRow: some View {
-        HStack(alignment: .center, spacing: 13) {
-            // Portrait
-            EVECharacterPortrait(characterId: charId, size: 46)
-                .clipShape(CutCorner(size: 9))
-                .overlay(CutCorner(size: 9).stroke(Color.white.opacity(0.14), lineWidth: 1))
+    private var heroCard: some View {
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .center, spacing: 14) {
+                EVECharacterPortrait(characterId: charId, size: 72)
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(C.lineStrong, lineWidth: 1))
 
-            // Name + corp
-            Button { withAnimation(.easeInOut(duration: 0.2)) { switcherOpen.toggle() } } label: {
-                VStack(alignment: .leading, spacing: 3) {
-                    HStack(spacing: 6) {
-                        Text(charName)
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(Color.eveText)
-                        Text("▾")
-                            .font(.system(size: 10))
-                            .foregroundStyle(Color.eveAmber)
+                VStack(alignment: .leading, spacing: 5) {
+                    Button {
+                        if env.characterStore.characters.count > 1 { withAnimation(.easeInOut(duration: 0.2)) { switcherOpen.toggle() } }
+                    } label: {
+                        HStack(spacing: 6) {
+                            Text(charName)
+                                .font(.display(21))
+                                .foregroundStyle(C.text)
+                                .lineLimit(1)
+                                .minimumScaleFactor(0.7)
+                            if env.characterStore.characters.count > 1 {
+                                Image(systemName: "chevron.down")
+                                    .font(.system(size: 11, weight: .semibold))
+                                    .foregroundStyle(C.accentText)
+                            }
+                        }
                     }
-                    Text(corpInfo?.name ?? "")
-                        .font(.system(size: 11.5))
-                        .foregroundStyle(Color.eveText.opacity(0.45))
-                        .lineLimit(1)
+                    .buttonStyle(.plain)
+
+                    if let info = charInfo {
+                        HStack(spacing: 6) {
+                            EVECorpLogo(corpId: info.corporationId, size: 18)
+                            Text(corpInfo?.name ?? "")
+                                .lineLimit(1)
+                            if let a = info.allianceId {
+                                Text("·").foregroundStyle(C.faint)
+                                EVEAllianceLogo(allianceId: a, size: 18)
+                                Text(allianceInfo?.name ?? "")
+                                    .lineLimit(1)
+                            }
+                        }
+                        .font(.ui(13))
+                        .foregroundStyle(C.text2)
+                    }
+
+                    HStack(spacing: 6) {
+                        if let sec = charInfo?.securityStatus {
+                            Text("Security status")
+                            Text(String(format: "%.2f", sec))
+                                .monospacedDigit()
+                                .foregroundStyle(sec < 0 ? C.bad : C.text2)
+                        }
+                        if let s = serverStatus {
+                            Text("·").foregroundStyle(C.faint)
+                            Circle().fill(C.good).frame(width: 6, height: 6)
+                            Text(s.players.formatted()).monospacedDigit()
+                        } else {
+                            Text("·").foregroundStyle(C.faint)
+                            Circle().fill(C.bad).frame(width: 6, height: 6)
+                            Text("Server offline").foregroundStyle(C.bad)
+                        }
+                    }
+                    .font(.ui(12))
+                    .foregroundStyle(C.muted)
                 }
+                Spacer(minLength: 0)
+            }
+
+            if let ship {
+                NavigationLink(value: Destination.activeShipFit) {
+                    HStack(spacing: 12) {
+                        EVERenderImage(typeId: ship.shipTypeId, size: 52)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(shipTypeName ?? "Ship")
+                                .font(.ui(15, .medium))
+                                .foregroundStyle(C.accentText)
+                            Text(ship.shipName)
+                                .font(.ui(13))
+                                .foregroundStyle(C.muted)
+                                .lineLimit(1)
+                        }
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(C.faint)
+                    }
+                    .padding(10)
+                    .background(C.card, in: EVECut(cut: 8))
+                    .overlay(EVECut(cut: 8).strokeBorder(C.border, lineWidth: 1))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            LinearGradient(colors: [C.accent.opacity(0.10), C.panel], startPoint: .topLeading, endPoint: UnitPoint(x: 0.6, y: 0.6)),
+            in: EVECut()
+        )
+        .background(C.panel, in: EVECut())
+        .overlay(EVECut().strokeBorder(C.border, lineWidth: 1))
+    }
+
+    // MARK: - Stats (desktop .stats-row)
+
+    private var queueEnd: Date? { skillQueue.compactMap(\.finishDate).max() }
+
+    private var statGrid: some View {
+        LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+            Button { switchToTab(.wallet) } label: {
+                StatTile(label: "Wallet", value: walletBalance.map { iskCompact($0) } ?? "—", sub: walletBalance.map { iskFull($0) })
             }
             .buttonStyle(.plain)
-
-            Spacer()
-
-            VStack(alignment: .trailing, spacing: 7) {
-                // Clone type badge
-                Text(charInfo?.securityStatus != nil ? "OMEGA" : "CAPSULEER")
-                    .font(.system(size: 7.5, weight: .bold))
-                    .tracking(1.4)
-                    .padding(.horizontal, 5).padding(.vertical, 3)
-                    .foregroundStyle(Color.eveAmber)
-                    .overlay(CutCorner(size: 3).stroke(Color.eveAmber.opacity(0.5), lineWidth: 1))
-
-                // Server status
-                if let s = serverStatus {
-                    HStack(spacing: 4) {
-                        Circle().fill(Color.eveGreen).frame(width: 5, height: 5)
-                        Text(s.players.formatted())
-                            .font(.system(size: 9, design: .monospaced))
-                            .foregroundStyle(Color.eveText.opacity(0.38))
-                    }
-                } else {
-                    HStack(spacing: 4) {
-                        Circle().fill(Color.eveRed).frame(width: 5, height: 5)
-                        Text("OFFLINE")
-                            .font(.system(size: 9, weight: .semibold))
-                            .tracking(1.0)
-                            .foregroundStyle(Color.eveRed.opacity(0.8))
-                    }
-                }
-            }
-        }
-        .padding(.bottom, 2)
-        .overlay(alignment: .bottom) {
-            Color.eveAmber.opacity(0.16).frame(height: 1)
-        }
-        .padding(.bottom, 14)
-    }
-
-    // MARK: - Training card
-
-    private func trainingCard(_ entry: SkillQueueEntry) -> some View {
-        Button { switchToTab(.skills) } label: {
-            VStack(alignment: .leading, spacing: 0) {
-                HStack {
-                    Text("NOW TRAINING")
-                        .font(.system(size: 9.5, weight: .semibold))
-                        .tracking(2.2)
-                        .textCase(.uppercase)
-                        .foregroundStyle(Color.eveCyan)
-                    Spacer()
-                    Text("\(skillQueue.count) IN QUEUE")
-                        .font(.system(size: 9.5, design: .monospaced))
-                        .tracking(1.0)
-                        .foregroundStyle(Color.eveText.opacity(0.38))
-                }
-
-                HStack(alignment: .firstTextBaseline, spacing: 9) {
-                    Text(entry.skillName ?? "Skill \(entry.skillId)")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundStyle(Color.eveText)
-                    Text(romanNumeral(entry.finishedLevel))
-                        .font(.system(size: 15, weight: .bold, design: .monospaced))
-                        .foregroundStyle(Color.eveAmber)
-                }
-                .padding(.top, 11)
-
-                GeometryReader { geo in
-                    ZStack(alignment: .leading) {
-                        Rectangle().fill(Color.white.opacity(0.08)).frame(height: 5)
-                        Rectangle().fill(Color.eveCyan).frame(width: geo.size.width * entry.progress, height: 5)
-                    }
-                }
-                .frame(height: 5)
-                .padding(.top, 13)
-
-                HStack {
-                    Text(entry.remainingText)
-                        .font(.system(size: 14, weight: .medium, design: .monospaced))
-                        .foregroundStyle(Color.eveText)
-                    Spacer()
-                    Text(String(format: "%.0f%%", entry.progress * 100))
-                        .font(.system(size: 11, design: .monospaced))
-                        .foregroundStyle(Color.eveText.opacity(0.38))
-                }
-                .padding(.top, 9)
-            }
-            .padding(14)
-            .eveCard(cut: 12, border: Color.eveCyan.opacity(0.28))
-        }
-        .buttonStyle(.plain)
-    }
-
-    // MARK: - Stat tiles
-
-    private var statRow: some View {
-        HStack(spacing: 10) {
-            Button { switchToTab(.wallet) } label: {
-                statTile(
-                    label: "WALLET",
-                    value: walletBalance.map(iskFormatted) ?? "—",
-                    sub: nil
+            StatTile(label: "Total SP", value: totalSP.map { $0.formatted() } ?? "—", sub: unallocatedSP.map { $0 > 0 ? String(localized: "Unallocated: \($0.formatted())") : nil } ?? nil)
+            StatTile(
+                label: "Location",
+                value: systemName ?? "—",
+                sub: shipLocation?.locationName ?? (systemName == nil ? nil : String(localized: "In space")),
+                valueColor: systemSec.map { C.sec($0) } ?? C.text
+            )
+            Button { switchToTab(.skills) } label: {
+                StatTile(
+                    label: "Skill queue",
+                    value: queueEnd.map { durationText(until: $0) } ?? String(localized: "empty"),
+                    sub: String(localized: "\(skillQueue.count) in queue"),
+                    valueColor: skillQueue.isEmpty ? C.warn : C.text
                 )
             }
             .buttonStyle(.plain)
-
-            statTile(
-                label: "SKILL POINTS",
-                value: totalSP.map(spFormatted) ?? "—",
-                sub: skillQueue.isEmpty ? "Queue empty" : "\(skillQueue.count) in queue"
-            )
         }
-    }
-
-    private func statTile(label: String, value: String, sub: String?) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text(LocalizedStringKey(label)).hudLabel()
-            Text(value)
-                .font(.system(size: 17, weight: .medium, design: .monospaced))
-                .foregroundStyle(Color.eveText)
-                .padding(.top, 8)
-            if let sub {
-                Text(sub)
-                    .font(.system(size: 10.5, design: .monospaced))
-                    .foregroundStyle(sub.lowercased().contains("empty")
-                                     ? Color.eveAmber.opacity(0.8)
-                                     : Color.eveText.opacity(0.38))
-                    .padding(.top, 5)
-            }
-        }
-        .padding(12)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .eveCard()
     }
 
     // MARK: - Alerts
 
     private struct EVEAlert {
-        let title: String
+        let title: LocalizedStringKey
         let subtitle: String
-        let value: String
         let color: Color
     }
 
     private var computedAlerts: [EVEAlert] {
         var a: [EVEAlert] = []
-        if skillQueue.isEmpty {
-            a.append(.init(title: "Skill queue empty",
-                           subtitle: charName, value: "NOW", color: .eveAmber))
-        } else if skillQueue.count == 1,
-                  let e = skillQueue.first, let f = e.finishDate,
-                  f.timeIntervalSinceNow < 86400 {
-            a.append(.init(title: "Queue ends soon",
-                           subtitle: e.skillName ?? "Last skill",
-                           value: e.remainingText, color: .eveCyan))
-        }
-        if serverStatus == nil {
-            a.append(.init(title: "Server offline",
-                           subtitle: "Tranquility", value: "OFFLINE", color: .eveRed))
+        if skillQueue.isEmpty, totalSP != nil {
+            a.append(.init(title: "The skill queue is empty — the character is not training anything!", subtitle: charName, color: C.warn))
+        } else if let end = queueEnd, end.timeIntervalSinceNow < 86_400 {
+            a.append(.init(title: "The skill queue ends in less than a day", subtitle: durationText(until: end), color: C.warn))
         }
         return a
     }
 
     @ViewBuilder
     private var alertsBlock: some View {
-        let alerts = computedAlerts
-        if !alerts.isEmpty {
-            VStack(alignment: .leading, spacing: 9) {
-                HStack {
-                    Text("ALERTS").hudLabel()
-                    Spacer()
-                    Text("\(alerts.count) ACTIVE")
-                        .font(.system(size: 8.5, weight: .bold))
-                        .tracking(1.2)
-                        .foregroundStyle(Color.eveAmber)
+        ForEach(Array(computedAlerts.enumerated()), id: \.offset) { _, alert in
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(alert.color)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(alert.title).font(.ui(14, .medium)).foregroundStyle(C.text)
+                    Text(alert.subtitle).font(.ui(12)).foregroundStyle(C.muted)
                 }
-                ForEach(Array(alerts.enumerated()), id: \.offset) { _, alert in
-                    alertRow(alert)
-                }
+                Spacer(minLength: 0)
             }
+            .padding(12)
+            .background(alert.color.opacity(0.10), in: RoundedRectangle(cornerRadius: 6))
+            .overlay(RoundedRectangle(cornerRadius: 6).strokeBorder(alert.color.opacity(0.45), lineWidth: 1))
         }
     }
 
-    private func alertRow(_ alert: EVEAlert) -> some View {
-        HStack(spacing: 11) {
-            VStack(alignment: .leading, spacing: 3) {
-                Text(alert.title)
-                    .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(Color.eveText)
-                Text(alert.subtitle)
-                    .font(.system(size: 10.5))
-                    .tracking(1.0)
-                    .textCase(.uppercase)
-                    .foregroundStyle(Color.eveText.opacity(0.42))
+    // MARK: - Training queue (desktop "Очередь обучения")
+
+    private var queueCard: some View {
+        Card(title: "Training queue", actions: {
+            if !skillQueue.isEmpty {
+                Button("All") { switchToTab(.skills) }.buttonStyle(.canopusSmall)
             }
-            Spacer()
-            Text(alert.value)
-                .font(.system(size: 12.5, weight: .medium, design: .monospaced))
-                .foregroundStyle(alert.color)
-        }
-        .padding(.horizontal, 13)
-        .padding(.vertical, 11)
-        .background(Color.eveCard)
-        .overlay(alignment: .leading) {
-            Rectangle().fill(alert.color).frame(width: 2)
-        }
-        .overlay(Rectangle().stroke(Color.white.opacity(0.07), lineWidth: 1))
-    }
-
-    // MARK: - Hangar
-
-    @ViewBuilder
-    private var hangarBlock: some View {
-        if let ship {
-            VStack(alignment: .leading, spacing: 9) {
-                Text("HANGAR").hudLabel()
-                NavigationLink(value: Destination.activeShipFit) {
-                    HStack(spacing: 13) {
-                        EVERenderImage(typeId: ship.shipTypeId, size: 44)
-                            .clipShape(CutCorner(size: 7))
-                            .overlay(CutCorner(size: 7).stroke(Color.white.opacity(0.10), lineWidth: 1))
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(ship.shipName)
-                                .font(.system(size: 13.5, weight: .medium))
-                                .foregroundStyle(Color.eveText)
+        }) {
+            if skillQueue.isEmpty {
+                Text("The queue is empty.")
+                    .font(.ui(14))
+                    .foregroundStyle(C.muted)
+            }
+            VStack(spacing: 10) {
+                ForEach(Array(skillQueue.prefix(6).enumerated()), id: \.element.id) { i, e in
+                    VStack(alignment: .leading, spacing: 6) {
+                        HStack(spacing: 6) {
+                            Text(e.skillName ?? "#\(e.skillId)")
+                                .font(.ui(14))
+                                .foregroundStyle(C.accentText)
                                 .lineLimit(1)
-                            Text((shipTypeName ?? "Ship") + " · Active ship")
-                                .font(.system(size: 10.5))
-                                .tracking(1.0)
-                                .textCase(.uppercase)
-                                .foregroundStyle(Color.eveGreen)
-                                .lineLimit(1)
-                            if let shipLocation {
-                                Text(shipLocation.displayText)
-                                    .font(.system(size: 10.5))
-                                    .foregroundStyle(Color.eveText.opacity(0.42))
-                                    .lineLimit(1)
-                            }
+                            Text(romanNumeral(e.finishedLevel))
+                                .font(.ui(14, .bold))
+                                .foregroundStyle(C.text)
+                            Spacer()
+                            Text(e.finishDate.map { durationText(until: $0) } ?? String(localized: "paused"))
+                                .font(.ui(13))
+                                .monospacedDigit()
+                                .foregroundStyle(C.muted)
                         }
-                        Spacer()
-                        Text("›")
-                            .font(.system(size: 18))
-                            .foregroundStyle(Color.eveText.opacity(0.3))
+                        if i == 0, e.isActive {
+                            GeometryReader { geo in
+                                ZStack(alignment: .leading) {
+                                    Capsule().fill(C.panel2)
+                                    Capsule().fill(C.accent).frame(width: geo.size.width * e.progress)
+                                }
+                            }
+                            .frame(height: 6)
+                        }
                     }
-                    .padding(13)
-                    .eveCard()
                 }
-                .buttonStyle(.plain)
+                if skillQueue.count > 6 {
+                    Text("+\(skillQueue.count - 6)")
+                        .font(.ui(12))
+                        .foregroundStyle(C.faint)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
             }
         }
     }
 
-    // MARK: - Command links
+    // MARK: - Sections
 
-    private var commandBlock: some View {
-        VStack(alignment: .leading, spacing: 9) {
-            Text("COMMAND").hudLabel()
-
-            let links: [(String, String, Destination)] = [
-                ("Character Sheet",  "person.text.rectangle.fill",   .characterSheet),
-                ("Wealth Overview",  "chart.pie.fill",                .wealth),
-                ("EVE Mail",          "envelope.fill",                 .mail),
-                ("Transactions",      "arrow.left.arrow.right",        .transactions),
-                ("Mining Ledger",     "cube.fill",                     .mining),
-                ("Fittings",          "wrench.and.screwdriver.fill",   .fittings),
-                ("Kill Board",        "xmark.shield.fill",             .killboard),
-                ("Clone & Implants",  "brain.head.profile",            .clone),
-                ("Loyalty Points",   "star.circle.fill",              .loyalty),
-                ("Wallet Journal",   "creditcard.and.123",            .journal),
-                ("Industry Jobs",    "hammer.fill",                   .industry),
-                ("Market Orders",    "chart.line.uptrend.xyaxis",     .orders),
-                ("Contracts",        "doc.richtext.fill",             .contracts),
-            ]
-
-            ForEach(links, id: \.0) { title, icon, dest in
-                NavigationLink(value: dest) {
-                    HStack(spacing: 12) {
-                        Image(systemName: icon)
-                            .font(.system(size: 13))
-                            .foregroundStyle(Color.eveAmber)
-                            .frame(width: 20)
-                        Text(LocalizedStringKey(title))
-                            .font(.system(size: 13.5, weight: .medium))
-                            .foregroundStyle(Color.eveText)
-                        Spacer()
-                        Text("›")
-                            .font(.system(size: 16))
-                            .foregroundStyle(Color.eveText.opacity(0.28))
+    private var sectionsCard: some View {
+        let links: [(String, String, Destination)] = [
+            ("Character Sheet", "person.text.rectangle", .characterSheet),
+            ("Wealth Overview", "chart.pie", .wealth),
+            ("EVE Mail", "envelope", .mail),
+            ("Clone & Implants", "brain.head.profile", .clone),
+            ("Fittings", "hexagon", .fittings),
+            ("Kill Board", "scope", .killboard),
+            ("Wallet Journal", "creditcard", .journal),
+            ("Transactions", "arrow.left.arrow.right", .transactions),
+            ("Market Orders", "chart.line.uptrend.xyaxis", .orders),
+            ("Industry Jobs", "gearshape.2", .industry),
+            ("Mining Ledger", "cube", .mining),
+            ("Loyalty Points", "seal", .loyalty),
+            ("Contracts", "doc.text", .contracts),
+        ]
+        return VStack(alignment: .leading, spacing: 10) {
+            SectionLabel("Sections")
+            VStack(spacing: 0) {
+                ForEach(links, id: \.0) { title, icon, dest in
+                    NavigationLink(value: dest) {
+                        HStack(spacing: 14) {
+                            Image(systemName: icon)
+                                .font(.system(size: 15))
+                                .foregroundStyle(C.accentText)
+                                .frame(width: 22)
+                            Text(LocalizedStringKey(title))
+                                .font(.ui(15))
+                                .foregroundStyle(C.text)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(C.faint)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .contentShape(Rectangle())
                     }
-                    .padding(.horizontal, 13)
-                    .padding(.vertical, 11)
-                    .eveCard()
+                    .buttonStyle(.plain)
+                    if title != links.last?.0 {
+                        Rectangle().fill(C.border).frame(height: 1).padding(.leading, 52)
+                    }
                 }
-                .buttonStyle(.plain)
             }
+            .canopusSurface(padding: nil)
         }
+        .padding(.top, 4)
     }
 
     // MARK: - Character switcher overlay
@@ -535,8 +484,11 @@ struct CharacterRootView: View {
             charInfo = info
             walletBalance = balance
             totalSP = skillsResp.totalSp
+            unallocatedSP = skillsResp.unallocatedSp
             ship = shipInfo
             corpInfo = try? await service.corporationInfo(corpId: info.corporationId)
+            allianceInfo = nil
+            if let a = info.allianceId { allianceInfo = try? await service.allianceInfo(allianceId: a) }
             shipLocation = nil
 
             if let repo = env.repository {
@@ -548,6 +500,9 @@ struct CharacterRootView: View {
 
             if let location = try? await service.location() {
                 shipLocation = await resolveShipLocation(location, service: service)
+                let sys = try? await service.systemInfo(id: location.solarSystemId)
+                systemName = sys?.name
+                systemSec = sys?.securityStatus
             }
 
             let active = skillQueue.first(where: \.isActive)
@@ -649,16 +604,28 @@ struct CharacterRootView: View {
 
     // MARK: - Formatting
 
-    private func iskFormatted(_ v: Double) -> String {
-        if v >= 1_000_000_000 { return String(format: "%.2f B", v / 1_000_000_000) }
-        if v >= 1_000_000     { return String(format: "%.2f M", v / 1_000_000) }
-        return String(format: "%.0f", v)
+    /// "12.28B ISK" as the desktop's compact ISK.
+    private func iskCompact(_ v: Double) -> String {
+        let a = abs(v)
+        if a >= 1e12 { return String(format: "%.2fT ISK", v / 1e12) }
+        if a >= 1e9 { return String(format: "%.2fB ISK", v / 1e9) }
+        if a >= 1e6 { return String(format: "%.2fM ISK", v / 1e6) }
+        if a >= 1e3 { return String(format: "%.1fK ISK", v / 1e3) }
+        return String(format: "%.2f ISK", v)
     }
 
-    private func spFormatted(_ v: Int) -> String {
-        if v >= 1_000_000 { return String(format: "%.1f M", Double(v) / 1_000_000) }
-        if v >= 1_000     { return String(format: "%.0f K", Double(v) / 1_000) }
-        return "\(v)"
+    private func iskFull(_ v: Double) -> String {
+        v.formatted(.number.precision(.fractionLength(2))) + " ISK"
+    }
+
+    /// "5д 21ч" / "5d 21h": time left until a date.
+    private func durationText(until date: Date) -> String {
+        let r = max(0, date.timeIntervalSinceNow)
+        let f = DateComponentsFormatter()
+        f.allowedUnits = r >= 86_400 ? [.day, .hour] : r >= 3_600 ? [.hour, .minute] : [.minute, .second]
+        f.unitsStyle = .abbreviated
+        f.maximumUnitCount = 2
+        return f.string(from: r) ?? "—"
     }
 
     private func romanNumeral(_ n: Int) -> String {

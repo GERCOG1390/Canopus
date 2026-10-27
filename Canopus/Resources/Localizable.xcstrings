@@ -106,6 +106,16 @@
         }
       }
     },
+    "%lld in queue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld в очереди"
+          }
+        }
+      }
+    },
     "%lld items": {
       "localizations": {
         "ru": {
@@ -167,6 +177,7 @@
         }
       }
     },
+    "+%lld": {},
     "30-DAY TOTAL": {
       "localizations": {
         "ru": {
@@ -369,6 +380,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте навыки в очередь в EVE Online."
+          }
+        }
+      }
+    },
+    "All": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все"
           }
         }
       }
@@ -1429,6 +1450,16 @@
         }
       }
     },
+    "In space": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В космосе"
+          }
+        }
+      }
+    },
     "Includes skills & module bonuses; boosters/environment not included": {
       "localizations": {
         "ru": {
@@ -1455,6 +1486,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Индустрия"
+          }
+        }
+      }
+    },
+    "Industry Jobs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Производство"
           }
         }
       }
@@ -1658,6 +1699,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверка Local и d-scan, поиск пилотов и живой радар убийств — как в десктопной версии."
+          }
+        }
+      }
+    },
+    "Location": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Местоположение"
           }
         }
       }
@@ -2944,6 +2995,26 @@
         }
       }
     },
+    "Sections": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разделы"
+          }
+        }
+      }
+    },
+    "Security status": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Статус безопасности"
+          }
+        }
+      }
+    },
     "Select": {
       "localizations": {
         "ru": {
@@ -3070,6 +3141,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Навыки этого персонажа ещё не загружены."
+          }
+        }
+      }
+    },
+    "Skill queue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь навыков"
           }
         }
       }
@@ -3254,6 +3335,36 @@
         }
       }
     },
+    "The queue is empty.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь пуста."
+          }
+        }
+      }
+    },
+    "The skill queue ends in less than a day": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь навыков закончится меньше чем через сутки"
+          }
+        }
+      }
+    },
+    "The skill queue is empty — the character is not training anything!": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь пуста — персонаж ничего не изучает!"
+          }
+        }
+      }
+    },
     "This corporation has no public LP store offers.": {
       "localizations": {
         "ru": {
@@ -3284,12 +3395,42 @@
         }
       }
     },
+    "Total SP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всего SP"
+          }
+        }
+      }
+    },
+    "Training queue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь обучения"
+          }
+        }
+      }
+    },
     "Transactions": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Сделки"
+          }
+        }
+      }
+    },
+    "Unallocated: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нераспределено: %@"
           }
         }
       }
@@ -3437,6 +3578,16 @@
     "[%@]": {
       "shouldTranslate": false
     },
+    "empty": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "пусто"
+          }
+        }
+      }
+    },
     "ends %@": {
       "localizations": {
         "ru": {
@@ -3448,6 +3599,16 @@
       }
     },
     "https://example.com/manifest.json": {},
+    "paused": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "на паузе"
+          }
+        }
+      }
+    },
     "remaining": {
       "localizations": {
         "ru": {
