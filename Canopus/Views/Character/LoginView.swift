@@ -70,7 +70,7 @@ struct LoginView: View {
         } catch AuthError.cancelled {
             // auth cancelled — no error shown
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

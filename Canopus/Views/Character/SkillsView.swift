@@ -265,7 +265,7 @@ struct SkillsView: View {
             }
             .sorted { $0.name < $1.name }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

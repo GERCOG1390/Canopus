@@ -374,6 +374,16 @@
         }
       }
     },
+    "Active clone: implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активный клон: импланты"
+          }
+        }
+      }
+    },
     "Add": {
       "localizations": {
         "ru": {
@@ -450,6 +460,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "На V уровне"
+          }
+        }
+      }
+    },
+    "Attribute": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Атрибут"
+          }
+        }
+      }
+    },
+    "Attributes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Атрибуты"
           }
         }
       }
@@ -571,6 +601,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Баланс"
+          }
+        }
+      }
+    },
+    "Base": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "База"
           }
         }
       }
@@ -817,6 +857,16 @@
         }
       }
     },
+    "Charisma": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Харизма"
+          }
+        }
+      }
+    },
     "Check": {
       "localizations": {
         "ru": {
@@ -873,6 +923,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Состояние клона"
+          }
+        }
+      }
+    },
+    "Clone jump": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжок клона"
           }
         }
       }
@@ -1437,6 +1497,16 @@
         }
       }
     },
+    "Free remaps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бесплатных ремапов"
+          }
+        }
+      }
+    },
     "Game database (SDE)": {
       "localizations": {
         "ru": {
@@ -1500,6 +1570,16 @@
       }
     },
     "Home Station": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Домашняя станция"
+          }
+        }
+      }
+    },
+    "Home station": {
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1740,6 +1820,16 @@
         }
       }
     },
+    "Intelligence": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Интеллект"
+          }
+        }
+      }
+    },
     "Interface language follows the iPhone settings. Change it for Canopus only in Settings → Canopus → Language.": {
       "localizations": {
         "ru": {
@@ -1766,6 +1856,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Плата за джамп-мост"
+          }
+        }
+      }
+    },
+    "Jump clones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Джамп-клонов"
           }
         }
       }
@@ -1923,6 +2023,16 @@
         }
       }
     },
+    "Last remap: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последнее перераспределение: %@"
+          }
+        }
+      }
+    },
     "Latest Version": {
       "localizations": {
         "ru": {
@@ -1968,7 +2078,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Место %lld"
+            "value": "Локация %lld"
           }
         }
       }
@@ -2189,6 +2299,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Масса"
+          }
+        }
+      }
+    },
+    "Memory": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Память"
           }
         }
       }
@@ -2503,6 +2623,16 @@
         }
       }
     },
+    "No attribute data": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет данных об атрибутах"
+          }
+        }
+      }
+    },
     "No compatible modules": {
       "localizations": {
         "ru": {
@@ -2553,6 +2683,16 @@
         }
       }
     },
+    "No implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имплантов нет"
+          }
+        }
+      }
+    },
     "No implants installed.": {
       "localizations": {
         "ru": {
@@ -2579,6 +2719,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В этой группе нет предметов"
+          }
+        }
+      }
+    },
+    "No jump clones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Джамп-клонов нет"
           }
         }
       }
@@ -2819,6 +2969,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Приостановлено"
+          }
+        }
+      }
+    },
+    "Perception": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восприятие"
           }
         }
       }
@@ -3766,6 +3926,16 @@
         }
       }
     },
+    "Total": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Итого"
+          }
+        }
+      }
+    },
     "Total LP": {
       "localizations": {
         "ru": {
@@ -3966,6 +4136,16 @@
         }
       }
     },
+    "Willpower": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сила воли"
+          }
+        }
+      }
+    },
     "Your contracts will appear here.": {
       "localizations": {
         "ru": {
@@ -3999,6 +4179,26 @@
     "[%@]": {
       "shouldTranslate": false
     },
+    "available": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "доступен"
+          }
+        }
+      }
+    },
+    "changed: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "сменена: %@"
+          }
+        }
+      }
+    },
     "empty": {
       "localizations": {
         "ru": {
@@ -4020,6 +4220,36 @@
       }
     },
     "https://example.com/manifest.json": {},
+    "last: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "последний: %@"
+          }
+        }
+      }
+    },
+    "next: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "следующее: %@"
+          }
+        }
+      }
+    },
+    "no implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "без имплантов"
+          }
+        }
+      }
+    },
     "paused": {
       "localizations": {
         "ru": {

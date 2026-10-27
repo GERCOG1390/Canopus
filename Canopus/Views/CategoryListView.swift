@@ -50,7 +50,7 @@ struct CategoryListView: View {
             async let icons = repo.representativeTypeIdsByCategory()
             (categories, iconTypeIds) = try await (cats, icons)
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

@@ -85,7 +85,7 @@ struct TypeListView: View {
         do {
             types = try await repo.types(groupId: group.id)
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

@@ -43,7 +43,7 @@ struct SearchResultsView: View {
         } catch is CancellationError {
             // new search cancelled this task — ignore
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

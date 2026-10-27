@@ -90,7 +90,7 @@ struct LoyaltyPointsView: View {
                 for r in resolved { corpNames[r.id] = r.name }
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }
@@ -189,7 +189,7 @@ private struct LoyaltyPointStoreView: View {
                 typesById = try await repository.types(ids: typeIds)
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

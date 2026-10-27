@@ -199,7 +199,7 @@ struct MailView: View {
 
             await resolveNames(in: headers)
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 
@@ -215,7 +215,7 @@ struct MailView: View {
             hasMore = !more.isEmpty && more.count % 50 == 0
             await resolveNames(in: newMails)
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

@@ -159,7 +159,7 @@ struct WalletTabView: View {
             balance = bal
             entries = journal.sorted { $0.date > $1.date }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

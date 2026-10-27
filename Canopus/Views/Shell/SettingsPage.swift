@@ -138,7 +138,7 @@ struct SettingsPage: View {
         } catch let e as ASWebAuthenticationSessionError where e.code == .canceledLogin {
         } catch AuthError.cancelled {
         } catch {
-            self.error = error.localizedDescription
+            if !error.isCancellation { self.error = error.localizedDescription }
         }
     }
 }

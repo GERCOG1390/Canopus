@@ -52,7 +52,7 @@ struct WalletJournalView: View {
             let raw = try await characterService.walletJournal()
             entries = raw.sorted { $0.date > $1.date }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

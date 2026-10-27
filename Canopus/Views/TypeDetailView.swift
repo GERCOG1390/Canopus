@@ -487,7 +487,7 @@ struct TypeDetailView: View {
                 return result.sorted { $0.2 < $1.2 }
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

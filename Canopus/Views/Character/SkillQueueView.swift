@@ -172,7 +172,7 @@ struct SkillQueueView: View {
                 entries = raw.map { makeEntry($0) }
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

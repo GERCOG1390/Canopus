@@ -63,7 +63,7 @@ struct ContractsView: View {
         do {
             contracts = try await characterService.contracts()
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

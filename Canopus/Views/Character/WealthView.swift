@@ -269,7 +269,7 @@ struct WealthView: View {
             pricesMissing = assets.contains { (priceMap[$0.typeId] ?? 0) == 0 }
                          || implants.contains { (priceMap[$0] ?? 0) == 0 }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

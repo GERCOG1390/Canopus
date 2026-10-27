@@ -3386,7 +3386,7 @@ private struct ModulePickerView: View {
             profiles = profileMap
             catalogSections = makeSections(from: compatibleEntries)
         } catch {
-            errorMessage = error.localizedDescription
+            if !error.isCancellation { errorMessage = error.localizedDescription }
             catalogSections = []
         }
     }
@@ -3486,7 +3486,7 @@ private struct ModulePickerView: View {
                 }
                 .sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending }
         } catch {
-            errorMessage = error.localizedDescription
+            if !error.isCancellation { errorMessage = error.localizedDescription }
             searchResults = []
             profiles = [:]
         }
@@ -3598,7 +3598,7 @@ private struct FitImportSheet: View {
             let parsed = try await parseEFT(text, repo: repo)
             onImport(parsed.fit, parsed.names)
         } catch {
-            self.error = error.localizedDescription
+            if !error.isCancellation { self.error = error.localizedDescription }
         }
     }
 

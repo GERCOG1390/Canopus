@@ -75,7 +75,7 @@ struct GroupListView: View {
                 (groups, iconTypeIds) = try await (grps, icons)
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

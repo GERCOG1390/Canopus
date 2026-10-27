@@ -217,7 +217,7 @@ struct AssetsView: View {
             let refineIds = topTypeIdsForJitaRefinement(from: groups, limit: jitaRefinementLimit)
             Task { await refineJitaPrices(typeIds: refineIds) }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

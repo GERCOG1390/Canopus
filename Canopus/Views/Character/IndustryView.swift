@@ -84,7 +84,7 @@ struct IndustryView: View {
                 for (id, t) in map { typeNames[id] = t.name }
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 }

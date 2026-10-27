@@ -107,7 +107,7 @@ struct MarketGroupListView: View {
             async let icons = repo.representativeTypeIdsByMarketGroup()
             (children, types, iconTypeIds) = try await (childGroups, directTypes, icons)
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

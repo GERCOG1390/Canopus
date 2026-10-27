@@ -194,8 +194,10 @@ struct SectionLabel<Trailing: View>: View {
                 .tracking(1.8)
                 .textCase(.uppercase)
                 .foregroundStyle(C.muted)
-                .lineLimit(1)
-            Rectangle().fill(C.border).frame(height: 1)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+                .layoutPriority(1)
+            Rectangle().fill(C.border).frame(height: 1).frame(minWidth: 12)
             trailing()
         }
     }
@@ -251,6 +253,7 @@ struct StatTile: View {
                 .textCase(.uppercase)
                 .foregroundStyle(C.muted)
                 .lineLimit(1)
+                .minimumScaleFactor(0.7)
             Text(value)
                 .font(.display(22))
                 .monospacedDigit()
@@ -418,5 +421,15 @@ enum Fmt {
         f.unitsStyle = .abbreviated
         f.maximumUnitCount = 2
         return f.string(from: r) ?? "—"
+    }
+}
+
+extension Error {
+    /// A request dropped because the screen reloaded or went away: not something to show the pilot.
+    var isCancellation: Bool {
+        if self is CancellationError { return true }
+        if let u = self as? URLError, u.code == .cancelled { return true }
+        let ns = self as NSError
+        return ns.domain == NSURLErrorDomain && ns.code == NSURLErrorCancelled
     }
 }

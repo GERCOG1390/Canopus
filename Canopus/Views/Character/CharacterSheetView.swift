@@ -398,7 +398,7 @@ struct CharacterSheetView: View {
                 }
             }
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 

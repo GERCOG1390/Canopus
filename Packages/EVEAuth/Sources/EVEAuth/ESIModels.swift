@@ -146,6 +146,16 @@ public struct ESIClonesInfo: Decodable, Sendable {
     public let homeLocation: ESIHomeLocation?
     public let lastCloneJumpDate: Date?
     public let lastStationChangeDate: Date?
+    public let jumpClones: [ESIJumpClone]?
+}
+
+public struct ESIJumpClone: Decodable, Sendable, Identifiable {
+    public var id: Int { jumpCloneId }
+    public let jumpCloneId: Int
+    public let locationId: Int
+    public let locationType: String
+    public let implants: [Int]
+    public let name: String?
 }
 
 public struct ESIHomeLocation: Decodable, Sendable {

@@ -509,7 +509,7 @@ struct CharacterRootView: View {
             saveWidgetData(service: service, activeEntry: active)
             await scheduleSkillNotification(entry: active, characterName: charName)
         } catch {
-            self.error = error
+            if !error.isCancellation { self.error = error }
         }
     }
 
