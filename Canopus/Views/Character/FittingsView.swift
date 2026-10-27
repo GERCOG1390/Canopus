@@ -315,7 +315,7 @@ struct FittingsView: View {
                 FitDetailView(fit: route.fit, typeNames: route.typeNames, characterService: characterService)
             }
         }
-        .task { await load() }
+        .task(id: env.dataKey) { await load() }
         .alert("Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
         ) {
@@ -1050,7 +1050,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 dismissButton: .default(Text("OK"))
             )
         }
-        .task { await initialLoad() }
+        .task(id: env.repositoryVersion) { await initialLoad() }
         .onChange(of: configs) { _, _ in
             guard skillsReady else { return }
             scheduleFitRefresh()

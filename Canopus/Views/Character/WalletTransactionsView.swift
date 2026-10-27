@@ -42,7 +42,7 @@ struct WalletTransactionsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.eveBackground, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
-        .task { await load() }
+        .task(id: env.repositoryVersion) { await load() }
         .alert("Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
         ) {

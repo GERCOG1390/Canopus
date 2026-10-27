@@ -41,7 +41,7 @@ struct SkillQueueView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.eveBackground, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
-        .task(id: env.characterStore.selectedId) { await load() }
+        .task(id: env.dataKey) { await load() }
         .alert("Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
         ) {

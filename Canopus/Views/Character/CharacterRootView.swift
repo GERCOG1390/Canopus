@@ -78,7 +78,7 @@ struct CharacterRootView: View {
         .navigationDestination(for: Destination.self) { dest in
             destinationView(for: dest)
         }
-        .task(id: env.characterStore.selectedId) { await load() }
+        .task(id: env.dataKey) { await load() }
         .alert("Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
         ) {

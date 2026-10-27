@@ -62,7 +62,7 @@ struct MarketGroupListView: View {
                 ContentUnavailableView("No items in this group", systemImage: "tray")
             }
         }
-        .task { await load() }
+        .task(id: env.repositoryVersion) { await load() }
         .alert("Error", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
             Button("OK", role: .cancel) {}
         } message: {

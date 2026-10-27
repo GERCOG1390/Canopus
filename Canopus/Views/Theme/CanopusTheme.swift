@@ -371,3 +371,19 @@ struct Pill: View {
             .background(filled ? color : color.opacity(0.16), in: RoundedRectangle(cornerRadius: 3))
     }
 }
+
+/// Skill level as five squares, filled up to the trained level (the desktop's LevelPips).
+struct LevelPips: View {
+    let level: Int
+
+    var body: some View {
+        HStack(spacing: 3) {
+            ForEach(1...5, id: \.self) { i in
+                RoundedRectangle(cornerRadius: 1.5)
+                    .fill(i <= level ? (level == 5 ? C.accent : C.text2) : C.panel2)
+                    .overlay(RoundedRectangle(cornerRadius: 1.5).strokeBorder(i <= level ? .clear : C.lineStrong, lineWidth: 1))
+                    .frame(width: 9, height: 9)
+            }
+        }
+    }
+}

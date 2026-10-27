@@ -10,7 +10,15 @@ final class AppEnvironment {
     }
 
     private(set) var loadState: LoadState = .idle
-    private(set) var repository: SDERepository?
+    private(set) var repository: SDERepository? {
+        didSet { repositoryVersion += 1 }
+    }
+    /// Changes whenever the SDE database opens or is replaced (after an update).
+    private(set) var repositoryVersion = 0
+
+    /// Task id for screens that read the active character and the SDE: they reload when either changes,
+    /// including when the database finishes opening after the screen appeared.
+    var dataKey: String { "\(characterStore.selectedId ?? 0)-\(repositoryVersion)" }
 
     var showSDEUpdateSheet: Bool = false
 

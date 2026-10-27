@@ -129,7 +129,13 @@ struct RootShell: View {
         }
         .background(C.bg)
         .animation(.easeInOut(duration: 0.25), value: env.showSDEUpdateSheet)
-        .task { env.loadIfNeeded() }
+        .task {
+            env.loadIfNeeded()
+            #if DEBUG
+            // Debug builds: `-startPage skills` opens a page at launch (screenshots, UI checks).
+            if let p = UserDefaults.standard.string(forKey: "startPage").flatMap(Page.init(rawValue:)) { open(p) }
+            #endif
+        }
     }
 
     // iPhone: one tab per section.

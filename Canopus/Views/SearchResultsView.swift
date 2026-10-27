@@ -27,7 +27,7 @@ struct SearchResultsView: View {
                 ContentUnavailableView.search(text: query)
             }
         }
-        .task(id: query) {
+        .task(id: "\(query)-\(env.repositoryVersion)") {
             await search(query: query)
         }
     }

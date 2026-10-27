@@ -200,7 +200,7 @@ struct TypeDetailView: View {
                 ProgressView()
             }
         }
-        .task { await load() }
+        .task(id: env.repositoryVersion) { await load() }
         .alert("Error", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
             Button("OK", role: .cancel) {}
         } message: { Text(error?.localizedDescription ?? "") }

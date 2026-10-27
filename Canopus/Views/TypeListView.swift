@@ -44,7 +44,7 @@ struct TypeListView: View {
                 ContentUnavailableView("No types in this group", systemImage: "tray")
             }
         }
-        .task {
+        .task(id: env.repositoryVersion) {
             await load()
         }
         .alert("Error", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
