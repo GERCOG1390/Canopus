@@ -78,29 +78,29 @@ private struct ContractRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(contract.title?.isEmpty == false ? contract.title! : typeLabel)
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                     .lineLimit(1)
 
                 HStack(spacing: 8) {
                     Text(typeLabel)
-                        .font(.caption)
+                        .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.secondary)
                     if let value = displayValue {
                         Text(value)
-                            .font(.caption.monospacedDigit())
+                            .font(.ui(12, .regular, relativeTo: .caption)).monospacedDigit()
                             .foregroundStyle(.secondary)
                     }
                 }
 
                 HStack(spacing: 4) {
                     Text(statusLabel)
-                        .font(.caption2)
+                        .font(.ui(11, .regular, relativeTo: .caption2))
                         .foregroundStyle(statusColor)
                     Text("·")
-                        .font(.caption2)
+                        .font(.ui(11, .regular, relativeTo: .caption2))
                         .foregroundStyle(.tertiary)
                     Text(expiryText)
-                        .font(.caption2)
+                        .font(.ui(11, .regular, relativeTo: .caption2))
                         .foregroundStyle(.tertiary)
                 }
 
@@ -116,7 +116,7 @@ private struct ContractRow: View {
                         Text(String(format: "%.1f m3", volume))
                     }
                 }
-                .font(.caption2)
+                .font(.ui(11, .regular, relativeTo: .caption2))
                 .foregroundStyle(.tertiary)
             }
 
@@ -127,7 +127,7 @@ private struct ContractRow: View {
 
     private var typeIcon: some View {
         Image(systemName: typeSystemImage)
-            .font(.system(size: 16))
+            .font(.ui(17))
             .foregroundStyle(typeColor)
             .frame(width: 36, height: 36)
             .background(typeColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))

@@ -25,7 +25,7 @@ struct CategoryListView: View {
                     env.showSDEUpdateSheet = true
                 } label: {
                     Image(systemName: "arrow.down.circle")
-                        .font(.system(size: 16))
+                        .font(.ui(17))
                         .foregroundStyle(Color.eveCyan)
                 }
             }

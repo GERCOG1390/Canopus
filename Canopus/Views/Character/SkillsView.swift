@@ -160,7 +160,7 @@ struct SkillsView: View {
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.ui(12, .semibold))
                     .foregroundStyle(C.faint)
             }
             Text("\(group.skills.count) skills · \(formatSP(group.totalSP)) SP")
@@ -189,7 +189,7 @@ struct SkillsView: View {
     private var emptyState: some View {
         VStack(spacing: 12) {
             Image(systemName: "magnifyingglass")
-                .font(.system(size: 28))
+                .font(.ui(29))
                 .foregroundStyle(Color.eveText.opacity(0.22))
             Text("No matching skills")
                 .font(.ui(14))

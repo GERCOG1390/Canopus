@@ -22,7 +22,7 @@ public struct SDEUpdateView: View {
                 // Header
                 HStack {
                     Text("SDE Update Details")
-                        .font(.system(size: 20, weight: .bold))
+                        .font(.ui(21, .bold))
                         .foregroundStyle(Color.eveText)
 
                     Spacer()
@@ -33,7 +33,7 @@ public struct SDEUpdateView: View {
                         }
                     } label: {
                         Image(systemName: showSettings ? "gearshape.fill" : "gearshape")
-                            .font(.system(size: 16))
+                            .font(.ui(17))
                             .foregroundStyle(showSettings ? Color.eveAmber : Color.eveText.opacity(0.6))
                     }
                     .buttonStyle(.plain)
@@ -45,7 +45,7 @@ public struct SDEUpdateView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack {
                             Text("MANIFEST URL")
-                                .font(.system(size: 10, weight: .bold, design: .monospaced))
+                                .font(.ui(11, .bold)).monospacedDigit()
                                 .foregroundStyle(Color.eveText.opacity(0.5))
 
                             Spacer()
@@ -55,7 +55,7 @@ public struct SDEUpdateView: View {
                                 manifestURLString = env.sdeUpdates.manifestURLString
                                 Task { await env.sdeUpdates.checkForUpdates() }
                             }
-                            .font(.system(size: 10, weight: .semibold))
+                            .font(.ui(11, .semibold))
                             .foregroundStyle(Color.eveCyan)
                         }
 
@@ -64,7 +64,7 @@ public struct SDEUpdateView: View {
                                 .textInputAutocapitalization(.never)
                                 .autocorrectionDisabled()
                                 .keyboardType(.URL)
-                                .font(.system(size: 12, design: .monospaced))
+                                .font(.ui(13)).monospacedDigit()
                                 .padding(10)
                                 .foregroundStyle(Color.eveText)
                                 .background(Color.black.opacity(0.3))
@@ -74,7 +74,7 @@ public struct SDEUpdateView: View {
                                 env.sdeUpdates.manifestURLString = manifestURLString
                                 Task { await env.sdeUpdates.checkForUpdates() }
                             }
-                            .font(.system(size: 12, weight: .semibold))
+                            .font(.ui(13, .semibold))
                             .padding(.horizontal, 14)
                             .padding(.vertical, 10)
                             .background(Color.eveAmber)
@@ -91,7 +91,7 @@ public struct SDEUpdateView: View {
                 // SDE Data Package Card
                 VStack(alignment: .leading, spacing: 12) {
                     Text("SDE Data Package")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.ui(15, .semibold))
                         .foregroundStyle(Color.eveText.opacity(0.85))
 
                     VStack(spacing: 10) {
@@ -115,7 +115,7 @@ public struct SDEUpdateView: View {
                 // Icon / Schema Package Card
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Icon & Schema Package")
-                        .font(.system(size: 14, weight: .semibold))
+                        .font(.ui(15, .semibold))
                         .foregroundStyle(Color.eveText.opacity(0.85))
 
                     VStack(spacing: 10) {
@@ -151,7 +151,7 @@ public struct SDEUpdateView: View {
                         }
                         if let statusMessage {
                             Text(statusMessage)
-                                .font(.system(size: 12, design: .monospaced))
+                                .font(.ui(13)).monospacedDigit()
                                 .foregroundStyle(statusColor)
                                 .multilineTextAlignment(.center)
                         }
@@ -180,7 +180,7 @@ public struct SDEUpdateView: View {
                                     .padding(.trailing, 6)
                             }
                             Text(updateButtonTitle)
-                                .font(.system(size: 16, weight: .semibold))
+                                .font(.ui(17, .semibold))
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 48)
@@ -194,7 +194,7 @@ public struct SDEUpdateView: View {
                         closeView()
                     } label: {
                         Text("Dismiss")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.ui(17, .semibold))
                             .frame(maxWidth: .infinity)
                             .frame(height: 48)
                             .background(Color.white.opacity(0.12))
@@ -239,7 +239,7 @@ public struct SDEUpdateView: View {
     private func whatsNewCard(_ changelog: SDEChangelog) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("What's New")
-                .font(.system(size: 14, weight: .semibold))
+                .font(.ui(15, .semibold))
                 .foregroundStyle(Color.eveText.opacity(0.85))
 
             VStack(alignment: .leading, spacing: 8) {
@@ -251,7 +251,7 @@ public struct SDEUpdateView: View {
                     + changelog.dogmaAttributesChanged + changelog.dogmaEffectsChanged
                 if structuralChanges > 0 {
                     Text("+ \(structuralChanges) internal attribute/category updates")
-                        .font(.system(size: 10.5))
+                        .font(.ui(11.5))
                         .foregroundStyle(Color.eveText.opacity(0.4))
                 }
             }
@@ -266,10 +266,10 @@ public struct SDEUpdateView: View {
         if count > 0 {
             VStack(alignment: .leading, spacing: 4) {
                 Text("\(label) (\(count))")
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .font(.ui(11, .bold)).monospacedDigit()
                     .foregroundStyle(color)
                 Text(itemsPreview(items, totalCount: count))
-                    .font(.system(size: 12))
+                    .font(.ui(13))
                     .foregroundStyle(Color.eveText.opacity(0.8))
                     .lineLimit(3)
             }
@@ -288,11 +288,11 @@ public struct SDEUpdateView: View {
     private func versionRow(label: String, value: String, isHighlight: Bool) -> some View {
         HStack {
             Text(LocalizedStringKey(label))
-                .font(.system(size: 14))
+                .font(.ui(15))
                 .foregroundStyle(Color.eveText.opacity(0.6))
             Spacer()
             Text(value)
-                .font(.system(size: 15, weight: .semibold, design: .monospaced))
+                .font(.ui(16, .semibold)).monospacedDigit()
                 .foregroundStyle(isHighlight ? Color(hue: 0.08, saturation: 0.85, brightness: 0.95) : Color.eveText)
         }
     }

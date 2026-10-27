@@ -145,7 +145,7 @@ struct CharacterRootView: View {
                                 .minimumScaleFactor(0.7)
                             if env.characterStore.characters.count > 1 {
                                 Image(systemName: "chevron.down")
-                                    .font(.system(size: 11, weight: .semibold))
+                                    .font(.ui(12, .semibold))
                                     .foregroundStyle(C.accentText)
                             }
                         }
@@ -207,7 +207,7 @@ struct CharacterRootView: View {
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
-                            .font(.system(size: 11, weight: .semibold))
+                            .font(.ui(12, .semibold))
                             .foregroundStyle(C.faint)
                     }
                     .padding(10)
@@ -234,7 +234,7 @@ struct CharacterRootView: View {
     private var statGrid: some View {
         LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
             Button { switchToTab(.wallet) } label: {
-                StatTile(label: "Wallet", value: walletBalance.map { iskCompact($0) } ?? "—", sub: walletBalance.map { iskFull($0) })
+                StatTile(label: "Wallet", value: walletBalance.map { Fmt.isk($0) } ?? "—", sub: walletBalance.map { Fmt.isk($0, compact: false) })
             }
             .buttonStyle(.plain)
             StatTile(label: "Total SP", value: totalSP.map { $0.formatted() } ?? "—", sub: unallocatedSP.map { $0 > 0 ? String(localized: "Unallocated: \($0.formatted())") : nil } ?? nil)
@@ -247,7 +247,7 @@ struct CharacterRootView: View {
             Button { switchToTab(.skills) } label: {
                 StatTile(
                     label: "Skill queue",
-                    value: queueEnd.map { durationText(until: $0) } ?? String(localized: "empty"),
+                    value: queueEnd.map { Fmt.duration(until: $0) } ?? String(localized: "empty"),
                     sub: String(localized: "\(skillQueue.count) in queue"),
                     valueColor: skillQueue.isEmpty ? C.warn : C.text
                 )
@@ -269,7 +269,7 @@ struct CharacterRootView: View {
         if skillQueue.isEmpty, totalSP != nil {
             a.append(.init(title: "The skill queue is empty — the character is not training anything!", subtitle: charName, color: C.warn))
         } else if let end = queueEnd, end.timeIntervalSinceNow < 86_400 {
-            a.append(.init(title: "The skill queue ends in less than a day", subtitle: durationText(until: end), color: C.warn))
+            a.append(.init(title: "The skill queue ends in less than a day", subtitle: Fmt.duration(until: end), color: C.warn))
         }
         return a
     }
@@ -317,7 +317,7 @@ struct CharacterRootView: View {
                                 .font(.ui(14, .bold))
                                 .foregroundStyle(C.text)
                             Spacer()
-                            Text(e.finishDate.map { durationText(until: $0) } ?? String(localized: "paused"))
+                            Text(e.finishDate.map { Fmt.duration(until: $0) } ?? String(localized: "paused"))
                                 .font(.ui(13))
                                 .monospacedDigit()
                                 .foregroundStyle(C.muted)
@@ -368,7 +368,7 @@ struct CharacterRootView: View {
                     NavigationLink(value: dest) {
                         HStack(spacing: 14) {
                             Image(systemName: icon)
-                                .font(.system(size: 15))
+                                .font(.ui(16))
                                 .foregroundStyle(C.accentText)
                                 .frame(width: 22)
                             Text(LocalizedStringKey(title))
@@ -376,7 +376,7 @@ struct CharacterRootView: View {
                                 .foregroundStyle(C.text)
                             Spacer()
                             Image(systemName: "chevron.right")
-                                .font(.system(size: 11, weight: .semibold))
+                                .font(.ui(12, .semibold))
                                 .foregroundStyle(C.faint)
                         }
                         .padding(.horizontal, 16)
@@ -404,7 +404,7 @@ struct CharacterRootView: View {
 
             VStack(alignment: .leading, spacing: 12) {
                 Text("SELECT PILOT")
-                    .font(.system(size: 9.5, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(2.2)
                     .foregroundStyle(Color.eveAmber)
                     .padding(.top, 120)
@@ -426,10 +426,10 @@ struct CharacterRootView: View {
 
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(c.characterName)
-                                    .font(.system(size: 14, weight: .medium))
+                                    .font(.ui(15, .medium))
                                     .foregroundStyle(Color.eveText)
                                 Text(c.characterId == charId ? "ACTIVE" : "TAP TO SWITCH")
-                                    .font(.system(size: 10.5))
+                                    .font(.ui(11.5))
                                     .tracking(1.0)
                                     .foregroundStyle(c.characterId == charId
                                                      ? Color.eveCyan : Color.eveText.opacity(0.42))
@@ -603,30 +603,6 @@ struct CharacterRootView: View {
     }
 
     // MARK: - Formatting
-
-    /// "12.28B ISK" as the desktop's compact ISK.
-    private func iskCompact(_ v: Double) -> String {
-        let a = abs(v)
-        if a >= 1e12 { return String(format: "%.2fT ISK", v / 1e12) }
-        if a >= 1e9 { return String(format: "%.2fB ISK", v / 1e9) }
-        if a >= 1e6 { return String(format: "%.2fM ISK", v / 1e6) }
-        if a >= 1e3 { return String(format: "%.1fK ISK", v / 1e3) }
-        return String(format: "%.2f ISK", v)
-    }
-
-    private func iskFull(_ v: Double) -> String {
-        v.formatted(.number.precision(.fractionLength(2))) + " ISK"
-    }
-
-    /// "5д 21ч" / "5d 21h": time left until a date.
-    private func durationText(until date: Date) -> String {
-        let r = max(0, date.timeIntervalSinceNow)
-        let f = DateComponentsFormatter()
-        f.allowedUnits = r >= 86_400 ? [.day, .hour] : r >= 3_600 ? [.hour, .minute] : [.minute, .second]
-        f.unitsStyle = .abbreviated
-        f.maximumUnitCount = 2
-        return f.string(from: r) ?? "—"
-    }
 
     private func romanNumeral(_ n: Int) -> String {
         ["0","I","II","III","IV","V"][max(0, min(5, n))]

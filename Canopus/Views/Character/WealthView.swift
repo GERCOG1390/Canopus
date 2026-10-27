@@ -45,7 +45,7 @@ struct WealthView: View {
 
                     if pricesMissing {
                         Text("* Asset and implant values use ESI adjusted prices.\n  Items without market data are counted as 0 ISK.")
-                            .font(.system(size: 10.5))
+                            .font(.ui(11.5))
                             .foregroundStyle(Color.eveText.opacity(0.32))
                             .padding(.horizontal, 20)
                             .padding(.top, 12)
@@ -74,13 +74,13 @@ struct WealthView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("TOTAL WEALTH").hudLabel()
             Text(iskFormatted(totalISK))
-                .font(.system(size: 34, weight: .medium, design: .monospaced))
+                .font(.ui(35, .medium)).monospacedDigit()
                 .foregroundStyle(Color.eveText)
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
                 .padding(.top, 10)
             Text("ISK ESTIMATED VALUE")
-                .font(.system(size: 9, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(1.6)
                 .foregroundStyle(Color.eveText.opacity(0.32))
                 .padding(.top, 2)
@@ -128,11 +128,11 @@ struct WealthView: View {
                 .frame(width: 10, height: 10)
             VStack(alignment: .leading, spacing: 2) {
                 Text(seg.label)
-                    .font(.system(size: 9.5, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(1.4)
                     .foregroundStyle(Color.eveText.opacity(0.42))
                 Text(iskCompact(seg.value))
-                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .font(.ui(14, .medium)).monospacedDigit()
                     .foregroundStyle(seg.color)
             }
         }
@@ -185,18 +185,18 @@ struct WealthView: View {
     private func breakdownRow(label: String, icon: String, value: Double, color: Color, detail: String?) -> some View {
         HStack(spacing: 13) {
             Image(systemName: icon)
-                .font(.system(size: 14))
+                .font(.ui(15))
                 .foregroundStyle(color)
                 .frame(width: 22)
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(LocalizedStringKey(label))
-                    .font(.system(size: 9.5, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(1.6)
                     .foregroundStyle(Color.eveText.opacity(0.38))
                 if let d = detail {
                     Text(d)
-                        .font(.system(size: 10.5))
+                        .font(.ui(11.5))
                         .foregroundStyle(Color.eveText.opacity(0.28))
                 }
             }
@@ -205,11 +205,11 @@ struct WealthView: View {
 
             VStack(alignment: .trailing, spacing: 2) {
                 Text(iskCompact(value))
-                    .font(.system(size: 15, weight: .medium, design: .monospaced))
+                    .font(.ui(16, .medium)).monospacedDigit()
                     .foregroundStyle(value > 0 ? Color.eveText : Color.eveText.opacity(0.28))
                 if totalISK > 0 && value > 0 {
                     Text(String(format: "%.1f%%", value / totalISK * 100))
-                        .font(.system(size: 9.5, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.35))
                 }
             }

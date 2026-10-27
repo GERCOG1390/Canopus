@@ -86,16 +86,16 @@ struct CharacterSheetView: View {
             // Name + security status overlay
             VStack(alignment: .leading, spacing: 5) {
                 Text(charName)
-                    .font(.system(size: 24, weight: .semibold))
+                    .font(.ui(25, .semibold))
                     .foregroundStyle(Color.eveText)
 
                 if let sec = charInfo?.securityStatus {
                     HStack(spacing: 6) {
                         Text(String(format: "%.1f", sec))
-                            .font(.system(size: 13, weight: .medium, design: .monospaced))
+                            .font(.ui(14, .medium)).monospacedDigit()
                             .foregroundStyle(secColor(sec))
                         Text("SECURITY STATUS")
-                            .font(.system(size: 9.5, weight: .semibold))
+                            .font(.ui(11, .semibold))
                             .tracking(1.8)
                             .foregroundStyle(Color.eveText.opacity(0.38))
                     }
@@ -135,7 +135,7 @@ struct CharacterSheetView: View {
                 let stripped = desc.strippedEVEHTML
                 if !stripped.isEmpty {
                     Text(stripped)
-                        .font(.system(size: 12.5))
+                        .font(.ui(13.5))
                         .foregroundStyle(Color.eveText.opacity(0.55))
                         .lineLimit(6)
                         .padding(.horizontal, 20)
@@ -156,20 +156,20 @@ struct CharacterSheetView: View {
                 if let sysName = systemName {
                     HStack {
                         Text("SYSTEM")
-                            .font(.system(size: 9.5, weight: .semibold))
+                            .font(.ui(11, .semibold))
                             .tracking(1.8)
                             .foregroundStyle(Color.eveText.opacity(0.38))
                         Spacer()
                         HStack(spacing: 6) {
                             if let sec = systemSecurity {
                                 Text(String(format: "%.1f", sec))
-                                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                                    .font(.ui(12, .medium)).monospacedDigit()
                                     .foregroundStyle(secClass(sec).color)
                                     .padding(.horizontal, 5).padding(.vertical, 2)
                                     .overlay(CutCorner(size: 3).stroke(secClass(sec).color.opacity(0.4), lineWidth: 1))
                             }
                             Text(sysName)
-                                .font(.system(size: 13))
+                                .font(.ui(14))
                                 .foregroundStyle(Color.eveText)
                         }
                     }
@@ -213,7 +213,7 @@ struct CharacterSheetView: View {
                 Spacer()
                 if let remap = a.lastRemapDate {
                     Text("LAST REMAP \(remap.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.system(size: 8.5))
+                        .font(.ui(11))
                         .tracking(1.0)
                         .foregroundStyle(Color.eveText.opacity(0.28))
                 }
@@ -229,7 +229,7 @@ struct CharacterSheetView: View {
 
             if let remaps = a.bonusRemaps, remaps > 0 {
                 Text("\(remaps) BONUS REMAP\(remaps > 1 ? "S" : "") AVAILABLE")
-                    .font(.system(size: 9.5, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(1.8)
                     .foregroundStyle(Color.eveAmber)
                     .padding(.horizontal, 20)
@@ -241,7 +241,7 @@ struct CharacterSheetView: View {
     private func attrBar(label: String, value: Int, max: Int, color: Color) -> some View {
         HStack(spacing: 12) {
             Text(LocalizedStringKey(label))
-                .font(.system(size: 9.5, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(1.4)
                 .foregroundStyle(Color.eveText.opacity(0.42))
                 .frame(width: 90, alignment: .leading)
@@ -258,7 +258,7 @@ struct CharacterSheetView: View {
             .clipShape(Rectangle())
 
             Text("\(value)")
-                .font(.system(size: 13, weight: .medium, design: .monospaced))
+                .font(.ui(14, .medium)).monospacedDigit()
                 .foregroundStyle(color)
                 .frame(width: 28, alignment: .trailing)
         }
@@ -280,16 +280,16 @@ struct CharacterSheetView: View {
                         VStack(alignment: .leading, spacing: 3) {
                             HStack(spacing: 6) {
                                 Text(corpNames[item.corporationId] ?? "Corp \(item.corporationId)")
-                                    .font(.system(size: 13, weight: .medium))
+                                    .font(.ui(14, .medium))
                                     .foregroundStyle(Color.eveText)
                                 if let ticker = corpTickers[item.corporationId] {
                                     Text("[\(ticker)]")
-                                        .font(.system(size: 10, design: .monospaced))
+                                        .font(.ui(11)).monospacedDigit()
                                         .foregroundStyle(Color.eveText.opacity(0.38))
                                 }
                             }
                             Text(item.startDate.formatted(date: .abbreviated, time: .omitted))
-                                .font(.system(size: 10.5))
+                                .font(.ui(11.5))
                                 .tracking(1.0)
                                 .foregroundStyle(Color.eveText.opacity(0.38))
                         }
@@ -298,7 +298,7 @@ struct CharacterSheetView: View {
 
                         if item.corporationId == charInfo?.corporationId {
                             Text("CURRENT")
-                                .font(.system(size: 8, weight: .bold))
+                                .font(.ui(11, .bold))
                                 .tracking(1.2)
                                 .foregroundStyle(Color.eveCyan)
                                 .padding(.horizontal, 5).padding(.vertical, 3)
@@ -318,12 +318,12 @@ struct CharacterSheetView: View {
     private func infoRow(label: String, value: String) -> some View {
         HStack {
             Text(LocalizedStringKey(label))
-                .font(.system(size: 9.5, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(1.8)
                 .foregroundStyle(Color.eveText.opacity(0.38))
             Spacer()
             Text(value)
-                .font(.system(size: 13))
+                .font(.ui(14))
                 .foregroundStyle(Color.eveText)
                 .multilineTextAlignment(.trailing)
         }

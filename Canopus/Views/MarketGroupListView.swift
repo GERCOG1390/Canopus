@@ -42,7 +42,7 @@ struct MarketGroupListView: View {
                                         TypeMetaBadge(metaGroupId: type.metaGroupId)
                                         if let vol = type.volume {
                                             Text("\(vol, format: .number.precision(.fractionLength(2))) m³")
-                                                .font(.caption)
+                                                .font(.ui(12, .regular, relativeTo: .caption))
                                                 .foregroundStyle(.secondary)
                                         }
                                     }

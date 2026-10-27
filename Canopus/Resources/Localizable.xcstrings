@@ -565,6 +565,16 @@
         }
       }
     },
+    "Balance": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Баланс"
+          }
+        }
+      }
+    },
     "Base Price": {
       "localizations": {
         "ru": {
@@ -581,6 +591,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Основные характеристики"
+          }
+        }
+      }
+    },
+    "Bounty": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Награды за NPC"
+          }
+        }
+      }
+    },
+    "Brokers Fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Брокерская комиссия"
           }
         }
       }
@@ -827,6 +857,16 @@
         }
       }
     },
+    "Clone Jump Fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плата за прыжок клона"
+          }
+        }
+      }
+    },
     "Clone Status": {
       "localizations": {
         "ru": {
@@ -907,6 +947,56 @@
         }
       }
     },
+    "Contract": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт"
+          }
+        }
+      }
+    },
+    "Contract Collateral": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Залог по контракту"
+          }
+        }
+      }
+    },
+    "Contract Deposit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Депозит контракта"
+          }
+        }
+      }
+    },
+    "Contract Refund": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возврат по контракту"
+          }
+        }
+      }
+    },
+    "Contract Reward": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Награда по контракту"
+          }
+        }
+      }
+    },
     "Contracts": {
       "localizations": {
         "ru": {
@@ -947,6 +1037,26 @@
         }
       }
     },
+    "Corp Deposit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Взнос в корпорацию"
+          }
+        }
+      }
+    },
+    "Corp Withdrawal": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выплата из корпорации"
+          }
+        }
+      }
+    },
     "Cost %@": {
       "localizations": {
         "ru": {
@@ -983,6 +1093,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В ДОКЕ"
+          }
+        }
+      }
+    },
+    "Daily Goal Payouts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ежедневные цели"
           }
         }
       }
@@ -1053,6 +1173,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Закрыть"
+          }
+        }
+      }
+    },
+    "Donation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод"
           }
         }
       }
@@ -1177,6 +1307,16 @@
         }
       }
     },
+    "Expenses, 30 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расход за 30 дней"
+          }
+        }
+      }
+    },
     "Export EFT": {
       "localizations": {
         "ru": {
@@ -1272,7 +1412,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Фильтр сделок"
+            "value": "Фильтр операций"
           }
         }
       }
@@ -1530,6 +1670,16 @@
         }
       }
     },
+    "Income, 30 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доход за 30 дней"
+          }
+        }
+      }
+    },
     "Industry": {
       "localizations": {
         "ru": {
@@ -1550,6 +1700,36 @@
         }
       }
     },
+    "Industry Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на производство"
+          }
+        }
+      }
+    },
+    "Inheritance": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Наследство"
+          }
+        }
+      }
+    },
+    "Insurance": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Страховка"
+          }
+        }
+      }
+    },
     "Intel": {
       "localizations": {
         "ru": {
@@ -1566,6 +1746,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Язык интерфейса берётся из настроек iPhone. Только для Canopus его можно сменить в Настройки → Canopus → Язык."
+          }
+        }
+      }
+    },
+    "Journal": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал"
+          }
+        }
+      }
+    },
+    "Jump Bridge Fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Плата за джамп-мост"
           }
         }
       }
@@ -1893,6 +2093,26 @@
         }
       }
     },
+    "Main items, 30 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Статьи за 30 дней"
+          }
+        }
+      }
+    },
+    "Manufacturing": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Производство"
+          }
+        }
+      }
+    },
     "Map": {
       "localizations": {
         "ru": {
@@ -1913,6 +2133,16 @@
         }
       }
     },
+    "Market Escrow": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эскроу рынка"
+          }
+        }
+      }
+    },
     "Market Orders": {
       "localizations": {
         "ru": {
@@ -1929,6 +2159,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Цены на рынке"
+          }
+        }
+      }
+    },
+    "Market Transaction": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рыночная сделка"
           }
         }
       }
@@ -1989,6 +2229,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прочее"
+          }
+        }
+      }
+    },
+    "Mission Bonus": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус за миссию"
+          }
+        }
+      }
+    },
+    "Mission Reward": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Награда за миссию"
           }
         }
       }
@@ -2368,7 +2628,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сделок нет."
+            "value": "Операций нет."
           }
         }
       }
@@ -2509,6 +2769,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "ПРОИЗВОДИТЕЛЬНОСТЬ"
+          }
+        }
+      }
+    },
+    "PI Export Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на экспорт PI"
+          }
+        }
+      }
+    },
+    "PI Import Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на импорт PI"
           }
         }
       }
@@ -2721,6 +3001,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Удалить"
+          }
+        }
+      }
+    },
+    "Reprocessing Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на переработку"
           }
         }
       }
@@ -3206,6 +3496,16 @@
         }
       }
     },
+    "Skill Purchase": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Покупка навыка"
+          }
+        }
+      }
+    },
     "Skill data is not loaded for this character yet.": {
       "localizations": {
         "ru": {
@@ -3486,6 +3786,26 @@
         }
       }
     },
+    "Total, 30 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Итого за 30 дней"
+          }
+        }
+      }
+    },
+    "Trade": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Торговля"
+          }
+        }
+      }
+    },
     "Trained": {
       "localizations": {
         "ru": {
@@ -3502,6 +3822,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очередь обучения"
+          }
+        }
+      }
+    },
+    "Transaction Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог с продаж"
           }
         }
       }

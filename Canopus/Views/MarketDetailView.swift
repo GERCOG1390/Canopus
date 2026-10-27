@@ -75,11 +75,11 @@ struct MarketDetailView: View {
                         let active = region == r
                         VStack(spacing: 3) {
                             Text(r.hubName)
-                                .font(.system(size: 11, weight: .semibold))
+                                .font(.ui(12, .semibold))
                                 .tracking(1.0)
                                 .foregroundStyle(active ? Color.eveAmber : Color.eveText.opacity(0.50))
                             Text(r.displayName)
-                                .font(.system(size: 8.5))
+                                .font(.ui(11))
                                 .foregroundStyle((active ? Color.eveAmber : Color.eveText).opacity(0.38))
                         }
                         .padding(.horizontal, 12).padding(.vertical, 9)
@@ -109,7 +109,7 @@ struct MarketDetailView: View {
                 VStack(spacing: 4) {
                     Text("SPREAD").hudLabel()
                     Text(String(format: "%.2f%%", sp))
-                        .font(.system(size: 16, weight: .medium, design: .monospaced))
+                        .font(.ui(17, .medium)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.70))
                 }
                 .frame(maxWidth: .infinity)
@@ -126,14 +126,14 @@ struct MarketDetailView: View {
                 ProgressView().tint(color).scaleEffect(0.8).padding(.top, 4)
             } else if let p = price {
                 Text(formatPrice(p))
-                    .font(.system(size: 16, weight: .medium, design: .monospaced))
+                    .font(.ui(17, .medium)).monospacedDigit()
                     .foregroundStyle(color)
                 Text("ISK")
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.30))
             } else {
                 Text("—")
-                    .font(.system(size: 16, weight: .medium, design: .monospaced))
+                    .font(.ui(17, .medium)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.28))
             }
         }
@@ -151,7 +151,7 @@ struct MarketDetailView: View {
                 ProgressView().tint(Color.eveCyan).frame(maxWidth: .infinity).padding(.vertical, 30)
             } else if chartData.isEmpty {
                 Text("No history data available")
-                    .font(.system(size: 12.5))
+                    .font(.ui(13.5))
                     .foregroundStyle(Color.eveText.opacity(0.35))
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 30)
@@ -207,10 +207,10 @@ struct MarketDetailView: View {
     private func orderCell(_ order: ESIRegionalOrder, isBuy: Bool) -> some View {
         VStack(alignment: isBuy ? .trailing : .leading, spacing: 3) {
             Text(formatPrice(order.price))
-                .font(.system(size: 12, weight: .medium, design: .monospaced))
+                .font(.ui(13, .medium)).monospacedDigit()
                 .foregroundStyle(isBuy ? Color.eveGreen : Color.eveRed)
             Text(formatVol(order.volumeRemain))
-                .font(.system(size: 9.5, design: .monospaced))
+                .font(.ui(11)).monospacedDigit()
                 .foregroundStyle(Color.eveText.opacity(0.38))
         }
         .padding(.horizontal, 12)
@@ -306,7 +306,7 @@ struct HUDPriceChart: View {
                     .foregroundStyle(Color.white.opacity(0.10))
                 AxisValueLabel(format: .dateTime.month(.abbreviated).day())
                     .foregroundStyle(Color.eveText.opacity(0.38))
-                    .font(.system(size: 9))
+                    .font(.ui(11))
             }
         }
         .chartYAxis {
@@ -314,7 +314,7 @@ struct HUDPriceChart: View {
                 AxisGridLine(stroke: StrokeStyle(lineWidth: 0.4))
                     .foregroundStyle(Color.white.opacity(0.10))
                 if let d = v.as(Double.self) {
-                    AxisValueLabel { Text(compactISK(d)).font(.system(size: 9)) }
+                    AxisValueLabel { Text(compactISK(d)).font(.ui(11)) }
                         .foregroundStyle(Color.eveText.opacity(0.38))
                 }
             }

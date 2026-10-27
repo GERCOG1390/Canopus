@@ -25,7 +25,7 @@ struct LoyaltyPointsView: View {
                         .foregroundStyle(.tint)
                     Spacer()
                     Text(totalLP.formatted())
-                        .font(.headline.monospacedDigit())
+                        .font(.ui(16, .semibold, relativeTo: .headline)).monospacedDigit()
                 }
             }
 
@@ -43,14 +43,14 @@ struct LoyaltyPointsView: View {
                             EVECorpLogo(corpId: lp.corporationId, size: 36)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(corpNames[lp.corporationId] ?? "Corp \(lp.corporationId)")
-                                    .font(.body)
+                                    .font(.ui(15, .regular, relativeTo: .body))
                                 Text("\(lp.loyaltyPoints.formatted()) LP")
-                                    .font(.caption)
+                                    .font(.ui(12, .regular, relativeTo: .caption))
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()
                             Text(lp.loyaltyPoints.formatted())
-                                .font(.subheadline.monospacedDigit())
+                                .font(.ui(14, .regular, relativeTo: .subheadline)).monospacedDigit()
                                 .foregroundStyle(.tint)
                         }
                     }
@@ -123,9 +123,9 @@ private struct LoyaltyPointStoreView: View {
                     EVECorpLogo(corpId: corporationId, size: 42)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(corporationName)
-                            .font(.headline)
+                            .font(.ui(16, .semibold, relativeTo: .headline))
                         Text("\(loyaltyPoints.formatted()) LP available")
-                            .font(.caption)
+                            .font(.ui(12, .regular, relativeTo: .caption))
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -221,7 +221,7 @@ private struct LoyaltyPointOfferRow: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(itemName)
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                     .lineLimit(2)
 
                 HStack(spacing: 8) {
@@ -232,12 +232,12 @@ private struct LoyaltyPointOfferRow: View {
                         Text(formatISK(offer.iskCost))
                     }
                 }
-                .font(.caption.monospacedDigit())
+                .font(.ui(12, .regular, relativeTo: .caption)).monospacedDigit()
                 .foregroundStyle(.secondary)
 
                 if !requiredItemNames.isEmpty {
                     Text(requiredItemNames.joined(separator: ", "))
-                        .font(.caption2)
+                        .font(.ui(11, .regular, relativeTo: .caption2))
                         .foregroundStyle(.secondary)
                         .lineLimit(2)
                 }
@@ -246,7 +246,7 @@ private struct LoyaltyPointOfferRow: View {
             Spacer()
 
             Text(canAfford ? "OK" : "LP")
-                .font(.caption.bold().monospaced())
+                .font(.ui(12, .bold, relativeTo: .caption)).monospacedDigit()
                 .foregroundStyle(canAfford ? .green : .orange)
         }
         .padding(.vertical, 3)

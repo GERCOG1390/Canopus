@@ -83,7 +83,7 @@ struct TypeDetailView: View {
             if let desc = effectiveDescription {
                 detailSection("Description") {
                     Text(desc)
-                        .font(.callout)
+                        .font(.ui(15, .regular, relativeTo: .callout))
                         .foregroundStyle(.secondary)
                 }
             }
@@ -121,10 +121,10 @@ struct TypeDetailView: View {
                 if !marketPath.isEmpty {
                     HStack(spacing: 8) {
                         Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
-                            .font(.caption)
+                            .font(.ui(12, .regular, relativeTo: .caption))
                             .foregroundStyle(Color.eveAmber)
                         Text(marketPath.map(\.name).joined(separator: " / "))
-                            .font(.caption)
+                            .font(.ui(12, .regular, relativeTo: .caption))
                             .foregroundStyle(.secondary)
                             .lineLimit(3)
                     }
@@ -160,15 +160,15 @@ struct TypeDetailView: View {
                             HStack(spacing: 10) {
                                 EVEIconImage(iconId: 1432, size: 16)
                                 Text("Used in Fits")
-                                    .font(.system(size: 14))
+                                    .font(.ui(15))
                                     .foregroundStyle(.secondary)
                                 Spacer()
                                 Text("\(usedInFitNames.count)")
-                                    .font(.system(size: 14))
+                                    .font(.ui(15))
                                     .monospacedDigit()
                             }
                             Text(usedInFitNames.prefix(6).joined(separator: ", "))
-                                .font(.caption)
+                                .font(.ui(12, .regular, relativeTo: .caption))
                                 .foregroundStyle(.secondary)
                                 .lineLimit(3)
                         }
@@ -215,12 +215,12 @@ struct TypeDetailView: View {
 
                 VStack(spacing: 8) {
                     Text(typeName)
-                        .font(.system(size: 18, weight: .semibold))
+                        .font(.ui(19, .semibold))
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     if let itemGroup {
                         Text(itemGroup.name)
-                            .font(.caption)
+                            .font(.ui(12, .regular, relativeTo: .caption))
                             .foregroundStyle(.secondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }
@@ -783,27 +783,27 @@ private struct EffectRow: View {
         DisclosureGroup {
             if effect.modifiers.isEmpty {
                 Text("No modifier rows")
-                    .font(.caption)
+                    .font(.ui(12, .regular, relativeTo: .caption))
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(effect.modifiers) { modifier in
                     VStack(alignment: .leading, spacing: 3) {
                         HStack {
                             Text("\(modifier.domain) · \(modifier.function)")
-                                .font(.caption)
+                                .font(.ui(12, .regular, relativeTo: .caption))
                                 .foregroundStyle(.secondary)
                             Spacer()
                             Text(operationName(modifier.operation))
-                                .font(.caption.monospaced())
+                                .font(.ui(12, .regular, relativeTo: .caption)).monospacedDigit()
                                 .foregroundStyle(.secondary)
                         }
                         Text(modifierText(modifier))
-                            .font(.caption.monospaced())
+                            .font(.ui(12, .regular, relativeTo: .caption)).monospacedDigit()
                             .foregroundStyle(.primary)
                             .lineLimit(3)
                         if let skillName = modifier.skillName {
                             Text("Requires \(skillName)")
-                                .font(.caption2)
+                                .font(.ui(11, .regular, relativeTo: .caption2))
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -813,9 +813,9 @@ private struct EffectRow: View {
         } label: {
             VStack(alignment: .leading, spacing: 2) {
                 Text(effect.displayName ?? effect.name)
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                 Text("#\(effect.effectId) · \(categoryName(effect.effectCategory))")
-                    .font(.caption.monospaced())
+                    .font(.ui(12, .regular, relativeTo: .caption)).monospacedDigit()
                     .foregroundStyle(.secondary)
             }
         }
@@ -868,7 +868,7 @@ private struct SkillReqRow: View {
     var body: some View {
         HStack {
             Text(skillName)
-                .font(.system(size: 14, weight: .medium))
+                .font(.ui(15, .medium))
             Spacer()
             HStack(spacing: 3) {
                 ForEach(1...5, id: \.self) { i in
@@ -878,7 +878,7 @@ private struct SkillReqRow: View {
                 }
             }
             Text("L\(level)")
-                .font(.system(size: 11, design: .monospaced))
+                .font(.ui(12)).monospacedDigit()
                 .foregroundStyle(.secondary)
                 .frame(width: 22, alignment: .trailing)
         }
@@ -914,7 +914,7 @@ private struct TypeLinkRow: View {
                     .font(.system(size: 14, weight: type.id == currentTypeId ? .semibold : .regular))
                     .lineLimit(2)
                 Text(type.id == currentTypeId ? "\(subtitle) · Current" : subtitle)
-                    .font(.caption)
+                    .font(.ui(12, .regular, relativeTo: .caption))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }
@@ -954,11 +954,11 @@ private struct TypeTraitRow: View {
             VStack(alignment: .leading, spacing: 2) {
                 if let bonus = trait.bonus {
                     Text(formatBonus(bonus, unitId: trait.unitId))
-                        .font(.system(size: 13, weight: .semibold, design: .monospaced))
+                        .font(.ui(14, .semibold)).monospacedDigit()
                         .foregroundStyle(Color.eveAmber)
                 }
                 Text(trait.text.strippedEVEHTML)
-                    .font(.system(size: 14))
+                    .font(.ui(15))
                     .foregroundStyle(.primary)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -1005,7 +1005,7 @@ private struct ChargeGroupRow: View {
                 EVEIconImage(iconId: 1299, size: 22)
             }
             Text(group.name)
-                .font(.system(size: 14))
+                .font(.ui(15))
                 .foregroundStyle(.secondary)
             Spacer()
         }
@@ -1027,12 +1027,12 @@ private struct StatRow: View {
                     .alignmentGuide(.firstTextBaseline) { d in d[VerticalAlignment.center] }
             }
             Text(LocalizedStringKey(label))
-                .font(.system(size: 14))
+                .font(.ui(15))
                 .foregroundStyle(.secondary)
                 .lineLimit(2)
             Spacer()
             Text(value)
-                .font(.system(size: 14))
+                .font(.ui(15))
                 .monospacedDigit()
                 .multilineTextAlignment(.trailing)
                 .foregroundStyle(.primary)
@@ -1127,7 +1127,7 @@ struct TypeMetaBadge: View {
 
     var body: some View {
         Text(EVETypeMetaPresentation.title(for: metaGroupId))
-            .font(.caption2.weight(.semibold))
+            .font(.ui(11, .semibold, relativeTo: .caption2))
             .textCase(.uppercase)
             .foregroundStyle(EVETypeMetaPresentation.color(for: metaGroupId))
             .padding(.horizontal, 7)
@@ -1149,7 +1149,7 @@ private struct TypeInfoChip: View {
             Text(value)
                 .foregroundStyle(.primary)
         }
-        .font(.caption2.weight(.medium))
+        .font(.ui(11, .medium, relativeTo: .caption2))
         .padding(.horizontal, 7)
         .padding(.vertical, 3)
         .background(Color.secondary.opacity(0.12))

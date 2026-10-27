@@ -92,15 +92,15 @@ private struct MarketOrderRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(typeNames[order.typeId] ?? "Type \(order.typeId)")
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                     .lineLimit(1)
 
                 HStack(spacing: 10) {
                     Text(priceFormatted(order.price))
-                        .font(.subheadline.monospacedDigit())
+                        .font(.ui(14, .regular, relativeTo: .subheadline)).monospacedDigit()
                         .foregroundStyle(orderColor)
                     Text("\(order.volumeRemain) / \(order.volumeTotal)")
-                        .font(.caption)
+                        .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.secondary)
                 }
 
@@ -117,7 +117,7 @@ private struct MarketOrderRow: View {
                         Text(range.capitalized)
                     }
                 }
-                .font(.caption2)
+                .font(.ui(11, .regular, relativeTo: .caption2))
                 .foregroundStyle(.tertiary)
             }
 
@@ -125,16 +125,16 @@ private struct MarketOrderRow: View {
 
             VStack(alignment: .trailing, spacing: 4) {
                 Text(isBuy ? "BUY" : "SELL")
-                    .font(.caption2.bold())
+                    .font(.ui(11, .bold, relativeTo: .caption2))
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
                     .background(orderColor.opacity(0.18), in: Capsule())
                     .foregroundStyle(orderColor)
                 Text(expiryText)
-                    .font(.caption2)
+                    .font(.ui(11, .regular, relativeTo: .caption2))
                     .foregroundStyle(.secondary)
                 Text(ageText)
-                    .font(.caption2)
+                    .font(.ui(11, .regular, relativeTo: .caption2))
                     .foregroundStyle(.tertiary)
             }
         }

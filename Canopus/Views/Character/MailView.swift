@@ -72,12 +72,12 @@ struct MailView: View {
                             .frame(height: 2)
                         HStack(spacing: 5) {
                             Text(label.title)
-                                .font(.system(size: 10, weight: .semibold))
+                                .font(.ui(11, .semibold))
                                 .tracking(1.4)
                                 .foregroundStyle(active ? Color.eveAmber : Color.eveText.opacity(0.40))
                             if let count = unreadCounts[label.rawValue], count > 0 {
                                 Text("\(count)")
-                                    .font(.system(size: 8.5, weight: .bold, design: .monospaced))
+                                    .font(.ui(11, .bold)).monospacedDigit()
                                     .foregroundStyle(active ? Color.eveBackground : Color.eveAmber)
                                     .padding(.horizontal, 4).padding(.vertical, 2)
                                     .background(active ? Color.eveAmber : Color.eveAmber.opacity(0.18))
@@ -145,7 +145,7 @@ struct MailView: View {
                         .lineLimit(1)
                     Spacer()
                     Text(mail.timestamp, style: .relative)
-                        .font(.system(size: 10, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.35))
                 }
                 Text(mail.subject)
@@ -166,7 +166,7 @@ struct MailView: View {
             HStack(spacing: 8) {
                 if isLoadingMore { ProgressView().tint(Color.eveCyan).scaleEffect(0.8) }
                 Text("LOAD MORE")
-                    .font(.system(size: 10, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(1.6)
                     .foregroundStyle(Color.eveCyan)
             }
@@ -251,7 +251,7 @@ struct MailDetailView: View {
                     // Header card
                     VStack(alignment: .leading, spacing: 10) {
                         Text(header.subject)
-                            .font(.system(size: 18, weight: .semibold))
+                            .font(.ui(19, .semibold))
                             .foregroundStyle(Color.eveText)
 
                         Color.eveAmber.opacity(0.14).frame(height: 1)
@@ -279,7 +279,7 @@ struct MailDetailView: View {
                             .padding(.top, 40)
                     } else {
                         Text(bodyText.isEmpty ? "(No content)" : bodyText)
-                            .font(.system(size: 14))
+                            .font(.ui(15))
                             .foregroundStyle(bodyText.isEmpty
                                             ? Color.eveText.opacity(0.35)
                                             : Color.eveText.opacity(0.85))
@@ -300,12 +300,12 @@ struct MailDetailView: View {
     private func metaRow(label: String, value: String) -> some View {
         HStack(alignment: .top, spacing: 0) {
             Text(LocalizedStringKey(label))
-                .font(.system(size: 9.5, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(1.6)
                 .foregroundStyle(Color.eveText.opacity(0.35))
                 .frame(width: 46, alignment: .leading)
             Text(value)
-                .font(.system(size: 12.5))
+                .font(.ui(13.5))
                 .foregroundStyle(Color.eveText.opacity(0.80))
                 .multilineTextAlignment(.leading)
         }

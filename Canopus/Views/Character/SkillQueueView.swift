@@ -56,19 +56,19 @@ struct SkillQueueView: View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 Text("QUEUE · \(entries.count)")
-                    .font(.system(size: 9.5, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(2.2)
                     .foregroundStyle(Color.eveText.opacity(0.38))
                 if let finish = totalFinish {
                     Text("ends \(relativeLabel(finish))")
-                        .font(.system(size: 10, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.38))
                 }
             }
             Spacer()
             if let sp = entries.first(where: \.isActive).map(\.levelEndSP) {
                 Text("\(sp.formatted()) SP")
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.38))
             }
         }
@@ -86,17 +86,17 @@ struct SkillQueueView: View {
         return VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .firstTextBaseline, spacing: 8) {
                 Text(String(format: "%02d", index + 1))
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.28))
                     .frame(width: 16)
 
                 Text(entry.skillName ?? "Skill \(entry.skillId)")
-                    .font(.system(size: 14, weight: .medium))
+                    .font(.ui(15, .medium))
                     .foregroundStyle(Color.eveText)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
                 Text(romanNumeral(entry.finishedLevel))
-                    .font(.system(size: 13, weight: .bold, design: .monospaced))
+                    .font(.ui(14, .bold)).monospacedDigit()
                     .foregroundStyle(edge)
             }
 
@@ -113,12 +113,12 @@ struct SkillQueueView: View {
 
             HStack {
                 Text(entry.remainingText)
-                    .font(.system(size: 11, design: .monospaced))
+                    .font(.ui(12)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.55))
                 Spacer()
                 if !isActive, let finish = entry.finishDate {
                     Text(finish.formatted(date: .abbreviated, time: .omitted))
-                        .font(.system(size: 10))
+                        .font(.ui(11))
                         .tracking(1.0)
                         .foregroundStyle(Color.eveText.opacity(0.35))
                 }
@@ -139,14 +139,14 @@ struct SkillQueueView: View {
     private var emptyState: some View {
         VStack(spacing: 16) {
             Image(systemName: "brain.head.profile")
-                .font(.system(size: 44))
+                .font(.ui(45))
                 .foregroundStyle(Color.eveText.opacity(0.2))
             Text("NO SKILLS TRAINING")
-                .font(.system(size: 10, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(2.0)
                 .foregroundStyle(Color.eveText.opacity(0.3))
             Text("Add skills to your training queue in EVE Online.")
-                .font(.system(size: 13))
+                .font(.ui(14))
                 .foregroundStyle(Color.eveText.opacity(0.42))
                 .multilineTextAlignment(.center)
         }

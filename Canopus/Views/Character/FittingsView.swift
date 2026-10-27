@@ -89,7 +89,7 @@ private struct ChargeDamageBreakdown: View {
     private func damageText(_ label: String, _ value: Double, _ color: Color) -> some View {
         if value > 0 {
             Text(String(format: "%@ %.1f", label, value))
-                .font(.system(size: 8, weight: .semibold, design: .monospaced))
+                .font(.ui(11, .semibold)).monospacedDigit()
                 .foregroundStyle(color)
         }
     }
@@ -99,7 +99,7 @@ private struct ChargeDamageBreakdown: View {
         if value > 0 {
             HStack(spacing: 8) {
                 Text(LocalizedStringKey(label))
-                    .font(.system(size: 8, weight: .semibold, design: .monospaced))
+                    .font(.ui(11, .semibold)).monospacedDigit()
                     .foregroundStyle(color)
                     .frame(width: 40, alignment: .leading)
                 GeometryReader { geo in
@@ -113,7 +113,7 @@ private struct ChargeDamageBreakdown: View {
                 }
                 .frame(height: 5)
                 Text(String(format: "%.1f HP · %.0f%%", value, value / profile.total * 100))
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.66))
                     .frame(width: 88, alignment: .trailing)
             }
@@ -128,7 +128,7 @@ private struct EVEModuleStateBadge: View {
 
     var body: some View {
         Text(state.shortLabel)
-            .font(.system(size: 8.5, weight: .bold, design: .monospaced))
+            .font(.ui(11, .bold)).monospacedDigit()
             .tracking(0.6)
             .foregroundStyle(foregroundColor)
             .padding(.horizontal, 6)
@@ -331,14 +331,14 @@ struct FittingsView: View {
                 .overlay(CutCorner(size: 7).stroke(Color.white.opacity(0.10), lineWidth: 1))
             VStack(alignment: .leading, spacing: 5) {
                 Text(fit.name)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.ui(15, .semibold))
                     .foregroundStyle(Color.eveText).lineLimit(1)
                 HStack(spacing: 8) {
                     Text(typeNames[fit.shipTypeId] ?? "Ship \(fit.shipTypeId)")
-                        .font(.system(size: 11)).foregroundStyle(Color.eveText.opacity(0.48))
+                        .font(.ui(12)).foregroundStyle(Color.eveText.opacity(0.48))
                     Text("·").foregroundStyle(Color.eveText.opacity(0.22))
                     Text("\(fit.items.count) modules")
-                        .font(.system(size: 10.5, design: .monospaced)).foregroundStyle(Color.eveText.opacity(0.38))
+                        .font(.ui(11.5)).monospacedDigit().foregroundStyle(Color.eveText.opacity(0.38))
                 }
             }
             Spacer()
@@ -363,10 +363,10 @@ struct FittingsView: View {
                 .overlay(CutCorner(size: 5).stroke(Color.white.opacity(0.10), lineWidth: 1))
             VStack(alignment: .leading, spacing: 3) {
                 Text(shipName)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.ui(14, .semibold))
                     .foregroundStyle(Color.eveText)
                 Text("\(count) \(count == 1 ? "FIT" : "FITS")")
-                    .font(.system(size: 9, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(1.4)
                     .foregroundStyle(Color.eveText.opacity(0.35))
             }
@@ -380,10 +380,10 @@ struct FittingsView: View {
         HStack(spacing: 13) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(fit.name)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.ui(14, .semibold))
                     .foregroundStyle(Color.eveText).lineLimit(1)
                 Text("\(fit.items.count) modules")
-                    .font(.system(size: 10.5, design: .monospaced))
+                    .font(.ui(11.5)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.38))
             }
             Spacer()
@@ -400,15 +400,15 @@ struct FittingsView: View {
                 .overlay(CutCorner(size: 6).stroke(Color.eveGreen.opacity(0.35), lineWidth: 1))
             VStack(alignment: .leading, spacing: 4) {
                 Text(fit.name)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.ui(15, .semibold))
                     .foregroundStyle(Color.eveText)
                     .lineLimit(1)
                 HStack(spacing: 8) {
                     Text(typeNames[fit.shipTypeId] ?? "Ship \(fit.shipTypeId)")
-                        .font(.system(size: 11))
+                        .font(.ui(12))
                         .foregroundStyle(Color.eveText.opacity(0.48))
                     Text("LIVE FIT")
-                        .font(.system(size: 9, weight: .bold, design: .monospaced))
+                        .font(.ui(11, .bold)).monospacedDigit()
                         .foregroundStyle(Color.eveGreen)
                 }
             }
@@ -1069,14 +1069,14 @@ private struct SubsystemSlotDefinition: Identifiable {
                 .clipShape(CutCorner(size: 10))
                 .overlay(CutCorner(size: 10).stroke(Color.eveAmber.opacity(0.3), lineWidth: 1))
             VStack(alignment: .leading, spacing: 4) {
-                Text(fit.name).font(.system(size: 17, weight: .semibold)).foregroundStyle(Color.eveText)
-                Text(typeName(fit.shipTypeId, fallback: "")).font(.system(size: 11)).foregroundStyle(Color.eveText.opacity(0.50))
+                Text(fit.name).font(.ui(18, .semibold)).foregroundStyle(Color.eveText)
+                Text(typeName(fit.shipTypeId, fallback: "")).font(.ui(12)).foregroundStyle(Color.eveText.opacity(0.50))
                 HStack(spacing: 6) {
                     Text(liveItems == nil ? "SAVED FIT" : "LIVE SHIP")
-                        .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                        .font(.ui(11, .semibold)).monospacedDigit()
                         .foregroundStyle(liveItems == nil ? Color.eveText.opacity(0.45) : Color.eveGreen)
                     Text("\(currentItems.count) items")
-                        .font(.system(size: 9, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.35))
                 }
             }
@@ -1115,7 +1115,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             }
             .frame(height: 6)
             Text(String(format: "%.1f/%.1f %@", remaining, total, unit))
-                .font(.system(size: 8.5, design: .monospaced))
+                .font(.ui(11)).monospacedDigit()
                 .foregroundStyle((over ? Color.eveRed : color).opacity(0.85))
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
@@ -1136,7 +1136,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                     VStack(spacing: 0) {
                         Rectangle().fill(activeTab == tab ? Color.eveAmber : Color.clear).frame(height: 2)
                         Text(tab.rawValue)
-                            .font(.system(size: 10, weight: .semibold)).tracking(1.4)
+                            .font(.ui(11, .semibold)).tracking(1.4)
                             .foregroundStyle(activeTab == tab ? Color.eveAmber : Color.eveText.opacity(0.40))
                             .padding(.vertical, 10)
                             .frame(maxWidth: .infinity)
@@ -1187,7 +1187,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             EVESectionHeader(slot.rawValue) {
                 if let usage = slotUsageText(slot) {
                     Text(usage)
-                        .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                        .font(.ui(11, .semibold)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.45))
                 }
             }
@@ -1229,7 +1229,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                     HStack(spacing: 10) {
                         EVEActionIndicator(kind: .add)
                         Text("ADD \(slot.shortTitle.uppercased())")
-                            .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                            .font(.ui(11, .semibold)).monospacedDigit()
                             .tracking(1.0)
                             .foregroundStyle(Color.eveAmber.opacity(0.82))
                         Spacer()
@@ -1257,23 +1257,23 @@ private struct SubsystemSlotDefinition: Identifiable {
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(typeName(item.typeId, fallback: "Module \(item.typeId)"))
-                        .font(.system(size: 13))
+                        .font(.ui(14))
                         .foregroundStyle(isOffline ? Color.eveText.opacity(0.38) : Color.eveText)
                         .lineLimit(1)
                     if let chargeId = cfg.chargeTypeId ?? embeddedCharge(for: item)?.typeId {
                         Text(typeName(chargeId, fallback: "Charge \(chargeId)"))
-                            .font(.system(size: 10))
+                            .font(.ui(11))
                             .foregroundStyle(Color.eveAmber.opacity(0.65))
                             .lineLimit(1)
                     }
                     if let fittingCost {
                         Text(String(format: "CPU %.1f Tf  PG %.1f MW", fittingCost.cpu, fittingCost.pg))
-                            .font(.system(size: 9, design: .monospaced))
+                            .font(.ui(11)).monospacedDigit()
                             .foregroundStyle(Color.eveText.opacity(0.42))
                             .lineLimit(1)
                     } else if stats != nil {
                         Text("NOT COUNTED IN FITTING STATS")
-                            .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                            .font(.ui(11, .semibold)).monospacedDigit()
                             .foregroundStyle(Color.eveRed.opacity(0.78))
                             .lineLimit(1)
                     }
@@ -1305,16 +1305,16 @@ private struct SubsystemSlotDefinition: Identifiable {
                         .stroke(Color.eveAmber.opacity(0.22), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
                         .frame(width: 36, height: 36)
                     Image(systemName: "plus")
-                        .font(.system(size: 13, weight: .bold))
+                        .font(.ui(14, .bold))
                         .foregroundStyle(Color.eveAmber.opacity(0.82))
                 }
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(subsystemDefinition.map { "Empty \($0.title) Subsystem" } ?? "Empty \(slot.shortTitle)")
-                        .font(.system(size: 13))
+                        .font(.ui(14))
                         .foregroundStyle(Color.eveText.opacity(0.62))
                     Text(flag)
-                        .font(.system(size: 9, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.32))
                 }
 
@@ -1335,11 +1335,11 @@ private struct SubsystemSlotDefinition: Identifiable {
                 .clipShape(CutCorner(size: 5))
                 .overlay(CutCorner(size: 5).stroke(Color.white.opacity(0.08), lineWidth: 1))
             Text(typeName(typeId, fallback: "Item \(typeId)"))
-                .font(.system(size: 13)).foregroundStyle(Color.eveText)
+                .font(.ui(14)).foregroundStyle(Color.eveText)
             Spacer()
             if quantity > 1 {
                 Text("×\(quantity)")
-                    .font(.system(size: 11, design: .monospaced)).foregroundStyle(Color.eveAmber.opacity(0.75))
+                    .font(.ui(12)).monospacedDigit().foregroundStyle(Color.eveAmber.opacity(0.75))
             }
         }
         .padding(.horizontal, 20).padding(.vertical, 9)
@@ -1874,7 +1874,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 Text("SHIP SYSTEMS").hudLabel()
                 Spacer()
                 Text(s.capRegenPerSec >= s.capDrainPerSec ? "SYSTEM STABLE" : "SYSTEM UNSTABLE")
-                    .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                    .font(.ui(11, .semibold)).monospacedDigit()
                     .foregroundStyle(s.capRegenPerSec >= s.capDrainPerSec ? Color.eveGreen : Color.eveRed)
             }
 
@@ -1915,7 +1915,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 Text(characterSkills.isEmpty
                      ? "Skill data is not loaded for this character yet."
                      : "No fit-related skills found for this fit.")
-                    .font(.system(size: 10, weight: .medium, design: .monospaced))
+                    .font(.ui(11, .medium)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.42))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -1928,7 +1928,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 Text(LocalizedStringKey(title)).hudLabel()
                 Spacer()
                 Text("\(skills.count)x")
-                    .font(.system(size: 9, weight: .bold, design: .monospaced))
+                    .font(.ui(11, .bold)).monospacedDigit()
                     .foregroundStyle(color.opacity(0.78))
             }
             ForEach(skills) { skill in
@@ -1951,15 +1951,15 @@ private struct SubsystemSlotDefinition: Identifiable {
             VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 7) {
                     Text(skill.name)
-                        .font(.system(size: 12, weight: .semibold))
+                        .font(.ui(13, .semibold))
                         .foregroundStyle(Color.eveText)
                         .lineLimit(1)
                     Text("L\(skill.currentLevel) → L\(skill.targetLevel)")
-                        .font(.system(size: 10, weight: .bold, design: .monospaced))
+                        .font(.ui(11, .bold)).monospacedDigit()
                         .foregroundStyle(color)
                 }
                 Text(skill.reason)
-                    .font(.system(size: 9, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.42))
                     .lineLimit(2)
             }
@@ -1979,7 +1979,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             VStack(alignment: .leading, spacing: 3) {
                 Text(LocalizedStringKey(label)).hudLabel()
                 Text(value)
-                    .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
+                    .font(.ui(11.5, .semibold)).monospacedDigit()
                     .foregroundStyle(color)
                     .lineLimit(1)
                     .minimumScaleFactor(0.75)
@@ -2000,7 +2000,7 @@ private struct SubsystemSlotDefinition: Identifiable {
 
     private func warningBand(_ text: String) -> some View {
         Text(text)
-            .font(.system(size: 10, weight: .medium, design: .monospaced))
+            .font(.ui(11, .medium)).monospacedDigit()
             .foregroundStyle(Color.eveAmber)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.horizontal, 20)
@@ -2038,7 +2038,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             HStack {
                 Spacer()
                 Text("HP: \(hpFmt(s.shieldHP + s.armorHP + s.hullHP))  |  EHP: \(hpFmt(s.totalEHP))")
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.55))
             }
             .padding(.top, 6)
@@ -2050,7 +2050,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             EVEIconImage(iconId: iconId, size: 11)
                 .opacity(0.74)
             Text(LocalizedStringKey(label))
-                .font(.system(size: 8, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .foregroundStyle(color.opacity(0.7))
         }
         .frame(maxWidth: .infinity)
@@ -2060,14 +2060,14 @@ private struct SubsystemSlotDefinition: Identifiable {
                             em: Double, exp: Double, kin: Double, therm: Double,
                             color: Color) -> some View {
         HStack(spacing: 0) {
-            Text(LocalizedStringKey(label)).font(.system(size: 9, weight: .semibold)).tracking(0.8)
+            Text(LocalizedStringKey(label)).font(.ui(11, .semibold)).tracking(0.8)
                 .foregroundStyle(color).frame(width: 28, alignment: .leading)
             resCell(pct: em,    barColor: Color(hue: 0.60, saturation: 0.75, brightness: 0.90))
             resCell(pct: therm, barColor: .eveRed)
             resCell(pct: kin,   barColor: Color(white: 0.55))
             resCell(pct: exp,   barColor: .eveAmber)
             Text(hpFmt(hp))
-                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                .font(.ui(11, .medium)).monospacedDigit()
                 .foregroundStyle(Color.eveText)
                 .frame(width: 60, alignment: .trailing)
         }
@@ -2077,7 +2077,7 @@ private struct SubsystemSlotDefinition: Identifiable {
     private func resCell(pct: Double, barColor: Color) -> some View {
         VStack(spacing: 2) {
             Text(String(format: "%.1f%%", pct))
-                .font(.system(size: 9, weight: .medium, design: .monospaced))
+                .font(.ui(11, .medium)).monospacedDigit()
                 .foregroundStyle(resColor(pct))
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
@@ -2107,15 +2107,15 @@ private struct SubsystemSlotDefinition: Identifiable {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(String(format: "%.1f GJ / %@", s.capCapacity, durationFmt(rechargeSeconds)))
-                        .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                        .font(.ui(13, .semibold)).monospacedDigit()
                         .foregroundStyle(Color.eveCyan)
                     Text(String(format: "DELTA %+.1f GJ/s (%.1f%%)", net, deltaPercent))
-                        .font(.system(size: 10, weight: .medium, design: .monospaced))
+                        .font(.ui(11, .medium)).monospacedDigit()
                         .foregroundStyle(stable ? Color.eveGreen : Color.eveRed)
                 }
                 Spacer()
                 Text(stable ? "SYSTEM STABLE" : "SYSTEM UNSTABLE")
-                    .font(.system(size: 10, weight: .bold, design: .monospaced))
+                    .font(.ui(11, .bold)).monospacedDigit()
                     .foregroundStyle(stable ? Color.eveGreen : Color.eveRed)
                     .multilineTextAlignment(.trailing)
             }
@@ -2160,7 +2160,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             let chargeNames = selectedChargeNames
             if !chargeNames.isEmpty {
                 Text("CHARGE  " + chargeNames.joined(separator: " / "))
-                    .font(.system(size: 9, weight: .medium, design: .monospaced))
+                    .font(.ui(11, .medium)).monospacedDigit()
                     .foregroundStyle(Color.eveAmber.opacity(0.72))
                     .lineLimit(2)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -2170,7 +2170,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 Text(implantCount > 0
                      ? "Includes skills, implants & module bonuses; boosters/environment not included"
                      : "Includes skills & module bonuses; boosters/environment not included")
-                    .font(.system(size: 9)).foregroundStyle(Color.eveText.opacity(0.35))
+                    .font(.ui(11)).foregroundStyle(Color.eveText.opacity(0.35))
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
         }
@@ -2223,7 +2223,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 statItem("FREE", shipCargoCapacity > 0 ? String(format: "%.2f m³", free) : "—", color: .eveGreen, iconId: StatIcon.cargo)
             }
             Text("Cargo items are not applied to ship stats unless selected as a loaded charge.")
-                .font(.system(size: 9))
+                .font(.ui(11))
                 .foregroundStyle(Color.eveText.opacity(0.36))
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -2259,20 +2259,20 @@ private struct SubsystemSlotDefinition: Identifiable {
             ForEach(costs) { cost in
                 HStack(spacing: 8) {
                     Text(cost.flag)
-                        .font(.system(size: 9, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.38))
                         .frame(width: 72, alignment: .leading)
                     Text(typeName(cost.typeId, fallback: "Module \(cost.typeId)"))
-                        .font(.system(size: 10))
+                        .font(.ui(11))
                         .foregroundStyle(Color.eveText.opacity(0.72))
                         .lineLimit(1)
                     Spacer(minLength: 6)
                     Text(String(format: "%.1f Tf", cost.cpu))
-                        .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                        .font(.ui(11, .semibold)).monospacedDigit()
                         .foregroundStyle(Color.eveCyan)
                         .frame(width: 58, alignment: .trailing)
                     Text(String(format: "%.1f MW", cost.pg))
-                        .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                        .font(.ui(11, .semibold)).monospacedDigit()
                         .foregroundStyle(Color.eveAmber)
                         .frame(width: 62, alignment: .trailing)
                 }
@@ -2292,16 +2292,16 @@ private struct SubsystemSlotDefinition: Identifiable {
             ForEach(costs) { cost in
                 HStack(spacing: 8) {
                     Text(cost.flag)
-                        .font(.system(size: 9, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.38))
                         .frame(width: 72, alignment: .leading)
                     Text(typeName(cost.typeId, fallback: "Module \(cost.typeId)"))
-                        .font(.system(size: 10))
+                        .font(.ui(11))
                         .foregroundStyle(Color.eveText.opacity(0.72))
                         .lineLimit(1)
                     Spacer(minLength: 6)
                     Text(String(format: "%.1f %@", value(cost), unit))
-                        .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                        .font(.ui(11, .semibold)).monospacedDigit()
                         .foregroundStyle(color)
                 }
             }
@@ -2317,7 +2317,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             VStack(alignment: .leading, spacing: 3) {
                 Text(LocalizedStringKey(label)).hudLabel()
                 Text(value)
-                    .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                    .font(.ui(13, .semibold)).monospacedDigit()
                     .foregroundStyle(color)
             }
         }
@@ -2636,16 +2636,16 @@ struct ModuleSettingSheet: View {
                                 .overlay(CutCorner(size: 8).stroke(Color.eveAmber.opacity(0.25), lineWidth: 1))
                             VStack(alignment: .leading, spacing: 5) {
                                 Text(typeName)
-                                    .font(.system(size: 15, weight: .semibold))
+                                    .font(.ui(16, .semibold))
                                     .foregroundStyle(Color.eveText)
                                 HStack(spacing: 12) {
                                     if pgCost > 0 {
                                         Label(String(format: "%.0f MW", pgCost), systemImage: "bolt.fill")
-                                            .font(.system(size: 10)).foregroundStyle(Color.eveAmber.opacity(0.75))
+                                            .font(.ui(11)).foregroundStyle(Color.eveAmber.opacity(0.75))
                                     }
                                     if cpuCost > 0 {
                                         Label(String(format: "%.0f Tf", cpuCost), systemImage: "cpu")
-                                            .font(.system(size: 10)).foregroundStyle(Color.eveCyan.opacity(0.75))
+                                            .font(.ui(11)).foregroundStyle(Color.eveCyan.opacity(0.75))
                                     }
                                 }
                             }
@@ -2676,7 +2676,7 @@ struct ModuleSettingSheet: View {
                                 }
                             }
                             Text(config.state.rawValue)
-                                .font(.system(size: 10, weight: .medium, design: .monospaced))
+                                .font(.ui(11, .medium)).monospacedDigit()
                                 .foregroundStyle(config.state.dotColor.opacity(0.72))
                         }
                         .padding(.horizontal, 20).padding(.vertical, 14)
@@ -2704,14 +2704,14 @@ struct ModuleSettingSheet: View {
                                 } label: {
                                     HStack {
                                         Text("Charge")
-                                            .font(.system(size: 13)).foregroundStyle(Color.eveText)
+                                            .font(.ui(14)).foregroundStyle(Color.eveText)
                                         Spacer()
                                         if let cid = config.chargeTypeId, let name = chargeNames[cid] {
                                             Text(name)
-                                                .font(.system(size: 12)).foregroundStyle(Color.eveAmber)
+                                                .font(.ui(13)).foregroundStyle(Color.eveAmber)
                                                 .lineLimit(1)
                                         } else {
-                                            Text("None").font(.system(size: 12)).foregroundStyle(Color.eveText.opacity(0.35))
+                                            Text("None").font(.ui(13)).foregroundStyle(Color.eveText.opacity(0.35))
                                         }
                                         EVEActionIndicator(kind: .navigate)
                                     }
@@ -2735,7 +2735,7 @@ struct ModuleSettingSheet: View {
                                         config.chargeTypeId = nil
                                     } label: {
                                         Text("Clear Charge")
-                                            .font(.system(size: 12, weight: .medium))
+                                            .font(.ui(13, .medium))
                                             .foregroundStyle(Color.eveRed)
                                     }
                                     .buttonStyle(.plain)
@@ -2753,9 +2753,9 @@ struct ModuleSettingSheet: View {
                             } label: {
                                 HStack(spacing: 10) {
                                     Image(systemName: "trash")
-                                        .font(.system(size: 12, weight: .semibold))
+                                        .font(.ui(13, .semibold))
                                     Text("REMOVE MODULE")
-                                        .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                                        .font(.ui(11, .semibold)).monospacedDigit()
                                         .tracking(1.0)
                                     Spacer()
                                 }
@@ -2811,7 +2811,7 @@ struct ChargePickerView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(Color.eveText.opacity(0.40))
                     TextField("Search", text: $search)
-                        .font(.system(size: 13))
+                        .font(.ui(14))
                         .foregroundStyle(Color.eveText)
                 }
                 .padding(.horizontal, 12).padding(.vertical, 9)
@@ -2865,7 +2865,7 @@ struct ChargePickerView: View {
 
                 VStack(alignment: .leading, spacing: 3) {
                     Text(charge.name)
-                        .font(.system(size: 13))
+                        .font(.ui(14))
                         .foregroundStyle(isSelected ? Color.eveAmber : Color.eveText)
                         .lineLimit(1)
                     ChargeDamageBreakdown(profile: damage, compact: true)
@@ -2875,7 +2875,7 @@ struct ChargePickerView: View {
 
                 if isSelected {
                     Image(systemName: "checkmark")
-                        .font(.system(size: 11, weight: .semibold))
+                        .font(.ui(12, .semibold))
                         .foregroundStyle(Color.eveAmber)
                 }
             }
@@ -3001,7 +3001,7 @@ private struct ShipPickerView: View {
                 EVETypeIcon(typeId: ship.id, size: 38)
                     .clipShape(CutCorner(size: 6))
                 Text(ship.name)
-                    .font(.system(size: 14, weight: .medium))
+                    .font(.ui(15, .medium))
                     .foregroundStyle(Color.eveText)
                 Spacer()
                 EVEActionIndicator(kind: .navigate)
@@ -3069,7 +3069,7 @@ private struct ShipPickerView: View {
             Image(systemName: "magnifyingglass")
                 .foregroundStyle(Color.eveText.opacity(0.40))
             TextField(placeholder, text: text)
-                .font(.system(size: 13))
+                .font(.ui(14))
                 .foregroundStyle(Color.eveText)
         }
         .padding(.horizontal, 12)
@@ -3147,7 +3147,7 @@ private struct ModulePickerView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(Color.eveText.opacity(0.40))
                     TextField("Search \(slotTitle.lowercased())", text: $query)
-                        .font(.system(size: 13))
+                        .font(.ui(14))
                         .foregroundStyle(Color.eveText)
                 }
                 .padding(.horizontal, 12)
@@ -3334,20 +3334,20 @@ private struct ModulePickerView: View {
                     .overlay(CutCorner(size: 6).stroke(Color.white.opacity(0.08), lineWidth: 1))
                 VStack(alignment: .leading, spacing: 3) {
                     Text(item.name)
-                        .font(.system(size: 13, weight: .medium))
+                        .font(.ui(14, .medium))
                         .foregroundStyle(Color.eveText)
                         .lineLimit(1)
                     HStack(spacing: 8) {
                         TypeMetaBadge(metaGroupId: item.metaGroupId)
                         if let entry = catalogEntry(for: item.id), !entry.detailPath.isEmpty {
                             Text(entry.detailPath)
-                                .font(.system(size: 9, design: .monospaced))
+                                .font(.ui(11)).monospacedDigit()
                                 .foregroundStyle(Color.eveText.opacity(0.38))
                                 .lineLimit(1)
                         }
                         if let profile = profiles[item.id] {
                             Text(effectSummary(profile.effectIds))
-                                .font(.system(size: 9, design: .monospaced))
+                                .font(.ui(11)).monospacedDigit()
                                 .foregroundStyle(Color.eveText.opacity(0.38))
                                 .lineLimit(1)
                         }
@@ -3543,10 +3543,10 @@ private struct FitImportSheet: View {
             Color.eveBackground.ignoresSafeArea()
             VStack(alignment: .leading, spacing: 12) {
                 Text("Paste EFT format")
-                    .font(.system(size: 12, weight: .semibold))
+                    .font(.ui(13, .semibold))
                     .foregroundStyle(Color.eveText.opacity(0.70))
                 TextEditor(text: $text)
-                    .font(.system(size: 12, design: .monospaced))
+                    .font(.ui(13)).monospacedDigit()
                     .foregroundStyle(Color.eveText)
                     .scrollContentBackground(.hidden)
                     .padding(10)
@@ -3556,7 +3556,7 @@ private struct FitImportSheet: View {
 
                 if let error {
                     Text(error)
-                        .font(.system(size: 10, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveRed)
                 }
 
@@ -3566,7 +3566,7 @@ private struct FitImportSheet: View {
                     HStack {
                         Spacer()
                         Text(isImporting ? "IMPORTING..." : "IMPORT FIT")
-                            .font(.system(size: 12, weight: .bold, design: .monospaced))
+                            .font(.ui(13, .bold)).monospacedDigit()
                             .tracking(1.0)
                         Spacer()
                     }
@@ -3708,7 +3708,7 @@ private struct FitTextSheet: View {
         ZStack {
             Color.eveBackground.ignoresSafeArea()
             TextEditor(text: .constant(text))
-                .font(.system(size: 12, design: .monospaced))
+                .font(.ui(13)).monospacedDigit()
                 .foregroundStyle(Color.eveText)
                 .scrollContentBackground(.hidden)
                 .padding(12)

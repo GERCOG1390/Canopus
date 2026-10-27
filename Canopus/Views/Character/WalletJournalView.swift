@@ -70,30 +70,30 @@ private struct WalletEntryRow: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
                 Text(eveRefLabel(entry.refType))
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                 Spacer()
                 if let amount = entry.amount {
                     Text(formatISK(amount))
-                        .font(.body.monospacedDigit())
+                        .font(.ui(15, .regular, relativeTo: .body)).monospacedDigit()
                         .foregroundStyle(amountColor)
                 }
             }
 
             HStack {
                 Text(entry.date.formatted(date: .abbreviated, time: .shortened))
-                    .font(.caption)
+                    .font(.ui(12, .regular, relativeTo: .caption))
                     .foregroundStyle(.secondary)
                 Spacer()
                 if let balance = entry.balance {
                     Text("Balance: " + formatISK(balance))
-                        .font(.caption)
+                        .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.tertiary)
                 }
             }
 
             if let desc = entry.description, !desc.isEmpty {
                 Text(desc)
-                    .font(.caption)
+                    .font(.ui(12, .regular, relativeTo: .caption))
                     .foregroundStyle(.secondary)
                     .lineLimit(1)
             }

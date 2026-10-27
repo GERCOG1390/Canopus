@@ -13,14 +13,14 @@ struct LoginView: View {
             Spacer()
 
             Image(systemName: "person.crop.circle.badge.plus")
-                .font(.system(size: 72))
+                .font(.ui(73))
                 .foregroundStyle(.tint)
 
             VStack(spacing: 8) {
                 Text("Add a Character")
-                    .font(.title.bold())
+                    .font(.ui(26, .bold, relativeTo: .title))
                 Text("Sign in with EVE Online to view your\nskill queue, wallet, and more.")
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
             }

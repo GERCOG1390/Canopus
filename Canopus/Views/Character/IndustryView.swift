@@ -104,16 +104,16 @@ private struct IndustryJobRow: View {
 
             VStack(alignment: .leading, spacing: 3) {
                 Text(displayName)
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                     .lineLimit(1)
 
                 HStack(spacing: 6) {
                     Text(activityLabel)
-                        .font(.caption)
+                        .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.secondary)
                     if job.runs > 1 {
                         Text("×\(job.runs)")
-                            .font(.caption)
+                            .font(.ui(12, .regular, relativeTo: .caption))
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -122,19 +122,19 @@ private struct IndustryJobRow: View {
                 case "active":
                     HStack(spacing: 3) {
                         Text(job.endDate, style: .relative)
-                            .font(.caption2)
+                            .font(.ui(11, .regular, relativeTo: .caption2))
                             .foregroundStyle(.tint)
                         Text("remaining")
-                            .font(.caption2)
+                            .font(.ui(11, .regular, relativeTo: .caption2))
                             .foregroundStyle(.secondary)
                     }
                 case "paused":
                     Text("Paused")
-                        .font(.caption2)
+                        .font(.ui(11, .regular, relativeTo: .caption2))
                         .foregroundStyle(.orange)
                 case "ready":
                     Text("Ready — deliver in game")
-                        .font(.caption2)
+                        .font(.ui(11, .regular, relativeTo: .caption2))
                         .foregroundStyle(.green)
                 default:
                     EmptyView()
@@ -147,7 +147,7 @@ private struct IndustryJobRow: View {
                     }
                     Text("Facility \(job.facilityId)")
                 }
-                .font(.caption2)
+                .font(.ui(11, .regular, relativeTo: .caption2))
                 .foregroundStyle(.tertiary)
             }
 
@@ -159,7 +159,7 @@ private struct IndustryJobRow: View {
 
     private var statusBadge: some View {
         Text(job.status.capitalized)
-            .font(.caption2.bold())
+            .font(.ui(11, .bold, relativeTo: .caption2))
             .padding(.horizontal, 7)
             .padding(.vertical, 3)
             .background(statusColor.opacity(0.18), in: Capsule())

@@ -68,12 +68,12 @@ struct KillBoardView: View {
                 Rectangle().fill(active ? color : Color.clear).frame(height: 2)
                 HStack(spacing: 6) {
                     Text(LocalizedStringKey(label))
-                        .font(.system(size: 10, weight: .semibold))
+                        .font(.ui(11, .semibold))
                         .tracking(1.4)
                         .foregroundStyle(active ? color : Color.eveText.opacity(0.40))
                     if count > 0 {
                         Text("\(count)")
-                            .font(.system(size: 8.5, weight: .bold, design: .monospaced))
+                            .font(.ui(11, .bold)).monospacedDigit()
                             .foregroundStyle(active ? Color.eveBackground : color)
                             .padding(.horizontal, 4).padding(.vertical, 2)
                             .background(active ? color : color.opacity(0.18))
@@ -112,7 +112,7 @@ struct KillBoardView: View {
                         Button { Task { await loadMore() } } label: {
                             HStack(spacing: 8) {
                                 if isLoadingMore { ProgressView().tint(Color.eveCyan).scaleEffect(0.8) }
-                                Text("LOAD MORE").font(.system(size: 10, weight: .semibold)).tracking(1.6)
+                                Text("LOAD MORE").font(.ui(11, .semibold)).tracking(1.6)
                                     .foregroundStyle(Color.eveCyan)
                             }
                             .frame(maxWidth: .infinity).padding(.vertical, 16)
@@ -141,23 +141,23 @@ struct KillBoardView: View {
             VStack(alignment: .leading, spacing: 5) {
                 HStack(spacing: 6) {
                     Text(isKill ? "KILL" : "LOSS")
-                        .font(.system(size: 8, weight: .bold))
+                        .font(.ui(11, .bold))
                         .tracking(1.2)
                         .foregroundStyle(color)
                         .padding(.horizontal, 5).padding(.vertical, 2)
                         .overlay(CutCorner(size: 3).stroke(color.opacity(0.4), lineWidth: 1))
                     if record.solo == true {
-                        Text("SOLO").font(.system(size: 8, weight: .bold)).tracking(1.2)
+                        Text("SOLO").font(.ui(11, .bold)).tracking(1.2)
                             .foregroundStyle(Color.eveAmber)
                             .padding(.horizontal, 5).padding(.vertical, 2)
                             .overlay(CutCorner(size: 3).stroke(Color.eveAmber.opacity(0.4), lineWidth: 1))
                     }
                 }
                 Text(record.victimShipName ?? "Ship \(record.victimShipTypeId)")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.ui(14, .medium))
                     .foregroundStyle(Color.eveText)
                 Text(record.time, style: .relative)
-                    .font(.system(size: 10.5))
+                    .font(.ui(11.5))
                     .foregroundStyle(Color.eveText.opacity(0.38))
             }
 
@@ -166,9 +166,9 @@ struct KillBoardView: View {
             if let isk = record.totalValue, isk > 0 {
                 VStack(alignment: .trailing, spacing: 2) {
                     Text(iskCompact(isk))
-                        .font(.system(size: 12.5, weight: .medium, design: .monospaced))
+                        .font(.ui(13.5, .medium)).monospacedDigit()
                         .foregroundStyle(color)
-                    Text("ISK").font(.system(size: 8.5, design: .monospaced))
+                    Text("ISK").font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.28))
                 }
             }
@@ -322,16 +322,16 @@ struct KillDetailView: View {
 
                 VStack(alignment: .leading, spacing: 5) {
                     Text(shipName ?? "Ship \(r.victimShipTypeId)")
-                        .font(.system(size: 17, weight: .semibold))
+                        .font(.ui(18, .semibold))
                         .foregroundStyle(Color.eveText)
                     if let cid = r.victimCharId {
                         Text(names[cid] ?? "Capsuleer \(cid)")
-                            .font(.system(size: 12))
+                            .font(.ui(13))
                             .foregroundStyle(Color.eveText.opacity(0.58))
                     }
                     if let v = r.totalValue, v > 0 {
                         Text(iskCompact(v) + " ISK DESTROYED")
-                            .font(.system(size: 10, weight: .semibold))
+                            .font(.ui(11, .semibold))
                             .tracking(1.2)
                             .foregroundStyle(Color.eveRed)
                     }
@@ -350,7 +350,7 @@ struct KillDetailView: View {
     private func metaItem(label: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 3) {
             Text(LocalizedStringKey(label)).hudLabel()
-            Text(value).font(.system(size: 12.5, design: .monospaced)).foregroundStyle(Color.eveText)
+            Text(value).font(.ui(13.5)).monospacedDigit().foregroundStyle(Color.eveText)
         }
     }
 
@@ -383,11 +383,11 @@ struct KillDetailView: View {
             VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 6) {
                     Text(att.characterId.flatMap { names[$0] } ?? "NPC")
-                        .font(.system(size: 12.5, weight: .medium))
+                        .font(.ui(13.5, .medium))
                         .foregroundStyle(Color.eveText)
                     if att.finalBlow {
                         Text("FINAL BLOW")
-                            .font(.system(size: 8, weight: .bold))
+                            .font(.ui(11, .bold))
                             .tracking(1.0)
                             .foregroundStyle(Color.eveAmber)
                             .padding(.horizontal, 4).padding(.vertical, 2)
@@ -395,7 +395,7 @@ struct KillDetailView: View {
                     }
                 }
                 Text("\(att.damageDone.formatted()) dmg")
-                    .font(.system(size: 10, design: .monospaced))
+                    .font(.ui(11)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.38))
             }
             Spacer()

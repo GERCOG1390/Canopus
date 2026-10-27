@@ -84,7 +84,7 @@ struct AssetsView: View {
                 VStack(spacing: 10) {
                     ProgressView()
                     Text(loadingPhase)
-                        .font(.caption)
+                        .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.secondary)
                 }
             } else if locationGroups.isEmpty && error == nil {
@@ -102,7 +102,7 @@ struct AssetsView: View {
                         .fill(Color.eveAmber.opacity(0.28))
                         .frame(height: 1)
                     Text(assetSummaryText)
-                        .font(.caption)
+                        .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.secondary)
                         .padding()
                         .frame(maxWidth: .infinity)
@@ -350,15 +350,15 @@ private struct AssetItemRow: View {
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(item.name)
-                    .font(.body)
+                    .font(.ui(15, .regular, relativeTo: .body))
                     .lineLimit(1)
                 Text("×\(item.quantity.formatted())")
-                    .font(.caption)
+                    .font(.ui(12, .regular, relativeTo: .caption))
                     .foregroundStyle(.secondary)
 
                 if let totalValue = item.totalValue {
                     Text(formatISK(totalValue))
-                        .font(.caption2.monospacedDigit())
+                        .font(.ui(11, .regular, relativeTo: .caption2)).monospacedDigit()
                         .foregroundStyle(Color.eveAmber)
                 }
 
@@ -375,7 +375,7 @@ private struct AssetItemRow: View {
                             .foregroundStyle(.tertiary)
                     }
                 }
-                .font(.caption2)
+                .font(.ui(11, .regular, relativeTo: .caption2))
             }
 
             Spacer()
@@ -390,7 +390,7 @@ private struct LocationLabel: View {
     var body: some View {
         HStack(alignment: .top, spacing: 10) {
             Image(systemName: locationIcon)
-                .font(.caption)
+                .font(.ui(12, .regular, relativeTo: .caption))
                 .foregroundStyle(.tint)
                 .frame(width: 20)
 
@@ -400,7 +400,7 @@ private struct LocationLabel: View {
                         SecurityBadge(value: security)
                     }
                     Text(location.name)
-                        .font(.footnote.bold())
+                        .font(.ui(13, .bold, relativeTo: .footnote))
                         .foregroundStyle(.primary)
                         .lineLimit(2)
                 }
@@ -419,11 +419,11 @@ private struct LocationLabel: View {
                     Text("\(location.totalQuantity.formatted()) items")
                         .foregroundStyle(.tertiary)
                 }
-                .font(.caption2)
+                .font(.ui(11, .regular, relativeTo: .caption2))
 
                 if location.totalValue > 0 {
                     Text(formatISK(location.totalValue))
-                        .font(.caption2.monospacedDigit())
+                        .font(.ui(11, .regular, relativeTo: .caption2)).monospacedDigit()
                         .foregroundStyle(Color.eveAmber)
                 }
             }
@@ -445,7 +445,7 @@ private struct SecurityBadge: View {
 
     var body: some View {
         Text(securityLabel(value))
-            .font(.caption2.monospacedDigit().weight(.bold))
+            .font(.ui(11, .bold, relativeTo: .caption2)).monospacedDigit()
             .foregroundStyle(securityColor(value))
             .padding(.horizontal, 6)
             .padding(.vertical, 2)

@@ -87,15 +87,15 @@ struct MiningLedgerView: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("30-DAY TOTAL").hudLabel()
             Text(iskFormatted(grandTotal))
-                .font(.system(size: 28, weight: .medium, design: .monospaced))
+                .font(.ui(29, .medium)).monospacedDigit()
                 .foregroundStyle(Color.eveText)
                 .padding(.top, 8)
             HStack(spacing: 6) {
                 Text(volFormatted(grandTotalVol))
-                    .font(.system(size: 12, design: .monospaced))
+                    .font(.ui(13)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.45))
                 Text("M³  TOTAL VOLUME")
-                    .font(.system(size: 9, weight: .semibold))
+                    .font(.ui(11, .semibold))
                     .tracking(1.4)
                     .foregroundStyle(Color.eveText.opacity(0.28))
             }
@@ -111,14 +111,14 @@ struct MiningLedgerView: View {
             // Day header
             HStack {
                 Text(formattedDate(date))
-                    .font(.system(size: 11, weight: .semibold))
+                    .font(.ui(12, .semibold))
                     .tracking(1.6)
                     .foregroundStyle(Color.eveAmber)
                 Spacer()
                 let isk = totalISK(rows)
                 if isk > 0 {
                     Text(iskFormatted(isk))
-                        .font(.system(size: 11, design: .monospaced))
+                        .font(.ui(12)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.55))
                 }
             }
@@ -146,10 +146,10 @@ struct MiningLedgerView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(typeNames[entry.typeId] ?? "Type \(entry.typeId)")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.ui(14, .medium))
                     .foregroundStyle(Color.eveText)
                 Text("\(volFormatted(entry.quantity)) m³")
-                    .font(.system(size: 10.5, design: .monospaced))
+                    .font(.ui(11.5)).monospacedDigit()
                     .foregroundStyle(Color.eveText.opacity(0.42))
             }
 
@@ -158,16 +158,16 @@ struct MiningLedgerView: View {
             VStack(alignment: .trailing, spacing: 4) {
                 if total > 0 {
                     Text(iskFormatted(total))
-                        .font(.system(size: 13, weight: .medium, design: .monospaced))
+                        .font(.ui(14, .medium)).monospacedDigit()
                         .foregroundStyle(Color.eveGreen)
                 } else {
                     Text("—")
-                        .font(.system(size: 13, design: .monospaced))
+                        .font(.ui(14)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.28))
                 }
                 if unitPrice > 0 {
                     Text("@ \(iskFormatted(unitPrice))")
-                        .font(.system(size: 9.5, design: .monospaced))
+                        .font(.ui(11)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.30))
                 }
             }

@@ -20,19 +20,19 @@ struct CloneView: View {
                 if let loc = homeLocation {
                     HStack(spacing: 12) {
                         Image(systemName: loc.locationType == "station" ? "building.2" : "hexagon")
-                            .font(.title3)
+                            .font(.ui(19, .regular, relativeTo: .title3))
                             .foregroundStyle(.tint)
                             .frame(width: 32)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(homeName ?? "Location \(loc.locationId)")
-                                .font(.body)
+                                .font(.ui(15, .regular, relativeTo: .body))
                             if let changed = lastChange {
                                 Text("Last changed: " + changed.formatted(date: .abbreviated, time: .omitted))
-                                    .font(.caption)
+                                    .font(.ui(12, .regular, relativeTo: .caption))
                                     .foregroundStyle(.secondary)
                             } else {
                                 Text("Last changed: Never")
-                                    .font(.caption)
+                                    .font(.ui(12, .regular, relativeTo: .caption))
                                     .foregroundStyle(.secondary)
                             }
                         }
@@ -55,7 +55,7 @@ struct CloneView: View {
                         HStack(spacing: 12) {
                             EVETypeIcon(typeId: typeId, size: 36)
                             Text(implantNames[typeId] ?? "Implant \(typeId)")
-                                .font(.body)
+                                .font(.ui(15, .regular, relativeTo: .body))
                                 .lineLimit(2)
                         }
                         .padding(.vertical, 2)

@@ -131,7 +131,7 @@ struct EVEDisclosureSectionHeader: View {
         Button(action: action) {
             HStack(spacing: 10) {
                 Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
-                    .font(.system(size: 10, weight: .bold))
+                    .font(.ui(11, .bold))
                     .foregroundStyle(Color.eveAmber)
                     .frame(width: 12)
                 Text(LocalizedStringKey(title))
@@ -229,28 +229,33 @@ struct EVEActionIndicator: View {
 
 func eveRefLabel(_ refType: String) -> String {
     switch refType {
-    case "player_trading":                  return "Trade"
-    case "market_escrow":                   return "Market Escrow"
-    case "transaction_tax":                 return "Transaction Tax"
-    case "brokers_fee":                     return "Brokers Fee"
-    case "bounty_prizes":                   return "Bounty"
-    case "contract_price":                  return "Contract"
-    case "contract_reward":                 return "Contract Reward"
-    case "contract_collateral":             return "Contract Collateral"
-    case "contract_deposit":                return "Contract Deposit"
-    case "contract_deposit_refund":         return "Contract Refund"
-    case "agent_mission_reward":            return "Mission Reward"
-    case "agent_mission_time_bonus_reward": return "Mission Bonus"
-    case "character_donation":              return "Donation"
-    case "corporation_account_withdrawal":  return "Corp Withdrawal"
-    case "manufacturing":                   return "Manufacturing"
-    case "reprocessing_tax":                return "Reprocessing Tax"
-    case "jump_clone_activation_fee":       return "Clone Jump Fee"
-    case "planetary_export_tax":            return "PI Export Tax"
-    case "planetary_import_tax":            return "PI Import Tax"
-    case "skill_purchase":                  return "Skill Purchase"
-    case "insurance":                       return "Insurance"
-    case "inheritance":                     return "Inheritance"
+    case "player_trading":                  return String(localized: "Trade")
+    case "market_transaction":              return String(localized: "Market Transaction")
+    case "daily_goal_payouts":              return String(localized: "Daily Goal Payouts")
+    case "corporation_account_deposit":     return String(localized: "Corp Deposit")
+    case "industry_job_tax":                return String(localized: "Industry Tax")
+    case "structure_gate_jump":             return String(localized: "Jump Bridge Fee")
+    case "market_escrow":                   return String(localized: "Market Escrow")
+    case "transaction_tax":                 return String(localized: "Transaction Tax")
+    case "brokers_fee":                     return String(localized: "Brokers Fee")
+    case "bounty_prizes":                   return String(localized: "Bounty")
+    case "contract_price":                  return String(localized: "Contract")
+    case "contract_reward":                 return String(localized: "Contract Reward")
+    case "contract_collateral":             return String(localized: "Contract Collateral")
+    case "contract_deposit":                return String(localized: "Contract Deposit")
+    case "contract_deposit_refund":         return String(localized: "Contract Refund")
+    case "agent_mission_reward":            return String(localized: "Mission Reward")
+    case "agent_mission_time_bonus_reward": return String(localized: "Mission Bonus")
+    case "character_donation":              return String(localized: "Donation")
+    case "corporation_account_withdrawal":  return String(localized: "Corp Withdrawal")
+    case "manufacturing":                   return String(localized: "Manufacturing")
+    case "reprocessing_tax":                return String(localized: "Reprocessing Tax")
+    case "jump_clone_activation_fee":       return String(localized: "Clone Jump Fee")
+    case "planetary_export_tax":            return String(localized: "PI Export Tax")
+    case "planetary_import_tax":            return String(localized: "PI Import Tax")
+    case "skill_purchase":                  return String(localized: "Skill Purchase")
+    case "insurance":                       return String(localized: "Insurance")
+    case "inheritance":                     return String(localized: "Inheritance")
     default:
         return refType.replacingOccurrences(of: "_", with: " ").capitalized
     }

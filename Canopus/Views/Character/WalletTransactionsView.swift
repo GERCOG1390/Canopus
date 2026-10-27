@@ -70,7 +70,7 @@ struct WalletTransactionsView: View {
         VStack(spacing: 4) {
             Text(LocalizedStringKey(label)).hudLabel()
             Text(iskCompact(abs(value)))
-                .font(.system(size: 13, weight: .medium, design: .monospaced))
+                .font(.ui(14, .medium)).monospacedDigit()
                 .foregroundStyle(value == 0 ? Color.eveText.opacity(0.28) : color)
                 .lineLimit(1)
                 .minimumScaleFactor(0.7)
@@ -87,7 +87,7 @@ struct WalletTransactionsView: View {
             filterChip(label: "SELL", active: showSell, color: Color.eveGreen) { showSell.toggle() }
             Spacer()
             Text("\(filtered.count) RECORDS")
-                .font(.system(size: 9, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(1.2)
                 .foregroundStyle(Color.eveText.opacity(0.28))
         }
@@ -99,7 +99,7 @@ struct WalletTransactionsView: View {
     private func filterChip(label: String, active: Bool, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Text(LocalizedStringKey(label))
-                .font(.system(size: 9.5, weight: .semibold))
+                .font(.ui(11, .semibold))
                 .tracking(1.4)
                 .foregroundStyle(active ? color : Color.eveText.opacity(0.35))
                 .padding(.horizontal, 10).padding(.vertical, 5)
@@ -125,7 +125,7 @@ struct WalletTransactionsView: View {
                         HStack(spacing: 8) {
                             if isLoadingMore { ProgressView().tint(Color.eveCyan).scaleEffect(0.8) }
                             Text("LOAD MORE")
-                                .font(.system(size: 10, weight: .semibold))
+                                .font(.ui(11, .semibold))
                                 .tracking(1.6)
                                 .foregroundStyle(Color.eveCyan)
                         }
@@ -152,21 +152,21 @@ struct WalletTransactionsView: View {
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(typeNames[tx.typeId] ?? "Type \(tx.typeId)")
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.ui(14, .medium))
                     .foregroundStyle(Color.eveText)
                     .lineLimit(1)
                 HStack(spacing: 8) {
                     Text(tx.isBuy ? "BUY" : "SELL")
-                        .font(.system(size: 8.5, weight: .bold))
+                        .font(.ui(11, .bold))
                         .tracking(1.2)
                         .foregroundStyle(color)
                     Text("×\(tx.quantity.formatted())")
-                        .font(.system(size: 10.5, design: .monospaced))
+                        .font(.ui(11.5)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.45))
                     Text("@")
                         .foregroundStyle(Color.eveText.opacity(0.25))
                     Text(iskCompact(tx.unitPrice))
-                        .font(.system(size: 10.5, design: .monospaced))
+                        .font(.ui(11.5)).monospacedDigit()
                         .foregroundStyle(Color.eveText.opacity(0.45))
                 }
             }
@@ -175,10 +175,10 @@ struct WalletTransactionsView: View {
 
             VStack(alignment: .trailing, spacing: 4) {
                 Text(iskCompact(total))
-                    .font(.system(size: 13, weight: .medium, design: .monospaced))
+                    .font(.ui(14, .medium)).monospacedDigit()
                     .foregroundStyle(Color.eveText)
                 Text(tx.date, style: .relative)
-                    .font(.system(size: 9.5))
+                    .font(.ui(11))
                     .foregroundStyle(Color.eveText.opacity(0.32))
             }
         }

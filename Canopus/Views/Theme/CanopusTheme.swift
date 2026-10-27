@@ -257,12 +257,12 @@ struct StatTile: View {
                 .foregroundStyle(valueColor)
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
-            if let sub {
-                Text(LocalizedStringKey(sub))
-                    .font(.ui(12))
-                    .foregroundStyle(C.muted)
-                    .lineLimit(2)
-            }
+            // Always one sub line, so tiles side by side keep the same height.
+            Text(LocalizedStringKey(sub ?? " "))
+                .font(.ui(12))
+                .foregroundStyle(C.muted)
+                .lineLimit(1)
+                .minimumScaleFactor(0.8)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .canopusSurface(padding: 12)
@@ -385,5 +385,38 @@ struct LevelPips: View {
                     .frame(width: 9, height: 9)
             }
         }
+    }
+}
+
+// MARK: - Formatting (desktop lib/format.ts)
+
+enum Fmt {
+    /// "12.28B ISK", as the desktop's compact ISK.
+    static func isk(_ v: Double, compact: Bool = true) -> String {
+        guard compact else { return v.formatted(.number.precision(.fractionLength(2))) + " ISK" }
+        let a = abs(v)
+        if a >= 1e12 { return String(format: "%.2fT ISK", v / 1e12) }
+        if a >= 1e9 { return String(format: "%.2fB ISK", v / 1e9) }
+        if a >= 1e6 { return String(format: "%.2fM ISK", v / 1e6) }
+        if a >= 1e3 { return String(format: "%.1fK ISK", v / 1e3) }
+        return String(format: "%.2f ISK", v)
+    }
+
+    /// Signed compact amount without the unit: "+1.25M", "−340.6K".
+    static func signed(_ v: Double) -> String {
+        let a = abs(v)
+        let body: String
+        if a >= 1e9 { body = String(format: "%.2fB", a / 1e9) } else if a >= 1e6 { body = String(format: "%.2fM", a / 1e6) } else if a >= 1e3 { body = String(format: "%.1fK", a / 1e3) } else { body = String(format: "%.0f", a) }
+        return (v < 0 ? "−" : "+") + body
+    }
+
+    /// Time left until a date: "5d 21h" / "5 д 21 ч" (the system's locale).
+    static func duration(until date: Date) -> String {
+        let r = max(0, date.timeIntervalSinceNow)
+        let f = DateComponentsFormatter()
+        f.allowedUnits = r >= 86_400 ? [.day, .hour] : r >= 3_600 ? [.hour, .minute] : [.minute, .second]
+        f.unitsStyle = .abbreviated
+        f.maximumUnitCount = 2
+        return f.string(from: r) ?? "—"
     }
 }
