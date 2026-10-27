@@ -67,7 +67,7 @@ struct KillBoardView: View {
             VStack(spacing: 0) {
                 Rectangle().fill(active ? color : Color.clear).frame(height: 2)
                 HStack(spacing: 6) {
-                    Text(label)
+                    Text(LocalizedStringKey(label))
                         .font(.system(size: 10, weight: .semibold))
                         .tracking(1.4)
                         .foregroundStyle(active ? color : Color.eveText.opacity(0.40))
@@ -349,7 +349,7 @@ struct KillDetailView: View {
 
     private func metaItem(label: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 3) {
-            Text(label).hudLabel()
+            Text(LocalizedStringKey(label)).hudLabel()
             Text(value).font(.system(size: 12.5, design: .monospaced)).foregroundStyle(Color.eveText)
         }
     }

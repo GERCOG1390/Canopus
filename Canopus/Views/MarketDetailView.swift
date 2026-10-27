@@ -121,7 +121,7 @@ struct MarketDetailView: View {
 
     private func priceCell(label: String, price: Double?, loading: Bool, color: Color) -> some View {
         VStack(spacing: 4) {
-            Text(label).hudLabel()
+            Text(LocalizedStringKey(label)).hudLabel()
             if loading && price == nil {
                 ProgressView().tint(color).scaleEffect(0.8).padding(.top, 4)
             } else if let p = price {

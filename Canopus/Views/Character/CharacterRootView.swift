@@ -262,7 +262,7 @@ struct CharacterRootView: View {
 
     private func statTile(label: String, value: String, sub: String?) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(label).hudLabel()
+            Text(LocalizedStringKey(label)).hudLabel()
             Text(value)
                 .font(.system(size: 17, weight: .medium, design: .monospaced))
                 .foregroundStyle(Color.eveText)
@@ -428,7 +428,7 @@ struct CharacterRootView: View {
                             .font(.system(size: 13))
                             .foregroundStyle(Color.eveAmber)
                             .frame(width: 20)
-                        Text(title)
+                        Text(LocalizedStringKey(title))
                             .font(.system(size: 13.5, weight: .medium))
                             .foregroundStyle(Color.eveText)
                         Spacer()

@@ -68,7 +68,7 @@ struct WalletTransactionsView: View {
 
     private func summaryCell(label: String, value: Double, color: Color) -> some View {
         VStack(spacing: 4) {
-            Text(label).hudLabel()
+            Text(LocalizedStringKey(label)).hudLabel()
             Text(iskCompact(abs(value)))
                 .font(.system(size: 13, weight: .medium, design: .monospaced))
                 .foregroundStyle(value == 0 ? Color.eveText.opacity(0.28) : color)
@@ -98,7 +98,7 @@ struct WalletTransactionsView: View {
 
     private func filterChip(label: String, active: Bool, color: Color, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 9.5, weight: .semibold))
                 .tracking(1.4)
                 .foregroundStyle(active ? color : Color.eveText.opacity(0.35))

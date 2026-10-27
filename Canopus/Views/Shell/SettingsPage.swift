@@ -16,6 +16,7 @@ struct SettingsPage: View {
             VStack(alignment: .leading, spacing: 16) {
                 charactersCard
                 themeCard
+                languageCard
                 databaseCard
                 aboutCard
             }
@@ -85,6 +86,20 @@ struct SettingsPage: View {
                     .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(accent == a.rawValue ? a.color : .clear, lineWidth: 1.5))
                 }
             }
+        }
+    }
+
+    private var languageCard: some View {
+        Card("Language") {
+            Text("Interface language follows the iPhone settings. Change it for Canopus only in Settings → Canopus → Language.")
+                .font(.ui(14))
+                .foregroundStyle(C.muted)
+            Button {
+                if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
+            } label: {
+                Label("Open settings", systemImage: "globe")
+            }
+            .buttonStyle(.canopusGhost)
         }
     }
 

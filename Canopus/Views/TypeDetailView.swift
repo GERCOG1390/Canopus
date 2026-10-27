@@ -1026,7 +1026,7 @@ private struct StatRow: View {
                 EVEIconImage(iconId: iconId, size: 16)
                     .alignmentGuide(.firstTextBaseline) { d in d[VerticalAlignment.center] }
             }
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 14))
                 .foregroundStyle(.secondary)
                 .lineLimit(2)
@@ -1144,7 +1144,7 @@ private struct TypeInfoChip: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Text(title)
+            Text(LocalizedStringKey(title))
                 .foregroundStyle(.secondary)
             Text(value)
                 .foregroundStyle(.primary)

@@ -190,7 +190,7 @@ struct WealthView: View {
                 .frame(width: 22)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(label)
+                Text(LocalizedStringKey(label))
                     .font(.system(size: 9.5, weight: .semibold))
                     .tracking(1.6)
                     .foregroundStyle(Color.eveText.opacity(0.38))

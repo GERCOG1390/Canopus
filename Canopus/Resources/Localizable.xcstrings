@@ -1,0 +1,3479 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "": {
+      "shouldTranslate": false
+    },
+    "#%lld · %@": {},
+    "%@ (%lld)": {},
+    "%@ LP": {},
+    "%@ LP available": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доступно %@ LP"
+          }
+        }
+      }
+    },
+    "%@ SP": {},
+    "%@ dmg": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ урона"
+          }
+        }
+      }
+    },
+    "%@ items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ шт."
+          }
+        }
+      }
+    },
+    "%@ m³": {},
+    "%@ · %@": {
+      "shouldTranslate": false
+    },
+    "%@x": {},
+    "%lld": {},
+    "%lld %@": {},
+    "%lld / %lld": {},
+    "%lld ACTIVE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld АКТИВНО"
+          }
+        }
+      }
+    },
+    "%lld BONUS REMAP%@ AVAILABLE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ДОСТУПНО БОНУСНЫХ ПЕРЕРАСПРЕДЕЛЕНИЙ: %lld%@"
+          }
+        }
+      }
+    },
+    "%lld IN QUEUE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld В ОЧЕРЕДИ"
+          }
+        }
+      }
+    },
+    "%lld RECORDS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЗАПИСЕЙ: %lld"
+          }
+        }
+      }
+    },
+    "%lld Skills · %@ SP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыков: %lld · %@ SP"
+          }
+        }
+      }
+    },
+    "%lld in Queue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld в очереди"
+          }
+        }
+      }
+    },
+    "%lld items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld шт."
+          }
+        }
+      }
+    },
+    "%lld modules": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld модулей"
+          }
+        }
+      }
+    },
+    "%lld skills · %@ SP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "навыков: %lld · %@ SP"
+          }
+        }
+      }
+    },
+    "%lld types": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld типов"
+          }
+        }
+      }
+    },
+    "%lldx": {},
+    "* Asset and implant values use ESI adjusted prices.\n  Items without market data are counted as 0 ISK.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "* Имущество и импланты оценены по скорректированным ценам ESI.\n  Предметы без рыночных данных считаются за 0 ISK."
+          }
+        }
+      }
+    },
+    "+ %lld internal attribute/category updates": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ внутренних изменений атрибутов и категорий: %lld"
+          }
+        }
+      }
+    },
+    "30-DAY TOTAL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЗА 30 ДНЕЙ"
+          }
+        }
+      }
+    },
+    "@": {
+      "shouldTranslate": false
+    },
+    "@ %@": {
+      "shouldTranslate": false
+    },
+    "ACTIVE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "АКТИВЕН"
+          }
+        }
+      }
+    },
+    "ACTIVE ORDERS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "АКТИВНЫЕ ОРДЕРА"
+          }
+        }
+      }
+    },
+    "ACTIVE SHIP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ТЕКУЩИЙ КОРАБЛЬ"
+          }
+        }
+      }
+    },
+    "ADD %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ДОБАВИТЬ %@"
+          }
+        }
+      }
+    },
+    "AGE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВОЗРАСТ"
+          }
+        }
+      }
+    },
+    "ALERTS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "УВЕДОМЛЕНИЯ"
+          }
+        }
+      }
+    },
+    "AMMO / CHARGE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БОЕПРИПАСЫ / ЗАРЯД"
+          }
+        }
+      }
+    },
+    "ARM": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БРН"
+          }
+        }
+      }
+    },
+    "ASSETS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИМУЩЕСТВО"
+          }
+        }
+      }
+    },
+    "ATTACKERS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "АТАКУЮЩИЕ"
+          }
+        }
+      }
+    },
+    "ATTACKERS · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "АТАКУЮЩИЕ · %lld"
+          }
+        }
+      }
+    },
+    "About": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "О программе"
+          }
+        }
+      }
+    },
+    "Accent theme": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Акцентная тема"
+          }
+        }
+      }
+    },
+    "Active": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активен"
+          }
+        }
+      }
+    },
+    "Active (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активные (%lld)"
+          }
+        }
+      }
+    },
+    "Add": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить"
+          }
+        }
+      }
+    },
+    "Add %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить %@"
+          }
+        }
+      }
+    },
+    "Add a Character": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте персонажа"
+          }
+        }
+      }
+    },
+    "Add skills to your training queue in EVE Online.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте навыки в очередь в EVE Online."
+          }
+        }
+      }
+    },
+    "Armor": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Броня"
+          }
+        }
+      }
+    },
+    "Assets": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имущество"
+          }
+        }
+      }
+    },
+    "Authentication Error": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ошибка входа"
+          }
+        }
+      }
+    },
+    "Avg": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сред."
+          }
+        }
+      }
+    },
+    "BALANCE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БАЛАНС"
+          }
+        }
+      }
+    },
+    "BASE ATTRIBUTES": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БАЗОВЫЕ АТРИБУТЫ"
+          }
+        }
+      }
+    },
+    "BEST BUY": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЛУЧШАЯ ПОКУПКА"
+          }
+        }
+      }
+    },
+    "BEST SELL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЛУЧШАЯ ПРОДАЖА"
+          }
+        }
+      }
+    },
+    "BIRTHDAY": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ДАТА РОЖДЕНИЯ"
+          }
+        }
+      }
+    },
+    "BOUGHT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КУПЛЕНО"
+          }
+        }
+      }
+    },
+    "BPC": {},
+    "BREAKDOWN": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СОСТАВ"
+          }
+        }
+      }
+    },
+    "BUY": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОКУПКА"
+          }
+        }
+      }
+    },
+    "BUY ORDERS · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОКУПКА · %lld"
+          }
+        }
+      }
+    },
+    "Base Price": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Базовая цена"
+          }
+        }
+      }
+    },
+    "Base Stats": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Основные характеристики"
+          }
+        }
+      }
+    },
+    "Buy Orders (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Покупка (%lld)"
+          }
+        }
+      }
+    },
+    "By Corporation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По корпорациям"
+          }
+        }
+      }
+    },
+    "CAPSULEER": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КАПСУЛИР"
+          }
+        }
+      }
+    },
+    "CHANGED": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИЗМЕНЕНО"
+          }
+        }
+      }
+    },
+    "CHARACTER": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПЕРСОНАЖ"
+          }
+        }
+      }
+    },
+    "CHARISMA": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ХАРИЗМА"
+          }
+        }
+      }
+    },
+    "COMMAND": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "РАЗДЕЛЫ"
+          }
+        }
+      }
+    },
+    "COUNTED": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "УЧТЕНО"
+          }
+        }
+      }
+    },
+    "CURRENT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СЕЙЧАС"
+          }
+        }
+      }
+    },
+    "CURRENT STATUS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ТЕКУЩИЙ СТАТУС"
+          }
+        }
+      }
+    },
+    "Cannot load modules": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось загрузить модули"
+          }
+        }
+      }
+    },
+    "Canopus": {},
+    "Canopus %@ (%@)": {},
+    "Capacitor": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Накопитель"
+          }
+        }
+      }
+    },
+    "Capacity": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вместимость"
+          }
+        }
+      }
+    },
+    "Cargo items are not applied to ship stats unless selected as a loaded charge.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Груз не влияет на характеристики, если не выбран как заряд модуля."
+          }
+        }
+      }
+    },
+    "Character": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Персонаж"
+          }
+        }
+      }
+    },
+    "Character Sheet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лист персонажа"
+          }
+        }
+      }
+    },
+    "Character Usage": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У персонажа"
+          }
+        }
+      }
+    },
+    "Characters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Персонажи"
+          }
+        }
+      }
+    },
+    "Charge": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заряд"
+          }
+        }
+      }
+    },
+    "Charge & Ammo": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заряды и боеприпасы"
+          }
+        }
+      }
+    },
+    "Check": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить"
+          }
+        }
+      }
+    },
+    "Check for updates": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить обновления"
+          }
+        }
+      }
+    },
+    "Clear Charge": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убрать заряд"
+          }
+        }
+      }
+    },
+    "Clone & Implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клоны и импланты"
+          }
+        }
+      }
+    },
+    "Clone Status": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состояние клона"
+          }
+        }
+      }
+    },
+    "Clones & implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Клоны и импланты"
+          }
+        }
+      }
+    },
+    "Close": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть"
+          }
+        }
+      }
+    },
+    "Collateral %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Залог %@"
+          }
+        }
+      }
+    },
+    "Combat": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бой"
+          }
+        }
+      }
+    },
+    "Compatible Charges": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подходящие заряды"
+          }
+        }
+      }
+    },
+    "Complete missions to earn LP.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполняйте миссии, чтобы получать LP."
+          }
+        }
+      }
+    },
+    "Completed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершённые"
+          }
+        }
+      }
+    },
+    "Contracts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракты"
+          }
+        }
+      }
+    },
+    "Copy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копировать"
+          }
+        }
+      }
+    },
+    "Core": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ядро"
+          }
+        }
+      }
+    },
+    "Corp": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корп."
+          }
+        }
+      }
+    },
+    "Cost %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стоимость %@"
+          }
+        }
+      }
+    },
+    "Current Version": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текущая версия"
+          }
+        }
+      }
+    },
+    "DATE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ДАТА"
+          }
+        }
+      }
+    },
+    "DOCKED AT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В ДОКЕ"
+          }
+        }
+      }
+    },
+    "Damage": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Урон"
+          }
+        }
+      }
+    },
+    "Database": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Справочник"
+          }
+        }
+      }
+    },
+    "Database unavailable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "База недоступна"
+          }
+        }
+      }
+    },
+    "Date": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дата"
+          }
+        }
+      }
+    },
+    "Defensive": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Защита"
+          }
+        }
+      }
+    },
+    "Description": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Описание"
+          }
+        }
+      }
+    },
+    "Dismiss": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть"
+          }
+        }
+      }
+    },
+    "Done": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово"
+          }
+        }
+      }
+    },
+    "Drones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дроны"
+          }
+        }
+      }
+    },
+    "EMPLOYMENT HISTORY · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИСТОРИЯ КОРПОРАЦИЙ · %lld"
+          }
+        }
+      }
+    },
+    "EVE MAIL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОЧТА EVE"
+          }
+        }
+      }
+    },
+    "EVE Mail": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Почта EVE"
+          }
+        }
+      }
+    },
+    "EVE Online and all related materials are property of CCP hf. Canopus is not affiliated with CCP.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "EVE Online и все связанные материалы принадлежат CCP hf. Canopus не связан с CCP."
+          }
+        }
+      }
+    },
+    "EXPORT FIT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЭКСПОРТ ФИТА"
+          }
+        }
+      }
+    },
+    "Economy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экономика"
+          }
+        }
+      }
+    },
+    "Empty %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пустой слот: %@"
+          }
+        }
+      }
+    },
+    "Empty %@ Subsystem": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пустая подсистема: %@"
+          }
+        }
+      }
+    },
+    "Enter at least 2 characters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введите хотя бы 2 символа"
+          }
+        }
+      }
+    },
+    "Error": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ошибка"
+          }
+        }
+      }
+    },
+    "Export EFT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт EFT"
+          }
+        }
+      }
+    },
+    "FINAL BLOW": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОСЛЕДНИЙ УДАР"
+          }
+        }
+      }
+    },
+    "FIREPOWER": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОГНЕВАЯ МОЩЬ"
+          }
+        }
+      }
+    },
+    "FIT SKILLS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАВЫКИ ФИТА"
+          }
+        }
+      }
+    },
+    "FITTINGS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ФИТЫ"
+          }
+        }
+      }
+    },
+    "FITTINGS · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ФИТЫ · %lld"
+          }
+        }
+      }
+    },
+    "FREE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СВОБОДНО"
+          }
+        }
+      }
+    },
+    "FROM": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОТ"
+          }
+        }
+      }
+    },
+    "Facility %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сооружение %lld"
+          }
+        }
+      }
+    },
+    "Filter transactions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фильтр сделок"
+          }
+        }
+      }
+    },
+    "Fitting": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фитинг"
+          }
+        }
+      }
+    },
+    "Fittings": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фиты"
+          }
+        }
+      }
+    },
+    "Game database (SDE)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "База данных игры (SDE)"
+          }
+        }
+      }
+    },
+    "HANGAR": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "АНГАР"
+          }
+        }
+      }
+    },
+    "HIGH SEC": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ХАЙСЕК"
+          }
+        }
+      }
+    },
+    "HP": {},
+    "HP: %@  |  EHP: %@": {},
+    "HUL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КРП"
+          }
+        }
+      }
+    },
+    "Heat & Overload": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перегрев"
+          }
+        }
+      }
+    },
+    "High": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Макс."
+          }
+        }
+      }
+    },
+    "Home Station": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Домашняя станция"
+          }
+        }
+      }
+    },
+    "IDENTITY": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЛИЧНОСТЬ"
+          }
+        }
+      }
+    },
+    "IMPLANTS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИМПЛАНТЫ"
+          }
+        }
+      }
+    },
+    "IMPORT EFT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИМПОРТ EFT"
+          }
+        }
+      }
+    },
+    "IMPORT FIT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИМПОРТИРОВАТЬ"
+          }
+        }
+      }
+    },
+    "IMPORTING...": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИМПОРТ…"
+          }
+        }
+      }
+    },
+    "INTELLIGENCE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИНТЕЛЛЕКТ"
+          }
+        }
+      }
+    },
+    "ISK": {},
+    "ISK ESTIMATED VALUE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ISK ОЦЕНКА"
+          }
+        }
+      }
+    },
+    "Icon & Schema Package": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пакет иконок и схемы"
+          }
+        }
+      }
+    },
+    "Implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты"
+          }
+        }
+      }
+    },
+    "Implants (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты (%lld)"
+          }
+        }
+      }
+    },
+    "In Space": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В космосе"
+          }
+        }
+      }
+    },
+    "In progress (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В работе (%lld)"
+          }
+        }
+      }
+    },
+    "Includes skills & module bonuses; boosters/environment not included": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "С учётом навыков и бонусов модулей; без бустеров и окружения"
+          }
+        }
+      }
+    },
+    "Includes skills, implants & module bonuses; boosters/environment not included": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "С учётом навыков, имплантов и бонусов модулей; без бустеров и окружения"
+          }
+        }
+      }
+    },
+    "Industry": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Индустрия"
+          }
+        }
+      }
+    },
+    "Intel": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разведка"
+          }
+        }
+      }
+    },
+    "Interface language follows the iPhone settings. Change it for Canopus only in Settings → Canopus → Language.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Язык интерфейса берётся из настроек iPhone. Только для Canopus его можно сменить в Настройки → Canopus → Язык."
+          }
+        }
+      }
+    },
+    "KILL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "УБИЙСТВО"
+          }
+        }
+      }
+    },
+    "KILL BOARD": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КИЛЛБОРД"
+          }
+        }
+      }
+    },
+    "KILL DETAIL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОДРОБНОСТИ"
+          }
+        }
+      }
+    },
+    "KILLS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "УБИЙСТВА"
+          }
+        }
+      }
+    },
+    "Kill Board": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Киллборд"
+          }
+        }
+      }
+    },
+    "L%lld": {},
+    "L%lld → L%lld": {},
+    "LAST REMAP %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОСЛЕДНЕЕ ПЕРЕРАСПРЕДЕЛЕНИЕ %@"
+          }
+        }
+      }
+    },
+    "LIVE FIT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ТЕКУЩИЙ ФИТ"
+          }
+        }
+      }
+    },
+    "LIVE SHIP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ТЕКУЩИЙ КОРАБЛЬ"
+          }
+        }
+      }
+    },
+    "LOAD MORE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЗАГРУЗИТЬ ЕЩЁ"
+          }
+        }
+      }
+    },
+    "LOSS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОТЕРЯ"
+          }
+        }
+      }
+    },
+    "LOSSES": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОТЕРИ"
+          }
+        }
+      }
+    },
+    "LOW SEC": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЛОУСЕК"
+          }
+        }
+      }
+    },
+    "LP": {},
+    "LP Store": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LP-магазин"
+          }
+        }
+      }
+    },
+    "Language": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Язык"
+          }
+        }
+      }
+    },
+    "Last changed: Never": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не менялась"
+          }
+        }
+      }
+    },
+    "Latest Version": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последняя версия"
+          }
+        }
+      }
+    },
+    "Loading the SDE database…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "База SDE загружается…"
+          }
+        }
+      }
+    },
+    "Local and d-scan checks, pilot lookup and the live kill radar from the desktop app.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка Local и d-scan, поиск пилотов и живой радар убийств — как в десктопной версии."
+          }
+        }
+      }
+    },
+    "Location %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Место %lld"
+          }
+        }
+      }
+    },
+    "Low": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мин."
+          }
+        }
+      }
+    },
+    "Loyalty Points": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очки лояльности"
+          }
+        }
+      }
+    },
+    "Loyalty points": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очки лояльности"
+          }
+        }
+      }
+    },
+    "MAIL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПОЧТА"
+          }
+        }
+      }
+    },
+    "MANIFEST URL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "АДРЕС МАНИФЕСТА"
+          }
+        }
+      }
+    },
+    "MEMORY": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПАМЯТЬ"
+          }
+        }
+      }
+    },
+    "MINING LEDGER": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЖУРНАЛ ДОБЫЧИ"
+          }
+        }
+      }
+    },
+    "MISSILES": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "РАКЕТЫ"
+          }
+        }
+      }
+    },
+    "MODULE CPU / PG": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU / PG МОДУЛЕЙ"
+          }
+        }
+      }
+    },
+    "MODULE SETTING": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАСТРОЙКА МОДУЛЯ"
+          }
+        }
+      }
+    },
+    "MODULE STATE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СОСТОЯНИЕ МОДУЛЯ"
+          }
+        }
+      }
+    },
+    "Mail": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Почта"
+          }
+        }
+      }
+    },
+    "Map": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карта"
+          }
+        }
+      }
+    },
+    "Market": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рынок"
+          }
+        }
+      }
+    },
+    "Market Orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ордера"
+          }
+        }
+      }
+    },
+    "Market Prices": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цены на рынке"
+          }
+        }
+      }
+    },
+    "Market orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ордера"
+          }
+        }
+      }
+    },
+    "Mass": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Масса"
+          }
+        }
+      }
+    },
+    "Min %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мин. %lld"
+          }
+        }
+      }
+    },
+    "Mining Ledger": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал добычи"
+          }
+        }
+      }
+    },
+    "Mining ledger": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал добычи"
+          }
+        }
+      }
+    },
+    "Miscellaneous": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочее"
+          }
+        }
+      }
+    },
+    "Mobility": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подвижность"
+          }
+        }
+      }
+    },
+    "More": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ещё"
+          }
+        }
+      }
+    },
+    "M³  TOTAL VOLUME": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "М³  ОБЩИЙ ОБЪЁМ"
+          }
+        }
+      }
+    },
+    "NET": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИТОГ"
+          }
+        }
+      }
+    },
+    "NEW": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НОВОЕ"
+          }
+        }
+      }
+    },
+    "NEW FIT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НОВЫЙ ФИТ"
+          }
+        }
+      }
+    },
+    "NO MATCHING SKILLS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАВЫКИ НЕ НАЙДЕНЫ"
+          }
+        }
+      }
+    },
+    "NO SKILLS TRAINING": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАВЫКИ НЕ ИЗУЧАЮТСЯ"
+          }
+        }
+      }
+    },
+    "NOT COUNTED IN FITTING STATS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НЕ УЧИТЫВАЕТСЯ В ХАРАКТЕРИСТИКАХ"
+          }
+        }
+      }
+    },
+    "NOW": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СЕЙЧАС"
+          }
+        }
+      }
+    },
+    "NOW TRAINING": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СЕЙЧАС ИЗУЧАЕТСЯ"
+          }
+        }
+      }
+    },
+    "NULL SEC": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НУЛИ"
+          }
+        }
+      }
+    },
+    "No Compatible Charges": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет подходящих зарядов"
+          }
+        }
+      }
+    },
+    "No Implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет имплантов"
+          }
+        }
+      }
+    },
+    "No Journal Entries": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет записей"
+          }
+        }
+      }
+    },
+    "No Kills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет убийств"
+          }
+        }
+      }
+    },
+    "No LP Store Offers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет предложений"
+          }
+        }
+      }
+    },
+    "No Losses": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет потерь"
+          }
+        }
+      }
+    },
+    "No Loyalty Points": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет очков лояльности"
+          }
+        }
+      }
+    },
+    "No Mail": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет писем"
+          }
+        }
+      }
+    },
+    "No Mining Data": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет данных о добыче"
+          }
+        }
+      }
+    },
+    "No Saved Fits": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет сохранённых фитов"
+          }
+        }
+      }
+    },
+    "No active orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет активных ордеров"
+          }
+        }
+      }
+    },
+    "No ammunition found for this weapon.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для этого оружия нет боеприпасов."
+          }
+        }
+      }
+    },
+    "No assets found": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имущество не найдено"
+          }
+        }
+      }
+    },
+    "No compatible modules": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет подходящих модулей"
+          }
+        }
+      }
+    },
+    "No contracts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет контрактов"
+          }
+        }
+      }
+    },
+    "No fit-related skills found for this fit.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для этого фита нет связанных навыков."
+          }
+        }
+      }
+    },
+    "No history data available": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет истории цен"
+          }
+        }
+      }
+    },
+    "No home station set": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Домашняя станция не задана"
+          }
+        }
+      }
+    },
+    "No implants installed.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты не установлены."
+          }
+        }
+      }
+    },
+    "No industry jobs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет производственных работ"
+          }
+        }
+      }
+    },
+    "No items in this group": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В этой группе нет предметов"
+          }
+        }
+      }
+    },
+    "No matching items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ничего не найдено"
+          }
+        }
+      }
+    },
+    "No mining activity recorded in the last 30 days.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "За последние 30 дней добычи не было."
+          }
+        }
+      }
+    },
+    "No modifier rows": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет модификаторов"
+          }
+        }
+      }
+    },
+    "No transactions found.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделок нет."
+          }
+        }
+      }
+    },
+    "No types in this group": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В этой группе нет типов"
+          }
+        }
+      }
+    },
+    "None": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет"
+          }
+        }
+      }
+    },
+    "Nothing in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пусто: %@"
+          }
+        }
+      }
+    },
+    "Nothing recorded yet.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока ничего нет."
+          }
+        }
+      }
+    },
+    "OFFLINE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НЕ В СЕТИ"
+          }
+        }
+      }
+    },
+    "OK": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОК"
+          }
+        }
+      }
+    },
+    "OMEGA": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОМЕГА"
+          }
+        }
+      }
+    },
+    "ORDERS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОРДЕРА"
+          }
+        }
+      }
+    },
+    "Offensive": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нападение"
+          }
+        }
+      }
+    },
+    "Open settings": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть настройки"
+          }
+        }
+      }
+    },
+    "Owned in Assets": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В имуществе"
+          }
+        }
+      }
+    },
+    "PERCEPTION": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВОСПРИЯТИЕ"
+          }
+        }
+      }
+    },
+    "PERFORMANCE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПРОИЗВОДИТЕЛЬНОСТЬ"
+          }
+        }
+      }
+    },
+    "PRICE HISTORY · 30 DAYS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИСТОРИЯ ЦЕН · 30 ДНЕЙ"
+          }
+        }
+      }
+    },
+    "Paste EFT format": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вставьте фит в формате EFT"
+          }
+        }
+      }
+    },
+    "Paused": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Приостановлено"
+          }
+        }
+      }
+    },
+    "Pilot": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пилот"
+          }
+        }
+      }
+    },
+    "Place orders in EVE's market to see them here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выставьте ордера на рынке EVE, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Portion Size": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер партии"
+          }
+        }
+      }
+    },
+    "Propulsion": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Двигатели"
+          }
+        }
+      }
+    },
+    "Purpose": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Назначение"
+          }
+        }
+      }
+    },
+    "PvP": {},
+    "Q%lld · L%lld": {},
+    "QUEUE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОЧЕРЕДЬ"
+          }
+        }
+      }
+    },
+    "QUEUE · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОЧЕРЕДЬ · %lld"
+          }
+        }
+      }
+    },
+    "Queue empty": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь пуста"
+          }
+        }
+      }
+    },
+    "Queue ends soon": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь скоро закончится"
+          }
+        }
+      }
+    },
+    "RACE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "РАСА"
+          }
+        }
+      }
+    },
+    "REMOVE MODULE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "УБРАТЬ МОДУЛЬ"
+          }
+        }
+      }
+    },
+    "REMOVED": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "УДАЛЕНО"
+          }
+        }
+      }
+    },
+    "RESISTANCES": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СОПРОТИВЛЕНИЯ"
+          }
+        }
+      }
+    },
+    "Ready to deliver (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово к выдаче (%lld)"
+          }
+        }
+      }
+    },
+    "Ready — deliver in game": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово — заберите в игре"
+          }
+        }
+      }
+    },
+    "Recently delivered": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Недавно выданные"
+          }
+        }
+      }
+    },
+    "Region %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Регион %lld"
+          }
+        }
+      }
+    },
+    "Remove": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить"
+          }
+        }
+      }
+    },
+    "Required Skills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуемые навыки"
+          }
+        }
+      }
+    },
+    "Requirements": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требования"
+          }
+        }
+      }
+    },
+    "Requires %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требует %@"
+          }
+        }
+      }
+    },
+    "Reset Default": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить"
+          }
+        }
+      }
+    },
+    "Retry": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторить"
+          }
+        }
+      }
+    },
+    "Role Bonuses": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ролевые бонусы"
+          }
+        }
+      }
+    },
+    "Routes with danger checks, kills and jumps by system, sovereignty.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маршруты с проверкой опасности, убийства и прыжки по системам, суверенитет."
+          }
+        }
+      }
+    },
+    "SAVED FIT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СОХРАНЁННЫЙ ФИТ"
+          }
+        }
+      }
+    },
+    "SDE Data Package": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пакет данных SDE"
+          }
+        }
+      }
+    },
+    "SDE Update Details": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновление SDE"
+          }
+        }
+      }
+    },
+    "SECURITY STATUS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СТАТУС БЕЗОПАСНОСТИ"
+          }
+        }
+      }
+    },
+    "SELECT CHARGE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВЫБОР ЗАРЯДА"
+          }
+        }
+      }
+    },
+    "SELECT PILOT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВЫБОР ПИЛОТА"
+          }
+        }
+      }
+    },
+    "SELL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПРОДАЖА"
+          }
+        }
+      }
+    },
+    "SELL ORDERS · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПРОДАЖА · %lld"
+          }
+        }
+      }
+    },
+    "SHI": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЩИТ"
+          }
+        }
+      }
+    },
+    "SHI BOOST": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАКАЧКА ЩИТА"
+          }
+        }
+      }
+    },
+    "SHIP SYSTEMS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СИСТЕМЫ КОРАБЛЯ"
+          }
+        }
+      }
+    },
+    "SKILL CATEGORIES": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КАТЕГОРИИ НАВЫКОВ"
+          }
+        }
+      }
+    },
+    "SKILL POINTS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОЧКИ НАВЫКОВ"
+          }
+        }
+      }
+    },
+    "SKILL QUEUE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОЧЕРЕДЬ НАВЫКОВ"
+          }
+        }
+      }
+    },
+    "SKILL QUEUE · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ОЧЕРЕДЬ НАВЫКОВ · %lld"
+          }
+        }
+      }
+    },
+    "SOLD": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ПРОДАНО"
+          }
+        }
+      }
+    },
+    "SOLO": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СОЛО"
+          }
+        }
+      }
+    },
+    "SPREAD": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СПРЕД"
+          }
+        }
+      }
+    },
+    "SYSTEM": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СИСТЕМА"
+          }
+        }
+      }
+    },
+    "SYSTEM STABLE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАКОПИТЕЛЬ СТАБИЛЕН"
+          }
+        }
+      }
+    },
+    "SYSTEM UNSTABLE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАКОПИТЕЛЬ НЕСТАБИЛЕН"
+          }
+        }
+      }
+    },
+    "Save fits in-game to see them here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохраните фиты в игре, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Search": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск"
+          }
+        }
+      }
+    },
+    "Search %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск: %@"
+          }
+        }
+      }
+    },
+    "Search assets…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск по имуществу…"
+          }
+        }
+      }
+    },
+    "Search journal…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск по журналу…"
+          }
+        }
+      }
+    },
+    "Search skills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск навыков"
+          }
+        }
+      }
+    },
+    "Select": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать"
+          }
+        }
+      }
+    },
+    "Sell Orders (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продажа (%lld)"
+          }
+        }
+      }
+    },
+    "Send to EVE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отправить в EVE"
+          }
+        }
+      }
+    },
+    "Server offline": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сервер недоступен"
+          }
+        }
+      }
+    },
+    "Settings": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки"
+          }
+        }
+      }
+    },
+    "Shield": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Щит"
+          }
+        }
+      }
+    },
+    "Ship, module, skill, implant…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабль, модуль, навык, имплант…"
+          }
+        }
+      }
+    },
+    "Ships, modules, attributes and the map come from CCP's static data. Canopus checks for a new version and downloads it on request.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабли, модули, атрибуты и карта берутся из статических данных CCP. Canopus проверяет новую версию и скачивает её по запросу."
+          }
+        }
+      }
+    },
+    "Sign in with EVE Online": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войти через EVE Online"
+          }
+        }
+      }
+    },
+    "Sign in with EVE Online to see your character, skills, wallet and more.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите через EVE Online, чтобы видеть персонажа, навыки, кошелёк и остальное."
+          }
+        }
+      }
+    },
+    "Sign in with EVE Online to view your\nskill queue, wallet, and more.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите через EVE Online, чтобы видеть\nочередь навыков, кошелёк и остальное."
+          }
+        }
+      }
+    },
+    "Singleton": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Собранный"
+          }
+        }
+      }
+    },
+    "Skill data is not loaded for this character yet.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки этого персонажа ещё не загружены."
+          }
+        }
+      }
+    },
+    "Skill queue empty": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очередь навыков пуста"
+          }
+        }
+      }
+    },
+    "Skills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки"
+          }
+        }
+      }
+    },
+    "Soon": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скоро"
+          }
+        }
+      }
+    },
+    "Space": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Космос"
+          }
+        }
+      }
+    },
+    "Start a job in EVE Online to see it here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запустите работу в EVE Online, и она появится здесь."
+          }
+        }
+      }
+    },
+    "Station": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Станция"
+          }
+        }
+      }
+    },
+    "Structure": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпус"
+          }
+        }
+      }
+    },
+    "TAP TO SWITCH": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НАЖМИТЕ, ЧТОБЫ СМЕНИТЬ"
+          }
+        }
+      }
+    },
+    "TARGETING": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЗАХВАТ ЦЕЛЕЙ"
+          }
+        }
+      }
+    },
+    "TO": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КОМУ"
+          }
+        }
+      }
+    },
+    "TOP CPU": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БОЛЬШЕ ВСЕГО CPU"
+          }
+        }
+      }
+    },
+    "TOTAL": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВСЕГО"
+          }
+        }
+      }
+    },
+    "TOTAL WEALTH": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВСЁ СОСТОЯНИЕ"
+          }
+        }
+      }
+    },
+    "TRAINED": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ИЗУЧЕНО"
+          }
+        }
+      }
+    },
+    "TRANSACTIONS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СДЕЛКИ"
+          }
+        }
+      }
+    },
+    "TRANSACTIONS · %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СДЕЛКИ · %lld"
+          }
+        }
+      }
+    },
+    "TYPE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ТИП"
+          }
+        }
+      }
+    },
+    "Targeting": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Захват целей"
+          }
+        }
+      }
+    },
+    "This corporation has no public LP store offers.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У этой корпорации нет открытых предложений в LP-магазине."
+          }
+        }
+      }
+    },
+    "Tier": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уровень"
+          }
+        }
+      }
+    },
+    "Total LP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всего LP"
+          }
+        }
+      }
+    },
+    "Transactions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделки"
+          }
+        }
+      }
+    },
+    "Used in Fits": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Используется в фитах"
+          }
+        }
+      }
+    },
+    "Variations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вариации"
+          }
+        }
+      }
+    },
+    "Volume": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Объём"
+          }
+        }
+      }
+    },
+    "WALLET": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КОШЕЛЁК"
+          }
+        }
+      }
+    },
+    "WALLET BALANCE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БАЛАНС КОШЕЛЬКА"
+          }
+        }
+      }
+    },
+    "WEALTH": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СОСТОЯНИЕ"
+          }
+        }
+      }
+    },
+    "WILLPOWER": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СИЛА ВОЛИ"
+          }
+        }
+      }
+    },
+    "Wallet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кошелёк"
+          }
+        }
+      }
+    },
+    "Wallet Journal": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал кошелька"
+          }
+        }
+      }
+    },
+    "Wealth Overview": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обзор состояния"
+          }
+        }
+      }
+    },
+    "What's New": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Что нового"
+          }
+        }
+      }
+    },
+    "Your contracts will appear here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Здесь появятся ваши контракты."
+          }
+        }
+      }
+    },
+    "Your in-game items will appear here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Здесь появятся ваши предметы из игры."
+          }
+        }
+      }
+    },
+    "Your wallet transactions will appear here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Здесь появятся операции кошелька."
+          }
+        }
+      }
+    },
+    "[%@]": {
+      "shouldTranslate": false
+    },
+    "ends %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "до %@"
+          }
+        }
+      }
+    },
+    "https://example.com/manifest.json": {},
+    "remaining": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "осталось"
+          }
+        }
+      }
+    },
+    "·": {
+      "shouldTranslate": false
+    },
+    "×%@": {
+      "shouldTranslate": false
+    },
+    "×%lld": {},
+    "—": {
+      "shouldTranslate": false
+    },
+    "›": {
+      "shouldTranslate": false
+    },
+    "▾": {
+      "shouldTranslate": false
+    }
+  },
+  "version": "1.0"
+}

@@ -287,7 +287,7 @@ public struct SDEUpdateView: View {
 
     private func versionRow(label: String, value: String, isHighlight: Bool) -> some View {
         HStack {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 14))
                 .foregroundStyle(Color.eveText.opacity(0.6))
             Spacer()

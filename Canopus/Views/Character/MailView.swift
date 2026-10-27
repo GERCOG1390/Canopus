@@ -299,7 +299,7 @@ struct MailDetailView: View {
 
     private func metaRow(label: String, value: String) -> some View {
         HStack(alignment: .top, spacing: 0) {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 9.5, weight: .semibold))
                 .tracking(1.6)
                 .foregroundStyle(Color.eveText.opacity(0.35))

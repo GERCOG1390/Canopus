@@ -1,0 +1,69 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "%lld skills queued": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В очереди: %lld"
+          }
+        }
+      }
+    },
+    "Finishes at": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершится"
+          }
+        }
+      }
+    },
+    "Finishing…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершается…"
+          }
+        }
+      }
+    },
+    "No active\ntraining": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки\nне изучаются"
+          }
+        }
+      }
+    },
+    "Shows your active EVE Online skill in training.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывает навык, который сейчас изучается в EVE Online."
+          }
+        }
+      }
+    },
+    "Skill Training": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изучение навыков"
+          }
+        }
+      }
+    },
+    "→ %@": {
+      "shouldTranslate": false
+    }
+  },
+  "version": "1.0"
+}

@@ -240,7 +240,7 @@ struct CharacterSheetView: View {
 
     private func attrBar(label: String, value: Int, max: Int, color: Color) -> some View {
         HStack(spacing: 12) {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 9.5, weight: .semibold))
                 .tracking(1.4)
                 .foregroundStyle(Color.eveText.opacity(0.42))
@@ -317,7 +317,7 @@ struct CharacterSheetView: View {
 
     private func infoRow(label: String, value: String) -> some View {
         HStack {
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 9.5, weight: .semibold))
                 .tracking(1.8)
                 .foregroundStyle(Color.eveText.opacity(0.38))

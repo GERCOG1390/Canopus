@@ -88,7 +88,7 @@ struct SkillsView: View {
 
     private func summaryMetric(_ label: String, _ value: String, color: Color) -> some View {
         VStack(alignment: .leading, spacing: 5) {
-            Text(label).hudLabel()
+            Text(LocalizedStringKey(label)).hudLabel()
             Text(value)
                 .font(.system(size: 19, weight: .semibold, design: .monospaced))
                 .foregroundStyle(color)

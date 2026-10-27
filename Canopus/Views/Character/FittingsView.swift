@@ -98,7 +98,7 @@ private struct ChargeDamageBreakdown: View {
     private func damageBar(_ label: String, _ value: Double, _ color: Color) -> some View {
         if value > 0 {
             HStack(spacing: 8) {
-                Text(label)
+                Text(LocalizedStringKey(label))
                     .font(.system(size: 8, weight: .semibold, design: .monospaced))
                     .foregroundStyle(color)
                     .frame(width: 40, alignment: .leading)
@@ -1105,7 +1105,7 @@ private struct SubsystemSlotDefinition: Identifiable {
         let frac = total > 0 ? min(1, max(0, remaining / total)) : 0
         let over = remaining < 0
         return HStack(spacing: 6) {
-            Text(label).hudLabel()
+            Text(LocalizedStringKey(label)).hudLabel()
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     Rectangle().fill(color.opacity(0.12))
@@ -1925,7 +1925,7 @@ private struct SubsystemSlotDefinition: Identifiable {
     private func fitSkillBucket(_ title: String, skills: [FitSkillRecommendation], color: Color) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack {
-                Text(title).hudLabel()
+                Text(LocalizedStringKey(title)).hudLabel()
                 Spacer()
                 Text("\(skills.count)x")
                     .font(.system(size: 9, weight: .bold, design: .monospaced))
@@ -1977,7 +1977,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                     .opacity(0.78)
             }
             VStack(alignment: .leading, spacing: 3) {
-                Text(label).hudLabel()
+                Text(LocalizedStringKey(label)).hudLabel()
                 Text(value)
                     .font(.system(size: 10.5, weight: .semibold, design: .monospaced))
                     .foregroundStyle(color)
@@ -2049,7 +2049,7 @@ private struct SubsystemSlotDefinition: Identifiable {
         HStack(spacing: 3) {
             EVEIconImage(iconId: iconId, size: 11)
                 .opacity(0.74)
-            Text(label)
+            Text(LocalizedStringKey(label))
                 .font(.system(size: 8, weight: .semibold))
                 .foregroundStyle(color.opacity(0.7))
         }
@@ -2060,7 +2060,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                             em: Double, exp: Double, kin: Double, therm: Double,
                             color: Color) -> some View {
         HStack(spacing: 0) {
-            Text(label).font(.system(size: 9, weight: .semibold)).tracking(0.8)
+            Text(LocalizedStringKey(label)).font(.system(size: 9, weight: .semibold)).tracking(0.8)
                 .foregroundStyle(color).frame(width: 28, alignment: .leading)
             resCell(pct: em,    barColor: Color(hue: 0.60, saturation: 0.75, brightness: 0.90))
             resCell(pct: therm, barColor: .eveRed)
@@ -2255,7 +2255,7 @@ private struct SubsystemSlotDefinition: Identifiable {
 
     private func fittingCostRows(title: String, costs: [FittedModuleCost]) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(title).hudLabel()
+            Text(LocalizedStringKey(title)).hudLabel()
             ForEach(costs) { cost in
                 HStack(spacing: 8) {
                     Text(cost.flag)
@@ -2288,7 +2288,7 @@ private struct SubsystemSlotDefinition: Identifiable {
         color: Color
     ) -> some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text(title).hudLabel()
+            Text(LocalizedStringKey(title)).hudLabel()
             ForEach(costs) { cost in
                 HStack(spacing: 8) {
                     Text(cost.flag)
@@ -2315,7 +2315,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                     .opacity(0.72)
             }
             VStack(alignment: .leading, spacing: 3) {
-                Text(label).hudLabel()
+                Text(LocalizedStringKey(label)).hudLabel()
                 Text(value)
                     .font(.system(size: 12, weight: .semibold, design: .monospaced))
                     .foregroundStyle(color)

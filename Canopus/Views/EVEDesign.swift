@@ -97,7 +97,7 @@ struct EVESectionHeader<Trailing: View>: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Text(title).hudLabel()
+            Text(LocalizedStringKey(title)).hudLabel()
                 .foregroundStyle(accentColor)
             Spacer(minLength: 10)
             trailing()
@@ -134,7 +134,7 @@ struct EVEDisclosureSectionHeader: View {
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(Color.eveAmber)
                     .frame(width: 12)
-                Text(title)
+                Text(LocalizedStringKey(title))
                     .font(.ui(11, .medium, relativeTo: .caption))
                     .tracking(1.6)
                     .textCase(.uppercase)
