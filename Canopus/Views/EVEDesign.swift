@@ -1,20 +1,23 @@
 import SwiftUI
 
 enum EVELayout {
-    static let tabBarClearance: CGFloat = 122
-    static let scrollBottomClearance: CGFloat = 154
+    // The system tab bar now insets the content itself; kept small for existing call sites.
+    static let tabBarClearance: CGFloat = 0
+    static let scrollBottomClearance: CGFloat = 24
 }
 
 // MARK: - Color palette
 
+// The old names now point at the desktop tokens (Theme/CanopusTheme.swift), so every screen gets the
+// desktop palette; new code uses `C` directly.
 extension Color {
-    static let eveBackground = Color(red: 0.024, green: 0.031, blue: 0.039)  // #06080a
-    static let eveCard       = Color(red: 0.047, green: 0.063, blue: 0.078)  // #0c1014
-    static let eveAmber      = Color(red: 1.000, green: 0.690, blue: 0.125)  // #ffb020
-    static let eveCyan       = Color(red: 0.208, green: 0.839, blue: 0.902)  // #35d6e6
-    static let eveGreen      = Color(red: 0.490, green: 0.863, blue: 0.490)  // #7ddc7d
-    static let eveRed        = Color(red: 1.000, green: 0.416, blue: 0.302)  // #ff6a4d
-    static let eveText       = Color(red: 0.910, green: 0.918, blue: 0.929)  // #e8eaed
+    static var eveBackground: Color { C.bg }
+    static var eveCard: Color { C.panel }
+    static var eveAmber: Color { C.accent }
+    static var eveCyan: Color { C.accentText }
+    static var eveGreen: Color { C.good }
+    static var eveRed: Color { C.bad }
+    static var eveText: Color { C.text }
 }
 
 // MARK: - Cut-corner shape
@@ -35,32 +38,11 @@ struct CutCorner: Shape {
     }
 }
 
-// MARK: - Scanlines overlay
-
-private struct ScanlinesModifier: ViewModifier {
-    func body(content: Content) -> some View {
-        content.overlay(alignment: .topLeading) {
-            Canvas { ctx, size in
-                var y: CGFloat = 0
-                while y < size.height {
-                    ctx.fill(
-                        Path(CGRect(x: 0, y: y, width: size.width, height: 1)),
-                        with: .color(.white.opacity(0.045))
-                    )
-                    y += 3
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .allowsHitTesting(false)
-            .ignoresSafeArea()
-        }
-    }
-}
-
 // MARK: - View extensions
 
 extension View {
-    func eveScanlinesOverlay() -> some View { modifier(ScanlinesModifier()) }
+    /// The desktop has no scanlines; kept as a no-op for existing call sites.
+    func eveScanlinesOverlay() -> some View { self }
 
     func eveTabBarClearance(_ height: CGFloat = EVELayout.tabBarClearance) -> some View {
         safeAreaInset(edge: .bottom, spacing: 0) {
@@ -70,10 +52,10 @@ extension View {
         }
     }
 
-    func eveCard(cut: CGFloat = 10, border: Color = Color.white.opacity(0.08)) -> some View {
+    func eveCard(cut: CGFloat = 10, border: Color = C.border) -> some View {
         self
-            .background(Color.eveCard, in: CutCorner(size: cut))
-            .overlay(CutCorner(size: cut).stroke(border, lineWidth: 1))
+            .background(C.panel, in: EVECut(cut: cut))
+            .overlay(EVECut(cut: cut).strokeBorder(border, lineWidth: 1))
     }
 }
 
@@ -82,10 +64,10 @@ extension View {
 struct HUDLabelModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
-            .font(.system(size: 9.5, weight: .semibold))
-            .tracking(2.2)
+            .font(.ui(11, .medium, relativeTo: .caption))
+            .tracking(1.8)
             .textCase(.uppercase)
-            .foregroundStyle(Color.eveText.opacity(0.38))
+            .foregroundStyle(C.muted)
     }
 }
 
@@ -153,14 +135,16 @@ struct EVEDisclosureSectionHeader: View {
                     .foregroundStyle(Color.eveAmber)
                     .frame(width: 12)
                 Text(title)
-                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
-                    .tracking(1.1)
-                    .foregroundStyle(Color.eveText.opacity(0.62))
+                    .font(.ui(11, .medium, relativeTo: .caption))
+                    .tracking(1.6)
+                    .textCase(.uppercase)
+                    .foregroundStyle(C.muted)
                     .lineLimit(2)
                 Spacer(minLength: 10)
                 Text("\(count)")
-                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
-                    .foregroundStyle(Color.eveText.opacity(0.42))
+                    .font(.ui(12))
+                    .monospacedDigit()
+                    .foregroundStyle(C.faint)
             }
             .padding(.horizontal, 20)
             .padding(.vertical, 11)
@@ -189,9 +173,9 @@ struct EVESeparator: View {
     private var color: Color {
         switch kind {
         case .subtle:
-            return Color.white.opacity(0.035)
+            return C.border.opacity(0.6)
         case .section:
-            return Color.eveAmber.opacity(0.075)
+            return C.border
         }
     }
 }
@@ -199,7 +183,7 @@ struct EVESeparator: View {
 struct EVEVerticalSeparator: View {
     var body: some View {
         Rectangle()
-            .fill(Color.white.opacity(0.035))
+            .fill(C.border.opacity(0.6))
             .frame(width: 1)
     }
 }
@@ -228,7 +212,7 @@ struct EVEActionIndicator: View {
 
     private var color: Color {
         switch kind {
-        case .navigate: return Color.eveText.opacity(0.28)
+        case .navigate: return C.faint
         case .add: return Color.eveAmber
         }
     }

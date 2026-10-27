@@ -4,13 +4,22 @@ import UserNotifications
 @main
 struct CanopusApp: App {
     @State private var env = AppEnvironment()
+    @AppStorage(CanopusAccent.storageKey) private var accent = CanopusAccent.canopus.rawValue
+
+    init() {
+        CanopusFonts.register()
+        CanopusAppearance.apply()
+    }
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootShell()
                 .environment(env)
                 .preferredColorScheme(.dark)
-                .tint(Color(red: 0.30, green: 0.58, blue: 0.90))
+                .tint(C.accent)
+                .font(.ui(15))
+                // A new accent theme redraws everything with it.
+                .id(accent)
                 .task {
                     _ = try? await UNUserNotificationCenter.current()
                         .requestAuthorization(options: [.alert, .sound, .badge])
