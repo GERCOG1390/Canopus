@@ -42,3 +42,7 @@ belongs to.
 
 - 2026-10-27: Claude took the project over. The Mac working copy (older history and uncommitted
   work) is saved in the local branch `backup/mac-2026-09`; `main` follows GitHub. Phase 0 started.
+- 2026-10-27: Phase 0 done (design system, shell, iPhone + iPad, Russian). Phase 1 in progress:
+  character overview, skills, wallet redone; desktop fonts on every screen. Next: clones and
+  implants, mail, character sheet, assets, contracts. Tools/l10n/sync_strings.py keeps the string
+  catalogs in step; debug builds accept `-startPage <page>`.
