@@ -312,6 +312,8 @@ struct FittingsView: View {
             NavigationStack {
                 FitDetailView(fit: route.fit, typeNames: route.typeNames, characterService: characterService)
             }
+            // A page-sized sheet on iPad; the fitting screen is too dense for the default form sheet.
+            .presentationSizing(.page)
         }
         .task(id: env.dataKey) { await load() }
         .alert("Error", isPresented: Binding(
@@ -847,22 +849,12 @@ private struct SubsystemSlotDefinition: Identifiable {
         return Int(((moduleTypeProfiles[fit.shipTypeId]?.attrs[attrId] ?? 0) + fromSubsystems).rounded())
     }
 
+    /// The hardpoint a module takes, by the effects the game uses: turretFitted (42) / launcherFitted (40).
+    /// Probe launchers, cynos and the like have neither and fit in any high slot.
     private func weaponHardpointKind(for typeId: Int) -> WeaponHardpointKind? {
-        guard let attrs = moduleTypeProfiles[typeId]?.attrs else { return nil }
-        let hasCycle = (attrs[51] ?? 0) > 0
-        let hasChargeUse = (attrs[56] ?? 0) > 0
-            || (attrs[604] ?? 0) > 0
-            || (attrs[605] ?? 0) > 0
-            || (attrs[606] ?? 0) > 0
-            || (attrs[609] ?? 0) > 0
-        let hasTurretMultiplier = (attrs[64] ?? 0) > 0
-
-        if hasTurretMultiplier {
-            return .turret
-        }
-        if hasCycle && hasChargeUse {
-            return .launcher
-        }
+        guard let effects = moduleTypeProfiles[typeId]?.effectIds else { return nil }
+        if effects.contains(42) { return .turret }
+        if effects.contains(40) { return .launcher }
         return nil
     }
 
