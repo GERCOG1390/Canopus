@@ -23,6 +23,7 @@ struct SettingsPage: View {
             .padding(16)
         }
         .navigationTitle("Settings")
+        .navigationBarTitleDisplayMode(.inline)
     }
 
     private var charactersCard: some View {
@@ -30,7 +31,7 @@ struct SettingsPage: View {
             Button {
                 Task { await addCharacter() }
             } label: {
-                Label("Add", systemImage: "plus")
+                Label { Text("Add") } icon: { Glyph(name: .user, size: 14) }
             }
             .buttonStyle(.canopusSmall)
             .disabled(adding)
@@ -55,10 +56,8 @@ struct SettingsPage: View {
                         Button("Select") { store.selectedId = c.characterId }
                             .buttonStyle(.canopusSmall)
                     }
-                    Button(role: .destructive) {
+                    Button("Remove", role: .destructive) {
                         store.removeCharacter(id: c.characterId)
-                    } label: {
-                        Image(systemName: "trash")
                     }
                     .buttonStyle(CanopusButtonStyle(kind: .danger, small: true))
                 }
@@ -97,7 +96,7 @@ struct SettingsPage: View {
             Button {
                 if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
             } label: {
-                Label("Open settings", systemImage: "globe")
+                Label { Text("Open settings") } icon: { Glyph(name: .globe, size: 16) }
             }
             .buttonStyle(.canopusGhost)
         }
@@ -111,7 +110,7 @@ struct SettingsPage: View {
             Button {
                 env.showSDEUpdateSheet = true
             } label: {
-                Label("Check for updates", systemImage: "arrow.down.circle")
+                Label { Text("Check for updates") } icon: { Glyph(name: .update, size: 16) }
             }
             .buttonStyle(.canopusGhost)
         }

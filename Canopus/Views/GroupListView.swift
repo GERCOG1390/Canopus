@@ -86,9 +86,7 @@ struct GroupListView: View {
         } else if let typeId = marketGroupIconTypeIds[marketGroup.id] {
             EVETypeIcon(typeId: typeId, size: size)
         } else {
-            Image(systemName: "folder")
-                .frame(width: size, height: size)
-                .foregroundStyle(.secondary)
+            GameIcon("win_folder", size: size)
         }
     }
 }

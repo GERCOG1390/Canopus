@@ -41,26 +41,26 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         }
     }
 
-    /// SF Symbols close to the desktop's sidebar icons.
+    /// The game's own window icon for the page (Assets.xcassets/GameIcons).
     var icon: String {
         switch self {
-        case .character: "person"
-        case .skills: "brain.head.profile"
-        case .mail: "envelope"
-        case .clones: "person.2"
-        case .intel: "dot.radiowaves.left.and.right"
-        case .fitting: "hexagon"
-        case .killboard: "scope"
-        case .wallet: "creditcard"
-        case .orders: "chart.line.uptrend.xyaxis"
-        case .industry: "gearshape.2"
-        case .mining: "cube"
-        case .loyalty: "seal"
-        case .contracts: "doc.text"
-        case .assets: "shippingbox"
-        case .map: "map"
-        case .database: "books.vertical"
-        case .settings: "slider.horizontal.3"
+        case .character: "win_charactersheet"
+        case .skills: "win_skills"
+        case .mail: "win_evemail"
+        case .clones: "win_jumpclones"
+        case .intel: "win_overview"
+        case .fitting: "win_fitting"
+        case .killboard: "win_killreport"
+        case .wallet: "win_wallet"
+        case .orders: "win_marketorders"
+        case .industry: "win_industry"
+        case .mining: "win_miningledger"
+        case .loyalty: "win_lpstore"
+        case .contracts: "win_contracts"
+        case .assets: "win_assets"
+        case .map: "win_map"
+        case .database: "win_info"
+        case .settings: "win_settings"
         }
     }
 
@@ -83,13 +83,14 @@ enum NavSection: String, CaseIterable, Identifiable {
         }
     }
 
-    var icon: String {
+    /// The desktop's navigation glyph for the section.
+    var glyph: GlyphName {
         switch self {
-        case .pilot: "person.crop.circle"
-        case .combat: "scope"
-        case .economy: "chart.bar"
-        case .space: "map"
-        case .more: "ellipsis.circle"
+        case .pilot: .character
+        case .combat: .pvp
+        case .economy: .market
+        case .space: .map
+        case .more: .rows
         }
     }
 
@@ -146,7 +147,9 @@ struct RootShell: View {
                     SectionHub(section: s, open: open)
                         .navigationDestination(for: Page.self) { PageView(page: $0, open: open) }
                 }
-                .tabItem { Label(LocalizedStringKey(s.title), systemImage: s.icon) }
+                .tabItem {
+                    Label { Text(LocalizedStringKey(s.title)) } icon: { Glyph.image(s.glyph) }
+                }
                 .tag(s)
             }
         }
@@ -159,7 +162,7 @@ struct RootShell: View {
                 ForEach(NavSection.allCases) { s in
                     SwiftUI.Section {
                         ForEach(s.pages) { p in
-                            Label(LocalizedStringKey(p.title), systemImage: p.icon).tag(p)
+                            Label { Text(LocalizedStringKey(p.title)) } icon: { GameIcon(p.icon, size: 22) }.tag(p)
                         }
                     } header: {
                         Text(LocalizedStringKey(s.title))
@@ -215,7 +218,7 @@ struct SectionHub: View {
                             NavigationLink(value: p) { PageRow(page: p) }
                                 .buttonStyle(.plain)
                             if p != section.pages.last {
-                                Rectangle().fill(C.border).frame(height: 1).padding(.leading, 52)
+                                Rectangle().fill(C.border).frame(height: 1).padding(.leading, 56)
                             }
                         }
                     }
@@ -225,6 +228,7 @@ struct SectionHub: View {
             }
             .background(C.bg)
             .navigationTitle(LocalizedStringKey(section.title))
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
@@ -234,10 +238,7 @@ struct PageRow: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            Image(systemName: page.icon)
-                .font(.system(size: 16))
-                .foregroundStyle(C.accentText)
-                .frame(width: 22)
+            GameIcon(page.icon, size: 26)
             Text(LocalizedStringKey(page.title))
                 .font(.ui(15))
                 .foregroundStyle(C.text)
@@ -245,12 +246,11 @@ struct PageRow: View {
             if page.comingSoon {
                 Pill(text: "Soon", color: C.muted)
             }
-            Image(systemName: "chevron.right")
-                .font(.system(size: 11, weight: .semibold))
+            Glyph(name: .chevron, size: 14)
                 .foregroundStyle(C.faint)
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 13)
+        .padding(.vertical, 12)
         .contentShape(Rectangle())
     }
 }
@@ -267,6 +267,7 @@ struct PageView: View {
             // Lists inside the pages show the Canopus background, not the system black.
             .scrollContentBackground(.hidden)
             .background(C.bg)
+            .navigationBarTitleDisplayMode(.inline)
     }
 
     @ViewBuilder

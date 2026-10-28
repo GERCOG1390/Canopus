@@ -159,8 +159,7 @@ struct SkillsView: View {
                     Pill(text: String(localized: "\(group.queueCount) in queue"), color: C.accent)
                 }
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .font(.ui(12, .semibold))
+                Glyph(name: .chevron, size: 14)
                     .foregroundStyle(C.faint)
             }
             Text("\(group.skills.count) skills · \(formatSP(group.totalSP)) SP")
@@ -188,9 +187,8 @@ struct SkillsView: View {
 
     private var emptyState: some View {
         VStack(spacing: 12) {
-            Image(systemName: "magnifyingglass")
-                .font(.ui(29))
-                .foregroundStyle(Color.eveText.opacity(0.22))
+            Glyph(name: .search, size: 28)
+                .foregroundStyle(C.faint)
             Text("No matching skills")
                 .font(.ui(14))
                 .foregroundStyle(C.muted)

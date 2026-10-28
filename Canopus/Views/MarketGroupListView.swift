@@ -59,7 +59,7 @@ struct MarketGroupListView: View {
             if isLoading {
                 ProgressView()
             } else if children.isEmpty && types.isEmpty {
-                ContentUnavailableView("No items in this group", systemImage: "tray")
+                EmptyState("No items in this group", icon: "win_items")
             }
         }
         .task(id: env.repositoryVersion) { await load() }
@@ -118,9 +118,7 @@ struct MarketGroupListView: View {
         } else if let typeId = iconTypeIds[group.id] {
             EVETypeIcon(typeId: typeId, size: size)
         } else {
-            Image(systemName: "folder")
-                .frame(width: size, height: size)
-                .foregroundStyle(.secondary)
+            GameIcon("win_folder", size: size)
         }
     }
 }

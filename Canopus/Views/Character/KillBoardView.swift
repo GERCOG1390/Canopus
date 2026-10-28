@@ -93,11 +93,7 @@ struct KillBoardView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 if current.isEmpty && !isLoading {
-                    ContentUnavailableView(
-                        mode == .kills ? "No Kills" : "No Losses",
-                        systemImage: mode == .kills ? "xmark.shield" : "shield.slash",
-                        description: Text("Nothing recorded yet.")
-                    )
+                    EmptyState(mode == .kills ? "No Kills" : "No Losses", icon: "win_killreport") { Text("Nothing recorded yet.") }
                     .foregroundStyle(Color.eveText)
                     .padding(.top, 60)
                 } else {

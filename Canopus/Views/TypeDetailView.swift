@@ -116,13 +116,11 @@ struct TypeDetailView: View {
             // Market
             detailSection("Market") {
                 Button { marketDestination = true } label: {
-                    Label("Market Prices", systemImage: "chart.line.uptrend.xyaxis")
+                    Label { Text("Market Prices") } icon: { GameIcon("win_market", size: 22) }
                 }
                 if !marketPath.isEmpty {
                     HStack(spacing: 8) {
-                        Image(systemName: "point.topleft.down.curvedto.point.bottomright.up")
-                            .font(.ui(12, .regular, relativeTo: .caption))
-                            .foregroundStyle(Color.eveAmber)
+                        GameIcon("win_market", size: 16)
                         Text(marketPath.map(\.name).joined(separator: " / "))
                             .font(.ui(12, .regular, relativeTo: .caption))
                             .foregroundStyle(.secondary)

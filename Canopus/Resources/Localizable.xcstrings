@@ -136,6 +136,16 @@
         }
       }
     },
+    "%lld skills queued": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В очереди: %lld"
+          }
+        }
+      }
+    },
     "%lld skills · %@ SP": {
       "localizations": {
         "ru": {
@@ -196,6 +206,9 @@
           }
         }
       }
+    },
+    "+": {
+      "shouldTranslate": false
     },
     "+ %lld internal attribute/category updates": {
       "localizations": {
@@ -1287,6 +1300,7 @@
         }
       }
     },
+    "EFT": {},
     "EMPLOYMENT HISTORY · %lld": {
       "localizations": {
         "ru": {
@@ -1706,6 +1720,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Импланты (%lld)"
+          }
+        }
+      }
+    },
+    "Import EFT": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импорт EFT"
           }
         }
       }
@@ -4427,6 +4451,12 @@
       "shouldTranslate": false
     },
     "▾": {
+      "shouldTranslate": false
+    },
+    "✓": {
+      "shouldTranslate": false
+    },
+    "✕": {
       "shouldTranslate": false
     }
   },

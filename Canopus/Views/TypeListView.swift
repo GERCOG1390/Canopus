@@ -41,7 +41,7 @@ struct TypeListView: View {
             if types.isEmpty && error == nil {
                 ProgressView()
             } else if types.isEmpty {
-                ContentUnavailableView("No types in this group", systemImage: "tray")
+                EmptyState("No types in this group", icon: "win_items")
             }
         }
         .task(id: env.repositoryVersion) {

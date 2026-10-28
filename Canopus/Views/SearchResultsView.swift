@@ -24,7 +24,7 @@ struct SearchResultsView: View {
             if isSearching {
                 ProgressView()
             } else if results.isEmpty {
-                ContentUnavailableView.search(text: query)
+                EmptyState("No matching items", icon: "win_searchmarket")
             }
         }
         .task(id: "\(query)-\(env.repositoryVersion)") {

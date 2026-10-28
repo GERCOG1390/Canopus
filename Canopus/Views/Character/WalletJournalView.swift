@@ -30,11 +30,7 @@ struct WalletJournalView: View {
             if isLoading {
                 ProgressView()
             } else if entries.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No Journal Entries",
-                    systemImage: "doc.text",
-                    description: Text("Your wallet transactions will appear here.")
-                )
+                EmptyState("No Journal Entries", icon: "win_journal") { Text("Your wallet transactions will appear here.") }
             }
         }
         .task { await load() }

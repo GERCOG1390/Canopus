@@ -42,11 +42,7 @@ struct ContractsView: View {
             if isLoading {
                 ProgressView()
             } else if contracts.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No contracts",
-                    systemImage: "doc.text",
-                    description: Text("Your contracts will appear here.")
-                )
+                EmptyState("No contracts", icon: "win_contracts") { Text("Your contracts will appear here.") }
             }
         }
         .task { await load() }
@@ -126,20 +122,17 @@ private struct ContractRow: View {
     }
 
     private var typeIcon: some View {
-        Image(systemName: typeSystemImage)
-            .font(.ui(17))
-            .foregroundStyle(typeColor)
+        GameIcon(typeSystemImage, size: 28)
             .frame(width: 36, height: 36)
             .background(typeColor.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
     }
 
     private var typeSystemImage: String {
         switch contract.type {
-        case "item_exchange": return "arrow.left.arrow.right"
-        case "auction":       return "hammer.fill"
-        case "courier":       return "shippingbox.fill"
-        case "loan":          return "banknote.fill"
-        default:              return "doc.text"
+        case "item_exchange": return "win_contractitemexchange"
+        case "auction":       return "win_contractauction"
+        case "courier":       return "win_contractcourier"
+        default:              return "win_contracts"
         }
     }
 

@@ -11,6 +11,7 @@ struct DatabasePage: View {
     var body: some View {
         browser
             .navigationTitle("Database")
+            .navigationBarTitleDisplayMode(.inline)
             .searchable(text: $query, prompt: "Ship, module, skill, implant…")
             .navigationDestination(for: ItemCategory.self) { GroupListView(category: $0) }
             .navigationDestination(for: ItemGroup.self) { TypeListView(group: $0) }
@@ -25,7 +26,7 @@ struct DatabasePage: View {
             ProgressView("Loading the SDE database…")
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         case .failed(let error):
-            ContentUnavailableView("Database unavailable", systemImage: "exclamationmark.triangle", description: Text(error.localizedDescription))
+            EmptyState("Database unavailable", icon: "win_warning") { Text(error.localizedDescription) }
         case .ready:
             if query.isEmpty { CategoryListView() } else { SearchResultsView(query: query) }
         }

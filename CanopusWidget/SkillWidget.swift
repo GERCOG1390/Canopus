@@ -122,7 +122,7 @@ struct SkillWidgetMediumView: View {
             SkillWidgetSmallView(entry: entry)
             Divider().padding(.vertical, 12)
             VStack(alignment: .leading, spacing: 8) {
-                Label("\(entry.queueCount) skills queued", systemImage: "list.bullet")
+                Text("\(entry.queueCount) skills queued")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Spacer()

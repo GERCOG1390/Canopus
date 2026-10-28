@@ -18,13 +18,4 @@ enum EVETab: Int, CaseIterable, Identifiable {
         }
     }
 
-    var icon: String {
-        switch self {
-        case .home:   return "house.fill"
-        case .skills: return "brain.head.profile"
-        case .assets: return "shippingbox.fill"
-        case .wallet: return "creditcard.fill"
-        case .items:  return "cube.fill"
-        }
-    }
 }

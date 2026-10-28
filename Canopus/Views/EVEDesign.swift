@@ -130,8 +130,8 @@ struct EVEDisclosureSectionHeader: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: 10) {
-                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
-                    .font(.ui(11, .bold))
+                Glyph(name: .chevron, size: 13)
+                    .rotationEffect(.degrees(isExpanded ? 90 : 0))
                     .foregroundStyle(Color.eveAmber)
                     .frame(width: 12)
                 Text(LocalizedStringKey(title))
@@ -197,17 +197,14 @@ struct EVEActionIndicator: View {
     let kind: Kind
 
     var body: some View {
-        Image(systemName: systemName)
-            .font(.system(size: size, weight: .bold))
-            .foregroundStyle(color)
-            .frame(width: 18, height: 18)
-    }
-
-    private var systemName: String {
-        switch kind {
-        case .navigate: return "chevron.right"
-        case .add: return "plus"
+        Group {
+            switch kind {
+            case .navigate: Glyph(name: .chevron, size: 14)
+            case .add: Text("+").font(.ui(17, .semibold))
+            }
         }
+        .foregroundStyle(color)
+        .frame(width: 18, height: 18)
     }
 
     private var color: Color {
@@ -217,12 +214,6 @@ struct EVEActionIndicator: View {
         }
     }
 
-    private var size: CGFloat {
-        switch kind {
-        case .navigate: return 10
-        case .add: return 12
-        }
-    }
 }
 
 // MARK: - Wallet journal ref-type labels

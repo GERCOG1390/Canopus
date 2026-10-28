@@ -54,11 +54,7 @@ struct IndustryView: View {
             if isLoading {
                 ProgressView()
             } else if jobs.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No industry jobs",
-                    systemImage: "wrench.and.screwdriver",
-                    description: Text("Start a job in EVE Online to see it here.")
-                )
+                EmptyState("No industry jobs", icon: "win_industry") { Text("Start a job in EVE Online to see it here.") }
             }
         }
         .task { await load() }

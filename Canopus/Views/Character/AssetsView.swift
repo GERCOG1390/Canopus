@@ -97,11 +97,7 @@ struct AssetsView: View {
                         .foregroundStyle(.secondary)
                 }
             } else if locationGroups.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No assets found",
-                    systemImage: "archivebox",
-                    description: Text("Your in-game items will appear here.")
-                )
+                EmptyState("No assets found", icon: "win_assets") { Text("Your in-game items will appear here.") }
             }
         }
         .task(id: env.repositoryVersion) { await load() }

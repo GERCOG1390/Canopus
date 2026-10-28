@@ -20,12 +20,12 @@ struct CloneView: View {
     @State private var error: Error?
 
     /// Attribute → the implant attribute that raises it (charisma … willpower).
-    private static let attributes: [(id: Int, bonus: Int, name: LocalizedStringKey, icon: String)] = [
-        (165, 176, "Intelligence", "lightbulb"),
-        (166, 177, "Memory", "memorychip"),
-        (167, 178, "Perception", "eye"),
-        (168, 179, "Willpower", "bolt"),
-        (164, 175, "Charisma", "person.wave.2"),
+    private static let attributes: [(id: Int, bonus: Int, name: LocalizedStringKey)] = [
+        (165, 176, "Intelligence"),
+        (166, 177, "Memory"),
+        (167, 178, "Perception"),
+        (168, 179, "Willpower"),
+        (164, 175, "Charisma"),
     ]
     private static let infomorphSynchronizing = 33399
     private static let implantSlotAttr = 331
@@ -140,7 +140,7 @@ struct CloneView: View {
                         let v = baseAndTotal(esiValue(attr.id, a), attr.id, a)
                         Rectangle().fill(C.border).frame(height: 1)
                         HStack {
-                            Image(systemName: attr.icon).foregroundStyle(C.accentText).frame(width: 20)
+                            GameIcon.attribute(attr.id, size: 22)
                             Text(attr.name).foregroundStyle(C.text)
                             Spacer()
                             Text("\(v.base)").frame(width: 50, alignment: .trailing).foregroundStyle(C.text2)

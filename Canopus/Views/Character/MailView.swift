@@ -79,11 +79,7 @@ struct MailView: View {
         ScrollView {
             LazyVStack(spacing: 0) {
                 if filtered.isEmpty && !isLoading {
-                    ContentUnavailableView(
-                        "No Mail",
-                        systemImage: "envelope.slash",
-                        description: Text("Nothing in \(selectedLabel.title)")
-                    )
+                    EmptyState("No Mail", icon: "win_evemail") { Text("Nothing in \(selectedLabel.title)") }
                     .foregroundStyle(Color.eveText)
                     .padding(.top, 60)
                 } else {

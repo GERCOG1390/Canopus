@@ -24,9 +24,8 @@ struct CategoryListView: View {
                 Button {
                     env.showSDEUpdateSheet = true
                 } label: {
-                    Image(systemName: "arrow.down.circle")
-                        .font(.ui(17))
-                        .foregroundStyle(Color.eveCyan)
+                    Glyph(name: .update, size: 20)
+                        .foregroundStyle(C.accentText)
                 }
             }
         }

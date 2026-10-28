@@ -144,8 +144,8 @@ struct CharacterRootView: View {
                                 .lineLimit(1)
                                 .minimumScaleFactor(0.7)
                             if env.characterStore.characters.count > 1 {
-                                Image(systemName: "chevron.down")
-                                    .font(.ui(12, .semibold))
+                                Glyph(name: .chevron, size: 14)
+                                    .rotationEffect(.degrees(90))
                                     .foregroundStyle(C.accentText)
                             }
                         }
@@ -206,8 +206,7 @@ struct CharacterRootView: View {
                                 .lineLimit(1)
                         }
                         Spacer()
-                        Image(systemName: "chevron.right")
-                            .font(.ui(12, .semibold))
+                        Glyph(name: .chevron, size: 14)
                             .foregroundStyle(C.faint)
                     }
                     .padding(10)
@@ -278,7 +277,7 @@ struct CharacterRootView: View {
     private var alertsBlock: some View {
         ForEach(Array(computedAlerts.enumerated()), id: \.offset) { _, alert in
             HStack(alignment: .top, spacing: 10) {
-                Image(systemName: "exclamationmark.triangle.fill")
+                Glyph(name: .alert, size: 20)
                     .foregroundStyle(alert.color)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(alert.title).font(.ui(14, .medium)).foregroundStyle(C.text)
@@ -347,19 +346,19 @@ struct CharacterRootView: View {
 
     private var sectionsCard: some View {
         let links: [(String, String, Destination)] = [
-            ("Character Sheet", "person.text.rectangle", .characterSheet),
-            ("Wealth Overview", "chart.pie", .wealth),
-            ("EVE Mail", "envelope", .mail),
-            ("Clone & Implants", "brain.head.profile", .clone),
-            ("Fittings", "hexagon", .fittings),
-            ("Kill Board", "scope", .killboard),
-            ("Wallet Journal", "creditcard", .journal),
-            ("Transactions", "arrow.left.arrow.right", .transactions),
-            ("Market Orders", "chart.line.uptrend.xyaxis", .orders),
-            ("Industry Jobs", "gearshape.2", .industry),
-            ("Mining Ledger", "cube", .mining),
-            ("Loyalty Points", "seal", .loyalty),
-            ("Contracts", "doc.text", .contracts),
+            ("Character Sheet", "win_charactersheet", .characterSheet),
+            ("Wealth Overview", "win_assets", .wealth),
+            ("EVE Mail", "win_evemail", .mail),
+            ("Clone & Implants", "win_jumpclones", .clone),
+            ("Fittings", "win_fittingmanagement", .fittings),
+            ("Kill Board", "win_killreport", .killboard),
+            ("Wallet Journal", "win_journal", .journal),
+            ("Transactions", "win_market", .transactions),
+            ("Market Orders", "win_marketorders", .orders),
+            ("Industry Jobs", "win_industry", .industry),
+            ("Mining Ledger", "win_miningledger", .mining),
+            ("Loyalty Points", "win_lpstore", .loyalty),
+            ("Contracts", "win_contracts", .contracts),
         ]
         return VStack(alignment: .leading, spacing: 10) {
             SectionLabel("Sections")
@@ -367,16 +366,12 @@ struct CharacterRootView: View {
                 ForEach(links, id: \.0) { title, icon, dest in
                     NavigationLink(value: dest) {
                         HStack(spacing: 14) {
-                            Image(systemName: icon)
-                                .font(.ui(16))
-                                .foregroundStyle(C.accentText)
-                                .frame(width: 22)
+                            GameIcon(icon, size: 26)
                             Text(LocalizedStringKey(title))
                                 .font(.ui(15))
                                 .foregroundStyle(C.text)
                             Spacer()
-                            Image(systemName: "chevron.right")
-                                .font(.ui(12, .semibold))
+                            Glyph(name: .chevron, size: 14)
                                 .foregroundStyle(C.faint)
                         }
                         .padding(.horizontal, 16)
@@ -385,7 +380,7 @@ struct CharacterRootView: View {
                     }
                     .buttonStyle(.plain)
                     if title != links.last?.0 {
-                        Rectangle().fill(C.border).frame(height: 1).padding(.leading, 52)
+                        Rectangle().fill(C.border).frame(height: 1).padding(.leading, 56)
                     }
                 }
             }
@@ -456,7 +451,7 @@ struct CharacterRootView: View {
         if env.characterStore.characters.count > 1 {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button { withAnimation { switcherOpen.toggle() } } label: {
-                    Image(systemName: "person.2").foregroundStyle(Color.eveAmber)
+                    Glyph(name: .user, size: 20).foregroundStyle(C.accentText)
                 }
             }
         }

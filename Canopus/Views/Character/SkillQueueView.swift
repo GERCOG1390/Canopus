@@ -138,9 +138,7 @@ struct SkillQueueView: View {
 
     private var emptyState: some View {
         VStack(spacing: 16) {
-            Image(systemName: "brain.head.profile")
-                .font(.ui(45))
-                .foregroundStyle(Color.eveText.opacity(0.2))
+            GameIcon("win_trainingqueue", size: 48).opacity(0.6)
             Text("NO SKILLS TRAINING")
                 .font(.ui(11, .semibold))
                 .tracking(2.0)

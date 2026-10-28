@@ -53,8 +53,7 @@ struct MiningLedgerView: View {
                     Color.eveAmber.opacity(0.14).frame(height: 1)
 
                     if grouped.isEmpty && !isLoading {
-                        ContentUnavailableView("No Mining Data", systemImage: "pickaxe",
-                            description: Text("No mining activity recorded in the last 30 days."))
+                        EmptyState("No Mining Data", icon: "win_miningledger") { Text("No mining activity recorded in the last 30 days.") }
                         .foregroundStyle(Color.eveText)
                         .padding(.top, 60)
                     } else {

@@ -209,9 +209,7 @@ struct FittingsView: View {
             Color.eveBackground.ignoresSafeArea()
             ScrollView {
                 if fittings.isEmpty && currentShip == nil && !isLoading {
-                    ContentUnavailableView("No Saved Fits",
-                        systemImage: "wrench.and.screwdriver",
-                        description: Text("Save fits in-game to see them here."))
+                    EmptyState("No Saved Fits", icon: "win_fittingmanagement") { Text("Save fits in-game to see them here.") }
                     .foregroundStyle(Color.eveText)
                     .padding(.top, 60)
                 } else {
@@ -263,14 +261,14 @@ struct FittingsView: View {
                 Button {
                     showImportSheet = true
                 } label: {
-                    Image(systemName: "square.and.arrow.down")
+                    Text("Import EFT").font(.ui(14))
                 }
                 .foregroundStyle(Color.eveCyan)
 
                 Button {
                     showNewFitPicker = true
                 } label: {
-                    Image(systemName: "plus")
+                    Text("+").font(.ui(22, .medium))
                 }
                 .foregroundStyle(Color.eveAmber)
             }
@@ -963,13 +961,13 @@ private struct SubsystemSlotDefinition: Identifiable {
                             text: exportEFT()
                         )
                     } label: {
-                        Label("Export EFT", systemImage: "doc.on.doc")
+                        Text("Export EFT")
                     }
 
                     Button {
                         Task { await sendFittingToEVE() }
                     } label: {
-                        Label("Send to EVE", systemImage: "paperplane")
+                        Text("Send to EVE")
                     }
                     .disabled(isSendingToEVE)
                 } label: {
@@ -977,7 +975,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                         ProgressView()
                             .tint(Color.eveCyan)
                     } else {
-                        Image(systemName: "square.and.arrow.up")
+                        Text("EFT").font(.ui(14, .medium))
                     }
                 }
                 .foregroundStyle(Color.eveCyan)
@@ -989,7 +987,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                         }
                     }
                 } label: {
-                    Image(systemName: "plus")
+                    Text("+").font(.ui(22, .medium))
                 }
                 .foregroundStyle(Color.eveAmber)
             }
@@ -1210,7 +1208,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                             Button(role: .destructive) {
                                 removeItem(flag: item.flag, typeId: item.typeId)
                             } label: {
-                                Label("Remove", systemImage: "trash")
+                                Text("Remove")
                             }
                         }
                     EVESeparator()
@@ -1304,8 +1302,8 @@ private struct SubsystemSlotDefinition: Identifiable {
                     CutCorner(size: 5)
                         .stroke(Color.eveAmber.opacity(0.22), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
                         .frame(width: 36, height: 36)
-                    Image(systemName: "plus")
-                        .font(.ui(14, .bold))
+                    Text("+")
+                        .font(.ui(18, .medium))
                         .foregroundStyle(Color.eveAmber.opacity(0.82))
                 }
 
@@ -2640,11 +2638,11 @@ struct ModuleSettingSheet: View {
                                     .foregroundStyle(Color.eveText)
                                 HStack(spacing: 12) {
                                     if pgCost > 0 {
-                                        Label(String(format: "%.0f MW", pgCost), systemImage: "bolt.fill")
+                                        Label { Text(String(format: "%.0f MW", pgCost)) } icon: { GameIcon.attribute(30, size: 14) }
                                             .font(.ui(11)).foregroundStyle(Color.eveAmber.opacity(0.75))
                                     }
                                     if cpuCost > 0 {
-                                        Label(String(format: "%.0f Tf", cpuCost), systemImage: "cpu")
+                                        Label { Text(String(format: "%.0f Tf", cpuCost)) } icon: { GameIcon.attribute(50, size: 14) }
                                             .font(.ui(11)).foregroundStyle(Color.eveCyan.opacity(0.75))
                                     }
                                 }
@@ -2752,7 +2750,7 @@ struct ModuleSettingSheet: View {
                                 dismiss()
                             } label: {
                                 HStack(spacing: 10) {
-                                    Image(systemName: "trash")
+                                    Text("✕")
                                         .font(.ui(13, .semibold))
                                     Text("REMOVE MODULE")
                                         .font(.ui(11, .semibold)).monospacedDigit()
@@ -2808,7 +2806,7 @@ struct ChargePickerView: View {
             VStack(spacing: 0) {
                 // Search bar
                 HStack(spacing: 10) {
-                    Image(systemName: "magnifyingglass")
+                    Glyph(name: .search, size: 16)
                         .foregroundStyle(Color.eveText.opacity(0.40))
                     TextField("Search", text: $search)
                         .font(.ui(14))
@@ -2824,9 +2822,7 @@ struct ChargePickerView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         if filtered.isEmpty && !isLoading {
-                            ContentUnavailableView("No Compatible Charges",
-                                systemImage: "xmark.circle",
-                                description: Text("No ammunition found for this weapon."))
+                            EmptyState("No Compatible Charges", icon: "win_warning") { Text("No ammunition found for this weapon.") }
                             .foregroundStyle(Color.eveText)
                             .padding(.top, 40)
                         }
@@ -2874,7 +2870,7 @@ struct ChargePickerView: View {
                 Spacer()
 
                 if isSelected {
-                    Image(systemName: "checkmark")
+                    Text("✓")
                         .font(.ui(12, .semibold))
                         .foregroundStyle(Color.eveAmber)
                 }
@@ -3066,7 +3062,7 @@ private struct ShipPickerView: View {
 
     private func searchField(placeholder: String, text: Binding<String>) -> some View {
         HStack(spacing: 10) {
-            Image(systemName: "magnifyingglass")
+            Glyph(name: .search, size: 16)
                 .foregroundStyle(Color.eveText.opacity(0.40))
             TextField(placeholder, text: text)
                 .font(.ui(14))
@@ -3144,7 +3140,7 @@ private struct ModulePickerView: View {
             Color.eveBackground.ignoresSafeArea()
             VStack(spacing: 0) {
                 HStack(spacing: 10) {
-                    Image(systemName: "magnifyingglass")
+                    Glyph(name: .search, size: 16)
                         .foregroundStyle(Color.eveText.opacity(0.40))
                     TextField("Search \(slotTitle.lowercased())", text: $query)
                         .font(.ui(14))
@@ -3177,16 +3173,16 @@ private struct ModulePickerView: View {
             if isLoading {
                 ProgressView().tint(Color.eveCyan)
             } else if let errorMessage {
-                ContentUnavailableView("Cannot load modules", systemImage: "exclamationmark.triangle", description: Text(errorMessage))
+                EmptyState("Cannot load modules", icon: "win_warning") { Text(errorMessage) }
                     .foregroundStyle(Color.eveText)
             } else if acceptedEffectIds.isEmpty && query.trimmingCharacters(in: .whitespacesAndNewlines).count < 2 {
-                ContentUnavailableView("Enter at least 2 characters", systemImage: "magnifyingglass")
+                EmptyState("Enter at least 2 characters", icon: "win_searchmarket")
                     .foregroundStyle(Color.eveText)
             } else if acceptedEffectIds.isEmpty && filteredSearchResults.isEmpty {
-                ContentUnavailableView("No matching items", systemImage: "tray")
+                EmptyState("No matching items", icon: "win_items")
                     .foregroundStyle(Color.eveText)
             } else if !acceptedEffectIds.isEmpty && filteredCatalogSections.isEmpty {
-                ContentUnavailableView("No compatible modules", systemImage: "tray")
+                EmptyState("No compatible modules", icon: "win_items")
                     .foregroundStyle(Color.eveText)
             }
         }

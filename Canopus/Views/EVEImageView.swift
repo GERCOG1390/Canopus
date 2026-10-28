@@ -359,11 +359,7 @@ struct EVEIconImage: View {
             if let resolvedURL {
                 EVERemoteImage(url: resolvedURL, placeholderSystemName: nil, showsLoadingIndicator: false, targetPixelSize: size * 3)
             } else {
-                Image(systemName: "cube")
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundStyle(.secondary.opacity(0.45))
-                    .padding(size * 0.18)
+                RoundedRectangle(cornerRadius: size * 0.18).fill(C.panel2)
             }
         }
         .frame(width: size, height: size)

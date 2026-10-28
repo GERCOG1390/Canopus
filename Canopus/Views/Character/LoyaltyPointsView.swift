@@ -21,8 +21,7 @@ struct LoyaltyPointsView: View {
         List {
             Section {
                 HStack {
-                    Label("Total LP", systemImage: "star.circle.fill")
-                        .foregroundStyle(.tint)
+                    Label { Text("Total LP") } icon: { GameIcon("win_lpstore", size: 24) }
                     Spacer()
                     Text(totalLP.formatted())
                         .font(.ui(16, .semibold, relativeTo: .headline)).monospacedDigit()
@@ -65,11 +64,7 @@ struct LoyaltyPointsView: View {
             if isLoading {
                 ProgressView()
             } else if points.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No Loyalty Points",
-                    systemImage: "star.slash",
-                    description: Text("Complete missions to earn LP.")
-                )
+                EmptyState("No Loyalty Points", icon: "win_lpstore") { Text("Complete missions to earn LP.") }
             }
         }
         .task { await load() }
@@ -155,11 +150,7 @@ private struct LoyaltyPointStoreView: View {
             if isLoading {
                 ProgressView()
             } else if offers.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No LP Store Offers",
-                    systemImage: "cart.badge.questionmark",
-                    description: Text("This corporation has no public LP store offers.")
-                )
+                EmptyState("No LP Store Offers", icon: "win_lpstore") { Text("This corporation has no public LP store offers.") }
             }
         }
         .task { await load() }

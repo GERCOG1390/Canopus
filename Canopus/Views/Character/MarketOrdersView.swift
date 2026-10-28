@@ -44,11 +44,7 @@ struct MarketOrdersView: View {
             if isLoading {
                 ProgressView()
             } else if orders.isEmpty && error == nil {
-                ContentUnavailableView(
-                    "No active orders",
-                    systemImage: "chart.bar",
-                    description: Text("Place orders in EVE's market to see them here.")
-                )
+                EmptyState("No active orders", icon: "win_marketorders") { Text("Place orders in EVE's market to see them here.") }
             }
         }
         .task { await load() }

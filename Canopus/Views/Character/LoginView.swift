@@ -12,9 +12,7 @@ struct LoginView: View {
         VStack(spacing: 24) {
             Spacer()
 
-            Image(systemName: "person.crop.circle.badge.plus")
-                .font(.ui(73))
-                .foregroundStyle(.tint)
+            GameIcon("win_charactersheet", size: 72)
 
             VStack(spacing: 8) {
                 Text("Add a Character")
@@ -33,7 +31,7 @@ struct LoginView: View {
                         ProgressView()
                             .progressViewStyle(.circular)
                     } else {
-                        Label("Sign in with EVE Online", systemImage: "person.badge.key")
+                        Text("Sign in with EVE Online")
                     }
                 }
                 .frame(maxWidth: .infinity)
