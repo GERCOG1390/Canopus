@@ -19,3 +19,7 @@ Canopus/Recovered References/
 
 # AI tooling session state (not meant for the public repo)
 .codex/
+
+# SQLite side files
+*.sqlite-shm
+*.sqlite-wal
