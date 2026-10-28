@@ -77,6 +77,26 @@
         }
       }
     },
+    "%@ GJ · lasts %lld:%@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ ГДж · хватает на %2$lld:%3$@"
+          }
+        }
+      }
+    },
+    "%@ GJ · stable %lld%%": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ ГДж · стабилен %2$lld%%"
+          }
+        }
+      }
+    },
     "%@ HP": {},
     "%@ HP without resists": {
       "localizations": {
@@ -200,7 +220,16 @@
         }
       }
     },
-    "%@ m³": {},
+    "%@ m³": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ м³"
+          }
+        }
+      }
+    },
     "%@ s": {
       "localizations": {
         "ru": {
@@ -233,6 +262,16 @@
     },
     "%@ · %@": {
       "shouldTranslate": false
+    },
+    "%@ · %@ mm · %lld targets": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · %2$@ мм · %3$lld целей"
+          }
+        }
+      }
     },
     "%@x": {},
     "%lld": {},
@@ -318,6 +357,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld шт."
+          }
+        }
+      }
+    },
+    "%lld launched": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "запущено %lld"
           }
         }
       }
@@ -1853,6 +1902,16 @@
         }
       }
     },
+    "Export": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт"
+          }
+        }
+      }
+    },
     "Export EFT": {
       "localizations": {
         "ru": {
@@ -1979,6 +2038,16 @@
         }
       }
     },
+    "Fit snapshot": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снимок фита"
+          }
+        }
+      }
+    },
     "Fitting": {
       "extractionState": "stale",
       "localizations": {
@@ -2045,6 +2114,16 @@
         }
       }
     },
+    "HP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "HP/с"
+          }
+        }
+      }
+    },
     "HUL": {
       "extractionState": "stale",
       "localizations": {
@@ -2073,6 +2152,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Макс."
+          }
+        }
+      }
+    },
+    "High slots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Верхние слоты"
           }
         }
       }
@@ -2766,6 +2855,16 @@
         }
       }
     },
+    "Low slots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нижние слоты"
+          }
+        }
+      }
+    },
     "Loyalty Points": {
       "localizations": {
         "ru": {
@@ -3011,6 +3110,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Память"
+          }
+        }
+      }
+    },
+    "Mid slots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средние слоты"
           }
         }
       }
@@ -4009,6 +4118,16 @@
         }
       }
     },
+    "Repair": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ремонт"
+          }
+        }
+      }
+    },
     "Reprocessing Tax": {
       "localizations": {
         "ru": {
@@ -4078,6 +4197,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Повторить"
+          }
+        }
+      }
+    },
+    "Rig slots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Риги"
           }
         }
       }
@@ -4524,6 +4653,16 @@
         }
       }
     },
+    "Share": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поделиться"
+          }
+        }
+      }
+    },
     "Shield": {
       "localizations": {
         "ru": {
@@ -4600,6 +4739,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Войдите через EVE Online, чтобы видеть\nочередь навыков, кошелёк и остальное."
+          }
+        }
+      }
+    },
+    "Signature": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сигнатура"
           }
         }
       }
@@ -4687,6 +4836,26 @@
         }
       }
     },
+    "Skills: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки: %@"
+          }
+        }
+      }
+    },
+    "Skills: all V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки: все V"
+          }
+        }
+      }
+    },
     "Soon": {
       "extractionState": "stale",
       "localizations": {
@@ -4705,6 +4874,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Космос"
+          }
+        }
+      }
+    },
+    "Speed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорость"
           }
         }
       }
@@ -4758,6 +4937,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Корпус"
+          }
+        }
+      }
+    },
+    "Subsystems": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подсистемы"
           }
         }
       }
@@ -5242,6 +5431,16 @@
         }
       }
     },
+    "Warp": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Варп"
+          }
+        }
+      }
+    },
     "Warp speed": {
       "localizations": {
         "ru": {
@@ -5326,6 +5525,26 @@
     "[%@]": {
       "shouldTranslate": false
     },
+    "align %@ s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "разгон %@ с"
+          }
+        }
+      }
+    },
+    "armor %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "броня %@"
+          }
+        }
+      }
+    },
     "available": {
       "localizations": {
         "ru": {
@@ -5342,6 +5561,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "сменена: %@"
+          }
+        }
+      }
+    },
+    "drones %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "дроны %@"
           }
         }
       }
@@ -5377,6 +5606,16 @@
       }
     },
     "https://example.com/manifest.json": {},
+    "hull %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "корпус %@"
+          }
+        }
+      }
+    },
     "last: %@": {
       "localizations": {
         "ru": {
@@ -5403,6 +5642,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "средних"
+          }
+        }
+      }
+    },
+    "missiles %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ракеты %@"
           }
         }
       }
@@ -5437,6 +5686,36 @@
         }
       }
     },
+    "none": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет"
+          }
+        }
+      }
+    },
+    "off": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "выкл."
+          }
+        }
+      }
+    },
+    "overheated": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "перегрев"
+          }
+        }
+      }
+    },
     "paused": {
       "localizations": {
         "ru": {
@@ -5457,6 +5736,16 @@
         }
       }
     },
+    "repair %@ EHP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ремонт %@ EHP/с"
+          }
+        }
+      }
+    },
     "rig": {
       "localizations": {
         "ru": {
@@ -5473,6 +5762,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "кончится за %@"
+          }
+        }
+      }
+    },
+    "shield %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "щит %@"
           }
         }
       }
@@ -5507,12 +5806,32 @@
         }
       }
     },
+    "turrets %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "турели %@"
+          }
+        }
+      }
+    },
     "updating Jita prices…": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "обновляю цены Jita…"
+          }
+        }
+      }
+    },
+    "volley %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "залп %@"
           }
         }
       }

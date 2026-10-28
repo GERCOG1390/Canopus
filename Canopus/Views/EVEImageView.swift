@@ -333,6 +333,20 @@ private struct EVETypeRemoteImage: View {
 
 // MARK: - Public views
 
+/// Loads a type's picture ahead of time, for views drawn into an image (ImageRenderer cannot wait for
+/// the remote images above). Same variations, cache and session as the on-screen icons.
+enum EVETypeImages {
+    static func image(typeId: Int, render: Bool = false, size: CGFloat) async -> UIImage? {
+        let preferred = render ? EVEImageServer.renderPreferredVariations : EVEImageServer.modulePreferredVariations
+        let available = Set(await EVETypeVariationResolver.shared.variations(for: typeId))
+        for variation in preferred where available.isEmpty || available.contains(variation) {
+            let url = EVEImageServer.typeURL(typeId: typeId, variation: variation, displaySize: size)
+            if let img = try? await EVEImageLoader.shared.image(for: url, targetPixelSize: size * 3) { return img }
+        }
+        return nil
+    }
+}
+
 struct EVETypeIcon: View {
     let typeId: Int
     var size: CGFloat = 32

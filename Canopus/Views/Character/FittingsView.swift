@@ -476,6 +476,10 @@ struct FitDetailView: View {
     @State private var fitStats: JSFitStats?
     /// The engine's per-module problems (wrong ship, rig size, group limits), by slot flag.
     @State private var moduleProblems: [String: [String]] = [:]
+    /// The spec the stats were calculated for (the snapshot draws it).
+    @State private var fitSpec: JSFitSpec?
+    @State private var fitShot: FitShotData?
+    @State private var preparingShot = false
     @State private var moduleTypeProfiles: [Int: TypeProfile] = [:]
     @State private var chargeTypeAttrs: [Int: [Int: Double]] = [:]
     @State private var chargeNames: [Int: String] = [:]
@@ -959,12 +963,19 @@ private struct SubsystemSlotDefinition: Identifiable {
                         Text("Send to EVE")
                     }
                     .disabled(isSendingToEVE)
+
+                    Button {
+                        Task { await openFitShot() }
+                    } label: {
+                        Text("Fit snapshot")
+                    }
+                    .disabled(fitStats == nil || preparingShot)
                 } label: {
-                    if isSendingToEVE {
+                    if isSendingToEVE || preparingShot {
                         ProgressView()
                             .tint(Color.eveCyan)
                     } else {
-                        Text("EFT").font(.ui(14, .medium))
+                        Text("Export").font(.ui(14, .medium))
                     }
                 }
                 .foregroundStyle(Color.eveCyan)
@@ -980,6 +991,10 @@ private struct SubsystemSlotDefinition: Identifiable {
                 }
                 .foregroundStyle(Color.eveAmber)
             }
+        }
+        .sheet(item: $fitShot) { shot in
+            NavigationStack { FitShotSheet(data: shot) }
+                .presentationSizing(.page)
         }
         .sheet(item: $sheetFlag) { flagItem in
             if let item = moduleItem(for: flagItem.id) {
@@ -1960,6 +1975,29 @@ private struct SubsystemSlotDefinition: Identifiable {
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 
+    // MARK: - Fit snapshot
+
+    /// Resolves names and pictures for the current fit and opens the snapshot.
+    private func openFitShot() async {
+        guard let spec = fitSpec, let stats = fitStats else { return }
+        preparingShot = true
+        defer { preparingShot = false }
+        let ids = [spec.shipTypeId] + spec.modules.flatMap { [$0.typeId, $0.chargeTypeId].compactMap { $0 } }
+            + spec.drones.map(\.typeId) + spec.implants
+        var names: [Int: String] = [:]
+        for id in ids { names[id] = chargeNames[id] ?? typeName(id, fallback: "#\(id)") }
+        let missing = Set(ids.filter { names[$0]?.hasPrefix("#") ?? true })
+        if !missing.isEmpty, let repo = env.repository, let types = try? await repo.types(ids: missing) {
+            for (id, t) in types { names[id] = t.name }
+        }
+        var data = FitShotData(
+            spec: spec, stats: stats, names: names,
+            pilot: characterSkills.isEmpty ? nil : characterService.tokens.characterName
+        )
+        await data.loadImages()
+        fitShot = data
+    }
+
     // MARK: - Data loading
 
     private func initialLoad() async {
@@ -2010,7 +2048,11 @@ private struct SubsystemSlotDefinition: Identifiable {
                 guard embeddedCharge(for: weapon) == nil else { continue }
                 if let compatible = try? await repo.compatibleCharges(weaponTypeId: weapon.typeId) {
                     let compatibleIds = Set(compatible.map(\.id))
-                    if let cargo = cargoItems.first(where: { compatibleIds.contains($0.typeId) }) {
+                    // The most plentiful compatible charge in the hold, as the desktop picks it.
+                    let stock = cargoItems
+                        .filter { compatibleIds.contains($0.typeId) }
+                        .reduce(into: [Int: Int]()) { $0[$1.typeId, default: 0] += $1.quantity }
+                    if let cargo = stock.max(by: { $0.value != $1.value ? $0.value < $1.value : $0.key > $1.key }).map({ ESIFittingItem(typeId: $0.key, flag: "Cargo", quantity: $0.value) }) {
                         chargeNames[cargo.typeId] = typeName(cargo.typeId, fallback: "Charge \(cargo.typeId)")
                         for sameWeapon in currentItems where sameWeapon.typeId == weapon.typeId {
                             configs[sameWeapon.flag, default: ModuleConfig()].chargeTypeId = cargo.typeId
@@ -2142,15 +2184,25 @@ private struct SubsystemSlotDefinition: Identifiable {
             ))
             flags.append((item.flag, item.typeId))
         }
-        let drones = currentItems
-            .filter { slotFor($0.flag) == .drone }
-            .reduce(into: [Int: Int]()) { $0[$1.typeId, default: 0] += max(1, $1.quantity) }
+        // Drone stacks in bay order; five drones launched in all, first stacks first (the desktop's rule).
+        var drones: [JSFitDrone] = []
+        for item in currentItems where slotFor(item.flag) == .drone {
+            if let i = drones.firstIndex(where: { $0.typeId == item.typeId }) {
+                drones[i].count += max(1, item.quantity)
+            } else {
+                drones.append(JSFitDrone(typeId: item.typeId, count: max(1, item.quantity), active: 0))
+            }
+        }
+        var toLaunch = 5
+        for i in drones.indices {
+            drones[i].active = min(drones[i].count, toLaunch)
+            toLaunch -= drones[i].active
+        }
         let spec = JSFitSpec(
             shipTypeId: fit.shipTypeId,
             name: fit.name,
             modules: modules,
-            // Launched up to five of each, the way the desktop imports fits.
-            drones: drones.map { JSFitDrone(typeId: $0.key, count: $0.value, active: min(5, $0.value)) },
+            drones: drones,
             implants: implantIds
         )
         let skills: JSSkills = characterSkills.isEmpty ? .all5 : .character(characterSkills)
@@ -2160,6 +2212,14 @@ private struct SubsystemSlotDefinition: Identifiable {
             guard !Task.isCancelled else { return }
             stats = ShipStats(js: js, flags: flags)
             fitStats = js
+            fitSpec = spec
+            #if DEBUG
+            // Debug builds: `-openFitShot YES` opens the snapshot once the stats are in (screenshots).
+            if UserDefaults.standard.bool(forKey: "openFitShot"), fitShot == nil, !preparingShot {
+                UserDefaults.standard.removeObject(forKey: "openFitShot")
+                Task { await openFitShot() }
+            }
+            #endif
             moduleProblems = js.modules.reduce(into: [:]) { out, m in
                 guard !m.problems.isEmpty, m.index < flags.count else { return }
                 out[flags[m.index].flag] = m.problems.map { EngineProblem.message($0) ?? $0 }

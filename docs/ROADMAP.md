@@ -57,4 +57,6 @@ belongs to.
   equal to Pyfa on the app's own SDE. Original icons only (desktop glyphs, CCP window/attribute icons).
   The fitting stats tab follows the desktop's panel (metrics, resources, firepower by weapon, defense
   table, capacitor, navigation, targeting) straight from the engine's result, with CCP attribute icons.
-  Next in phase 2: fit snapshot, optimizer, NPC damage and abyss planner (same JS engine).
+  Fit snapshot (the desktop's FitShot card, rendered to a picture for the share sheet); hardpoints,
+  drone launch and cargo charges by the desktop's rules; the engine's fit problems shown in the panel
+  and on module rows. Next in phase 2: optimizer, NPC damage and abyss planner (same JS engine).
