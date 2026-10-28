@@ -25,7 +25,7 @@ struct WalletJournalView: View {
         .eveTabBarClearance()
         .searchable(text: $searchText, prompt: "Search journal…")
         .navigationTitle("Wallet Journal")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .overlay {
             if isLoading {
                 ProgressView()

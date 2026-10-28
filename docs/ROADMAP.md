@@ -46,3 +46,8 @@ belongs to.
   character overview, skills, wallet redone; desktop fonts on every screen. Next: clones and
   implants, mail, character sheet, assets, contracts. Tools/l10n/sync_strings.py keeps the string
   catalogs in step; debug builds accept `-startPage <page>`.
+- 2026-10-28: Phase 1 done: clones and implants, mail, assets redone; every list on the Canopus
+  background with inline titles; cancelled requests no longer shown as errors. Character sheet, LP,
+  orders, industry, mining and contracts have the desktop palette and fonts; their layouts get a
+  deeper pass with the phases that extend them (economy). Next: phase 2, the fitting engine checked
+  against Pyfa.

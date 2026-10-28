@@ -37,7 +37,7 @@ struct ContractsView: View {
         }
         .eveTabBarClearance()
         .navigationTitle("Contracts")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .overlay {
             if isLoading {
                 ProgressView()

@@ -264,6 +264,8 @@ struct PageView: View {
 
     var body: some View {
         content
+            // Lists inside the pages show the Canopus background, not the system black.
+            .scrollContentBackground(.hidden)
             .background(C.bg)
     }
 
@@ -366,6 +368,10 @@ enum CanopusAppearance {
         tab.shadowColor = UIColor(C.border)
         UITabBar.appearance().standardAppearance = tab
         UITabBar.appearance().scrollEdgeAppearance = tab
+
+        // Lists (UICollectionView under SwiftUI) on the Canopus background everywhere, pushed screens too.
+        UICollectionView.appearance().backgroundColor = UIColor(C.bg)
+        UITableView.appearance().backgroundColor = UIColor(C.bg)
     }
 }
 

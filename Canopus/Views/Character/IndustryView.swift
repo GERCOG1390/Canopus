@@ -49,7 +49,7 @@ struct IndustryView: View {
         }
         .eveTabBarClearance()
         .navigationTitle("Industry")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .overlay {
             if isLoading {
                 ProgressView()

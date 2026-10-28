@@ -60,7 +60,7 @@ struct LoyaltyPointsView: View {
         }
         .eveTabBarClearance()
         .navigationTitle("Loyalty Points")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .overlay {
             if isLoading {
                 ProgressView()

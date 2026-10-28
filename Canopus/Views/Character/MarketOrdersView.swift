@@ -39,7 +39,7 @@ struct MarketOrdersView: View {
         }
         .eveTabBarClearance()
         .navigationTitle("Market Orders")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .overlay {
             if isLoading {
                 ProgressView()
