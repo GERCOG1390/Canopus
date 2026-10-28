@@ -1870,6 +1870,16 @@
         }
       }
     },
+    "Items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предметов"
+          }
+        }
+      }
+    },
     "Journal": {
       "localizations": {
         "ru": {
@@ -2083,6 +2093,46 @@
         }
       }
     },
+    "Loading assets…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаю имущество…"
+          }
+        }
+      }
+    },
+    "Loading item names…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаю названия…"
+          }
+        }
+      }
+    },
+    "Loading locations…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаю локации…"
+          }
+        }
+      }
+    },
+    "Loading market prices…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаю цены…"
+          }
+        }
+      }
+    },
     "Loading the SDE database…": {
       "localizations": {
         "ru": {
@@ -2119,6 +2169,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Локация %lld"
+          }
+        }
+      }
+    },
+    "Locations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локаций"
           }
         }
       }
@@ -4086,6 +4146,16 @@
         }
       }
     },
+    "Value (Jita sell)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оценка (Jita sell)"
+          }
+        }
+      }
+    },
     "Variations": {
       "localizations": {
         "ru": {
@@ -4316,6 +4386,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "осталось"
+          }
+        }
+      }
+    },
+    "updating Jita prices…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "обновляю цены Jita…"
+          }
+        }
+      }
+    },
+    "without blueprint copies": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "без учёта копий чертежей"
           }
         }
       }

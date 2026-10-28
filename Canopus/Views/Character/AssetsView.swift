@@ -36,7 +36,7 @@ struct AssetsView: View {
     @State private var locationGroups: [AssetLocation] = []
     @State private var expandedIds: Set<Int> = []
     @State private var isLoading = true
-    @State private var loadingPhase = "Loading assets…"
+    @State private var loadingPhase = String(localized: "Loading assets…")
     @State private var error: Error?
     @State private var searchText = ""
     @State private var isRefiningJitaPrices = false
@@ -60,13 +60,22 @@ struct AssetsView: View {
     private var totalTypes: Int { locationGroups.reduce(0) { $0 + $1.items.count } }
     private var totalItems: Int { locationGroups.reduce(0) { $0 + $1.totalQuantity } }
     private var totalValue: Double { locationGroups.reduce(0) { $0 + $1.totalValue } }
-    private var assetSummaryText: String {
-        let summary = "\(locationGroups.count) locations · \(totalTypes) types · \(totalItems) items · \(formatISK(totalValue))"
-        return isRefiningJitaPrices ? "\(summary) · updating Jita" : summary
-    }
-
     var body: some View {
         List {
+            if !locationGroups.isEmpty {
+                LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+                    StatTile(
+                        label: "Value (Jita sell)",
+                        value: formatISK(totalValue),
+                        sub: isRefiningJitaPrices ? String(localized: "updating Jita prices…") : String(localized: "without blueprint copies")
+                    )
+                    StatTile(label: "Items", value: totalItems.formatted(), sub: String(localized: "\(totalTypes) types"))
+                    StatTile(label: "Locations", value: locationGroups.count.formatted())
+                }
+                .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 8, trailing: 0))
+                .listRowBackground(Color.clear)
+                .listRowSeparator(.hidden)
+            }
             ForEach(filteredGroups) { location in
                 AssetLocationSection(
                     location: location,
@@ -78,12 +87,12 @@ struct AssetsView: View {
         .background(Color.eveBackground)
         .searchable(text: $searchText, prompt: "Search assets…")
         .navigationTitle("Assets")
-        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitleDisplayMode(.inline)
         .overlay {
             if isLoading {
                 VStack(spacing: 10) {
                     ProgressView()
-                    Text(loadingPhase)
+                    Text(verbatim: loadingPhase)
                         .font(.ui(12, .regular, relativeTo: .caption))
                         .foregroundStyle(.secondary)
                 }
@@ -95,25 +104,7 @@ struct AssetsView: View {
                 )
             }
         }
-        .safeAreaInset(edge: .bottom) {
-            if !locationGroups.isEmpty && !isLoading {
-                VStack(spacing: 0) {
-                    Rectangle()
-                        .fill(Color.eveAmber.opacity(0.28))
-                        .frame(height: 1)
-                    Text(assetSummaryText)
-                        .font(.ui(12, .regular, relativeTo: .caption))
-                        .foregroundStyle(.secondary)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.eveCard.opacity(0.92))
-
-                    Color.clear
-                        .frame(height: EVELayout.tabBarClearance)
-                }
-            }
-        }
-        .task { await load() }
+        .task(id: env.repositoryVersion) { await load() }
         .alert("Error", isPresented: Binding(
             get: { error != nil },
             set: { if !$0 { error = nil } }
@@ -137,7 +128,7 @@ struct AssetsView: View {
 
     private func load() async {
         isLoading = true
-        loadingPhase = "Loading assets…"
+        loadingPhase = String(localized: "Loading assets…")
         error = nil
         defer { isLoading = false }
         do {
@@ -161,7 +152,7 @@ struct AssetsView: View {
                 locationAssets[root.locationId, default: []].append(asset)
             }
 
-            loadingPhase = "Loading item names…"
+            loadingPhase = String(localized: "Loading item names…")
             var typeNames: [Int: String] = [:]
             if let repo = env.repository {
                 let typeIds = Set(raw.map(\.typeId))
@@ -170,12 +161,12 @@ struct AssetsView: View {
                 }
             }
 
-            loadingPhase = "Loading market prices…"
+            loadingPhase = String(localized: "Loading market prices…")
             let typeIds = Set(raw.map(\.typeId))
             var prices = try await loadEstimatedPrices(typeIds: typeIds)
             prices.merge(jitaPriceCache) { _, jita in jita }
 
-            loadingPhase = "Loading locations…"
+            loadingPhase = String(localized: "Loading locations…")
             var result: [AssetLocation] = []
             for (locId, assets) in locationAssets {
                 let locType = locationTypes[locId] ?? "other"
