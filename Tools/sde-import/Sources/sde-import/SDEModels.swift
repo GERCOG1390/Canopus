@@ -159,3 +159,42 @@ struct SDEDogmaEffect: Decodable {
         modifierInfo = try c.decodeIfPresent([SDEModifierInfo].self, forKey: .modifierInfo)
     }
 }
+
+// MARK: - Map (mapRegions / mapConstellations / mapSolarSystems / mapStargates)
+// 30000001:
+//   constellationID: 20000001
+//   name: {en: Tanoo, ...}
+//   position: {x: -8.85e+16, y: 4.23e+16, z: -4.45e+16}
+//   regionID: 10000001
+//   securityStatus: 0.858324
+// 50000001:
+//   destination: {solarSystemID: 30000778, stargateID: 50000482}
+//   solarSystemID: 30000777
+
+struct SDEMapPosition: Decodable {
+    let x: Double
+    let y: Double
+    let z: Double
+}
+
+struct SDEMapRegion: Decodable {
+    let name: LocalizedString?
+}
+
+struct SDEMapConstellation: Decodable {
+    let regionID: Int
+    let name: LocalizedString?
+}
+
+struct SDEMapSolarSystem: Decodable {
+    let constellationID: Int
+    let name: LocalizedString?
+    let position: SDEMapPosition?
+    let securityStatus: Double?
+}
+
+struct SDEMapStargate: Decodable {
+    struct Destination: Decodable { let solarSystemID: Int }
+    let solarSystemID: Int
+    let destination: Destination
+}

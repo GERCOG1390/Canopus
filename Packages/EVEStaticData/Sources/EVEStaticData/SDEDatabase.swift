@@ -121,20 +121,34 @@ public enum SDEDatabase {
     // MARK: - Private
 
     private static func resolvedURL() throws -> URL {
+        let bundled = Bundle.main.url(forResource: "sde", withExtension: "sqlite")
         if let installed = try? installedURL(),
            FileManager.default.fileExists(atPath: installed.path),
            (try? validateDatabase(at: installed)) != nil {
-            return installed
+            // A newer app version can bring a newer database than the one installed (downloaded or copied
+            // from an older bundle): the newer of the two wins.
+            guard let bundled,
+                  let b = try? metadata(at: bundled, source: .bundled),
+                  let i = try? metadata(at: installed, source: .installed),
+                  isNewer(b, than: i) else { return installed }
+            return try installedWritableCopy(from: bundled, force: true)
         }
 
-        if let bundled = Bundle.main.url(forResource: "sde", withExtension: "sqlite") {
+        if let bundled {
             return try installedWritableCopy(from: bundled)
         }
 
         throw Error.notFound
     }
 
-    private static func installedWritableCopy(from bundledURL: URL) throws -> URL {
+    /// By build number, then by when the package was generated (ISO 8601, so text order is time order).
+    static func isNewer(_ a: Metadata, than b: Metadata) -> Bool {
+        let ab = Int(a.build ?? "") ?? 0, bb = Int(b.build ?? "") ?? 0
+        if ab != bb { return ab > bb }
+        return (a.generatedAt ?? "") > (b.generatedAt ?? "")
+    }
+
+    private static func installedWritableCopy(from bundledURL: URL, force: Bool = false) throws -> URL {
         guard let targetURL = try? installedURL() else {
             return bundledURL
         }
@@ -143,7 +157,7 @@ public enum SDEDatabase {
         let bundledSignature = try fileSignature(at: bundledURL)
         let targetSignature = try? fileSignature(at: targetURL)
 
-        if let targetSignature,
+        if !force, let targetSignature,
            (try? validateDatabase(at: targetURL)) != nil,
            targetSignature.size == bundledSignature.size,
            targetSignature.modificationDate >= bundledSignature.modificationDate {

@@ -37,6 +37,9 @@ struct SDEImporter {
         print("→ Deriving skill requirements…")
         print("  \(try await deriveSkillRequirements()) rows")
 
+        print("→ Importing the map…")
+        print("  \(try await importMap())")
+
         print("→ Building FTS index…")
         try await buildFTS()
         print("  done")
@@ -350,6 +353,35 @@ struct SDEImporter {
                 """)
             return try Int.fetchOne(database, sql: "SELECT COUNT(*) FROM skill_requirements") ?? 0
         }
+    }
+
+    private func importMap() async throws -> String {
+        guard let regionsURL = findFile("mapRegions.yaml"), let constellationsURL = findFile("mapConstellations.yaml"),
+              let systemsURL = findFile("mapSolarSystems.yaml"), let gatesURL = findFile("mapStargates.yaml") else {
+            return "⚠️  map files not found"
+        }
+        let regions = try parseYAMLMap(regionsURL, as: SDEMapRegion.self)
+        let constellations = try parseYAMLMap(constellationsURL, as: SDEMapConstellation.self)
+        let systems = try parseYAMLMap(systemsURL, as: SDEMapSolarSystem.self)
+        let gates = try parseYAMLMap(gatesURL, as: SDEMapStargate.self)
+        try await db.write { database in
+            for (id, r) in regions {
+                try database.execute(sql: "INSERT OR IGNORE INTO regions (id, name) VALUES (?, ?)", arguments: [id, r.name?.english ?? ""])
+            }
+            for (id, c) in constellations {
+                try database.execute(sql: "INSERT OR IGNORE INTO constellations (id, region_id, name) VALUES (?, ?, ?)",
+                                     arguments: [id, c.regionID, c.name?.english ?? ""])
+            }
+            for (id, s) in systems {
+                try database.execute(sql: "INSERT OR IGNORE INTO systems (id, constellation_id, name, security, x, y, z) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                                     arguments: [id, s.constellationID, s.name?.english ?? "", s.securityStatus ?? 0, s.position?.x, s.position?.y, s.position?.z])
+            }
+            for (_, g) in gates {
+                try database.execute(sql: "INSERT OR IGNORE INTO jumps (from_id, to_id) VALUES (?, ?)",
+                                     arguments: [g.solarSystemID, g.destination.solarSystemID])
+            }
+        }
+        return "\(regions.count) regions, \(constellations.count) constellations, \(systems.count) systems, \(gates.count) stargates"
     }
 
     private func buildFTS() async throws {

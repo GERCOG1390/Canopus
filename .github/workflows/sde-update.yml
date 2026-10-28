@@ -30,9 +30,11 @@ jobs:
           # official SDE is on developers.eveonline.com, with its build number in latest.jsonl.
           BUILD=$(curl -fsSL https://developers.eveonline.com/static-data/tranquility/latest.jsonl | head -1 | python3 -c 'import json,sys; print(json.load(sys.stdin)["buildNumber"])')
           echo "build=$BUILD" >> "$GITHUB_OUTPUT"
-          PREVIOUS=$(curl -fsSL "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus-sde-manifest.json" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("ccp_build", ""))' || true)
-          echo "CCP build $BUILD, released package built from '${PREVIOUS}'"
-          if [ "$BUILD" = "$PREVIOUS" ] && [ "${{ github.event_name }}" = "schedule" ]; then
+          # A new importer (more data from the same build) also makes a release.
+          IMPORTER=$(sed -n 's/^let importerVersion = "\(.*\)"$/\1/p' Tools/sde-import/Sources/sde-import/ImportCommand.swift)
+          PREVIOUS=$(curl -fsSL "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus-sde-manifest.json" | python3 -c 'import json,sys; m=json.load(sys.stdin); print(m.get("ccp_build", "") + "/" + m.get("importer_version", "1"))' || true)
+          echo "CCP build $BUILD, importer $IMPORTER; released package built from '${PREVIOUS}'"
+          if [ "$BUILD/$IMPORTER" = "$PREVIOUS" ] && [ "${{ github.event_name }}" = "schedule" ]; then
             echo "skip=true" >> "$GITHUB_OUTPUT"
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"

@@ -280,7 +280,7 @@ struct PageView: View {
         case .intel:
             ComingSoon(page: page, text: "Local and d-scan checks, pilot lookup and the live kill radar from the desktop app.")
         case .map:
-            ComingSoon(page: page, text: "Routes with danger checks, kills and jumps by system, sovereignty.")
+            MapPage()
         default:
             if let svc = env.characterStore.selectedService {
                 characterPage(svc)

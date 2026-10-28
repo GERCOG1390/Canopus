@@ -30,7 +30,7 @@ TestFlight first, then the App Store.
    nearby), route safety, combat simulator.
 4. **Economy:** market with Jita / hub prices, my trades, industry jobs and blueprints, mining
    ledger, LP store.
-5. **Space:** map (2D on the phone), routes with avoidance, sovereignty, campaigns, jobs board.
+5. **Space:** 3D map (as the desktop's), routes with avoidance, sovereignty, campaigns, jobs board.
 6. **AI assistant** with the same tools as the desktop.
 7. **Release:** bundle id and EVE SSO application for iOS, privacy manifest, App Store assets,
    TestFlight, App Store review.
@@ -64,3 +64,12 @@ belongs to.
   points their SDE and index imports at shims); check_tools.py: 0 differences against the desktop's
   whole SDE. Also what to learn (the desktop's gains.ts), compare fits and popular fits (zKillboard
   losses, opened in the fitting screen): phase 2 done.
+- 2026-10-28: the iOS database never had the map (sde-import had the tables but no import): it now
+  imports regions, constellations, systems with coordinates and stargate links (`jumps`); the manifest
+  carries `importer_version` so the workflow releases a new importer's data for the same CCP build. The
+  app now prefers a newer bundled database over an older installed copy. 3D map v1 on Metal (the
+  desktop's GalaxyMap): security colours, gates, kills in the last hour, region and system names,
+  orbit / move / pinch, tap to pick, search, where am I, top / side / whole views, system card with
+  kills and jumps, ESI routes (safest / shortest / low-null) with avoided systems and danger on the
+  way, notes. Next on the map: sovereignty, capital jump range, jump bridges, intel marks (with
+  phase 3), set destination in game (needs the ui.write_waypoint scope with the new SSO app).

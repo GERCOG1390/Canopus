@@ -224,7 +224,8 @@ struct ImportCommand: AsyncParsableCommand {
             changelogURL: changelogPublicURL,
             sha256: try sha256HexDigest(for: sqliteURL),
             byteSize: byteSize,
-            ccpBuild: ccpBuildNumber(URL(fileURLWithPath: input))
+            ccpBuild: ccpBuildNumber(URL(fileURLWithPath: input)),
+            importerVersion: importerVersion
         )
 
         let encoder = JSONEncoder()
@@ -248,6 +249,10 @@ struct ImportCommand: AsyncParsableCommand {
     }
 }
 
+/// Bumped when the importer writes new data from the same CCP build (2: the map — systems and stargates).
+/// The sde-update workflow reads this line: a release is skipped only when the CCP build and it are unchanged.
+let importerVersion = "2"
+
 private struct SDEPackageManifest: Encodable {
     let build: String
     let generatedAt: String
@@ -258,6 +263,7 @@ private struct SDEPackageManifest: Encodable {
     let byteSize: Int
     /// CCP's SDE build the package was made from (the workflow skips a release when it hasn't changed).
     let ccpBuild: String?
+    let importerVersion: String
 
     enum CodingKeys: String, CodingKey {
         case build
@@ -268,5 +274,6 @@ private struct SDEPackageManifest: Encodable {
         case sha256
         case byteSize = "byte_size"
         case ccpBuild = "ccp_build"
+        case importerVersion = "importer_version"
     }
 }

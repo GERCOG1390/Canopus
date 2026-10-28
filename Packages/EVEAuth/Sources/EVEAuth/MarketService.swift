@@ -1,5 +1,24 @@
 import Foundation
 
+// MARK: - Universe
+
+public struct ESISystemKills: Decodable, Sendable {
+    public let systemId: Int
+    public let shipKills: Int
+    public let podKills: Int
+    public let npcKills: Int
+}
+
+public struct ESISystemJumps: Decodable, Sendable {
+    public let systemId: Int
+    public let shipJumps: Int
+}
+
+/// Route preference, as the game's autopilot.
+public enum ESIRouteFlag: String, CaseIterable, Sendable {
+    case secure, shortest, insecure
+}
+
 // MARK: - Regions
 
 public enum EVERegion: Int, CaseIterable, Sendable {
@@ -81,6 +100,25 @@ public final class MarketService {
             ],
             as: ESIRegionalOrder.self
         )
+    }
+
+    // MARK: - Universe (the map)
+
+    /// Ship, pod and NPC kills per system in the last hour (systems without any are left out).
+    public func systemKills() async throws -> [ESISystemKills] {
+        try await get(path: "/universe/system_kills/", as: [ESISystemKills].self)
+    }
+
+    /// Jumps through each system in the last hour.
+    public func systemJumps() async throws -> [ESISystemJumps] {
+        try await get(path: "/universe/system_jumps/", as: [ESISystemJumps].self)
+    }
+
+    /// The game's gate route between two systems (both ends included).
+    public func route(from: Int, to: Int, flag: ESIRouteFlag, avoid: [Int] = []) async throws -> [Int] {
+        var query = [URLQueryItem(name: "flag", value: flag.rawValue)]
+        if !avoid.isEmpty { query.append(URLQueryItem(name: "avoid", value: avoid.map(String.init).joined(separator: ","))) }
+        return try await get(path: "/route/\(from)/\(to)/", queryItems: query, as: [Int].self)
     }
 
     // MARK: - Private

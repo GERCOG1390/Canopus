@@ -20,6 +20,8 @@ struct IntegrityChecker {
                 ("Dogma attributes",try count(database, "dogma_attributes"),50),
                 ("Type attributes", try count(database, "type_attributes"), 100),
                 ("FTS index",       try count(database, "types_fts"),       1),
+                ("Systems",         try count(database, "systems"),         5000),
+                ("Stargate links",  try count(database, "jumps"),           5000),
             ]
         }
 

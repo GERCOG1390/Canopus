@@ -132,7 +132,7 @@ enum SchemaCreator {
             );
             """)
 
-        // Universe (subset — needed for location display in M3+)
+        // Universe: regions, constellations, systems with their coordinates (metres), stargate links
         try db.execute(sql: """
             CREATE TABLE regions (
                 id   INTEGER PRIMARY KEY,
@@ -152,6 +152,13 @@ enum SchemaCreator {
                 security         REAL    NOT NULL,
                 x REAL, y REAL, z REAL
             );
+
+            -- Stargate links, one row per direction (from mapStargates).
+            CREATE TABLE jumps (
+                from_id INTEGER NOT NULL,
+                to_id   INTEGER NOT NULL,
+                PRIMARY KEY (from_id, to_id)
+            ) WITHOUT ROWID;
 
             CREATE TABLE stations (
                 id        INTEGER PRIMARY KEY,

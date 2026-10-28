@@ -414,6 +414,16 @@
         }
       }
     },
+    "%lld jumps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld прыжков"
+          }
+        }
+      }
+    },
     "%lld launched": {
       "localizations": {
         "ru": {
@@ -1047,6 +1057,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сред."
+          }
+        }
+      }
+    },
+    "Avoid": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Избегать"
+          }
+        }
+      }
+    },
+    "Avoided": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Избегается"
+          }
+        }
+      }
+    },
+    "Avoids %lld systems": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обходит систем: %lld"
           }
         }
       }
@@ -2519,6 +2559,16 @@
         }
       }
     },
+    "Find a system…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найти систему…"
+          }
+        }
+      }
+    },
     "Firepower": {
       "extractionState": "stale",
       "localizations": {
@@ -2600,6 +2650,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Фрегаты"
+          }
+        }
+      }
+    },
+    "From here": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отсюда"
           }
         }
       }
@@ -3125,6 +3185,16 @@
         }
       }
     },
+    "Jumps: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжков: %lld"
+          }
+        }
+      }
+    },
     "KILL": {
       "localizations": {
         "ru": {
@@ -3193,6 +3263,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Киллборд"
+          }
+        }
+      }
+    },
+    "Kills in the last hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийства за час"
+          }
+        }
+      }
+    },
+    "Kills in the last hour: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийств за час: %lld"
+          }
+        }
+      }
+    },
+    "Kills on the route in the last hour: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийства за час на маршруте: %lld"
           }
         }
       }
@@ -3655,6 +3755,16 @@
         }
       }
     },
+    "Map unavailable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карта недоступна"
+          }
+        }
+      }
+    },
     "Market": {
       "extractionState": "stale",
       "localizations": {
@@ -3998,6 +4108,16 @@
         }
       }
     },
+    "NPCs: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NPC: %lld"
+          }
+        }
+      }
+    },
     "NULL SEC": {
       "extractionState": "stale",
       "localizations": {
@@ -4293,6 +4413,16 @@
         }
       }
     },
+    "No kills on the route in the last hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На маршруте не было убийств за последний час"
+          }
+        }
+      }
+    },
     "No matching items": {
       "localizations": {
         "ru": {
@@ -4349,6 +4479,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "На zKillboard нет свежих потерь этого корабля с модулями."
+          }
+        }
+      }
+    },
+    "No such system": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет такой системы"
           }
         }
       }
@@ -4460,6 +4600,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не хватает точек монтажа турелей"
+          }
+        }
+      }
+    },
+    "Note on this system…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заметка о системе…"
           }
         }
       }
@@ -4691,6 +4841,16 @@
         }
       }
     },
+    "Pick the route's start first: From here": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сначала выберите начало маршрута: «Отсюда»"
+          }
+        }
+      }
+    },
     "Pilot": {
       "extractionState": "stale",
       "localizations": {
@@ -4708,6 +4868,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выставьте ордера на рынке EVE, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Plotting…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прокладываю…"
           }
         }
       }
@@ -5075,6 +5245,16 @@
         }
       }
     },
+    "Route here": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маршрут сюда"
+          }
+        }
+      }
+    },
     "Routes with danger checks, kills and jumps by system, sovereignty.": {
       "extractionState": "stale",
       "localizations": {
@@ -5301,6 +5481,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "НАКОПИТЕЛЬ НЕСТАБИЛЕН"
+          }
+        }
+      }
+    },
+    "Safest": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Безопасный"
           }
         }
       }
@@ -5626,6 +5816,26 @@
         }
       }
     },
+    "Shortest": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кратчайший"
+          }
+        }
+      }
+    },
+    "Side": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбоку"
+          }
+        }
+      }
+    },
     "Sign in with EVE Online": {
       "localizations": {
         "ru": {
@@ -5837,6 +6047,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стабильность"
+          }
+        }
+      }
+    },
+    "Stargates": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Звёздные врата"
           }
         }
       }
@@ -6092,6 +6312,16 @@
         }
       }
     },
+    "The game database has no map yet. It arrives with the next database update.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В базе игры пока нет карты. Она придёт со следующим обновлением базы."
+          }
+        }
+      }
+    },
     "The most dangerous hits for ": {
       "localizations": {
         "ru": {
@@ -6172,6 +6402,16 @@
         }
       }
     },
+    "Through low/null": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Через low/null"
+          }
+        }
+      }
+    },
     "Thukker": {
       "localizations": {
         "ru": {
@@ -6209,6 +6449,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Инструменты"
+          }
+        }
+      }
+    },
+    "Top": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сверху"
           }
         }
       }
@@ -6585,6 +6835,26 @@
         }
       }
     },
+    "Where am I": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Где я"
+          }
+        }
+      }
+    },
+    "Whole map": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вся карта"
+          }
+        }
+      }
+    },
     "Willpower": {
       "localizations": {
         "ru": {
@@ -6704,6 +6974,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "доступен"
+          }
+        }
+      }
+    },
+    "avoided": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "избегать"
           }
         }
       }
@@ -6828,6 +7108,16 @@
         }
       }
     },
+    "highsec": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "хайсек"
+          }
+        }
+      }
+    },
     "https://example.com/manifest.json": {},
     "hull": {
       "localizations": {
@@ -6849,6 +7139,16 @@
         }
       }
     },
+    "kills in the last hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "убийства за час"
+          }
+        }
+      }
+    },
     "last: %@": {
       "localizations": {
         "ru": {
@@ -6865,6 +7165,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "нижних"
+          }
+        }
+      }
+    },
+    "lowsec": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "лоусек"
           }
         }
       }
@@ -6935,6 +7245,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "нет"
+          }
+        }
+      }
+    },
+    "note": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "заметка"
+          }
+        }
+      }
+    },
+    "nullsec": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нули"
           }
         }
       }
@@ -7025,6 +7355,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "чинит своих"
+          }
+        }
+      }
+    },
+    "reset": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "сбросить"
           }
         }
       }
@@ -7215,6 +7555,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "без учёта копий чертежей"
+          }
+        }
+      }
+    },
+    "you are here": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "вы здесь"
           }
         }
       }
