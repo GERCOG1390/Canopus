@@ -82,6 +82,9 @@ struct ImportCommand: AsyncParsableCommand {
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('build', ?)", arguments: [buildNumber])
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('generated_at', ?)", arguments: [generatedAt])
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('schema_version', '1')")
+            if let ccp = ccpBuildNumber(inputURL) {
+                try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('ccp_build', ?)", arguments: [ccp])
+            }
         }
 
         // Import data
@@ -175,6 +178,13 @@ struct ImportCommand: AsyncParsableCommand {
         print("Next step: add sde.sqlite to Canopus/Resources/ in Xcode.")
     }
 
+    /// CCP's own build number from _sde.yaml (the developers.eveonline.com export has it; the legacy one didn't).
+    private func ccpBuildNumber(_ url: URL) -> String? {
+        guard let text = try? String(contentsOf: url.appending(component: "_sde.yaml"), encoding: .utf8),
+              let match = text.firstMatch(of: /buildNumber:\s*(\d+)/) else { return nil }
+        return String(match.1)
+    }
+
     private func buildNumberFromDirectory(_ url: URL) -> String {
         // CCP's official fsd/ export doesn't embed a build number anywhere in the
         // zip or its file names, unlike some older SDE distributions. Try the
@@ -213,7 +223,8 @@ struct ImportCommand: AsyncParsableCommand {
             sqliteURL: publicPackageURL,
             changelogURL: changelogPublicURL,
             sha256: try sha256HexDigest(for: sqliteURL),
-            byteSize: byteSize
+            byteSize: byteSize,
+            ccpBuild: ccpBuildNumber(URL(fileURLWithPath: input))
         )
 
         let encoder = JSONEncoder()
@@ -245,6 +256,8 @@ private struct SDEPackageManifest: Encodable {
     let changelogURL: String?
     let sha256: String
     let byteSize: Int
+    /// CCP's SDE build the package was made from (the workflow skips a release when it hasn't changed).
+    let ccpBuild: String?
 
     enum CodingKeys: String, CodingKey {
         case build
@@ -254,5 +267,6 @@ private struct SDEPackageManifest: Encodable {
         case changelogURL = "changelog_url"
         case sha256
         case byteSize = "byte_size"
+        case ccpBuild = "ccp_build"
     }
 }

@@ -22,16 +22,33 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Download latest SDE from CCP Developers portal
+      - name: Find CCP's latest SDE build
+        id: ccp
         run: |
           set -euo pipefail
-          echo "Downloading SDE from CCP Games..."
-          curl -fL -o ccp_sde.zip "https://eve-static-data-export.s3-eu-west-1.amazonaws.com/tranquility/sde.zip"
+          # The legacy S3 export (eve-static-data-export…/sde.zip) stopped updating in July 2025; the
+          # official SDE is on developers.eveonline.com, with its build number in latest.jsonl.
+          BUILD=$(curl -fsSL https://developers.eveonline.com/static-data/tranquility/latest.jsonl | head -1 | python3 -c 'import json,sys; print(json.load(sys.stdin)["buildNumber"])')
+          echo "build=$BUILD" >> "$GITHUB_OUTPUT"
+          PREVIOUS=$(curl -fsSL "https://github.com/${{ github.repository }}/releases/download/sde-latest/canopus-sde-manifest.json" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("ccp_build", ""))' || true)
+          echo "CCP build $BUILD, released package built from '${PREVIOUS}'"
+          if [ "$BUILD" = "$PREVIOUS" ] && [ "${{ github.event_name }}" = "schedule" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download the SDE from the CCP developers portal
+        if: steps.ccp.outputs.skip != 'true'
+        run: |
+          set -euo pipefail
+          curl -fL -o ccp_sde.zip "https://developers.eveonline.com/static-data/tranquility/eve-online-static-data-${{ steps.ccp.outputs.build }}-yaml.zip"
           mkdir -p sde_extracted
           unzip -q ccp_sde.zip -d sde_extracted
-          test -n "$(ls -A sde_extracted)" # fail loudly rather than feed sde-import an empty directory
+          test -f sde_extracted/types.yaml # fail loudly rather than feed sde-import an unexpected layout
 
       - name: Download previous release (for changelog diffing)
+        if: steps.ccp.outputs.skip != 'true'
         run: |
           # Best-effort — absent on the very first run, or if nothing was ever released.
           curl -fL -o previous_sde.sqlite \
@@ -39,6 +56,7 @@ jobs:
             || echo "No previous release found — changelog will be skipped for this run."
 
       - name: Convert SDE to Canopus SQLite format
+        if: steps.ccp.outputs.skip != 'true'
         run: |
           echo "Running sde-import..."
           PREVIOUS_ARGS=""
@@ -53,11 +71,12 @@ jobs:
             $PREVIOUS_ARGS
 
       - name: Upload SDE to GitHub Release
+        if: steps.ccp.outputs.skip != 'true'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: "sde-latest"
           name: "Latest EVE Online SDE Database"
-          body: "Automated build of EVE Online SDE SQLite database for Canopus."
+          body: "Automated build of the EVE Online SDE (CCP build ${{ steps.ccp.outputs.build }}) as SQLite for Canopus."
           files: |
             canopus_sde.sqlite
             canopus-sde-manifest.json

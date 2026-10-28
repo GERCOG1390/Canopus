@@ -106,8 +106,8 @@ struct SDEDogmaAttribute: Decodable {
 
 // MARK: - Dogma Effects
 // 4:
-//   effectName: shieldBoosting
-//   effectCategory: 1
+//   name: shieldBoosting          (effectName in the legacy export)
+//   effectCategoryID: 1           (effectCategory in the legacy export)
 //   isOffensive: false
 //   isAssistance: false
 //   durationAttributeID: 73
@@ -135,4 +135,27 @@ struct SDEDogmaEffect: Decodable {
     let trackingSpeedAttributeID: Int?
     let fittingUsageChanceAttributeID: Int?
     let modifierInfo: [SDEModifierInfo]?
+
+    private enum CodingKeys: String, CodingKey {
+        case effectName, name, effectCategory, effectCategoryID, isOffensive, isAssistance, durationAttributeID,
+             dischargeAttributeID, rangeAttributeID, falloffAttributeID, trackingSpeedAttributeID,
+             fittingUsageChanceAttributeID, modifierInfo
+    }
+
+    /// The developers.eveonline.com SDE (2025+) renamed effectName → name and effectCategory →
+    /// effectCategoryID; the legacy S3 export used the old names. Both are read.
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        effectName = try c.decodeIfPresent(String.self, forKey: .name) ?? c.decodeIfPresent(String.self, forKey: .effectName)
+        effectCategory = try c.decodeIfPresent(Int.self, forKey: .effectCategoryID) ?? c.decodeIfPresent(Int.self, forKey: .effectCategory)
+        isOffensive = try c.decodeIfPresent(Bool.self, forKey: .isOffensive)
+        isAssistance = try c.decodeIfPresent(Bool.self, forKey: .isAssistance)
+        durationAttributeID = try c.decodeIfPresent(Int.self, forKey: .durationAttributeID)
+        dischargeAttributeID = try c.decodeIfPresent(Int.self, forKey: .dischargeAttributeID)
+        rangeAttributeID = try c.decodeIfPresent(Int.self, forKey: .rangeAttributeID)
+        falloffAttributeID = try c.decodeIfPresent(Int.self, forKey: .falloffAttributeID)
+        trackingSpeedAttributeID = try c.decodeIfPresent(Int.self, forKey: .trackingSpeedAttributeID)
+        fittingUsageChanceAttributeID = try c.decodeIfPresent(Int.self, forKey: .fittingUsageChanceAttributeID)
+        modifierInfo = try c.decodeIfPresent([SDEModifierInfo].self, forKey: .modifierInfo)
+    }
 }
