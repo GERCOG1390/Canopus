@@ -287,20 +287,8 @@ struct FitStatsPanel: View {
             .sorted { $0.dps > $1.dps }
     }
 
-    /// Resource overuse, worded in the app's language (the engine's own messages are Russian).
-    private var problems: [String] {
-        let sh = s.ship
-        var out: [String] = []
-        func over(_ u: JSFitStats.Use) -> Bool { u.used > u.total + 1e-6 }
-        if over(sh.cpu) { out.append(String(localized: "Not enough CPU")) }
-        if over(sh.power) { out.append(String(localized: "Not enough powergrid")) }
-        if over(sh.calibration) { out.append(String(localized: "Not enough calibration for the rigs")) }
-        if over(sh.turrets) { out.append(String(localized: "Not enough turret hardpoints")) }
-        if over(sh.launchers) { out.append(String(localized: "Not enough launcher hardpoints")) }
-        if over(sh.droneBay) { out.append(String(localized: "The drones don't fit in the drone bay")) }
-        if over(sh.droneBandwidth) { out.append(String(localized: "Not enough drone bandwidth")) }
-        return out
-    }
+    /// The engine's problems (resources, slots, hardpoints, drones and per-module rules), in the app's language.
+    private var problems: [String] { s.problems.map(EngineProblem.localized) }
 
     private func rangeText(_ w: JSFitStats.Weapon) -> String? {
         if w.kind == "missile" { return "\(km(w.optimal ?? 0)) · \(n0(w.explosionRadius ?? 0)) m" }
@@ -322,6 +310,60 @@ extension JSFitStats.Weapon {
         self = w
         self.count = count
         self.dps = dps
+    }
+}
+
+// MARK: - Engine problems
+
+/// The desktop engine words its problems in Russian (canopus-desktop src/main/dogma/stats.ts); this maps
+/// each known message to the app's language. A module's problem comes as "<type name>: <message>".
+enum EngineProblem {
+    private static let rules: [(NSRegularExpression, ([String]) -> String)] = patterns.map { (try! NSRegularExpression(pattern: $0.0), $0.1) }
+
+    private static let patterns: [(String, ([String]) -> String)] = [
+        (#"^Слишком много модулей в слотах «(\w+)»: (\d+) из (\d+)$"#, { m in String(localized: "Too many modules in \(slotName(m[0])) slots: \(m[1]) of \(m[2])") }),
+        (#"^Не хватает CPU$"#, { _ in String(localized: "Not enough CPU") }),
+        (#"^Не хватает мощности реактора \(PG\)$"#, { _ in String(localized: "Not enough powergrid") }),
+        (#"^Не хватает калибровки для ригов$"#, { _ in String(localized: "Not enough calibration for the rigs") }),
+        (#"^Не хватает точек монтажа турелей$"#, { _ in String(localized: "Not enough turret hardpoints") }),
+        (#"^Не хватает точек монтажа пусковых установок$"#, { _ in String(localized: "Not enough launcher hardpoints") }),
+        (#"^Дроны не помещаются в отсек$"#, { _ in String(localized: "The drones don't fit in the drone bay") }),
+        (#"^Не хватает пропускной способности для дронов$"#, { _ in String(localized: "Not enough drone bandwidth") }),
+        (#"^Можно запустить не больше (\d+) дронов$"#, { m in String(localized: "At most \(m[0]) drones can be launched") }),
+        (#"^Нельзя установить на этот корабль$"#, { _ in String(localized: "Can't be fitted to this ship") }),
+        (#"^Неподходящий размер рига$"#, { _ in String(localized: "Wrong rig size") }),
+        (#"^Можно установить не больше (\d+) модулей этой группы$"#, { m in String(localized: "At most \(m[0]) modules of this group can be fitted") }),
+        (#"^Активным может быть не больше (\d+) модулей этой группы$"#, { m in String(localized: "At most \(m[0]) modules of this group can be active") }),
+    ]
+
+    /// One engine message in the app's language; a "<module>: <message>" keeps the module name.
+    static func localized(_ text: String) -> String {
+        if let m = message(text) { return m }
+        if let r = text.range(of: ": ", options: .backwards), let m = message(String(text[r.upperBound...])) {
+            return text[..<r.lowerBound] + ": " + m
+        }
+        return text
+    }
+
+    /// A known message translated, or nil.
+    static func message(_ text: String) -> String? {
+        let ns = text as NSString
+        for (re, make) in rules {
+            if let m = re.firstMatch(in: text, range: NSRange(location: 0, length: ns.length)) {
+                return make((1..<m.numberOfRanges).map { ns.substring(with: m.range(at: $0)) })
+            }
+        }
+        return nil
+    }
+
+    private static func slotName(_ slot: String) -> String {
+        switch slot {
+        case "hi": String(localized: "high")
+        case "med": String(localized: "medium")
+        case "lo": String(localized: "low")
+        case "rig": String(localized: "rig")
+        default: String(localized: "subsystem")
+        }
     }
 }
 

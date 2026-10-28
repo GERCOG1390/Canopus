@@ -728,6 +728,36 @@
         }
       }
     },
+    "At most %@ drones can be launched": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Можно запустить не больше %@ дронов"
+          }
+        }
+      }
+    },
+    "At most %@ modules of this group can be active": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активным может быть не больше %@ модулей этой группы"
+          }
+        }
+      }
+    },
+    "At most %@ modules of this group can be fitted": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Можно установить не больше %@ модулей этой группы"
+          }
+        }
+      }
+    },
     "Attribute": {
       "localizations": {
         "ru": {
@@ -1059,6 +1089,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Калибровка"
+          }
+        }
+      }
+    },
+    "Can't be fitted to this ship": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нельзя установить на этот корабль"
           }
         }
       }
@@ -4921,6 +4961,16 @@
         }
       }
     },
+    "Too many modules in %@ slots: %@ of %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слишком много модулей в слотах «%1$@»: %2$@ из %3$@"
+          }
+        }
+      }
+    },
     "Total": {
       "localizations": {
         "ru": {
@@ -5233,6 +5283,16 @@
         }
       }
     },
+    "Wrong rig size": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неподходящий размер рига"
+          }
+        }
+      }
+    },
     "Your contracts will appear here.": {
       "localizations": {
         "ru": {
@@ -5306,6 +5366,16 @@
         }
       }
     },
+    "high": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "верхних"
+          }
+        }
+      }
+    },
     "https://example.com/manifest.json": {},
     "last: %@": {
       "localizations": {
@@ -5313,6 +5383,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "последний: %@"
+          }
+        }
+      }
+    },
+    "low": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нижних"
+          }
+        }
+      }
+    },
+    "medium": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "средних"
           }
         }
       }
@@ -5367,6 +5457,16 @@
         }
       }
     },
+    "rig": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ригов"
+          }
+        }
+      }
+    },
     "runs out in %@": {
       "localizations": {
         "ru": {
@@ -5393,6 +5493,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "стабилен %@%%"
+          }
+        }
+      }
+    },
+    "subsystem": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "подсистем"
           }
         }
       }

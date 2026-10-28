@@ -474,6 +474,8 @@ struct FitDetailView: View {
     @State private var stats: ShipStats?
     /// The engine's full result, for the stats tab.
     @State private var fitStats: JSFitStats?
+    /// The engine's per-module problems (wrong ship, rig size, group limits), by slot flag.
+    @State private var moduleProblems: [String: [String]] = [:]
     @State private var moduleTypeProfiles: [Int: TypeProfile] = [:]
     @State private var chargeTypeAttrs: [Int: [Int: Double]] = [:]
     @State private var chargeNames: [Int: String] = [:]
@@ -1238,6 +1240,12 @@ private struct SubsystemSlotDefinition: Identifiable {
                             .font(.ui(11))
                             .foregroundStyle(Color.eveAmber.opacity(0.65))
                             .lineLimit(1)
+                    }
+                    ForEach(moduleProblems[item.flag] ?? [], id: \.self) { problem in
+                        Text("⚠ " + problem)
+                            .font(.ui(11))
+                            .foregroundStyle(C.bad)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                     if let fittingCost {
                         Text(String(format: "CPU %.1f Tf  PG %.1f MW", fittingCost.cpu, fittingCost.pg))
@@ -2152,6 +2160,10 @@ private struct SubsystemSlotDefinition: Identifiable {
             guard !Task.isCancelled else { return }
             stats = ShipStats(js: js, flags: flags)
             fitStats = js
+            moduleProblems = js.modules.reduce(into: [:]) { out, m in
+                guard !m.problems.isEmpty, m.index < flags.count else { return }
+                out[flags[m.index].flag] = m.problems.map { EngineProblem.message($0) ?? $0 }
+            }
         } catch {
             if !error.isCancellation { fittingWarning = error.localizedDescription }
         }
