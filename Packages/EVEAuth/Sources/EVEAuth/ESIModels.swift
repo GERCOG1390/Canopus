@@ -401,6 +401,15 @@ public struct ESIKillVictim: Decodable, Sendable {
     public let allianceId: Int?
     public let shipTypeId: Int
     public let damageTaken: Int
+    /// What the ship carried, by inventory flag (fitted slots, drone bay, cargo).
+    public let items: [ESIKillItem]?
+}
+
+public struct ESIKillItem: Decodable, Sendable {
+    public let itemTypeId: Int
+    public let flag: Int
+    public let quantityDestroyed: Int?
+    public let quantityDropped: Int?
 }
 
 public struct ESIKillAttacker: Decodable, Sendable {

@@ -415,7 +415,12 @@ enum Fmt {
 
     /// Time left until a date: "5d 21h" / "5 д 21 ч" (the system's locale).
     static func duration(until date: Date) -> String {
-        let r = max(0, date.timeIntervalSinceNow)
+        duration(seconds: date.timeIntervalSinceNow)
+    }
+
+    /// A span in its two largest units: "5d 21h", "3h 10m", "4m 30s" (the system's locale).
+    static func duration(seconds: Double) -> String {
+        let r = max(0, seconds)
         let f = DateComponentsFormatter()
         f.allowedUnits = r >= 86_400 ? [.day, .hour] : r >= 3_600 ? [.hour, .minute] : [.minute, .second]
         f.unitsStyle = .abbreviated

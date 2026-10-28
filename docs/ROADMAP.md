@@ -62,4 +62,5 @@ belongs to.
   and on module rows. Fitting tools tab: price optimizer and abyss planner as on the desktop, mission
   NPC damage — the desktop's npc.ts / abyss.ts / metrics.ts bundled unchanged (Tools/dogma-js/build.mjs
   points their SDE and index imports at shims); check_tools.py: 0 differences against the desktop's
-  whole SDE. Still from the desktop's fit tools: what to learn, compare fits, popular fits (zKillboard).
+  whole SDE. Also what to learn (the desktop's gains.ts), compare fits and popular fits (zKillboard
+  losses, opened in the fitting screen): phase 2 done.

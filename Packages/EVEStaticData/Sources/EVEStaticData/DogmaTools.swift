@@ -102,6 +102,22 @@ public struct FitMetrics: Decodable, Sendable {
     public let fits: Bool
 }
 
+/// What the next level of one skill changes on the fit (canopus-desktop src/main/dogma/gains.ts).
+public struct SkillGain: Decodable, Sendable, Identifiable {
+    public var id: Int { skill }
+    public let skill: Int
+    /// The level the pilot has now.
+    public let from: Int
+    public let dps: Double
+    public let ehp: Double
+    public let activeTank: Double
+    public let speed: Double
+    /// Seconds (negative = faster align).
+    public let align: Double
+    public let capacitor: Double
+    public let lockRange: Double
+}
+
 public enum NpcFaction: String, CaseIterable, Sendable {
     case guristas, serpentis, blood_raiders, sansha, angel, rogue_drones
     case amarr, caldari, gallente, minmatar, khanid, thukker, mordu, concord
@@ -166,6 +182,13 @@ extension DogmaJS {
     public func abyssPlan(_ spec: JSFitSpec, skills: JSSkills, weather: AbyssWeather, strength: Int) async throws -> AbyssReport {
         try await prepare(spec.typeIds.union(repo.abyssNpcTypeIds()).union([weather.celestial(strength: strength)]))
         return try decode(invoke("abyssPlan", [encode(spec), skills.json, weather.rawValue, strength]))
+    }
+
+    /// What one more level of each unmaxed skill would change, with the pilot's levels.
+    public func skillGains(_ spec: JSFitSpec, levels: [Int: Int]) async throws -> [SkillGain] {
+        try await prepare(spec.typeIds)
+        let json = "{" + levels.sorted { $0.key < $1.key }.map { "\"\($0.key)\":\($0.value)" }.joined(separator: ",") + "}"
+        return try decode(invoke("skillGains", [encode(spec), json]))
     }
 
     /// The optimizer's numbers for each spec, in one call.

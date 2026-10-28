@@ -3,16 +3,21 @@
 // desktop's assistant uses). All numbers come from the bundled desktop engine.
 
 import SwiftUI
+import Domain
+import EVEAuth
 import EVEStaticData
 
 enum FitToolKind: String, CaseIterable {
-    case optimize, abyss, npc
+    case learn, optimize, abyss, npc, compare, popular
 
     var label: String {
         switch self {
+        case .learn: "What to learn"
         case .optimize: "Price optimizer"
         case .abyss: "Abyss"
         case .npc: "Mission NPCs"
+        case .compare: "Compare fits"
+        case .popular: "Popular fits"
         }
     }
 }
@@ -26,6 +31,9 @@ struct FitToolContext {
     let typeName: (Int) -> String
     /// Replaces every fitted module (or drone stack) of each `from` type with `to`.
     let apply: ([(from: Int, to: Int, isDrone: Bool)]) -> Void
+    let service: CharacterService
+    /// Opens another fit (a popular one from zKillboard) in the fitting screen.
+    let openFit: (ESIFitting) -> Void
 
     /// Changes when the fit or the skills do (sorted keys: JSONEncoder's key order is not stable).
     var key: String {
@@ -42,7 +50,7 @@ struct FitToolsView: View {
         // Debug builds: `-fitTool abyss` opens a tool (screenshots, UI checks).
         if let t = UserDefaults.standard.string(forKey: "fitTool").flatMap(FitToolKind.init(rawValue:)) { return t }
         #endif
-        return .optimize
+        return .learn
     }()
 
     var body: some View {
@@ -52,6 +60,9 @@ struct FitToolsView: View {
             case .optimize: FitOptimizeView(context: context)
             case .abyss: FitAbyssView(context: context)
             case .npc: FitNpcView(context: context)
+            case .learn: FitLearnView(context: context)
+            case .compare: FitCompareView(context: context)
+            case .popular: FitPopularView(context: context)
             }
         }
     }
@@ -582,6 +593,394 @@ private struct FitNpcView: View {
         VStack(alignment: .leading, spacing: 1) {
             Text(label).font(.ui(10, .medium)).textCase(.uppercase).foregroundStyle(C.faint)
             Text(verbatim: value).font(.mono(12, medium: true)).foregroundStyle(bad ? C.bad : C.text)
+        }
+    }
+}
+
+// MARK: - What to learn
+
+private struct FitLearnView: View {
+    let context: FitToolContext
+    @Environment(AppEnvironment.self) private var env
+
+    private enum Metric: String, CaseIterable { case dps, ehp, activeTank, speed, align, lockRange }
+    private static let labels: [Metric: String] = [
+        .dps: "Damage (DPS)", .ehp: "EHP", .activeTank: "Active tank", .speed: "Speed", .align: "Align time", .lockRange: "Targeting range",
+    ]
+    private struct Row: Identifiable {
+        var id: Int { gain.skill }
+        let gain: SkillGain
+        let name: String
+        let hours: Double
+    }
+
+    @State private var metric: Metric = .dps
+    @State private var rows: [Row]?
+    @State private var error: Error?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if context.levels == nil {
+                Note("Needs a character: sign in with EVE SSO to see what each next level of your skills would give.")
+            } else {
+                Chips(options: Metric.allCases.map { ($0, Self.labels[$0] ?? $0.rawValue) }, selection: $metric)
+                if let error {
+                    ErrorLine(error: error)
+                } else if let rows {
+                    let top = rows.filter { value($0.gain) > 1e-6 }
+                        .sorted { value($0.gain) / max($0.hours, 0.05) > value($1.gain) / max($1.hours, 0.05) }
+                        .prefix(30)
+                    if top.isEmpty {
+                        Note("No next skill level improves this on this fit.")
+                    } else {
+                        VStack(spacing: 0) {
+                            ForEach(Array(top.enumerated()), id: \.offset) { i, r in
+                                if i > 0 { Rectangle().fill(C.border).frame(height: 1) }
+                                row(r)
+                            }
+                        }
+                        .canopusSurface(nested: true, padding: 10)
+                    }
+                    Note("The fit recalculated with each skill one level higher (your current skills and implants). Sorted by gain per hour of training.")
+                } else {
+                    Loading(label: "Recalculating the fit for every skill…")
+                }
+            }
+        }
+        .task(id: context.key) { await load() }
+    }
+
+    /// "Better" is less time to align; everything else is more.
+    private func value(_ g: SkillGain) -> Double {
+        switch metric {
+        case .dps: g.dps
+        case .ehp: g.ehp
+        case .activeTank: g.activeTank
+        case .speed: g.speed
+        case .align: -g.align
+        case .lockRange: g.lockRange
+        }
+    }
+
+    private func amount(_ g: SkillGain, _ m: Metric) -> String {
+        switch m {
+        case .align: "−" + (-g.align).formatted(.number.precision(.fractionLength(0...2))) + String(localized: " s")
+        case .dps: "+" + n1(g.dps)
+        case .ehp: "+" + n0(g.ehp)
+        case .activeTank: "+" + n1(g.activeTank)
+        case .speed: "+" + n1(g.speed)
+        case .lockRange: "+" + n1(g.lockRange / 1000) + String(localized: " km")
+        }
+    }
+
+    private func row(_ r: Row) -> some View {
+        let roman = ["0", "I", "II", "III", "IV", "V"]
+        let others = Metric.allCases.filter { m in
+            m != metric && (m == .align ? r.gain.align < -0.005 : {
+                switch m {
+                case .dps: r.gain.dps > 0.05
+                case .ehp: r.gain.ehp > 0.05
+                case .activeTank: r.gain.activeTank > 0.05
+                case .speed: r.gain.speed > 0.05
+                case .lockRange: r.gain.lockRange > 0.05
+                case .align: false
+                }
+            }())
+        }
+        .map { "\(String(localized: String.LocalizationValue(Self.labels[$0] ?? ""))) \(amount(r.gain, $0))" }
+        return VStack(alignment: .leading, spacing: 4) {
+            HStack(alignment: .firstTextBaseline) {
+                HStack(spacing: 6) {
+                    EVETypeIcon(typeId: r.gain.skill, size: 20)
+                    Text(verbatim: r.name).font(.ui(13, .medium)).foregroundStyle(C.text).lineLimit(1)
+                    Text(verbatim: "\(roman[min(5, r.gain.from)]) → \(roman[min(5, r.gain.from + 1)])").font(.mono(11)).foregroundStyle(C.muted)
+                }
+                Spacer(minLength: 8)
+                Text(verbatim: amount(r.gain, metric)).font(.mono(13, medium: true)).foregroundStyle(C.good)
+            }
+            HStack {
+                Text(r.hours.isFinite ? Fmt.duration(seconds: r.hours * 3600) : "—").font(.ui(11)).foregroundStyle(C.text2)
+                if !others.isEmpty {
+                    Text(verbatim: others.joined(separator: " · ")).font(.ui(11)).foregroundStyle(C.muted).lineLimit(2)
+                }
+            }
+        }
+        .padding(.vertical, 7)
+    }
+
+    private func load() async {
+        rows = nil
+        error = nil
+        guard let levels = context.levels, let dogma = env.dogma, let repo = env.repository else { return }
+        do {
+            let gains = try await dogma.skillGains(context.spec, levels: levels)
+            let ids = Set(gains.map(\.skill))
+            async let skillsReq = context.service.skills()
+            async let attrsReq = context.service.characterAttributes()
+            async let queueReq = context.service.skillQueue()
+            async let implantsReq = context.service.implants()
+            let sp = Dictionary(uniqueKeysWithValues: ((try? await skillsReq)?.skills ?? []).map { ($0.skillId, $0.skillpointsInSkill) })
+            let attributes = await TrainingAttributes.resolve(
+                esi: try? await attrsReq, queue: (try? await queueReq) ?? [], implants: (try? await implantsReq) ?? [], repo: repo)
+            let skillAttrs = try await repo.typeAttributeMaps(typeIds: ids)
+            let names = try await repo.types(ids: ids).mapValues(\.name)
+            rows = gains.map { g in
+                let a = skillAttrs[g.skill] ?? [:]
+                let rank = a[275] ?? 1
+                let rate = attributes.map { ($0[Int(a[180] ?? 0)] ?? 0) + ($0[Int(a[181] ?? 0)] ?? 0) / 2 } ?? 0
+                let have = Double(sp[g.skill] ?? 0)
+                let need = max(0, TrainingAttributes.spForLevel(rank: rank, level: g.from + 1) - max(have, TrainingAttributes.spForLevel(rank: rank, level: g.from)))
+                return Row(gain: g, name: names[g.skill] ?? "#\(g.skill)", hours: rate > 0 ? need / rate / 60 : .infinity)
+            }
+        } catch {
+            if !error.isCancellation { self.error = error }
+        }
+    }
+}
+
+/// Training speed inputs as the desktop's CharacterContext works them out.
+enum TrainingAttributes {
+    /// Implant attributes that add to charisma, intelligence, memory, perception, willpower.
+    private static let implantBonus: [Int: Int] = [164: 175, 165: 176, 166: 177, 167: 178, 168: 179]
+
+    static func spForLevel(rank: Double, level: Int) -> Double {
+        level <= 0 ? 0 : (250 * rank * pow(2, 2.5 * Double(level - 1))).rounded(.up)
+    }
+
+    /// The character attributes training runs on. Whether ESI's numbers include implants isn't documented:
+    /// the skill in training tells (whichever set reproduces its real SP/min); without one, a character's
+    /// own attributes add up to 99, so a larger sum means implants are in.
+    static func resolve(esi: ESICharacterAttributes?, queue: [ESISkillQueueItem], implants: [Int], repo: SDERepository) async -> [Int: Double]? {
+        guard let esi else { return nil }
+        let base: [Int: Double] = [164: Double(esi.charisma), 165: Double(esi.intelligence), 166: Double(esi.memory), 167: Double(esi.perception), 168: Double(esi.willpower)]
+        guard !implants.isEmpty, let maps = try? await repo.typeAttributeMaps(typeIds: Set(implants)) else { return base }
+        var bonus: [Int: Double] = [:]
+        for imp in implants {
+            for (attr, b) in implantBonus { bonus[attr, default: 0] += maps[imp]?[b] ?? 0 }
+        }
+        let withImplants = base.reduce(into: [Int: Double]()) { $0[$1.key] = $1.value + (bonus[$1.key] ?? 0) }
+        let now = Date()
+        if let e = queue.first(where: { ($0.finishDate ?? .distantPast) > now && $0.startDate != nil }),
+           let start = e.startDate, let finish = e.finishDate, let end = e.levelEndSp, let from = e.trainingStartSp,
+           finish.timeIntervalSince(start) > 0,
+           let a = try? await repo.typeAttributeMaps(typeIds: [e.skillId])[e.skillId] {
+            let observed = Double(end - from) / (finish.timeIntervalSince(start) / 60)
+            let rate = { (x: [Int: Double]) in (x[Int(a[180] ?? 0)] ?? 0) + (x[Int(a[181] ?? 0)] ?? 0) / 2 }
+            return abs(rate(base) - observed) < abs(rate(withImplants) - observed) ? base : withImplants
+        }
+        let sum = base.values.reduce(0, +), bonusSum = bonus.values.reduce(0, +)
+        return bonusSum > 0 && sum >= 99 + bonusSum ? base : withImplants
+    }
+}
+
+// MARK: - Compare fits
+
+private struct FitCompareView: View {
+    let context: FitToolContext
+    @Environment(AppEnvironment.self) private var env
+
+    private struct Line {
+        let label: LocalizedStringKey
+        let get: (JSFitStats) -> Double
+        let fmt: (Double) -> String
+        var lowerBetter = false
+    }
+    private static let lines: [Line] = [
+        Line(label: "DPS", get: { $0.offense.totalDps }, fmt: { n1($0) }),
+        Line(label: "Volley", get: { $0.offense.totalVolley }, fmt: { n0($0) }),
+        Line(label: "EHP", get: { $0.defense.ehp }, fmt: { n0($0) }),
+        Line(label: "Active tank, EHP/s", get: { $0.defense.activeTankEhp }, fmt: { n1($0) }),
+        Line(label: "Shield regeneration, HP/s", get: { $0.defense.passiveShieldRegen }, fmt: { n1($0) }),
+        Line(label: "Capacitor, % stable", get: { $0.capacitor.stable ? ($0.capacitor.stableLevel ?? 0) * 100 : 0 },
+             fmt: { $0 > 0 ? "\(n1($0))%" : String(localized: "unstable") }),
+        Line(label: "Speed, m/s", get: { $0.navigation.maxVelocity }, fmt: { n1($0) }),
+        Line(label: "Align time, s", get: { $0.navigation.alignSec }, fmt: { $0.formatted(.number.precision(.fractionLength(0...2))) }, lowerBetter: true),
+        Line(label: "Signature, m", get: { $0.navigation.signatureRadius }, fmt: { n1($0) }, lowerBetter: true),
+        Line(label: "Targeting range, km", get: { $0.targeting.maxRange / 1000 }, fmt: { n1($0) }),
+        Line(label: "Scan resolution, mm", get: { $0.targeting.scanResolution }, fmt: { n1($0) }),
+        Line(label: "CPU used, %", get: { $0.ship.cpu.total > 0 ? $0.ship.cpu.used / $0.ship.cpu.total * 100 : 0 }, fmt: { "\(n1($0))%" }, lowerBetter: true),
+        Line(label: "Powergrid used, %", get: { $0.ship.power.total > 0 ? $0.ship.power.used / $0.ship.power.total * 100 : 0 }, fmt: { "\(n1($0))%" }, lowerBetter: true),
+    ]
+
+    @State private var saved: [ESIFitting]?
+    @State private var others: [ESIFitting] = []
+    @State private var stats: [JSFitStats]?
+    @State private var names: [Int: String] = [:]
+    @State private var error: Error?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Menu {
+                ForEach(saved ?? [], id: \.fittingId) { f in
+                    Button("\(names[f.shipTypeId] ?? "") — \(f.name)") { others = Array((others + [f]).suffix(3)) }
+                }
+            } label: {
+                Text("+ Add a fit to compare").font(.ui(14))
+            }
+            .buttonStyle(.canopusGhost)
+            .disabled(saved?.isEmpty ?? true)
+            Note("All fits use the same skills: the ones the fitting screen uses.")
+            if let error {
+                ErrorLine(error: error)
+            } else if let stats {
+                table(stats)
+            } else {
+                Loading(label: "Calculating…")
+            }
+        }
+        .task { await loadSaved() }
+        .task(id: "\(context.key)-\(others.map(\.fittingId))") { await calculate() }
+    }
+
+    private func loadSaved() async {
+        guard saved == nil, let repo = env.repository else { return }
+        let list = (try? await context.service.fittings()) ?? []
+        names = ((try? await repo.types(ids: Set(list.map(\.shipTypeId)))) ?? [:]).mapValues(\.name)
+        saved = list.sorted { (names[$0.shipTypeId] ?? "", $0.name) < (names[$1.shipTypeId] ?? "", $1.name) }
+    }
+
+    private func calculate() async {
+        stats = nil
+        error = nil
+        guard let dogma = env.dogma, let repo = env.repository else { return }
+        do {
+            var out = [try await dogma.calculate(context.spec, skills: context.skills)]
+            for f in others {
+                out.append(try await dogma.calculate(FitSpecBuilder.spec(for: f, repo: repo), skills: context.skills))
+            }
+            stats = out
+        } catch {
+            if !error.isCancellation { self.error = error }
+        }
+    }
+
+    private func table(_ stats: [JSFitStats]) -> some View {
+        let titles = [String(localized: "\(context.spec.name) (current)")] + others.map(\.name)
+        return ScrollView(.horizontal, showsIndicators: false) {
+            Grid(alignment: .trailing, horizontalSpacing: 14, verticalSpacing: 7) {
+                GridRow {
+                    Color.clear.frame(width: 1, height: 1)
+                    ForEach(Array(titles.enumerated()), id: \.offset) { i, t in
+                        VStack(alignment: .trailing, spacing: 3) {
+                            EVETypeIcon(typeId: i == 0 ? context.spec.shipTypeId : others[i - 1].shipTypeId, size: 24)
+                            Text(verbatim: t).font(.ui(11)).foregroundStyle(C.muted).lineLimit(2).frame(maxWidth: 130, alignment: .trailing)
+                            if i > 0 {
+                                Button("✕") { others.remove(at: i - 1) }.buttonStyle(.canopusSmall)
+                            }
+                        }
+                    }
+                }
+                ForEach(Array(Self.lines.enumerated()), id: \.offset) { _, line in
+                    let vals = stats.map(line.get)
+                    let best = line.lowerBetter ? vals.min() : vals.max()
+                    GridRow {
+                        Text(line.label).font(.ui(12)).foregroundStyle(C.text2).gridColumnAlignment(.leading)
+                        ForEach(Array(vals.enumerated()), id: \.offset) { _, v in
+                            let highlight = vals.count > 1 && v == best && vals.contains { $0 != v }
+                            Text(verbatim: line.fmt(v)).font(.mono(12, medium: highlight)).foregroundStyle(highlight ? C.good : C.text)
+                        }
+                    }
+                }
+            }
+            .padding(10)
+        }
+        .canopusSurface(nested: true, padding: 0)
+    }
+}
+
+// MARK: - Popular fits (zKillboard losses)
+
+private struct FitPopularView: View {
+    let context: FitToolContext
+    @Environment(AppEnvironment.self) private var env
+
+    private struct Group: Identifiable {
+        let id: Int
+        var count: Int
+        var last: Date
+        let victim: ESIKillVictim
+        let modules: [Int]
+    }
+
+    @State private var groups: [Group]?
+    @State private var total = 0
+    @State private var names: [Int: String] = [:]
+    @State private var error: Error?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            if let error {
+                ErrorLine(error: error)
+            } else if let groups {
+                if groups.isEmpty {
+                    Note("No recent losses of this ship with modules on zKillboard.")
+                } else {
+                    Note("The fits this ship was lost with most often (the last \(total) losses on zKillboard): real fits players fly.")
+                    VStack(spacing: 0) {
+                        ForEach(Array(groups.enumerated()), id: \.offset) { i, g in
+                            if i > 0 { Rectangle().fill(C.border).frame(height: 1) }
+                            row(g)
+                        }
+                    }
+                    .canopusSurface(nested: true, padding: 10)
+                }
+            } else {
+                Loading(label: "Looking at recent losses on zKillboard…")
+            }
+        }
+        .task(id: context.spec.shipTypeId) { await load() }
+    }
+
+    private func row(_ g: Group) -> some View {
+        let counts = g.modules.reduce(into: [Int: Int]()) { $0[$1, default: 0] += 1 }
+            .sorted { (names[$0.key] ?? "") < (names[$1.key] ?? "") }
+        return VStack(alignment: .leading, spacing: 6) {
+            HStack {
+                Text("\(g.count)×").font(.display(18)).foregroundStyle(C.accentText)
+                Text(g.last, format: .relative(presentation: .named)).font(.ui(12)).foregroundStyle(C.muted)
+                Spacer()
+                Button("Open") { context.openFit(FitSpecBuilder.fitting(from: g.victim, killmailId: g.id)) }
+                    .buttonStyle(.canopusSmall)
+            }
+            Text(verbatim: counts.map { ($0.value > 1 ? "\($0.value)× " : "") + (names[$0.key] ?? "#\($0.key)") }.joined(separator: " · "))
+                .font(.ui(12)).foregroundStyle(C.text2).fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(.vertical, 8)
+    }
+
+    private func load() async {
+        groups = nil
+        error = nil
+        guard let repo = env.repository else { return }
+        do {
+            let losses = try await KillBoardService().losses(shipTypeId: context.spec.shipTypeId).prefix(40)
+            let ids = Set(losses.flatMap { $0.victim?.items?.map(\.itemTypeId) ?? [] })
+            let profiles = try await repo.typeProfiles(typeIds: ids)
+            let isModule = { (id: Int) in !(profiles[id]?.effectIds.isDisjoint(with: [11, 12, 13, 2663, 3772]) ?? true) }
+            let fitted = { (flag: Int) in (11...34).contains(flag) || (92...99).contains(flag) || (125...132).contains(flag) }
+            // Same set of fitted modules (charges ignored) = same fit.
+            var byKey: [String: Group] = [:]
+            var order: [String] = []
+            for k in losses {
+                guard let v = k.victim, let items = v.items else { continue }
+                let modules = items.filter { fitted($0.flag) && isModule($0.itemTypeId) }.map(\.itemTypeId)
+                guard modules.count >= 3 else { continue }
+                let key = modules.sorted().map(String.init).joined(separator: ",")
+                let time = k.killmailTime ?? .distantPast
+                if var g = byKey[key] {
+                    g.count += 1
+                    g.last = max(g.last, time)
+                    byKey[key] = g
+                } else {
+                    byKey[key] = Group(id: k.killmailId, count: 1, last: time, victim: v, modules: modules)
+                    order.append(key)
+                }
+            }
+            total = losses.filter { $0.victim != nil }.count
+            names = try await repo.types(ids: Set(byKey.values.flatMap(\.modules))).mapValues(\.name)
+            groups = order.compactMap { byKey[$0] }.sorted { $0.count != $1.count ? $0.count > $1.count : $0.last > $1.last }.prefix(12).map { $0 }
+        } catch {
+            if !error.isCancellation { self.error = error }
         }
     }
 }

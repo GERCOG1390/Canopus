@@ -69,6 +69,14 @@ struct DogmaJSTests {
         #expect(rigs == [31378])
     }
 
+    /// A pilot with Heavy Assault Missiles at IV: the next level must add DPS.
+    @Test func skillGainsFindTheNextLevel() async throws {
+        let gains = try await engine().skillGains(cerberus, levels: [25719: 4, 3319: 5, 3300: 5, 3326: 5, 20212: 4])
+        let ham = gains.first { $0.skill == 25719 }
+        #expect(ham?.from == 4)
+        #expect((ham?.dps ?? 0) > 1)
+    }
+
     @Test func hamCerberusMatchesPyfa() async throws {
         let ham = 25715, scourge = 2679
         let spec = JSFitSpec(shipTypeId: 11993, modules: [

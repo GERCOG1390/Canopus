@@ -480,6 +480,8 @@ struct FitDetailView: View {
     @State private var fitSpec: JSFitSpec?
     @State private var fitShot: FitShotData?
     @State private var preparingShot = false
+    /// A fit opened from the tools (popular fits).
+    @State private var toolFit: DraftFitRoute?
     @State private var moduleTypeProfiles: [Int: TypeProfile] = [:]
     @State private var chargeTypeAttrs: [Int: [Int: Double]] = [:]
     @State private var chargeNames: [Int: String] = [:]
@@ -991,6 +993,12 @@ private struct SubsystemSlotDefinition: Identifiable {
                 }
                 .foregroundStyle(Color.eveAmber)
             }
+        }
+        .sheet(item: $toolFit) { route in
+            NavigationStack {
+                FitDetailView(fit: route.fit, typeNames: route.typeNames, characterService: characterService)
+            }
+            .presentationSizing(.page)
         }
         .sheet(item: $fitShot) { shot in
             NavigationStack { FitShotSheet(data: shot) }
@@ -1986,7 +1994,9 @@ private struct SubsystemSlotDefinition: Identifiable {
                     skills: characterSkills.isEmpty ? .all5 : .character(characterSkills),
                     levels: characterSkills.isEmpty ? nil : characterSkills,
                     typeName: { id in chargeNames[id] ?? typeName(id, fallback: "#\(id)") },
-                    apply: applySwaps
+                    apply: applySwaps,
+                    service: characterService,
+                    openFit: { toolFit = DraftFitRoute(fit: $0, typeNames: typeNames) }
                 ))
                 .padding(.horizontal, 16)
                 .padding(.top, 12)

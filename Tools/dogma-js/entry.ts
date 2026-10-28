@@ -3,6 +3,7 @@
 // in-memory database kept between calculations) and calls the functions below; JSON in, JSON out.
 // build.mjs points the modules' `../sde` and `./index` imports at shim-sde.ts / shim-index.ts.
 import { abyssPlan } from '../../../canopus-desktop/src/main/dogma/abyss'
+import { skillGains } from '../../../canopus-desktop/src/main/dogma/gains'
 import { fitMetrics } from '../../../canopus-desktop/src/main/dogma/metrics'
 import { npcDamage } from '../../../canopus-desktop/src/main/dogma/npc'
 import { calculate } from '../../../canopus-desktop/src/main/dogma/stats'
@@ -24,5 +25,7 @@ const J = JSON.stringify
     return J((P(specs) as unknown[]).map((spec) => fitMetrics(calculate(db, spec as never, s))))
   },
   npcDamage: (spec: string, skills: string, faction: string): string => J(npcDamage(P(spec), P(skills), faction as never)),
+  /** What each next level of every unmaxed skill would change on the fit. */
+  skillGains: (spec: string, levels: string): string => J(skillGains(P(spec), P(levels))),
   abyssPlan: (spec: string, skills: string, weather: string, strength: number): string => J(abyssPlan(P(spec), P(skills), weather as never, strength))
 }

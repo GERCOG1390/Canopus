@@ -14,6 +14,26 @@
         }
       }
     },
+    " km": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " км"
+          }
+        }
+      }
+    },
+    " s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " с"
+          }
+        }
+      }
+    },
     "#%lld · %@": {},
     "%@ %@ free": {
       "localizations": {
@@ -36,6 +56,16 @@
       }
     },
     "%@ (%lld)": {},
+    "%@ (current)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (текущий)"
+          }
+        }
+      }
+    },
     "%@ / %@ GJ/s": {
       "localizations": {
         "ru": {
@@ -293,6 +323,9 @@
         }
       }
     },
+    "%@ — %@": {
+      "shouldTranslate": false
+    },
     "%@x": {},
     "%lld": {},
     "%lld %@": {},
@@ -494,6 +527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "+ внутренних изменений атрибутов и категорий: %lld"
+          }
+        }
+      }
+    },
+    "+ Add a fit to compare": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ Добавить фит для сравнения"
           }
         }
       }
@@ -726,6 +769,16 @@
         }
       }
     },
+    "Active tank, EHP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активный танк, EHP/с"
+          }
+        }
+      }
+    },
     "Add": {
       "localizations": {
         "ru": {
@@ -776,12 +829,32 @@
         }
       }
     },
+    "Align time, s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разгон до варпа, с"
+          }
+        }
+      }
+    },
     "All": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Все"
+          }
+        }
+      }
+    },
+    "All fits use the same skills: the ones the fitting screen uses.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все фиты считаются с одними и теми же навыками — теми, что выбраны в фитинге."
           }
         }
       }
@@ -1322,6 +1395,16 @@
         }
       }
     },
+    "CPU used, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЦПУ занято, %"
+          }
+        }
+      }
+    },
     "CURRENT": {
       "localizations": {
         "ru": {
@@ -1358,6 +1441,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Считаю фит в погоде…"
+          }
+        }
+      }
+    },
+    "Calculating…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Считаю…"
           }
         }
       }
@@ -1421,6 +1514,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Накопитель энергии"
+          }
+        }
+      }
+    },
+    "Capacitor, % stable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Накопитель, % стабильности"
           }
         }
       }
@@ -1660,6 +1763,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бой"
+          }
+        }
+      }
+    },
+    "Compare fits": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сравнить фиты"
           }
         }
       }
@@ -3365,6 +3478,16 @@
         }
       }
     },
+    "Looking at recent losses on zKillboard…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смотрю последние потери на zKillboard…"
+          }
+        }
+      }
+    },
     "Low": {
       "localizations": {
         "ru": {
@@ -3897,6 +4020,16 @@
         }
       }
     },
+    "Needs a character: sign in with EVE SSO to see what each next level of your skills would give.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нужен персонаж: войдите через EVE SSO, чтобы посчитать, что даст каждый следующий уровень ваших навыков."
+          }
+        }
+      }
+    },
     "Neut, GJ/s": {
       "localizations": {
         "ru": {
@@ -4200,6 +4333,26 @@
         }
       }
     },
+    "No next skill level improves this on this fit.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ни один следующий уровень навыка не улучшит это у этого фита."
+          }
+        }
+      }
+    },
+    "No recent losses of this ship with modules on zKillboard.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На zKillboard нет свежих потерь этого корабля с модулями."
+          }
+        }
+      }
+    },
     "No transactions found.": {
       "localizations": {
         "ru": {
@@ -4395,6 +4548,16 @@
         }
       }
     },
+    "Open": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть"
+          }
+        }
+      }
+    },
     "Open settings": {
       "localizations": {
         "ru": {
@@ -4549,6 +4712,16 @@
         }
       }
     },
+    "Popular fits": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Популярные фиты"
+          }
+        }
+      }
+    },
     "Portion Size": {
       "extractionState": "stale",
       "localizations": {
@@ -4566,6 +4739,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Энергосеть"
+          }
+        }
+      }
+    },
+    "Powergrid used, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Реактор занят, %"
           }
         }
       }
@@ -4704,6 +4887,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Готово — заберите в игре"
+          }
+        }
+      }
+    },
+    "Recalculating the fit for every skill…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пересчитываю фит для каждого навыка…"
           }
         }
       }
@@ -5162,6 +5355,16 @@
         }
       }
     },
+    "Scan resolution, mm": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешение сканера, мм"
+          }
+        }
+      }
+    },
     "Search": {
       "localizations": {
         "ru": {
@@ -5393,6 +5596,16 @@
         }
       }
     },
+    "Shield regeneration, HP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Регенерация щита, HP/с"
+          }
+        }
+      }
+    },
     "Ship, module, skill, implant…": {
       "localizations": {
         "ru": {
@@ -5459,6 +5672,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сигнатура"
+          }
+        }
+      }
+    },
+    "Signature, m": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сигнатура, м"
           }
         }
       }
@@ -5819,6 +6042,16 @@
         }
       }
     },
+    "Targeting range, km": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дальность захвата, км"
+          }
+        }
+      }
+    },
     "Th": {
       "localizations": {
         "ru": {
@@ -5835,6 +6068,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дроны не помещаются в отсек"
+          }
+        }
+      }
+    },
+    "The fit recalculated with each skill one level higher (your current skills and implants). Sorted by gain per hour of training.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фит пересчитан с каждым навыком на один уровень выше (ваши текущие навыки и импланты). Сортировка — по пользе на час обучения."
+          }
+        }
+      }
+    },
+    "The fits this ship was lost with most often (the last %lld losses on zKillboard): real fits players fly.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фиты, с которыми этот корабль чаще всего теряли (последние %lld потерь на zKillboard). Это реальные фиты, на которых летают игроки."
           }
         }
       }
@@ -6308,6 +6561,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дальность оружия, км"
+          }
+        }
+      }
+    },
+    "What to learn": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Что выучить"
           }
         }
       }
@@ -6892,6 +7155,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "турели %@"
+          }
+        }
+      }
+    },
+    "unstable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нестабилен"
           }
         }
       }

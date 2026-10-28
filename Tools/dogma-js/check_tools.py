@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Checks the bundled NPC / abyss / optimizer functions with the iOS app's data against the same code fed
+"""Checks the bundled NPC / abyss / optimizer / skill-gain functions with the iOS app's data against the same code fed
 the desktop's whole SDE (same CCP build): the data the app adds for them must be enough.
 
     python3 Tools/dogma-js/check_tools.py fits.eft "<desktop sde-NNN.json>"
@@ -57,17 +57,18 @@ const run = (dbs) => {
   const out = []
   const ctx = {}; eval(fs.readFileSync(process.argv[1], 'utf8').replace('globalThis', 'ctx'))
   const D = ctx.CanopusDogma
+  let n = 0
   for (const j of JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))) {
     if (dbs === 'desktop') { if (!D._loaded) { D.addData(fs.readFileSync(process.argv[3], 'utf8')); D._loaded = true } } else D.addData(JSON.stringify(j.db))
     const sk = JSON.stringify({ mode: 'all5' }), sp = JSON.stringify(j.spec)
-    out.push({ name: j.name, npc: [D.npcDamage(sp, sk, 'guristas'), D.npcDamage(sp, sk, 'sansha')], abyss: [D.abyssPlan(sp, sk, 'electrical', 50), D.abyssPlan(sp, sk, 'firestorm', 70)], metrics: D.metrics(JSON.stringify([j.spec]), sk) })
+    out.push({ name: j.name, npc: [D.npcDamage(sp, sk, 'guristas'), D.npcDamage(sp, sk, 'sansha')], abyss: [D.abyssPlan(sp, sk, 'electrical', 50), D.abyssPlan(sp, sk, 'firestorm', 70)], metrics: D.metrics(JSON.stringify([j.spec]), sk), gains: n++ < 3 ? D.skillGains(sp, JSON.stringify({ 3300: 4, 3319: 3, 3426: 2 })) : null })
   }
   return out
 }
 const a = run('ios'), b = run('desktop')
 let diff = 0
-a.forEach((x, i) => { for (const k of ['npc', 'abyss', 'metrics']) if (JSON.stringify(x[k]) !== JSON.stringify(b[i][k])) { diff++; console.log('DIFF', x.name, k) } })
-console.log(`${a.length} fits × 5 reports, ${diff} differences`)
+a.forEach((x, i) => { for (const k of ['npc', 'abyss', 'metrics', 'gains']) if (JSON.stringify(x[k]) !== JSON.stringify(b[i][k])) { diff++; console.log('DIFF', x.name, k) } })
+console.log(`${a.length} fits × 5 reports (+ skill gains on 3), ${diff} differences; gains rows on fit 1: ${JSON.parse(a[0].gains).length}`)
 console.log(JSON.parse(a[0].npc[0]).classes.map((c) => c.cls + ' ' + c.count + ' ' + Math.round(c.ttkMedian) + 's').join(' | '))
 console.log(JSON.parse(a[0].abyss[0]).factions.map((f) => f.faction + ' ' + f.npcs.length).join(' | '))
 '''
