@@ -137,12 +137,16 @@ public struct JSFitStats: Decodable, Sendable {
         public let typeId: Int
         public let chargeTypeId: Int?
         public let kind: String
-        public let count: Double
+        public var count: Double
         public let volley: Double
-        public let dps: Double
+        public var dps: Double
         public let dpsReload: Double
+        /// EM, thermal, kinetic, explosive volley.
+        public let damage: [Double]
+        public let cycle: Double
         public let optimal: Double?
         public let falloff: Double?
+        public let explosionRadius: Double?
     }
     public struct Offense: Decodable, Sendable {
         public let weapons: [Weapon]

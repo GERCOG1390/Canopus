@@ -5,7 +5,109 @@
       "shouldTranslate": false
     },
     "#%lld · %@": {},
+    "%@ %@ free": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "свободно %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "%@ %@ left": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "осталось %1$@ %2$@"
+          }
+        }
+      }
+    },
     "%@ (%lld)": {},
+    "%@ / %@ GJ/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ / %2$@ ГДж/с"
+          }
+        }
+      }
+    },
+    "%@ / %@ m³": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ / %2$@ м³"
+          }
+        }
+      }
+    },
+    "%@ AU/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ а.е./с"
+          }
+        }
+      }
+    },
+    "%@ DPS": {},
+    "%@ EHP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ EHP/с"
+          }
+        }
+      }
+    },
+    "%@ GJ": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ГДж"
+          }
+        }
+      }
+    },
+    "%@ HP": {},
+    "%@ HP without resists": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ HP без сопротивлений"
+          }
+        }
+      }
+    },
+    "%@ HP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ HP/с"
+          }
+        }
+      }
+    },
+    "%@ HP/s · %@ s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ HP/с · %2$@ с"
+          }
+        }
+      }
+    },
     "%@ LP": {},
     "%@ LP available": {
       "localizations": {
@@ -38,7 +140,77 @@
         }
       }
     },
+    "%@ km": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ км"
+          }
+        }
+      }
+    },
+    "%@ m": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ м"
+          }
+        }
+      }
+    },
+    "%@ m/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ м/с"
+          }
+        }
+      }
+    },
+    "%@ mm": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ мм"
+          }
+        }
+      }
+    },
     "%@ m³": {},
+    "%@ s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ с"
+          }
+        }
+      }
+    },
+    "%@ s · %@x": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ с · %2$@x"
+          }
+        }
+      }
+    },
+    "%@ t": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ т"
+          }
+        }
+      }
+    },
     "%@ · %@": {
       "shouldTranslate": false
     },
@@ -166,6 +338,7 @@
         }
       }
     },
+    "%lld%%": {},
     "%lldd %lldh": {
       "localizations": {
         "ru": {
@@ -197,6 +370,7 @@
       }
     },
     "%lldx": {},
+    "%lld×": {},
     "* Asset and implant values use ESI adjusted prices.\n  Items without market data are counted as 0 ISK.": {
       "localizations": {
         "ru": {
@@ -397,6 +571,16 @@
         }
       }
     },
+    "Active tank": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активный танк"
+          }
+        }
+      }
+    },
     "Add": {
       "localizations": {
         "ru": {
@@ -437,6 +621,16 @@
         }
       }
     },
+    "Align time": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разгон до варпа"
+          }
+        }
+      }
+    },
     "All": {
       "localizations": {
         "ru": {
@@ -463,6 +657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Броня"
+          }
+        }
+      }
+    },
+    "Armor repair": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ремонт брони"
           }
         }
       }
@@ -758,6 +962,16 @@
         }
       }
     },
+    "CPU": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CPU"
+          }
+        }
+      }
+    },
     "CURRENT": {
       "localizations": {
         "ru": {
@@ -774,6 +988,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "ТЕКУЩИЙ СТАТУС"
+          }
+        }
+      }
+    },
+    "Calculated with the desktop engine from SDE dogma: skills, hull bonuses, modules, charges, implants and stacking penalties.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расчёт движком десктопной версии по данным догмы SDE: навыки, бонусы корпуса, модули, заряды, импланты, штрафы за стакинг."
+          }
+        }
+      }
+    },
+    "Calibration": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Калибровка"
           }
         }
       }
@@ -795,7 +1029,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Накопитель"
+            "value": "Накопитель энергии"
           }
         }
       }
@@ -805,7 +1039,17 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Вместимость"
+            "value": "Ёмкость"
+          }
+        }
+      }
+    },
+    "Cargo hold": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Грузовой отсек"
           }
         }
       }
@@ -1190,6 +1434,7 @@
         }
       }
     },
+    "DPS": {},
     "Daily Goal Payouts": {
       "localizations": {
         "ru": {
@@ -1236,6 +1481,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дата"
+          }
+        }
+      }
+    },
+    "Defense": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Системы защиты"
           }
         }
       }
@@ -1290,6 +1545,36 @@
         }
       }
     },
+    "Drone bandwidth": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Канал дронов"
+          }
+        }
+      }
+    },
+    "Drone bay": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отсек дронов"
+          }
+        }
+      }
+    },
+    "Drone control range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дальность управления дронами"
+          }
+        }
+      }
+    },
     "Drones": {
       "localizations": {
         "ru": {
@@ -1301,6 +1586,17 @@
       }
     },
     "EFT": {},
+    "EHP": {},
+    "EM": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЭМ"
+          }
+        }
+      }
+    },
     "EMPLOYMENT HISTORY · %lld": {
       "localizations": {
         "ru": {
@@ -1361,6 +1657,16 @@
         }
       }
     },
+    "Effective HP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эффективное HP"
+          }
+        }
+      }
+    },
     "Empty %@": {
       "localizations": {
         "ru": {
@@ -1407,6 +1713,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Расход за 30 дней"
+          }
+        }
+      }
+    },
+    "Explosive": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фугасный"
           }
         }
       }
@@ -1507,6 +1823,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Фильтр операций"
+          }
+        }
+      }
+    },
+    "Firepower": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Огневая мощь"
+          }
+        }
+      }
+    },
+    "Fit skills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки для фита"
           }
         }
       }
@@ -1619,6 +1955,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Домашняя станция"
+          }
+        }
+      }
+    },
+    "Hull": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпус"
+          }
+        }
+      }
+    },
+    "Hull repair": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ремонт корпуса"
           }
         }
       }
@@ -1984,6 +2340,16 @@
         }
       }
     },
+    "Kinetic": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кинетический"
+          }
+        }
+      }
+    },
     "L%lld": {},
     "L%lld → L%lld": {},
     "LAST REMAP %@": {
@@ -2103,6 +2469,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Последняя версия"
+          }
+        }
+      }
+    },
+    "Launchers %lld/%lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пусковые %1$lld/%2$lld"
           }
         }
       }
@@ -2427,6 +2803,26 @@
         }
       }
     },
+    "Max locked targets": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Целей одновременно"
+          }
+        }
+      }
+    },
+    "Max velocity": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорость"
+          }
+        }
+      }
+    },
     "Memory": {
       "localizations": {
         "ru": {
@@ -2503,6 +2899,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подвижность"
+          }
+        }
+      }
+    },
+    "Modules": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модули"
           }
         }
       }
@@ -2617,6 +3023,16 @@
         }
       }
     },
+    "Navigation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ходовые характеристики"
+          }
+        }
+      }
+    },
     "No Compatible Charges": {
       "localizations": {
         "ru": {
@@ -2723,6 +3139,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет активных ордеров"
+          }
+        }
+      }
+    },
+    "No active weapons with charges.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет активного оружия с зарядами."
           }
         }
       }
@@ -2937,6 +3363,66 @@
         }
       }
     },
+    "Not enough CPU": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не хватает CPU"
+          }
+        }
+      }
+    },
+    "Not enough calibration for the rigs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не хватает калибровки для ригов"
+          }
+        }
+      }
+    },
+    "Not enough drone bandwidth": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не хватает пропускной способности для дронов"
+          }
+        }
+      }
+    },
+    "Not enough launcher hardpoints": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не хватает точек монтажа пусковых установок"
+          }
+        }
+      }
+    },
+    "Not enough powergrid": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не хватает мощности реактора (PG)"
+          }
+        }
+      }
+    },
+    "Not enough turret hardpoints": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не хватает точек монтажа турелей"
+          }
+        }
+      }
+    },
     "Nothing in %@": {
       "localizations": {
         "ru": {
@@ -3137,6 +3623,16 @@
         }
       }
     },
+    "Powergrid": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Энергосеть"
+          }
+        }
+      }
+    },
     "Propulsion": {
       "localizations": {
         "ru": {
@@ -3269,6 +3765,16 @@
         }
       }
     },
+    "Recharge time": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перезарядка"
+          }
+        }
+      }
+    },
     "Region %lld": {
       "localizations": {
         "ru": {
@@ -3335,6 +3841,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сбросить"
+          }
+        }
+      }
+    },
+    "Resources": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ресурсы"
           }
         }
       }
@@ -3590,6 +4106,16 @@
         }
       }
     },
+    "Scan resolution": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разрешение сканера"
+          }
+        }
+      }
+    },
     "Search": {
       "localizations": {
         "ru": {
@@ -3690,6 +4216,56 @@
         }
       }
     },
+    "Sensor strength": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сила сенсоров"
+          }
+        }
+      }
+    },
+    "Sensor strength (Gravimetric)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сенсоры (гравиметрия)"
+          }
+        }
+      }
+    },
+    "Sensor strength (Ladar)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сенсоры (ладар)"
+          }
+        }
+      }
+    },
+    "Sensor strength (Magnetometric)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сенсоры (магнитометрия)"
+          }
+        }
+      }
+    },
+    "Sensor strength (Radar)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сенсоры (радар)"
+          }
+        }
+      }
+    },
     "Sent": {
       "localizations": {
         "ru": {
@@ -3726,6 +4302,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Щит"
+          }
+        }
+      }
+    },
+    "Shield boost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Накачка щита"
+          }
+        }
+      }
+    },
+    "Shield regeneration": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Регенерация щита"
           }
         }
       }
@@ -3776,6 +4372,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Войдите через EVE Online, чтобы видеть\nочередь навыков, кошелёк и остальное."
+          }
+        }
+      }
+    },
+    "Signature radius": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сигнатура"
           }
         }
       }
@@ -3870,6 +4476,16 @@
         }
       }
     },
+    "Stability": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стабильность"
+          }
+        }
+      }
+    },
     "Start a job in EVE Online to see it here.": {
       "localizations": {
         "ru": {
@@ -3886,6 +4502,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Станция"
+          }
+        }
+      }
+    },
+    "Stats": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Характеристики"
           }
         }
       }
@@ -4005,7 +4631,27 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Захват целей"
+            "value": "Целеуказание"
+          }
+        }
+      }
+    },
+    "Targeting range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дальность захвата"
+          }
+        }
+      }
+    },
+    "The drones don't fit in the drone bay": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дроны не помещаются в отсек"
           }
         }
       }
@@ -4036,6 +4682,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Очередь пуста — персонаж ничего не изучает!"
+          }
+        }
+      }
+    },
+    "Thermal": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Термический"
           }
         }
       }
@@ -4150,12 +4806,32 @@
         }
       }
     },
+    "Turrets %lld/%lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Турели %1$lld/%2$lld"
+          }
+        }
+      }
+    },
     "Unallocated: %@": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Нераспределено: %@"
+          }
+        }
+      }
+    },
+    "Use / peak recharge": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расход / пик регена"
           }
         }
       }
@@ -4190,6 +4866,16 @@
         }
       }
     },
+    "Volley": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Залп"
+          }
+        }
+      }
+    },
     "Volume": {
       "localizations": {
         "ru": {
@@ -4216,6 +4902,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "БАЛАНС КОШЕЛЬКА"
+          }
+        }
+      }
+    },
+    "WARNING: implants failed to load; stats may be incomplete": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВНИМАНИЕ: импланты не загрузились, характеристики могут быть неполными"
+          }
+        }
+      }
+    },
+    "WARNING: skills failed to load; stats use all skills at V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ВНИМАНИЕ: навыки не загрузились, расчёт со всеми навыками на V"
           }
         }
       }
@@ -4256,6 +4962,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Журнал кошелька"
+          }
+        }
+      }
+    },
+    "Warp speed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорость варпа"
           }
         }
       }
@@ -4394,6 +5110,16 @@
         }
       }
     },
+    "no weapons": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет оружия"
+          }
+        }
+      }
+    },
     "paused": {
       "localizations": {
         "ru": {
@@ -4414,12 +5140,52 @@
         }
       }
     },
+    "runs out in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "кончится за %@"
+          }
+        }
+      }
+    },
+    "short by %@ %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "не хватает %1$@ %2$@"
+          }
+        }
+      }
+    },
+    "stable at %@%%": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "стабилен %@%%"
+          }
+        }
+      }
+    },
     "updating Jita prices…": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "обновляю цены Jita…"
+          }
+        }
+      }
+    },
+    "with reload %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с перезарядкой %@"
           }
         }
       }

@@ -55,5 +55,6 @@ belongs to.
   sde-import now use developers.eveonline.com. The old Swift dogma engine is gone: the app runs the
   desktop's engine in JavaScriptCore (Packages/EVEStaticData DogmaJS, Tools/dogma-js), 264/264 cases
   equal to Pyfa on the app's own SDE. Original icons only (desktop glyphs, CCP window/attribute icons).
-  Next in phase 2: the fitting screen's stats in the desktop layout, fit snapshot, optimizer, NPC and
-  abyss planner (same JS engine).
+  The fitting stats tab follows the desktop's panel (metrics, resources, firepower by weapon, defense
+  table, capacitor, navigation, targeting) straight from the engine's result, with CCP attribute icons.
+  Next in phase 2: fit snapshot, optimizer, NPC damage and abyss planner (same JS engine).

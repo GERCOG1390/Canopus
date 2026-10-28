@@ -470,11 +470,19 @@ struct FitDetailView: View {
     @Environment(AppEnvironment.self) private var env
     @State private var configs: [String: ModuleConfig] = [:]
     @State private var stats: ShipStats?
+    /// The engine's full result, for the stats tab.
+    @State private var fitStats: JSFitStats?
     @State private var moduleTypeProfiles: [Int: TypeProfile] = [:]
     @State private var chargeTypeAttrs: [Int: [Int: Double]] = [:]
     @State private var chargeNames: [Int: String] = [:]
     @State private var sheetFlag: FlagItem? = nil
-    @State private var activeTab: FitTab = .modules
+    @State private var activeTab: FitTab = {
+        #if DEBUG
+        // Debug builds: `-fitTab stats` opens a fit on its stats tab (screenshots, UI checks).
+        if UserDefaults.standard.string(forKey: "fitTab") == "stats" { return .stats }
+        #endif
+        return .modules
+    }()
     @State private var characterSkills: [Int: Int] = [:]
     @State private var implantIds: [Int] = []
     /// Start state and overload ability per module type (the desktop's rules).
@@ -522,16 +530,6 @@ struct FitDetailView: View {
         editableItems ?? liveItems ?? fit.items
     }
 
-    private func dominantDefenseIcon(_ stats: ShipStats) -> Int {
-        if stats.shieldHP >= stats.armorHP && stats.shieldHP >= stats.hullHP {
-            return StatIcon.shield
-        }
-        if stats.armorHP >= stats.hullHP {
-            return StatIcon.armor
-        }
-        return StatIcon.structure
-    }
-
     private func typeName(_ typeId: Int, fallback: String) -> String {
         localTypes[typeId]?.name ?? localTypeNames[typeId] ?? typeNames[typeId] ?? fallback
     }
@@ -542,10 +540,6 @@ struct FitDetailView: View {
             .reduce(0) { total, item in
                 total + (localTypes[item.typeId]?.volume ?? 0) * Double(item.quantity)
             }
-    }
-
-    private var shipCargoCapacity: Double {
-        localTypes[fit.shipTypeId]?.capacity ?? 0
     }
 
     private var shipRigSize: Int? {
@@ -559,16 +553,6 @@ struct FitDetailView: View {
     private var displayedSlots: [Slot] {
         Slot.allCases.filter { slot in
             slot != .sub || supportsSubsystemSlots
-        }
-    }
-
-    private var selectedChargeNames: [String] {
-        var seen = Set<Int>()
-        return currentItems.compactMap { item in
-            guard slotFor(item.flag) != .cargo, slotFor(item.flag) != .drone, isFittedType(item) else { return nil }
-            let chargeId = configs[item.flag]?.chargeTypeId ?? embeddedCharge(for: item)?.typeId
-            guard let chargeId, seen.insert(chargeId).inserted else { return nil }
-            return typeName(chargeId, fallback: "Charge \(chargeId)")
         }
     }
 
@@ -1138,24 +1122,11 @@ private struct SubsystemSlotDefinition: Identifiable {
     // MARK: - Tab bar
 
     private var tabBar: some View {
-        HStack(spacing: 0) {
-            ForEach(FitTab.allCases, id: \.self) { tab in
-                Button {
-                    withAnimation(.easeInOut(duration: 0.12)) { activeTab = tab }
-                } label: {
-                    VStack(spacing: 0) {
-                        Rectangle().fill(activeTab == tab ? Color.eveAmber : Color.clear).frame(height: 2)
-                        Text(tab.rawValue)
-                            .font(.ui(11, .semibold)).tracking(1.4)
-                            .foregroundStyle(activeTab == tab ? Color.eveAmber : Color.eveText.opacity(0.40))
-                            .padding(.vertical, 10)
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .background(Color.eveCard)
+        CanopusTabs(tabs: [(id: FitTab.modules, label: "Modules"), (id: FitTab.stats, label: "Stats")], selection: $activeTab)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(C.nav)
     }
 
     // MARK: - Tab content
@@ -1848,59 +1819,36 @@ private struct SubsystemSlotDefinition: Identifiable {
     // MARK: - Stats tab
 
     private var statsTabView: some View {
+        ScrollViewReader { proxy in
         ScrollView {
-            if let s = stats {
-                VStack(spacing: 0) {
+            if let s = fitStats {
+                VStack(alignment: .leading, spacing: 12) {
                     if let fittingWarning {
                         warningBand(fittingWarning)
                     }
-                    fittingSummaryPanel(s)
-                    EVESeparator(kind: .section)
-                    statsSection("FIT SKILLS") { fitSkillsSection() }
-                    EVESeparator(kind: .section)
-                    statsSection("RESISTANCES") { resistanceTable(s) }
-                    EVESeparator(kind: .section)
-                    statsSection("CAPACITOR") { capSection(s) }
-                    EVESeparator(kind: .section)
-                    statsSection("FIREPOWER") { firepowerSection(s) }
-                    EVESeparator(kind: .section)
-                    statsSection("TARGETING") { targetingSection(s) }
-                    EVESeparator(kind: .section)
-                    statsSection("DRONES") { dronesSection(s) }
-                    EVESeparator(kind: .section)
-                    statsSection("CARGO") { cargoSection() }
-                    EVESeparator(kind: .section)
-                    statsSection("MOBILITY") { mobilitySection(s) }
+                    FitStatsPanel(
+                        stats: s,
+                        typeName: { id in chargeNames[id] ?? typeName(id, fallback: "#\(id)") },
+                        cargoUsed: cargoUsedVolume
+                    )
+                    Card("Fit skills") { fitSkillsSection() }
                 }
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
                 .padding(.bottom, EVELayout.scrollBottomClearance)
             } else {
-                ProgressView().tint(Color.eveCyan).padding(.top, 60)
+                ProgressView().tint(C.accent).padding(.top, 60)
             }
         }
-    }
-
-    private func fittingSummaryPanel(_ s: ShipStats) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("SHIP SYSTEMS").hudLabel()
-                Spacer()
-                Text(s.capRegenPerSec >= s.capDrainPerSec ? "SYSTEM STABLE" : "SYSTEM UNSTABLE")
-                    .font(.ui(11, .semibold)).monospacedDigit()
-                    .foregroundStyle(s.capRegenPerSec >= s.capDrainPerSec ? Color.eveGreen : Color.eveRed)
-            }
-
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
-                summaryTile("CAPACITOR", String(format: "%.0f GJ / %@", s.capCapacity, durationFmt(s.capRechargeMs / 1000)), Color.eveCyan, iconId: StatIcon.capacitorCapacity)
-                summaryTile("FIREPOWER", String(format: "%.1f DPS", s.turretDPS + s.missileDPS + s.droneDPS), Color.eveAmber, iconId: StatIcon.firepower)
-                summaryTile("DEFENSE", String(format: "%@ EHP", hpFmt(s.totalEHP)), Color.eveGreen, iconId: dominantDefenseIcon(s))
-                summaryTile("TARGETING", String(format: "%.1f km · %.0f mm", s.maxTargetRange / 1000, s.scanResolution), Color.eveText, iconId: StatIcon.targeting)
-                summaryTile("MOBILITY", String(format: "%.0f m/s · %.0f m", s.maxVelocity, s.signatureRadius), Color.eveText, iconId: StatIcon.mobility)
-                summaryTile("FITTING", String(format: "CPU %.1f · PG %.1f", s.cpuTotal - s.cpuUsed, s.pgTotal - s.pgUsed), Color.eveCyan, iconId: StatIcon.fitting)
-            }
+        #if DEBUG
+        // Debug builds: `-fitStatsAnchor defense` scrolls the stats tab to a section (screenshots).
+        .task(id: fitStats == nil) {
+            guard fitStats != nil, let anchor = UserDefaults.standard.string(forKey: "fitStatsAnchor") else { return }
+            try? await Task.sleep(for: .milliseconds(300))
+            proxy.scrollTo(anchor, anchor: .top)
         }
-        .padding(.horizontal, 20)
-        .padding(.vertical, 12)
-        .background(Color.eveCard.opacity(0.65))
+        #endif
+        }
     }
 
     private func fitSkillsSection() -> some View {
@@ -1981,34 +1929,6 @@ private struct SubsystemSlotDefinition: Identifiable {
         .padding(.vertical, 4)
     }
 
-    private func summaryTile(_ label: String, _ value: String, _ color: Color, iconId: Int? = nil) -> some View {
-        HStack(alignment: .top, spacing: 7) {
-            if let iconId {
-                EVEIconImage(iconId: iconId, size: 16)
-                    .opacity(0.78)
-            }
-            VStack(alignment: .leading, spacing: 3) {
-                Text(LocalizedStringKey(label)).hudLabel()
-                Text(value)
-                    .font(.ui(11.5, .semibold)).monospacedDigit()
-                    .foregroundStyle(color)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.75)
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 4)
-    }
-
-    private func statsSection<Content: View>(_ title: String, @ViewBuilder content: () -> Content) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            EVESectionHeader(title)
-            EVESeparator()
-            content()
-                .padding(.horizontal, 20).padding(.vertical, 12)
-        }
-    }
-
     private func warningBand(_ text: String) -> some View {
         Text(text)
             .font(.ui(11, .medium)).monospacedDigit()
@@ -2017,306 +1937,6 @@ private struct SubsystemSlotDefinition: Identifiable {
             .padding(.horizontal, 20)
             .padding(.vertical, 8)
             .background(Color.eveAmber.opacity(0.10))
-    }
-
-    // Resistance table identical to reference app
-    private func resistanceTable(_ s: ShipStats) -> some View {
-        VStack(spacing: 0) {
-            // Header row
-            HStack(spacing: 0) {
-                Color.clear.frame(width: 28)
-                damageHeader("EM", iconId: StatIcon.emResistance, color: Color(hue: 0.60, saturation: 0.75, brightness: 0.90))
-                damageHeader("THERM", iconId: StatIcon.thermalResistance, color: .eveRed)
-                damageHeader("KIN", iconId: StatIcon.kineticResistance, color: Color(white: 0.55))
-                damageHeader("EXP", iconId: StatIcon.explosiveResistance, color: .eveAmber)
-                Text("HP").hudLabel().frame(width: 60, alignment: .trailing)
-            }
-            EVESeparator().padding(.vertical, 4)
-
-            resistRow(label: "SHI", hp: s.shieldHP, ehp: s.shieldEHP,
-                      em: s.shieldEMRes, exp: s.shieldExpRes, kin: s.shieldKinRes, therm: s.shieldThermRes,
-                      color: .eveCyan)
-            EVESeparator()
-            resistRow(label: "ARM", hp: s.armorHP, ehp: s.armorEHP,
-                      em: s.armorEMRes, exp: s.armorExpRes, kin: s.armorKinRes, therm: s.armorThermRes,
-                      color: .eveAmber)
-            EVESeparator()
-            resistRow(label: "HUL", hp: s.hullHP, ehp: s.hullHP,
-                      em: s.hullEMRes, exp: s.hullExpRes, kin: s.hullKinRes, therm: s.hullThermRes,
-                      color: Color(white: 0.5))
-
-            EVESeparator().padding(.top, 6)
-            HStack {
-                Spacer()
-                Text("HP: \(hpFmt(s.shieldHP + s.armorHP + s.hullHP))  |  EHP: \(hpFmt(s.totalEHP))")
-                    .font(.ui(11)).monospacedDigit()
-                    .foregroundStyle(Color.eveText.opacity(0.55))
-            }
-            .padding(.top, 6)
-        }
-    }
-
-    private func damageHeader(_ label: String, iconId: Int, color: Color) -> some View {
-        HStack(spacing: 3) {
-            EVEIconImage(iconId: iconId, size: 11)
-                .opacity(0.74)
-            Text(LocalizedStringKey(label))
-                .font(.ui(11, .semibold))
-                .foregroundStyle(color.opacity(0.7))
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    private func resistRow(label: String, hp: Double, ehp: Double,
-                            em: Double, exp: Double, kin: Double, therm: Double,
-                            color: Color) -> some View {
-        HStack(spacing: 0) {
-            Text(LocalizedStringKey(label)).font(.ui(11, .semibold)).tracking(0.8)
-                .foregroundStyle(color).frame(width: 28, alignment: .leading)
-            resCell(pct: em,    barColor: Color(hue: 0.60, saturation: 0.75, brightness: 0.90))
-            resCell(pct: therm, barColor: .eveRed)
-            resCell(pct: kin,   barColor: Color(white: 0.55))
-            resCell(pct: exp,   barColor: .eveAmber)
-            Text(hpFmt(hp))
-                .font(.ui(11, .medium)).monospacedDigit()
-                .foregroundStyle(Color.eveText)
-                .frame(width: 60, alignment: .trailing)
-        }
-        .padding(.vertical, 5)
-    }
-
-    private func resCell(pct: Double, barColor: Color) -> some View {
-        VStack(spacing: 2) {
-            Text(String(format: "%.1f%%", pct))
-                .font(.ui(11, .medium)).monospacedDigit()
-                .foregroundStyle(resColor(pct))
-            GeometryReader { geo in
-                ZStack(alignment: .leading) {
-                    Rectangle().fill(barColor.opacity(0.12))
-                    Rectangle().fill(barColor.opacity(0.65)).frame(width: geo.size.width * pct / 100)
-                }
-                .clipShape(RoundedRectangle(cornerRadius: 1.5))
-            }
-            .frame(height: 3)
-        }
-        .frame(maxWidth: .infinity)
-    }
-
-    private func resColor(_ pct: Double) -> Color {
-        if pct >= 60 { return .eveGreen }
-        if pct >= 30 { return .eveAmber }
-        return Color.eveText.opacity(0.45)
-    }
-
-    private func capSection(_ s: ShipStats) -> some View {
-        let rechargeSeconds = s.capRechargeMs / 1000
-        let net = s.capRegenPerSec - s.capDrainPerSec
-        let stable = net >= 0
-        let deltaPercent = s.capRegenPerSec > 0 ? abs(net) / s.capRegenPerSec * 100 : 0
-
-        return VStack(alignment: .leading, spacing: 10) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(String(format: "%.1f GJ / %@", s.capCapacity, durationFmt(rechargeSeconds)))
-                        .font(.ui(13, .semibold)).monospacedDigit()
-                        .foregroundStyle(Color.eveCyan)
-                    Text(String(format: "DELTA %+.1f GJ/s (%.1f%%)", net, deltaPercent))
-                        .font(.ui(11, .medium)).monospacedDigit()
-                        .foregroundStyle(stable ? Color.eveGreen : Color.eveRed)
-                }
-                Spacer()
-                Text(stable ? "SYSTEM STABLE" : "SYSTEM UNSTABLE")
-                    .font(.ui(11, .bold)).monospacedDigit()
-                    .foregroundStyle(stable ? Color.eveGreen : Color.eveRed)
-                    .multilineTextAlignment(.trailing)
-            }
-
-            HStack {
-                statItem("PEAK REGEN", String(format: "+%.1f GJ/s", s.capRegenPerSec), iconId: StatIcon.capacitorRecharge)
-                statItem("ACTIVE DRAIN", s.capDrainPerSec > 0 ? String(format: "-%.1f GJ/s", s.capDrainPerSec) : "—", iconId: StatIcon.capacitorDrain)
-                statItem("NET", String(format: "%+.1f GJ/s", net),
-                         color: stable ? .eveGreen : .eveRed,
-                         iconId: stable ? StatIcon.capacitorRecharge : StatIcon.capacitorDrain)
-            }
-        }
-    }
-
-    private func firepowerSection(_ s: ShipStats) -> some View {
-        let totalDPS = s.turretDPS + s.missileDPS + s.droneDPS
-        let reloadTotalDPS = s.turretDPS + s.missileReloadDPS + s.droneDPS
-        return VStack(spacing: 6) {
-            HStack {
-                statItem("TURRETS", s.turretDPS > 0 ? String(format: "%.1f DPS", s.turretDPS) : "—", iconId: StatIcon.firepower)
-                statItem("MISSILES", missileDPSLabel(s), color: s.missileDPS > 0 ? .eveText : .eveText.opacity(0.35), iconId: StatIcon.firepower)
-                statItem("TOTAL", totalDPS > 0 ? String(format: "%.1f (%.1f) DPS", totalDPS, reloadTotalDPS) : "—",
-                         color: totalDPS > 0 ? .eveAmber : .eveText.opacity(0.35),
-                         iconId: StatIcon.firepower)
-            }
-            if s.peakShieldRegen > 0 || s.activeShieldBoostPerSec > 0 {
-                HStack {
-                    if s.peakShieldRegen > 0 {
-                        statItem("SHI REGEN", String(format: "%.0f HP/s", s.peakShieldRegen), iconId: StatIcon.shield)
-                    }
-                    if s.activeShieldBoostPerSec > 0 {
-                        statItem(
-                            "SHI BOOST",
-                            String(format: "+%.0f HP/s", s.activeShieldBoostPerSec),
-                            color: .eveGreen,
-                            iconId: StatIcon.shield
-                        )
-                    }
-                    Spacer()
-                }
-            }
-            let chargeNames = selectedChargeNames
-            if !chargeNames.isEmpty {
-                Text("CHARGE  " + chargeNames.joined(separator: " / "))
-                    .font(.ui(11, .medium)).monospacedDigit()
-                    .foregroundStyle(Color.eveAmber.opacity(0.72))
-                    .lineLimit(2)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            if !characterSkills.isEmpty {
-                let implantCount = implantIds.count
-                Text(implantCount > 0
-                     ? "Includes skills, implants & module bonuses; boosters/environment not included"
-                     : "Includes skills & module bonuses; boosters/environment not included")
-                    .font(.ui(11)).foregroundStyle(Color.eveText.opacity(0.35))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
-    }
-
-    private func missileDPSLabel(_ s: ShipStats) -> String {
-        guard s.missileDPS > 0 else { return "—" }
-        if abs(s.missileDPS - s.missileReloadDPS) < 0.05 {
-            return String(format: "%.1f DPS", s.missileDPS)
-        }
-        return String(format: "%.1f (%.1f) DPS", s.missileDPS, s.missileReloadDPS)
-    }
-
-    private func mobilitySection(_ s: ShipStats) -> some View {
-        HStack {
-            statItem("MAX SPEED", String(format: "%.0f m/s", s.maxVelocity), iconId: StatIcon.mobility)
-            statItem("SIGNATURE", String(format: "%.0f m", s.signatureRadius), iconId: StatIcon.signature)
-            Spacer()
-        }
-    }
-
-    private func targetingSection(_ s: ShipStats) -> some View {
-        VStack(spacing: 8) {
-            HStack {
-                statItem("RANGE", String(format: "%.1f km", s.maxTargetRange / 1000), iconId: StatIcon.targeting)
-                statItem("SCAN RES", String(format: "%.0f mm", s.scanResolution), iconId: StatIcon.scanResolution)
-                statItem("LOCKS", String(format: "%.0fx", s.maxLockedTargets), iconId: StatIcon.locks)
-            }
-            HStack {
-                statItem("SENSOR", String(format: "%.1f pts", s.sensorStrength), iconId: StatIcon.radarSensor)
-                Spacer()
-            }
-        }
-    }
-
-    private func dronesSection(_ s: ShipStats) -> some View {
-        HStack {
-            statItem("BANDWIDTH", String(format: "%.0f Mbit/s", s.droneBandwidth), iconId: StatIcon.drones)
-            statItem("BAY", String(format: "%.0f m³", s.droneCapacity), iconId: StatIcon.drones)
-            statItem("RANGE", String(format: "%.1f km", s.droneControlRange / 1000), iconId: StatIcon.targeting)
-        }
-    }
-
-    private func cargoSection() -> some View {
-        let free = max(0, shipCargoCapacity - cargoUsedVolume)
-        return VStack(spacing: 8) {
-            HStack {
-                statItem("USED", String(format: "%.2f m³", cargoUsedVolume), color: .eveAmber, iconId: StatIcon.cargo)
-                statItem("CAPACITY", shipCargoCapacity > 0 ? String(format: "%.0f m³", shipCargoCapacity) : "—", iconId: StatIcon.cargo)
-                statItem("FREE", shipCargoCapacity > 0 ? String(format: "%.2f m³", free) : "—", color: .eveGreen, iconId: StatIcon.cargo)
-            }
-            Text("Cargo items are not applied to ship stats unless selected as a loaded charge.")
-                .font(.ui(11))
-                .foregroundStyle(Color.eveText.opacity(0.36))
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-
-    private func fittingCostsSection(_ s: ShipStats) -> some View {
-        let costs = s.moduleCosts.sorted { lhs, rhs in
-            slotSortKey(lhs.flag) == slotSortKey(rhs.flag)
-                ? lhs.flag.localizedStandardCompare(rhs.flag) == .orderedAscending
-                : slotSortKey(lhs.flag) < slotSortKey(rhs.flag)
-        }
-
-        return VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                statItem("CPU LEFT", String(format: "%.1f Tf", s.cpuTotal - s.cpuUsed), color: .eveCyan, iconId: StatIcon.cpu)
-                statItem("PG LEFT", String(format: "%.1f MW", s.pgTotal - s.pgUsed), color: .eveAmber, iconId: StatIcon.powergrid)
-                statItem("COUNTED", "\(s.moduleCosts.count)x", iconId: StatIcon.fitting)
-            }
-            HStack {
-                statItem("CPU USED", String(format: "%.1f Tf", s.cpuUsed), color: .eveCyan, iconId: StatIcon.cpu)
-                statItem("PG USED", String(format: "%.1f MW", s.pgUsed), color: .eveAmber, iconId: StatIcon.powergrid)
-            }
-
-            fittingCostRows(title: "MODULE CPU / PG", costs: costs)
-            EVESeparator()
-            fittingCostList(title: "TOP CPU", costs: Array(costs.sorted { $0.cpu > $1.cpu }.prefix(8)), value: { $0.cpu }, unit: "Tf", color: .eveCyan)
-        }
-    }
-
-    private func fittingCostRows(title: String, costs: [FittedModuleCost]) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(LocalizedStringKey(title)).hudLabel()
-            ForEach(costs) { cost in
-                HStack(spacing: 8) {
-                    Text(cost.flag)
-                        .font(.ui(11)).monospacedDigit()
-                        .foregroundStyle(Color.eveText.opacity(0.38))
-                        .frame(width: 72, alignment: .leading)
-                    Text(typeName(cost.typeId, fallback: "Module \(cost.typeId)"))
-                        .font(.ui(11))
-                        .foregroundStyle(Color.eveText.opacity(0.72))
-                        .lineLimit(1)
-                    Spacer(minLength: 6)
-                    Text(String(format: "%.1f Tf", cost.cpu))
-                        .font(.ui(11, .semibold)).monospacedDigit()
-                        .foregroundStyle(Color.eveCyan)
-                        .frame(width: 58, alignment: .trailing)
-                    Text(String(format: "%.1f MW", cost.pg))
-                        .font(.ui(11, .semibold)).monospacedDigit()
-                        .foregroundStyle(Color.eveAmber)
-                        .frame(width: 62, alignment: .trailing)
-                }
-            }
-        }
-    }
-
-    private func fittingCostList(
-        title: String,
-        costs: [FittedModuleCost],
-        value: @escaping (FittedModuleCost) -> Double,
-        unit: String,
-        color: Color
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 6) {
-            Text(LocalizedStringKey(title)).hudLabel()
-            ForEach(costs) { cost in
-                HStack(spacing: 8) {
-                    Text(cost.flag)
-                        .font(.ui(11)).monospacedDigit()
-                        .foregroundStyle(Color.eveText.opacity(0.38))
-                        .frame(width: 72, alignment: .leading)
-                    Text(typeName(cost.typeId, fallback: "Module \(cost.typeId)"))
-                        .font(.ui(11))
-                        .foregroundStyle(Color.eveText.opacity(0.72))
-                        .lineLimit(1)
-                    Spacer(minLength: 6)
-                    Text(String(format: "%.1f %@", value(cost), unit))
-                        .font(.ui(11, .semibold)).monospacedDigit()
-                        .foregroundStyle(color)
-                }
-            }
-        }
     }
 
     private func statItem(_ label: String, _ value: String, color: Color = .eveText, iconId: Int? = nil) -> some View {
@@ -2333,32 +1953,6 @@ private struct SubsystemSlotDefinition: Identifiable {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-    }
-
-    private func hpFmt(_ v: Double) -> String {
-        if v >= 1_000_000 { return String(format: "%.1fM", v / 1_000_000) }
-        if v >= 1_000     { return String(format: "%.1fK", v / 1_000) }
-        return String(format: "%.0f", v)
-    }
-
-    private func durationFmt(_ seconds: Double) -> String {
-        let total = max(0, Int(seconds.rounded()))
-        let minutes = total / 60
-        let secs = total % 60
-        if minutes > 0 {
-            return String(format: "%dm %02ds", minutes, secs)
-        }
-        return String(format: "%ds", secs)
-    }
-
-    private func slotSortKey(_ flag: String) -> Int {
-        let lower = flag.lowercased()
-        if lower.hasPrefix("hi") { return 0 }
-        if lower.hasPrefix("med") { return 1 }
-        if lower.hasPrefix("lo") { return 2 }
-        if lower.hasPrefix("rig") { return 3 }
-        if lower.hasPrefix("sub") { return 4 }
-        return 5
     }
 
     // MARK: - Data loading
@@ -2560,6 +2154,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             let js = try await dogma.calculate(spec, skills: skills)
             guard !Task.isCancelled else { return }
             stats = ShipStats(js: js, flags: flags)
+            fitStats = js
         } catch {
             if !error.isCancellation { fittingWarning = error.localizedDescription }
         }
