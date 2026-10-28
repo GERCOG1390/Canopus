@@ -20,6 +20,16 @@ final class AppEnvironment {
     /// including when the database finishes opening after the screen appeared.
     var dataKey: String { "\(characterStore.selectedId ?? 0)-\(repositoryVersion)" }
 
+    /// The desktop's dogma engine (JavaScriptCore) over the current SDE; recreated when the SDE changes.
+    private var dogmaJS: (version: Int, engine: DogmaJS)?
+
+    var dogma: DogmaJS? {
+        if let d = dogmaJS, d.version == repositoryVersion { return d.engine }
+        guard let repository, let engine = try? DogmaJS(repository: repository) else { return nil }
+        dogmaJS = (repositoryVersion, engine)
+        return engine
+    }
+
     var showSDEUpdateSheet: Bool = false
 
     let characterStore: CharacterStore

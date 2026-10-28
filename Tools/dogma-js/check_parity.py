@@ -15,7 +15,7 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DB = sqlite3.connect(os.environ.get('CANOPUS_SDE') or os.path.join(ROOT, 'Canopus/Resources/sde.sqlite'))
-BUNDLE = os.path.join(ROOT, 'Canopus/Resources/canopus-dogma.js')
+BUNDLE = os.path.join(ROOT, 'Packages/EVEStaticData/Sources/EVEStaticData/Resources/canopus-dogma.js')
 
 SLOT_EFFECTS = [(12, 'hi'), (13, 'med'), (11, 'lo'), (2663, 'rig'), (3772, 'sub')]
 CHARACTER_TYPE = 1373
@@ -147,7 +147,7 @@ const fs = require('fs'); eval(fs.readFileSync(process.argv[1], 'utf8'));
 const r2 = (x) => Math.round(x * 100) / 100
 for (const j of JSON.parse(fs.readFileSync(process.argv[2], 'utf8'))) {
   try {
-    const s = JSON.parse(CanopusDogma.calculate(JSON.stringify(j.db), JSON.stringify(j.spec), JSON.stringify({ mode: 'all5' })))
+    CanopusDogma.addData(JSON.stringify(j.db)); const s = JSON.parse(CanopusDogma.calculate(JSON.stringify(j.spec), JSON.stringify({ mode: 'all5' })))
     const d = s.defense, res = (l) => l.resist.map((x) => Math.round(x * 10000) / 100)
     console.log(JSON.stringify({ name: j.name, dps: r2(s.offense.totalDps), volley: r2(s.offense.totalVolley), ehp: Math.round(d.ehp * 10) / 10,
       shield_res: res(d.shield), armor_res: res(d.armor), hull_res: res(d.hull), shield_hp: d.shield.hp, armor_hp: d.armor.hp, hull_hp: d.hull.hp,

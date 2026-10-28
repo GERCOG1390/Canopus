@@ -51,3 +51,9 @@ belongs to.
   orders, industry, mining and contracts have the desktop palette and fonts; their layouts get a
   deeper pass with the phases that extend them (economy). Next: phase 2, the fitting engine checked
   against Pyfa.
+- 2026-10-28: the iOS SDE came from CCP's legacy S3 export (frozen since July 2025); the workflow and
+  sde-import now use developers.eveonline.com. The old Swift dogma engine is gone: the app runs the
+  desktop's engine in JavaScriptCore (Packages/EVEStaticData DogmaJS, Tools/dogma-js), 264/264 cases
+  equal to Pyfa on the app's own SDE. Original icons only (desktop glyphs, CCP window/attribute icons).
+  Next in phase 2: the fitting screen's stats in the desktop layout, fit snapshot, optimizer, NPC and
+  abyss planner (same JS engine).

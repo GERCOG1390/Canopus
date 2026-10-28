@@ -196,7 +196,7 @@ struct WalletTransactionsView: View {
             transactions = txs.sorted { $0.date > $1.date }
             hasMore = txs.count == 2500
             await resolveTypeNames(txs)
-        } catch { self.error = error }
+        } catch { if !error.isCancellation { self.error = error } }
     }
 
     private func loadMore() async {

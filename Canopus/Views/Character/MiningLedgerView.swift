@@ -196,7 +196,7 @@ struct MiningLedgerView: View {
                let map = try? await repo.types(ids: ids) {
                 for (id, t) in map { typeNames[id] = t.name }
             }
-        } catch { self.error = error }
+        } catch { if !error.isCancellation { self.error = error } }
     }
 
     // MARK: - Formatting

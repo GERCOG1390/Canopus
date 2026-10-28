@@ -17,7 +17,8 @@ let package = Package(
             dependencies: [
                 .product(name: "GRDB", package: "GRDB.swift"),
                 .product(name: "Domain", package: "Domain"),
-            ]
+            ],
+            resources: [.copy("Resources/canopus-dogma.js")]
         ),
         .testTarget(
             name: "EVEStaticDataTests",

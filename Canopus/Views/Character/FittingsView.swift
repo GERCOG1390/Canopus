@@ -422,10 +422,16 @@ struct FittingsView: View {
         isLoading = true; error = nil; defer { isLoading = false }
         do {
             fittings = try await characterService.fittings()
-        } catch { self.error = error }
+        } catch { if !error.isCancellation { self.error = error } }
 
         currentShip = try? await characterService.currentShip()
         await resolveNames()
+        #if DEBUG
+        // Debug builds: `-openFirstFit YES` opens the first saved fit (screenshots, UI checks).
+        if UserDefaults.standard.bool(forKey: "openFirstFit"), draftRoute == nil, let first = fittings.first {
+            draftRoute = DraftFitRoute(fit: first, typeNames: typeNames)
+        }
+        #endif
     }
 
     private func resolveNames() async {
@@ -466,14 +472,13 @@ struct FitDetailView: View {
     @State private var stats: ShipStats?
     @State private var moduleTypeProfiles: [Int: TypeProfile] = [:]
     @State private var chargeTypeAttrs: [Int: [Int: Double]] = [:]
-    @State private var chargeTypeProfiles: [Int: TypeProfile] = [:]
     @State private var chargeNames: [Int: String] = [:]
     @State private var sheetFlag: FlagItem? = nil
     @State private var activeTab: FitTab = .modules
     @State private var characterSkills: [Int: Int] = [:]
-    @State private var skillTypeProfiles: [Int: TypeProfile] = [:]
-    @State private var implantTypeProfiles: [Int: TypeProfile] = [:]
-    @State private var skillEffectModifiers: [Int: [ModifierRow]] = [:]
+    @State private var implantIds: [Int] = []
+    /// Start state and overload ability per module type (the desktop's rules).
+    @State private var activation: [Int: ModuleActivation] = [:]
     @State private var liveItems: [ESIFittingItem]?
     @State private var localTypeNames: [Int: String] = [:]
     @State private var localTypes: [Int: ItemType] = [:]
@@ -849,7 +854,13 @@ private struct SubsystemSlotDefinition: Identifiable {
         case .launcher: attrId = 101
         case .turret: attrId = 102
         }
-        return Int((moduleTypeProfiles[fit.shipTypeId]?.attrs[attrId] ?? 0).rounded())
+        // T3 cruisers get their hardpoints from subsystems (hardPointModifierEffect: launchers +attr 1369,
+        // turrets +attr 1368), as the engine counts them.
+        let subsystemAttr = kind == .launcher ? 1369 : 1368
+        let fromSubsystems = currentItems
+            .filter { slotFor($0.flag) == .sub }
+            .reduce(0.0) { $0 + (moduleTypeProfiles[$1.typeId]?.attrs[subsystemAttr] ?? 0) }
+        return Int(((moduleTypeProfiles[fit.shipTypeId]?.attrs[attrId] ?? 0) + fromSubsystems).rounded())
     }
 
     private func weaponHardpointKind(for typeId: Int) -> WeaponHardpointKind? {
@@ -1016,7 +1027,8 @@ private struct SubsystemSlotDefinition: Identifiable {
                         localTypes[charge.id] = charge
                         chargeNames[charge.id] = charge.name
                         chargeTypeAttrs[charge.id] = attrs
-                    }
+                    },
+                    canOverload: activation[item.typeId]?.overloadable ?? false
                 )
             }
         }
@@ -1084,7 +1096,7 @@ private struct SubsystemSlotDefinition: Identifiable {
         .background(Color.eveBackground)
     }
 
-    // MARK: - Resource bar (PG / CPU remaining)
+    // MARK: - Resource bar (PG / CPU used of total)
 
     private var resourceBar: some View {
         HStack(spacing: 0) {
@@ -1099,9 +1111,9 @@ private struct SubsystemSlotDefinition: Identifiable {
     }
 
     private func resourceCell(_ label: String, used: Double, total: Double, unit: String, color: Color) -> some View {
-        let remaining = total - used
-        let frac = total > 0 ? min(1, max(0, remaining / total)) : 0
-        let over = remaining < 0
+        // Used / total, as on the desktop; red when the fit doesn't fit.
+        let frac = total > 0 ? min(1, max(0, used / total)) : 0
+        let over = used > total + 1e-6
         return HStack(spacing: 6) {
             Text(LocalizedStringKey(label)).hudLabel()
             GeometryReader { geo in
@@ -1112,7 +1124,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                 .clipShape(RoundedRectangle(cornerRadius: 2))
             }
             .frame(height: 6)
-            Text(String(format: "%.1f/%.1f %@", remaining, total, unit))
+            Text(String(format: "%.1f / %.1f %@", used, total, unit))
                 .font(.ui(11)).monospacedDigit()
                 .foregroundStyle((over ? Color.eveRed : color).opacity(0.85))
                 .lineLimit(1)
@@ -1372,10 +1384,11 @@ private struct SubsystemSlotDefinition: Identifiable {
                 }
             }
             if slot != .cargo && slot != .drone {
-                let attrs = moduleTypeProfiles[type.id]?.attrs ?? [:]
-                let effectIds = moduleTypeProfiles[type.id]?.effectIds ?? []
-                let state: ModuleState = DogmaEngine.isActiveModule(attrs, effectIds: effectIds) ? .active : .online
-                configs[flag] = ModuleConfig(state: state, chargeTypeId: nil)
+                if activation[type.id] == nil, let repo = env.repository,
+                   let a = try? await repo.moduleActivation(typeIds: [type.id]) {
+                    activation.merge(a) { _, new in new }
+                }
+                configs[flag] = ModuleConfig(state: activation[type.id]?.defaultState ?? .online, chargeTypeId: nil)
             }
             scheduleFitRefresh(debounceNanoseconds: 0)
         }
@@ -1878,7 +1891,7 @@ private struct SubsystemSlotDefinition: Identifiable {
 
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
                 summaryTile("CAPACITOR", String(format: "%.0f GJ / %@", s.capCapacity, durationFmt(s.capRechargeMs / 1000)), Color.eveCyan, iconId: StatIcon.capacitorCapacity)
-                summaryTile("FIREPOWER", String(format: "%.1f DPS", s.turretDPS + s.missileDPS), Color.eveAmber, iconId: StatIcon.firepower)
+                summaryTile("FIREPOWER", String(format: "%.1f DPS", s.turretDPS + s.missileDPS + s.droneDPS), Color.eveAmber, iconId: StatIcon.firepower)
                 summaryTile("DEFENSE", String(format: "%@ EHP", hpFmt(s.totalEHP)), Color.eveGreen, iconId: dominantDefenseIcon(s))
                 summaryTile("TARGETING", String(format: "%.1f km · %.0f mm", s.maxTargetRange / 1000, s.scanResolution), Color.eveText, iconId: StatIcon.targeting)
                 summaryTile("MOBILITY", String(format: "%.0f m/s · %.0f m", s.maxVelocity, s.signatureRadius), Color.eveText, iconId: StatIcon.mobility)
@@ -2129,8 +2142,8 @@ private struct SubsystemSlotDefinition: Identifiable {
     }
 
     private func firepowerSection(_ s: ShipStats) -> some View {
-        let totalDPS = s.turretDPS + s.missileDPS
-        let reloadTotalDPS = s.turretDPS + s.missileReloadDPS
+        let totalDPS = s.turretDPS + s.missileDPS + s.droneDPS
+        let reloadTotalDPS = s.turretDPS + s.missileReloadDPS + s.droneDPS
         return VStack(spacing: 6) {
             HStack {
                 statItem("TURRETS", s.turretDPS > 0 ? String(format: "%.1f DPS", s.turretDPS) : "—", iconId: StatIcon.firepower)
@@ -2164,7 +2177,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             if !characterSkills.isEmpty {
-                let implantCount = implantTypeProfiles.count
+                let implantCount = implantIds.count
                 Text(implantCount > 0
                      ? "Includes skills, implants & module bonuses; boosters/environment not included"
                      : "Includes skills & module bonuses; boosters/environment not included")
@@ -2369,15 +2382,14 @@ private struct SubsystemSlotDefinition: Identifiable {
         sanitizeDuplicateSubsystems()
         sanitizeHardpointOverflow()
         await resolveLocalNames(repo: repo, typeIds: allIds)
+        activation = (try? await repo.moduleActivation(typeIds: allIds)) ?? [:]
 
         // Build initial configs: active modules start active; passive fitted items stay online.
         var c: [String: ModuleConfig] = [:]
         for item in currentItems {
             let slot = slotFor(item.flag)
             if slot != .cargo, slot != .drone, isFittedType(item) {
-                let attrs = moduleTypeProfiles[item.typeId]?.attrs ?? [:]
-                let effectIds = moduleTypeProfiles[item.typeId]?.effectIds ?? []
-                let initialState: ModuleState = DogmaEngine.isActiveModule(attrs, effectIds: effectIds) ? .active : .online
+                let initialState = activation[item.typeId]?.defaultState ?? .online
                 let embedded = embeddedCharge(for: item)
                 if let embedded {
                     chargeNames[embedded.typeId] = typeName(embedded.typeId, fallback: "Charge \(embedded.typeId)")
@@ -2409,7 +2421,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             }
         }
 
-        // Load character skills and compute skill effect modifier chains
+        // Load the character's skills and implants (the engine fits with them)
         await loadSkillData(repo: repo)
         skillsReady = true
 
@@ -2483,112 +2495,74 @@ private struct SubsystemSlotDefinition: Identifiable {
 
     private func loadSkillData(repo: SDERepository) async {
         do {
-            var warnings: [String] = []
             let skillsResponse = try await characterService.skills()
             characterSkills = Dictionary(uniqueKeysWithValues:
                 skillsResponse.skills.map { ($0.skillId, $0.activeSkillLevel) }
             )
-
-            let trainedSkillIds = Set(characterSkills.keys)
-            skillTypeProfiles = try await repo.typeProfiles(typeIds: trainedSkillIds)
-
             do {
-                let implantIds = try await characterService.implants()
-                if !implantIds.isEmpty {
-                    implantTypeProfiles = try await repo.typeProfiles(typeIds: Set(implantIds))
-                } else {
-                    implantTypeProfiles = [:]
-                }
+                implantIds = try await characterService.implants()
+                fittingWarning = nil
             } catch {
-                implantTypeProfiles = [:]
-                warnings.append("implants failed to load")
+                implantIds = []
+                fittingWarning = String(localized: "WARNING: implants failed to load; stats may be incomplete")
             }
-
-            var allEffectIds = Set(moduleTypeProfiles[fit.shipTypeId]?.effectIds ?? [])
-            for profile in skillTypeProfiles.values { allEffectIds.formUnion(profile.effectIds) }
-            for profile in implantTypeProfiles.values { allEffectIds.formUnion(profile.effectIds) }
-
-            skillEffectModifiers = try await repo.effectModifiers(effectIds: allEffectIds)
-            fittingWarning = warnings.isEmpty
-                ? nil
-                : "WARNING: \(warnings.joined(separator: ", ")); stats may be incomplete"
         } catch {
-            fittingWarning = "WARNING: skills or dogma modifiers failed to load; stats may be incomplete"
+            fittingWarning = String(localized: "WARNING: skills failed to load; stats use all skills at V")
         }
     }
 
+    /// Fit stats from the desktop's dogma engine (the same code and numbers as the desktop, checked
+    /// against Pyfa).
     private func recalcStats() async {
         guard !moduleTypeProfiles.isEmpty else { return }
-        // Ensure charge attrs and profiles are loaded for any newly selected charges
+        // Charge attributes for the charge pickers.
         let neededChargeIds = Set(configs.values.compactMap(\.chargeTypeId))
         let missing = neededChargeIds.subtracting(Set(chargeTypeAttrs.keys))
-        if !missing.isEmpty, let repo = env.repository {
-            if let newMaps = try? await repo.typeAttributeMaps(typeIds: missing) {
-                for (k, v) in newMaps { chargeTypeAttrs[k] = v }
-            }
-            if let newProfiles = try? await repo.typeProfiles(typeIds: missing) {
-                for (k, v) in newProfiles { chargeTypeProfiles[k] = v }
-            }
+        if !missing.isEmpty, let repo = env.repository,
+           let newMaps = try? await repo.typeAttributeMaps(typeIds: missing) {
+            for (k, v) in newMaps { chargeTypeAttrs[k] = v }
         }
 
-        // Collect all module + charge effect IDs and merge into effectModifiers
-        var allModuleEffectIds = Set(moduleTypeProfiles[fit.shipTypeId]?.effectIds ?? [])
-        for item in currentItems where slotFor(item.flag) != .cargo && slotFor(item.flag) != .drone && isFittedType(item) {
-            allModuleEffectIds.formUnion(moduleTypeProfiles[item.typeId]?.effectIds ?? [])
-        }
-        for profile in chargeTypeProfiles.values { allModuleEffectIds.formUnion(profile.effectIds) }
-        // Remove effect IDs already in skillEffectModifiers to avoid re-fetching
-        let missingEffectIds = allModuleEffectIds.subtracting(Set(skillEffectModifiers.keys))
-        var combinedModifiers = skillEffectModifiers
-        if !missingEffectIds.isEmpty, let repo = env.repository,
-           let moduleModifiers = try? await repo.effectModifiers(effectIds: missingEffectIds) {
-            for (k, v) in moduleModifiers { combinedModifiers[k] = v }
-        }
-
-        // Build module inputs for the engine
-        var inputs: [FittedModuleInput] = []
+        var modules: [JSFitModule] = []
+        var flags: [(flag: String, typeId: Int)] = []
         for item in currentItems {
             let slot = slotFor(item.flag)
             guard slot != .cargo, slot != .drone, isFittedType(item) else { continue }
             let cfg = configs[item.flag] ?? ModuleConfig()
-            let embedded = embeddedCharge(for: item)
-            let chargeTypeId = cfg.chargeTypeId ?? embedded?.typeId
-            let cAttrs = chargeTypeId.flatMap { chargeTypeAttrs[$0] ?? moduleTypeProfiles[$0]?.attrs }
-            let cProfile = chargeTypeId.flatMap { chargeTypeProfiles[$0] ?? moduleTypeProfiles[$0] }
-            let cSkills = chargeTypeId.flatMap {
-                chargeTypeProfiles[$0]?.requiredSkillIds ?? moduleTypeProfiles[$0]?.requiredSkillIds
-            } ?? []
-            inputs.append(FittedModuleInput(
-                flag: item.flag, typeId: item.typeId,
-                state: cfg.state, chargeTypeId: chargeTypeId,
-                chargeAttrs: cAttrs, chargeProfile: cProfile,
-                chargeRequiredSkillIds: cSkills,
-                moduleCapacity: localTypes[item.typeId]?.capacity ?? 0,
-                chargeVolume: chargeTypeId.flatMap { localTypes[$0]?.volume } ?? 0
+            let slotName: String
+            switch slot {
+            case .high: slotName = "hi"
+            case .mid: slotName = "med"
+            case .low: slotName = "lo"
+            case .rig: slotName = "rig"
+            default: slotName = "sub"
+            }
+            modules.append(JSFitModule(
+                typeId: item.typeId, slot: slotName, state: cfg.state.rawValue.lowercased(),
+                chargeTypeId: cfg.chargeTypeId ?? embeddedCharge(for: item)?.typeId
             ))
+            flags.append((item.flag, item.typeId))
         }
-
-        let shipProfile = moduleTypeProfiles[fit.shipTypeId] ?? .empty
-        let moduleProfiles = moduleTypeProfiles
-        let skillLevels = characterSkills
-        let skillProfiles = skillTypeProfiles
-        let implantProfiles = implantTypeProfiles
-        let effectModifiers = combinedModifiers
-
-        let calculatedStats = await Task.detached(priority: .userInitiated) {
-            DogmaEngine.calculate(
-                shipProfile: shipProfile,
-                moduleProfiles: moduleProfiles,
-                modules: inputs,
-                characterSkills: skillLevels,
-                skillProfiles: skillProfiles,
-                implantProfiles: implantProfiles,
-                effectModifiers: effectModifiers
-            )
-        }.value
-
-        guard !Task.isCancelled else { return }
-        stats = calculatedStats
+        let drones = currentItems
+            .filter { slotFor($0.flag) == .drone }
+            .reduce(into: [Int: Int]()) { $0[$1.typeId, default: 0] += max(1, $1.quantity) }
+        let spec = JSFitSpec(
+            shipTypeId: fit.shipTypeId,
+            name: fit.name,
+            modules: modules,
+            // Launched up to five of each, the way the desktop imports fits.
+            drones: drones.map { JSFitDrone(typeId: $0.key, count: $0.value, active: min(5, $0.value)) },
+            implants: implantIds
+        )
+        let skills: JSSkills = characterSkills.isEmpty ? .all5 : .character(characterSkills)
+        guard let dogma = env.dogma else { return }
+        do {
+            let js = try await dogma.calculate(spec, skills: skills)
+            guard !Task.isCancelled else { return }
+            stats = ShipStats(js: js, flags: flags)
+        } catch {
+            if !error.isCancellation { fittingWarning = error.localizedDescription }
+        }
     }
 }
 
@@ -2616,9 +2590,9 @@ struct ModuleSettingSheet: View {
     private var pgCost: Double  { moduleAttrs[30] ?? 0 }
     private var cpuCost: Double { moduleAttrs[50] ?? 0 }
 
-    private var isActiveMod: Bool {
-        DogmaEngine.isActiveModule(moduleAttrs, effectIds: moduleEffectIds)
-    }
+    /// The module has an overload effect (from the parent's ModuleActivation).
+    var canOverload = false
+    private var isActiveMod: Bool { canOverload }
 
     var body: some View {
         NavigationStack {

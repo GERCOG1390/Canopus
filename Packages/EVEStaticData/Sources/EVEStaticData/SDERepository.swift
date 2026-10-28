@@ -20,7 +20,6 @@ private actor SDEStaticCache {
     var typeById: [Int: ItemType] = [:]
     var typeProfileById: [Int: TypeProfile] = [:]
     var skillRequirementsByTypeId: [Int: [(skillId: Int, level: Int)]] = [:]
-    var effectModifiersByEffectId: [Int: [ModifierRow]] = [:]
     var compatibleChargesByWeaponTypeId: [Int: [ItemType]] = [:]
 
     func setAllCategories(_ value: [ItemCategory]) { allCategories = value }
@@ -36,7 +35,6 @@ private actor SDEStaticCache {
     func mergeTypes(_ value: [Int: ItemType]) { typeById.merge(value) { _, new in new } }
     func mergeTypeProfiles(_ value: [Int: TypeProfile]) { typeProfileById.merge(value) { _, new in new } }
     func mergeSkillRequirements(_ value: [Int: [(skillId: Int, level: Int)]]) { skillRequirementsByTypeId.merge(value) { _, new in new } }
-    func mergeEffectModifiers(_ value: [Int: [ModifierRow]]) { effectModifiersByEffectId.merge(value) { _, new in new } }
     func setCompatibleCharges(_ value: [ItemType], weaponTypeId: Int) { compatibleChargesByWeaponTypeId[weaponTypeId] = value }
 
     func reset() {
@@ -52,7 +50,6 @@ private actor SDEStaticCache {
         typeById.removeAll()
         typeProfileById.removeAll()
         skillRequirementsByTypeId.removeAll()
-        effectModifiersByEffectId.removeAll()
         compatibleChargesByWeaponTypeId.removeAll()
     }
 }
@@ -61,7 +58,7 @@ private actor SDEStaticCache {
 /// Sendable struct (DatabaseReader is Sendable in GRDB 7) — safe to share across
 /// actors and concurrency contexts without wrapping in an actor.
 public struct SDERepository: Sendable {
-    private let dbReader: any DatabaseReader
+    let dbReader: any DatabaseReader
     private let cache = SDEStaticCache.shared
 
     public init(dbReader: any DatabaseReader) {
@@ -522,7 +519,7 @@ public struct SDERepository: Sendable {
 
     /// Returns typeId → TypeProfile for all requested types.
     /// Includes dogma attributes, effect IDs, group ID, and skill requirements.
-    /// Used by DogmaEngine for both module→ship and skill→module modifier chains.
+    /// Used by the fitting screen (slots, hardpoints, charges, required skills).
     public func typeProfiles(typeIds: Set<Int>) async throws -> [Int: TypeProfile] {
         guard !typeIds.isEmpty else { return [:] }
         let cached = await cache.typeProfileById
@@ -591,49 +588,32 @@ public struct SDERepository: Sendable {
 
     // MARK: - Effect Modifiers
 
-    /// Returns effectId → [ModifierRow] for all requested effect IDs.
-    /// Used by DogmaEngine to apply skill/ship bonus modifier chains.
-    public func effectModifiers(effectIds: Set<Int>) async throws -> [Int: [ModifierRow]] {
-        guard !effectIds.isEmpty else { return [:] }
-
-        let cached = await cache.effectModifiersByEffectId
-        var result = cached.filter { effectIds.contains($0.key) }
-        let missing = effectIds.subtracting(result.keys)
-        guard !missing.isEmpty else { return result }
-
-        let fetched = try await dbReader.read { db in
-            let sorted = missing.sorted()
-            let placeholders = sorted.map { _ in "?" }.joined(separator: ",")
-            let sql = """
-                SELECT dm.effect_id, dm.domain, dm.func, dm.group_id, dm.modified_attr_id,
-                       dm.modifying_attr_id, dm.operation, dm.skill_type_id,
-                       de.effect_category
-                FROM dogma_modifiers dm
-                JOIN dogma_effects de ON de.id = dm.effect_id
-                WHERE dm.effect_id IN (\(placeholders))
-                """
-            var result = Dictionary(uniqueKeysWithValues: sorted.map { ($0, [ModifierRow]()) })
-            for row in try Row.fetchAll(db, sql: sql, arguments: StatementArguments(sorted)) {
-                let eid: Int = row["effect_id"]
-                result[eid, default: []].append(ModifierRow(
-                    domain: row["domain"] ?? "",
-                    function_: row["func"] ?? "",
-                    groupId: row["group_id"],
-                    modifiedAttrId: row["modified_attr_id"],
-                    modifyingAttrId: row["modifying_attr_id"],
-                    operation: row["operation"],
-                    skillTypeId: row["skill_type_id"],
-                    effectCategory: row["effect_category"] ?? 4
-                ))
+    /// Whether each type starts active and can be overloaded, by the desktop's rules (ModuleActivation).
+    public func moduleActivation(typeIds: Set<Int>) async throws -> [Int: ModuleActivation] {
+        guard !typeIds.isEmpty else { return [:] }
+        return try await dbReader.read { db in
+            let list = typeIds.sorted().map(String.init).joined(separator: ",")
+            var timed: Set<Int> = [], overload: Set<Int> = [], oneShot: Set<Int> = []
+            for row in try Row.fetchAll(db, sql: """
+                SELECT te.type_id, de.effect_category, de.duration_attribute_id
+                FROM type_effects te JOIN dogma_effects de ON de.id = te.effect_id
+                WHERE te.type_id IN (\(list))
+                """) {
+                let tid: Int = row["type_id"]
+                let cat: Int = row["effect_category"]
+                let dur: Int? = row["duration_attribute_id"]
+                if (cat == 1 || cat == 2), let dur, dur != 0 { timed.insert(tid) }
+                if cat == 5 { overload.insert(tid) }
             }
-            return result
+            for tid in try Int.fetchAll(db, sql: "SELECT type_id FROM type_attributes WHERE attribute_id = 1014 AND value != 0 AND type_id IN (\(list))") {
+                oneShot.insert(tid)
+            }
+            return Dictionary(uniqueKeysWithValues: typeIds.map {
+                ($0, ModuleActivation(activatable: timed.contains($0) && !oneShot.contains($0), overloadable: overload.contains($0)))
+            })
         }
-        await cache.mergeEffectModifiers(fetched)
-        result.merge(fetched) { _, new in new }
-        return result
     }
 
-    // MARK: - Compatible Charges
 
     /// Returns all published charge types compatible with a weapon (turret or launcher).
     /// Reads the weapon's chargeGroup attributes (604–606, 609) and chargeSize (128),
