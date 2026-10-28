@@ -870,16 +870,16 @@ private struct SubsystemSlotDefinition: Identifiable {
         let capacity = hardpointCapacity(kind)
         guard capacity > 0 else {
             switch kind {
-            case .turret: return "\(typeName(fit.shipTypeId, fallback: "Ship")) has no turret hardpoints."
-            case .launcher: return "\(typeName(fit.shipTypeId, fallback: "Ship")) has no launcher hardpoints."
+            case .turret: return String(localized: "\(typeName(fit.shipTypeId, fallback: "Ship")) has no turret hardpoints.")
+            case .launcher: return String(localized: "\(typeName(fit.shipTypeId, fallback: "Ship")) has no launcher hardpoints.")
             }
         }
 
         let used = fittedHardpointCount(kind, excluding: flag)
         guard used < capacity else {
             switch kind {
-            case .turret: return "Turret hardpoints full: \(used)/\(capacity)."
-            case .launcher: return "Launcher hardpoints full: \(used)/\(capacity)."
+            case .turret: return String(localized: "Turret hardpoints full: \(used)/\(capacity).")
+            case .launcher: return String(localized: "Launcher hardpoints full: \(used)/\(capacity).")
             }
         }
         return nil
@@ -1320,22 +1320,27 @@ private struct SubsystemSlotDefinition: Identifiable {
     }
 
     private func addType(_ type: ItemType, to slot: Slot, preferredFlag: String? = nil) {
-        var items = currentItems
-        let flag = preferredFlag ?? nextFlag(for: slot, in: items)
-        if slot == .high, let message = hardpointValidationMessage(for: type.id, replacing: preferredFlag) {
-            fittingSendStatus = FittingSendStatus(
-                title: "Cannot Add Module",
-                message: message
-            )
-            return
-        }
-
-        items.append(ESIFittingItem(typeId: type.id, flag: flag, quantity: 1))
-        editableItems = items
-        localTypes[type.id] = type
-        localTypeNames[type.id] = type.name
-
         Task {
+            // The module's effects decide whether it takes a turret / launcher hardpoint, so they are
+            // loaded before the check (the desktop checks its catalog the same way before adding).
+            if moduleTypeProfiles[type.id] == nil {
+                await loadProfilesAndNames(for: Set([type.id]))
+            }
+            if slot == .high, let message = hardpointValidationMessage(for: type.id, replacing: preferredFlag) {
+                fittingSendStatus = FittingSendStatus(
+                    title: String(localized: "Cannot Add Module"),
+                    message: message
+                )
+                return
+            }
+
+            var items = currentItems
+            let flag = preferredFlag ?? nextFlag(for: slot, in: items)
+            items.removeAll { $0.flag == flag }
+            items.append(ESIFittingItem(typeId: type.id, flag: flag, quantity: 1))
+            editableItems = items
+            localTypes[type.id] = type
+            localTypeNames[type.id] = type.name
             await loadProfilesAndNames(for: Set([type.id]))
             if slot == .sub, let subsystemSlotId = moduleTypeProfiles[type.id]?.attrs[1366].map({ Int($0.rounded()) }) {
                 let sanitized = currentItems.filter { item in
