@@ -3,15 +3,15 @@ import EVEAuth
 
 // MARK: - Mail label definition
 
-private enum MailLabel: Int, CaseIterable, Identifiable {
+private enum MailLabel: Int, CaseIterable, Identifiable, Hashable {
     case inbox = 1, sent = 2, corp = 4, alliance = 8
     var id: Int { rawValue }
     var title: String {
         switch self {
-        case .inbox:    return "INBOX"
-        case .sent:     return "SENT"
-        case .corp:     return "CORP"
-        case .alliance: return "ALLIANCE"
+        case .inbox:    return String(localized: "Inbox")
+        case .sent:     return String(localized: "Sent")
+        case .corp:     return String(localized: "Corporation")
+        case .alliance: return String(localized: "Alliance")
         }
     }
 }
@@ -39,12 +39,12 @@ struct MailView: View {
             Color.eveBackground.ignoresSafeArea()
             VStack(spacing: 0) {
                 labelPicker
-                Color.eveAmber.opacity(0.14).frame(height: 1)
+                Rectangle().fill(C.border).frame(height: 1)
                 mailList
             }
             if isLoading { ProgressView().tint(Color.eveCyan) }
         }
-        .navigationTitle("EVE MAIL")
+        .navigationTitle("Mail")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.eveBackground, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)
@@ -60,38 +60,17 @@ struct MailView: View {
     // MARK: - Label picker
 
     private var labelPicker: some View {
-        HStack(spacing: 0) {
-            ForEach(MailLabel.allCases) { label in
-                Button {
-                    withAnimation(.easeInOut(duration: 0.12)) { selectedLabel = label }
-                } label: {
-                    let active = selectedLabel == label
-                    VStack(spacing: 0) {
-                        Rectangle()
-                            .fill(active ? Color.eveAmber : Color.clear)
-                            .frame(height: 2)
-                        HStack(spacing: 5) {
-                            Text(label.title)
-                                .font(.ui(11, .semibold))
-                                .tracking(1.4)
-                                .foregroundStyle(active ? Color.eveAmber : Color.eveText.opacity(0.40))
-                            if let count = unreadCounts[label.rawValue], count > 0 {
-                                Text("\(count)")
-                                    .font(.ui(11, .bold)).monospacedDigit()
-                                    .foregroundStyle(active ? Color.eveBackground : Color.eveAmber)
-                                    .padding(.horizontal, 4).padding(.vertical, 2)
-                                    .background(active ? Color.eveAmber : Color.eveAmber.opacity(0.18))
-                                    .clipShape(RoundedRectangle(cornerRadius: 3))
-                            }
-                        }
-                        .padding(.vertical, 12)
-                        .frame(maxWidth: .infinity)
-                    }
-                }
-                .buttonStyle(.plain)
-            }
-        }
-        .background(Color.eveCard)
+        CanopusTabs(
+            tabs: MailLabel.allCases.map { label in
+                let unread = unreadCounts[label.rawValue] ?? 0
+                return (label, unread > 0 ? "\(label.title) \(unread)" : label.title)
+            },
+            selection: $selectedLabel
+        )
+        .padding(.horizontal, 16)
+        .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(C.bg)
     }
 
     // MARK: - Mail list
@@ -103,7 +82,7 @@ struct MailView: View {
                     ContentUnavailableView(
                         "No Mail",
                         systemImage: "envelope.slash",
-                        description: Text("Nothing in \(selectedLabel.title.capitalized)")
+                        description: Text("Nothing in \(selectedLabel.title)")
                     )
                     .foregroundStyle(Color.eveText)
                     .padding(.top, 60)
@@ -290,7 +269,7 @@ struct MailDetailView: View {
                 .padding(.bottom, EVELayout.scrollBottomClearance)
             }
         }
-        .navigationTitle("MAIL")
+        .navigationTitle("Letter")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color.eveBackground, for: .navigationBar)
         .toolbarColorScheme(.dark, for: .navigationBar)

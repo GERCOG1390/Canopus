@@ -434,6 +434,16 @@
         }
       }
     },
+    "Alliance": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Альянс"
+          }
+        }
+      }
+    },
     "Armor": {
       "localizations": {
         "ru": {
@@ -1117,6 +1127,16 @@
         }
       }
     },
+    "Corporation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпорация"
+          }
+        }
+      }
+    },
     "Cost %@": {
       "localizations": {
         "ru": {
@@ -1730,6 +1750,16 @@
         }
       }
     },
+    "Inbox": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Входящие"
+          }
+        }
+      }
+    },
     "Includes skills & module bonuses; boosters/environment not included": {
       "localizations": {
         "ru": {
@@ -2039,6 +2069,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Последняя версия"
+          }
+        }
+      }
+    },
+    "Letter": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Письмо"
           }
         }
       }
@@ -3562,6 +3602,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отправить в EVE"
+          }
+        }
+      }
+    },
+    "Sent": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отправленные"
           }
         }
       }
