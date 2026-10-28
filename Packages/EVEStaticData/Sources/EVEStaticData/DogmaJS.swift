@@ -1,5 +1,5 @@
 // The desktop's dogma engine (canopus-desktop src/main/dogma, bundled as Resources/canopus-dogma.js by
-// Tools/dogma-js/build.sh) running in JavaScriptCore: the same code and the same numbers as the desktop,
+// Tools/dogma-js/build.mjs) running in JavaScriptCore: the same code and the same numbers as the desktop,
 // checked against Pyfa (Tools/dogma-js/check_parity.py). Swift builds the engine's SDE data from the
 // app's database (the shape of the desktop's SdeDb) and passes fits in as JSON.
 
@@ -58,7 +58,7 @@ public struct JSFitSpec: Codable, Sendable {
         self.environment = environment
     }
 
-    var typeIds: Set<Int> {
+    public var typeIds: Set<Int> {
         var ids: Set<Int> = [shipTypeId]
         for m in modules {
             ids.insert(m.typeId)
@@ -77,12 +77,13 @@ public enum JSSkills: Sendable {
     case all5
     case character([Int: Int])
 
-    var json: String {
+    /// The engine's SkillSource as JSON (levels sorted, so equal skills give equal text).
+    public var json: String {
         switch self {
         case .all5:
             return #"{"mode":"all5"}"#
         case .character(let levels):
-            let pairs = levels.map { "\"\($0.key)\":\($0.value)" }.joined(separator: ",")
+            let pairs = levels.sorted { $0.key < $1.key }.map { "\"\($0.key)\":\($0.value)" }.joined(separator: ",")
             return #"{"mode":"char","levels":{"# + pairs + "}}"
         }
     }
@@ -209,7 +210,7 @@ public enum DogmaJSError: Error, LocalizedError {
 /// One JavaScriptCore context with the engine and the SDE data added so far (kept between fits).
 public actor DogmaJS {
     private let context: JSContext
-    private let repo: SDERepository
+    let repo: SDERepository
     private var loadedTypes: Set<Int> = []
     private var baseLoaded = false
 
@@ -225,24 +226,35 @@ public actor DogmaJS {
 
     /// The fit's stats from the desktop engine.
     public func calculate(_ spec: JSFitSpec, skills: JSSkills) async throws -> JSFitStats {
+        try await prepare(spec.typeIds)
+        let specJSON = String(decoding: try JSONEncoder().encode(spec), as: UTF8.self)
+        let json = try invoke("calculate", [specJSON, skills.json])
+        return try JSONDecoder().decode(JSFitStats.self, from: Data(json.utf8))
+    }
+
+    /// Adds the base data once and the given types' dogma the first time they are seen.
+    func prepare(_ typeIds: Set<Int>) async throws {
         if !baseLoaded {
             try add(await repo.dogmaBaseData())
             baseLoaded = true
         }
-        let missing = spec.typeIds.subtracting(loadedTypes)
+        let missing = typeIds.subtracting(loadedTypes)
         if !missing.isEmpty {
             try add(await repo.dogmaTypeData(typeIds: missing))
             loadedTypes.formUnion(missing)
         }
-        let specJSON = String(decoding: try JSONEncoder().encode(spec), as: UTF8.self)
+    }
+
+    /// Calls one of the bundle's CanopusDogma functions; JSON (or numbers) in, JSON out.
+    func invoke(_ name: String, _ arguments: [Any]) throws -> String {
         let engine = context.objectForKeyedSubscript("CanopusDogma")
-        let result = engine?.invokeMethod("calculate", withArguments: [specJSON, skills.json])
+        let result = engine?.invokeMethod(name, withArguments: arguments)
         if let e = context.exception {
             context.exception = nil
             throw DogmaJSError.script(e.toString())
         }
-        guard let json = result?.toString(), let data = json.data(using: .utf8) else { throw DogmaJSError.script("no result") }
-        return try JSONDecoder().decode(JSFitStats.self, from: data)
+        guard let json = result?.toString() else { throw DogmaJSError.script("no result") }
+        return json
     }
 
     private func add(_ data: Data) throws {

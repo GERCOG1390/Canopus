@@ -59,4 +59,7 @@ belongs to.
   table, capacitor, navigation, targeting) straight from the engine's result, with CCP attribute icons.
   Fit snapshot (the desktop's FitShot card, rendered to a picture for the share sheet); hardpoints,
   drone launch and cargo charges by the desktop's rules; the engine's fit problems shown in the panel
-  and on module rows. Next in phase 2: optimizer, NPC damage and abyss planner (same JS engine).
+  and on module rows. Fitting tools tab: price optimizer and abyss planner as on the desktop, mission
+  NPC damage — the desktop's npc.ts / abyss.ts / metrics.ts bundled unchanged (Tools/dogma-js/build.mjs
+  points their SDE and index imports at shims); check_tools.py: 0 differences against the desktop's
+  whole SDE. Still from the desktop's fit tools: what to learn, compare fits, popular fits (zKillboard).

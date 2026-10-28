@@ -4,6 +4,16 @@
     "": {
       "shouldTranslate": false
     },
+    " DPS through your resists; you repair %@ HP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " DPS сквозь ваши сопротивления, ремонт — %@ HP/с"
+          }
+        }
+      }
+    },
     "#%lld · %@": {},
     "%@ %@ free": {
       "localizations": {
@@ -140,6 +150,16 @@
       }
     },
     "%@ SP": {},
+    "%@ cheaper": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "дешевле на %@"
+          }
+        }
+      }
+    },
     "%@ dmg": {
       "localizations": {
         "ru": {
@@ -412,6 +432,16 @@
         }
       }
     },
+    "%lld versions not offered: the pilot lacks the skills.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не предложено %lld версий: персонажу не хватает навыков."
+          }
+        }
+      }
+    },
     "%lld%%": {},
     "%lldd %lldh": {
       "localizations": {
@@ -479,11 +509,31 @@
         }
       }
     },
+    "4 frigates, 2 destroyers, 4 cruisers, 2 battlecruisers, 4 battleships at the medians · paper DPS %@ · weapon reach %@ km": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "4 фрегата, 2 эсминца, 4 крейсера, 2 линейных крейсера, 4 линкора по медианам · DPS на бумаге %1$@ · досягаемость оружия %2$@ км"
+          }
+        }
+      }
+    },
     "@": {
       "shouldTranslate": false
     },
     "@ %@": {
       "shouldTranslate": false
+    },
+    "A typical level 4 room: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Типичная комната миссии 4-го уровня: %@"
+          }
+        }
+      }
     },
     "ACTIVE": {
       "localizations": {
@@ -613,6 +663,16 @@
         }
       }
     },
+    "Abyss": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бездна"
+          }
+        }
+      }
+    },
     "Accent theme": {
       "extractionState": "stale",
       "localizations": {
@@ -732,6 +792,76 @@
           "stringUnit": {
             "state": "translated",
             "value": "Альянс"
+          }
+        }
+      }
+    },
+    "Allowed loss:": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Допустимое ухудшение:"
+          }
+        }
+      }
+    },
+    "Amarr Empire": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Амаррская империя"
+          }
+        }
+      }
+    },
+    "Angel Cartel": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Картель Ангелов"
+          }
+        }
+      }
+    },
+    "Angels": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ангелы"
+          }
+        }
+      }
+    },
+    "Applied DPS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "DPS по цели"
+          }
+        }
+      }
+    },
+    "Apply all swaps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применить все замены"
+          }
+        }
+      }
+    },
+    "Applying the fit's weapons to the NPCs…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применяю оружие фита к NPC…"
           }
         }
       }
@@ -987,6 +1117,96 @@
         }
       }
     },
+    "Battlecruisers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Линейные крейсеры"
+          }
+        }
+      }
+    },
+    "Battleships": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Линкоры"
+          }
+        }
+      }
+    },
+    "Better for extra ISK": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучше за доплату"
+          }
+        }
+      }
+    },
+    "Blood Raiders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кровавые рейдеры"
+          }
+        }
+      }
+    },
+    "Bonus: +50% armor HP (NPCs too).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус: +50% к HP брони (и у NPC)."
+          }
+        }
+      }
+    },
+    "Bonus: +50% max velocity (NPCs too, when they chase).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус: +50% к максимальной скорости (и у NPC, когда догоняют)."
+          }
+        }
+      }
+    },
+    "Bonus: +50% scan resolution (NPCs too).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус: +50% к разрешению сканера (и у NPC)."
+          }
+        }
+      }
+    },
+    "Bonus: +50% shield HP (NPCs too).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус: +50% к HP щитов (и у NPC)."
+          }
+        }
+      }
+    },
+    "Bonus: capacitor recharges twice as fast (NPCs too).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус: перезарядка накопителя вдвое быстрее (и у NPC)."
+          }
+        }
+      }
+    },
     "Bounty": {
       "localizations": {
         "ru": {
@@ -1128,6 +1348,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Расчёт движком десктопной версии по данным догмы SDE: навыки, бонусы корпуса, модули, заряды, импланты, штрафы за стакинг."
+          }
+        }
+      }
+    },
+    "Calculating the fit in the weather…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Считаю фит в погоде…"
+          }
+        }
+      }
+    },
+    "Caldari State": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Государство Калдари"
           }
         }
       }
@@ -1290,6 +1530,16 @@
         }
       }
     },
+    "Cheaper for the same numbers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дешевле при тех же ТТХ"
+          }
+        }
+      }
+    },
     "Check": {
       "localizations": {
         "ru": {
@@ -1306,6 +1556,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверить обновления"
+          }
+        }
+      }
+    },
+    "Checking the swaps together…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяю замены вместе…"
           }
         }
       }
@@ -1400,6 +1660,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бой"
+          }
+        }
+      }
+    },
+    "Compared: weapon damage, range and application, EHP, active tank, speed, align, signature, targeting range and resolution, capacitor; the fit must still fit CPU, powergrid and calibration. Prices are the lowest Jita sell orders.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сравниваются урон, дальность и применение оружия, EHP, активный танк, скорость, разгон, сигнатура, захват (дальность и разрешение) и накопитель; фит должен по-прежнему влезать по процессору, энергосети и калибровке. Цены — минимальные ордера на продажу в Jita."
           }
         }
       }
@@ -1566,6 +1836,16 @@
         }
       }
     },
+    "Cruisers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Крейсеры"
+          }
+        }
+      }
+    },
     "Current Version": {
       "extractionState": "stale",
       "localizations": {
@@ -1617,6 +1897,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Урон"
+          }
+        }
+      }
+    },
+    "Damage (DPS)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Урон (DPS)"
+          }
+        }
+      }
+    },
+    "Damage application": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применение урона"
+          }
+        }
+      }
+    },
+    "Dark: turret range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тёмная — дальность турелей"
           }
         }
       }
@@ -1684,6 +1994,16 @@
         }
       }
     },
+    "Destroyers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эсминцы"
+          }
+        }
+      }
+    },
     "Dismiss": {
       "localizations": {
         "ru": {
@@ -1710,6 +2030,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Готово"
+          }
+        }
+      }
+    },
+    "Drifters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дрифтеры"
           }
         }
       }
@@ -1820,6 +2150,16 @@
         }
       }
     },
+    "Each line swaps all modules of that type; the most gain per million ISK first. Swaps that break the fit's resources or cost more than 3% elsewhere are left out. Prices are the lowest Jita sell orders.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Каждая строка — замена всех модулей этого типа; сначала то, что даёт больше всего на каждый миллион ISK. Не показаны замены, после которых фит не влезает по ресурсам или что-то другое ухудшается больше чем на 3%. Цены — минимальные ордера на продажу в Jita."
+          }
+        }
+      }
+    },
     "Economy": {
       "extractionState": "stale",
       "localizations": {
@@ -1837,6 +2177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Эффективное HP"
+          }
+        }
+      }
+    },
+    "Electrical: EM hole": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Электрическая — дыра в ЭМ"
           }
         }
       }
@@ -1881,6 +2231,26 @@
         }
       }
     },
+    "Exotic: kinetic hole": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экзотическая — дыра в кинетике"
+          }
+        }
+      }
+    },
+    "Exp": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Взр"
+          }
+        }
+      }
+    },
     "Expenses, 30 days": {
       "extractionState": "stale",
       "localizations": {
@@ -1918,6 +2288,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экспорт EFT"
+          }
+        }
+      }
+    },
+    "Extra per swap:": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доплата за одну замену:"
           }
         }
       }
@@ -2006,6 +2386,16 @@
         }
       }
     },
+    "Fastest %@ %@ · slowest %@ %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Быстрее всех %1$@ %2$@ · дольше всех %3$@ %4$@"
+          }
+        }
+      }
+    },
     "Filter transactions": {
       "localizations": {
         "ru": {
@@ -2023,6 +2413,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Огневая мощь"
+          }
+        }
+      }
+    },
+    "Firestorm: thermal hole": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Огненная — дыра в термике"
           }
         }
       }
@@ -2081,6 +2481,26 @@
         }
       }
     },
+    "Frigates": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фрегаты"
+          }
+        }
+      }
+    },
+    "Gallente Federation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Федерация Галленте"
+          }
+        }
+      }
+    },
     "Game database (SDE)": {
       "extractionState": "stale",
       "localizations": {
@@ -2088,6 +2508,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "База данных игры (SDE)"
+          }
+        }
+      }
+    },
+    "Gamma: explosive hole": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гамма — дыра во взрыве"
+          }
+        }
+      }
+    },
+    "Guristas": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Гуристы"
           }
         }
       }
@@ -2146,6 +2586,16 @@
         }
       }
     },
+    "Held back by: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мешает: %@"
+          }
+        }
+      }
+    },
     "High": {
       "localizations": {
         "ru": {
@@ -2162,6 +2612,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Верхние слоты"
+          }
+        }
+      }
+    },
+    "Hits": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попадает"
+          }
+        }
+      }
+    },
+    "Hits you": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бьёт по вам"
           }
         }
       }
@@ -2360,6 +2830,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В космосе"
+          }
+        }
+      }
+    },
+    "In the weather": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В погоде"
           }
         }
       }
@@ -2573,6 +3053,26 @@
         }
       }
     },
+    "Khanid": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ханид"
+          }
+        }
+      }
+    },
+    "Kill": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убить за"
+          }
+        }
+      }
+    },
     "Kill Board": {
       "extractionState": "stale",
       "localizations": {
@@ -2580,6 +3080,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Киллборд"
+          }
+        }
+      }
+    },
+    "Kin": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кин"
           }
         }
       }
@@ -2675,6 +3185,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "LP-магазин"
+          }
+        }
+      }
+    },
+    "Lands": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доходит"
           }
         }
       }
@@ -3104,6 +3624,16 @@
         }
       }
     },
+    "Median kill time: **%@**": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Медиана убийства: **%@**"
+          }
+        }
+      }
+    },
     "Memory": {
       "localizations": {
         "ru": {
@@ -3156,6 +3686,16 @@
         }
       }
     },
+    "Minmatar Republic": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Республика Минматар"
+          }
+        }
+      }
+    },
     "Miscellaneous": {
       "extractionState": "stale",
       "localizations": {
@@ -3173,6 +3713,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бонус за миссию"
+          }
+        }
+      }
+    },
+    "Mission NPCs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NPC в миссиях"
           }
         }
       }
@@ -3205,6 +3755,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Модули"
+          }
+        }
+      }
+    },
+    "Mordu's Legion": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Легион Морду"
           }
         }
       }
@@ -3333,6 +3893,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ходовые характеристики"
+          }
+        }
+      }
+    },
+    "Neut, GJ/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нейтрит, ГДж/с"
           }
         }
       }
@@ -3660,6 +4230,16 @@
         }
       }
     },
+    "Normal space": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обычный космос"
+          }
+        }
+      }
+    },
     "Not at V": {
       "extractionState": "stale",
       "localizations": {
@@ -3727,6 +4307,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не хватает точек монтажа турелей"
+          }
+        }
+      }
+    },
+    "Nothing cheaper without losses: every module is already the cheapest version with these numbers.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дешевле без потерь не получается: каждый модуль уже самая дешёвая версия с такими ТТХ."
           }
         }
       }
@@ -3815,6 +4405,16 @@
         }
       }
     },
+    "Out-repair you": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перечиниваются"
+          }
+        }
+      }
+    },
     "Owned in Assets": {
       "extractionState": "stale",
       "localizations": {
@@ -3898,6 +4498,26 @@
         }
       }
     },
+    "Penalty:": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сила штрафа:"
+          }
+        }
+      }
+    },
+    "Per NPC, not per room: the game data has no room spawns. NPC damage is on paper (every shot hits, disintegrators spooled up); \"hits you for\" is after your resists in the weather. The weather applies to NPCs too: their resist hole and HP bonus are counted. Kill time: no travel or reload, NPC self-repair counted.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По каждому NPC отдельно: состава комнат в данных игры нет. Урон NPC — на бумаге (все выстрелы попадают, дезинтеграторы разогнаны), «бьёт по вам» — после ваших сопротивлений в погоде. Погода действует и на NPC: их дыра в сопротивлении и бонус к HP учтены. Время убийства — без перелётов и перезарядки, с самопочинкой NPC."
+          }
+        }
+      }
+    },
     "Perception": {
       "localizations": {
         "ru": {
@@ -3946,6 +4566,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Энергосеть"
+          }
+        }
+      }
+    },
+    "Price optimizer": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оптимизация по цене"
           }
         }
       }
@@ -4128,6 +4758,16 @@
         }
       }
     },
+    "Repair, HP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ремонт, HP/с"
+          }
+        }
+      }
+    },
     "Reprocessing Tax": {
       "localizations": {
         "ru": {
@@ -4180,6 +4820,16 @@
         }
       }
     },
+    "Resists (%@)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сопротивления (%@)"
+          }
+        }
+      }
+    },
     "Resources": {
       "extractionState": "stale",
       "localizations": {
@@ -4207,6 +4857,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Риги"
+          }
+        }
+      }
+    },
+    "Rogue drones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восставшие дроны"
           }
         }
       }
@@ -4452,12 +5112,42 @@
         }
       }
     },
+    "Sansha": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Санша"
+          }
+        }
+      }
+    },
+    "Sansha's Nation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нация Санши"
+          }
+        }
+      }
+    },
     "Save fits in-game to see them here.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Сохраните фиты в игре, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Saving in all: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всего экономия %@"
           }
         }
       }
@@ -4629,6 +5319,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отправленные"
+          }
+        }
+      }
+    },
+    "Serpentis": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Серпентис"
           }
         }
       }
@@ -4856,6 +5556,16 @@
         }
       }
     },
+    "Sleepers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слиперы"
+          }
+        }
+      }
+    },
     "Soon": {
       "extractionState": "stale",
       "localizations": {
@@ -4884,6 +5594,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скорость"
+          }
+        }
+      }
+    },
+    "Speed, m/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скорость, м/с"
           }
         }
       }
@@ -4947,6 +5667,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подсистемы"
+          }
+        }
+      }
+    },
+    "Sustained DPS without reloads, travel between targets or missile flight time. Each NPC orbits at its cruise speed at its orbit distance, or closer when your weapons reach less far (you fly in: \"approach\" marks classes that orbit beyond your weapons). NPC self-repairs are counted. For comparing fits, not a stopwatch.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Устойчивый DPS без перезарядки, перелётов между целями и времени полёта ракет. Каждый NPC кружит на своей дистанции орбиты с крейсерской скоростью или ближе, если ваше оружие бьёт не так далеко (вы подлетаете: «подлёт» отмечает классы, которые кружат дальше досягаемости). Самопочинка NPC учтена. Для сравнения фитов, не секундомер."
+          }
+        }
+      }
+    },
+    "Swap": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заменить"
           }
         }
       }
@@ -5079,12 +5819,52 @@
         }
       }
     },
+    "Th": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Терм"
+          }
+        }
+      }
+    },
     "The drones don't fit in the drone bay": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Дроны не помещаются в отсек"
+          }
+        }
+      }
+    },
+    "The most dangerous hits for ": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Самый опасный бьёт на "
+          }
+        }
+      }
+    },
+    "The numbers stay the same": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ТТХ не меняются"
+          }
+        }
+      }
+    },
+    "The penalty strength is random: 30% or 50% through T3, 50% or 70% from T4. The worse one is the default.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сила штрафа выпадает случайно: до T3 — 30% или 50%, с T4 — 50% или 70%. По умолчанию — худший вариант."
           }
         }
       }
@@ -5139,6 +5919,16 @@
         }
       }
     },
+    "Thukker": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Таккер"
+          }
+        }
+      }
+    },
     "Tier": {
       "extractionState": "stale",
       "localizations": {
@@ -5156,6 +5946,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Слишком много модулей в слотах «%1$@»: %2$@ из %3$@"
+          }
+        }
+      }
+    },
+    "Tools": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Инструменты"
           }
         }
       }
@@ -5255,6 +6055,26 @@
         }
       }
     },
+    "Triglavians": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Триглавы"
+          }
+        }
+      }
+    },
+    "Trying module versions and Jita prices…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перебираю версии модулей и цены в Jita…"
+          }
+        }
+      }
+    },
     "Turret hardpoints full: %lld/%lld.": {
       "localizations": {
         "ru": {
@@ -5271,6 +6091,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Турели %1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Typical HP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Типичное HP"
           }
         }
       }
@@ -5462,6 +6292,26 @@
         }
       }
     },
+    "Weapon range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дальность оружия"
+          }
+        }
+      }
+    },
+    "Weapon range, km": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дальность оружия, км"
+          }
+        }
+      }
+    },
     "What's New": {
       "localizations": {
         "ru": {
@@ -5478,6 +6328,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сила воли"
+          }
+        }
+      }
+    },
+    "Within these limits no other version improves this without noticeable losses elsewhere.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В этих пределах другие версии модулей не улучшают выбранную характеристику без заметных потерь в остальном."
           }
         }
       }
@@ -5535,6 +6395,36 @@
         }
       }
     },
+    "any": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "любая"
+          }
+        }
+      }
+    },
+    "approach": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "подлёт"
+          }
+        }
+      }
+    },
+    "armor": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "броня"
+          }
+        }
+      }
+    },
     "armor %@": {
       "localizations": {
         "ru": {
@@ -5555,12 +6445,42 @@
         }
       }
     },
+    "beyond missile flight range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "вне дальности полёта"
+          }
+        }
+      }
+    },
+    "chain lightning": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "цепная молния"
+          }
+        }
+      }
+    },
     "changed: %@": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "сменена: %@"
+          }
+        }
+      }
+    },
+    "damp": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "демпфер"
           }
         }
       }
@@ -5595,6 +6515,46 @@
         }
       }
     },
+    "explosion radius": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "радиус взрыва"
+          }
+        }
+      }
+    },
+    "explosion velocity": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "скорость взрыва"
+          }
+        }
+      }
+    },
+    "falloff": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "фоллоф"
+          }
+        }
+      }
+    },
+    "guidance disruption": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "сбивает ракеты"
+          }
+        }
+      }
+    },
     "high": {
       "localizations": {
         "ru": {
@@ -5606,6 +6566,16 @@
       }
     },
     "https://example.com/manifest.json": {},
+    "hull": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "корпус"
+          }
+        }
+      }
+    },
     "hull %@": {
       "localizations": {
         "ru": {
@@ -5666,6 +6636,16 @@
         }
       }
     },
+    "no changes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "без изменений"
+          }
+        }
+      }
+    },
     "no implants": {
       "localizations": {
         "ru": {
@@ -5706,12 +6686,42 @@
         }
       }
     },
+    "out of range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "вне дальности"
+          }
+        }
+      }
+    },
+    "outside smartbomb radius": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "вне радиуса смартбомбы"
+          }
+        }
+      }
+    },
     "overheated": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "перегрев"
+          }
+        }
+      }
+    },
+    "painter": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "подсветка"
           }
         }
       }
@@ -5746,6 +6756,16 @@
         }
       }
     },
+    "repairs others": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "чинит своих"
+          }
+        }
+      }
+    },
     "rig": {
       "localizations": {
         "ru": {
@@ -5762,6 +6782,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "кончится за %@"
+          }
+        }
+      }
+    },
+    "scram": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "скрамблер"
+          }
+        }
+      }
+    },
+    "shield": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "щит"
           }
         }
       }
@@ -5806,6 +6846,46 @@
         }
       }
     },
+    "target faster than the drones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "цель быстрее дронов"
+          }
+        }
+      }
+    },
+    "target outruns the missiles": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "цель уходит от ракет"
+          }
+        }
+      }
+    },
+    "tracking": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "наводка"
+          }
+        }
+      }
+    },
+    "tracking disruption": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "сбивает наведение"
+          }
+        }
+      }
+    },
     "turrets %@": {
       "localizations": {
         "ru": {
@@ -5832,6 +6912,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "залп %@"
+          }
+        }
+      }
+    },
+    "web": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "сеть"
           }
         }
       }

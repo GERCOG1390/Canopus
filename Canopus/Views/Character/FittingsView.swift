@@ -487,7 +487,7 @@ struct FitDetailView: View {
     @State private var activeTab: FitTab = {
         #if DEBUG
         // Debug builds: `-fitTab stats` opens a fit on its stats tab (screenshots, UI checks).
-        if UserDefaults.standard.string(forKey: "fitTab") == "stats" { return .stats }
+        if let tab = UserDefaults.standard.string(forKey: "fitTab").flatMap({ FitTab(rawValue: $0.uppercased()) }) { return tab }
         #endif
         return .modules
     }()
@@ -564,7 +564,7 @@ struct FitDetailView: View {
         }
     }
 
-    enum FitTab: String, CaseIterable { case modules = "MODULES"; case stats = "STATS" }
+    enum FitTab: String, CaseIterable { case modules = "MODULES"; case stats = "STATS"; case tools = "TOOLS" }
 
     // MARK: - Slot classification
 
@@ -1131,7 +1131,7 @@ private struct SubsystemSlotDefinition: Identifiable {
     // MARK: - Tab bar
 
     private var tabBar: some View {
-        CanopusTabs(tabs: [(id: FitTab.modules, label: "Modules"), (id: FitTab.stats, label: "Stats")], selection: $activeTab)
+        CanopusTabs(tabs: [(id: FitTab.modules, label: "Modules"), (id: FitTab.stats, label: "Stats"), (id: FitTab.tools, label: "Tools")], selection: $activeTab)
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -1144,6 +1144,7 @@ private struct SubsystemSlotDefinition: Identifiable {
         switch activeTab {
         case .modules: modulesTabView
         case .stats:   statsTabView
+        case .tools:   toolsTabView
         }
     }
 
@@ -1973,6 +1974,49 @@ private struct SubsystemSlotDefinition: Identifiable {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    // MARK: - Tools
+
+    private var toolsTabView: some View {
+        ScrollView {
+            if let spec = fitSpec {
+                FitToolsView(context: FitToolContext(
+                    spec: spec,
+                    skills: characterSkills.isEmpty ? .all5 : .character(characterSkills),
+                    levels: characterSkills.isEmpty ? nil : characterSkills,
+                    typeName: { id in chargeNames[id] ?? typeName(id, fallback: "#\(id)") },
+                    apply: applySwaps
+                ))
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, EVELayout.scrollBottomClearance)
+            } else {
+                ProgressView().tint(C.accent).padding(.top, 60)
+            }
+        }
+    }
+
+    /// The optimizer's swaps: every fitted module (or the drone stack) of `from` becomes `to`, keeping its
+    /// slot, state and charge, as the desktop's swap does.
+    private func applySwaps(_ swaps: [(from: Int, to: Int, isDrone: Bool)]) {
+        var items = currentItems
+        for swap in swaps {
+            items = items.map { item in
+                let slot = slotFor(item.flag)
+                let matches = item.typeId == swap.from && (swap.isDrone ? slot == .drone : (slot != .drone && slot != .cargo && isFittedType(item)))
+                return matches ? ESIFittingItem(typeId: swap.to, flag: item.flag, quantity: item.quantity) : item
+            }
+        }
+        editableItems = items
+        Task {
+            let ids = Set(swaps.map(\.to))
+            await loadProfilesAndNames(for: ids)
+            if let repo = env.repository, let a = try? await repo.moduleActivation(typeIds: ids) {
+                activation.merge(a) { _, new in new }
+            }
+            scheduleFitRefresh(debounceNanoseconds: 0)
+        }
     }
 
     // MARK: - Fit snapshot
