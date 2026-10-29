@@ -89,7 +89,7 @@ struct MapPage: View {
                 NavigationStack { BridgesSheet(galaxy: galaxy, store: $bridges, onSystem: { bridgesOpen = false; controller.fly(to: $0) }) }
             }
         }
-        .onChange(of: route) { syncOverlay() }
+        .onChange(of: route) { syncOverlay(); RadarStore.shared.route = route }
         .onChange(of: marks) { marks.save(); syncOverlay() }
     }
 

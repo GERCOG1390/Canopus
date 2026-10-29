@@ -10,8 +10,10 @@ public struct ZKBEntry: Decodable, Sendable, Identifiable {
     /// Present in the current format.
     public let killmailTime: Date?
     public let victim: ESIKillVictim?
+    public let attackers: [ESIKillAttacker]?
+    public let solarSystemId: Int?
 
-    private enum CodingKeys: String, CodingKey { case killmailId, killmailHash, zkb, killmailTime, victim }
+    private enum CodingKeys: String, CodingKey { case killmailId, killmailHash, zkb, killmailTime, victim, attackers, solarSystemId }
 
     public init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
@@ -23,12 +25,15 @@ public struct ZKBEntry: Decodable, Sendable, Identifiable {
         killmailHash = hash
         killmailTime = try? c.decodeIfPresent(Date.self, forKey: .killmailTime)
         victim = try? c.decodeIfPresent(ESIKillVictim.self, forKey: .victim)
+        attackers = try? c.decodeIfPresent([ESIKillAttacker].self, forKey: .attackers)
+        solarSystemId = try? c.decodeIfPresent(Int.self, forKey: .solarSystemId)
     }
 }
 
 public struct ZKBData: Decodable, Sendable {
     public let hash: String?
     public let totalValue: Double?
+    public let awox: Bool?
     public let points: Int?
     public let npc: Bool?
     public let solo: Bool?

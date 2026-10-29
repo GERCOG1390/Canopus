@@ -34,6 +34,36 @@
         }
       }
     },
+    " y": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " г"
+          }
+        }
+      }
+    },
+    " · solo": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · соло"
+          }
+        }
+      }
+    },
+    " · solo %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · соло %lld"
+          }
+        }
+      }
+    },
     " · subcapitals only": {
       "localizations": {
         "ru": {
@@ -333,6 +363,16 @@
         }
       }
     },
+    "%@ · watching %lld systems · %lld kills checked": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@ · под наблюдением систем: %2$lld · проверено убийств: %3$lld"
+          }
+        }
+      }
+    },
     "%@ — %@": {
       "shouldTranslate": false
     },
@@ -393,6 +433,16 @@
         }
       }
     },
+    "%lld attackers%@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нападавших: %1$lld%2$@"
+          }
+        }
+      }
+    },
     "%lld in Queue": {
       "extractionState": "stale",
       "localizations": {
@@ -424,6 +474,16 @@
         }
       }
     },
+    "%lld j.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld пр."
+          }
+        }
+      }
+    },
     "%lld jumps": {
       "localizations": {
         "ru": {
@@ -444,12 +504,42 @@
         }
       }
     },
+    "%lld min": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld мин"
+          }
+        }
+      }
+    },
+    "%lld mo": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld мес"
+          }
+        }
+      }
+    },
     "%lld modules": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "%lld модулей"
+          }
+        }
+      }
+    },
+    "%lld pilots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld пил."
           }
         }
       }
@@ -799,6 +889,16 @@
         }
       }
     },
+    "Activity": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активность"
+          }
+        }
+      }
+    },
     "Add": {
       "localizations": {
         "ru": {
@@ -835,6 +935,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте навыки в очередь в EVE Online."
+          }
+        }
+      }
+    },
+    "Age": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Возраст"
           }
         }
       }
@@ -919,6 +1029,16 @@
         }
       }
     },
+    "Also the route planned on the map": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "И маршрут с карты"
+          }
+        }
+      }
+    },
     "Amarr Empire": {
       "localizations": {
         "ru": {
@@ -999,6 +1119,16 @@
         }
       }
     },
+    "Asking zKillboard…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запрашиваю zKillboard…"
+          }
+        }
+      }
+    },
     "Assets": {
       "localizations": {
         "ru": {
@@ -1046,6 +1176,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Можно установить не больше %@ модулей этой группы"
+          }
+        }
+      }
+    },
+    "Attackers (%lld) · damage %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Атакующие (%1$lld) · урон %2$lld"
           }
         }
       }
@@ -1197,6 +1337,16 @@
         }
       }
     },
+    "BUBBLES": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "БУБЛИ"
+          }
+        }
+      }
+    },
     "BUY": {
       "localizations": {
         "ru": {
@@ -1290,6 +1440,7 @@
         }
       }
     },
+    "Black Ops": {},
     "Blood Raiders": {
       "localizations": {
         "ru": {
@@ -1585,6 +1736,16 @@
         }
       }
     },
+    "Calm": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Спокоен"
+          }
+        }
+      }
+    },
     "Can't be fitted to this ship": {
       "localizations": {
         "ru": {
@@ -1633,7 +1794,17 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Накопитель энергии"
+            "value": "Накопитель"
+          }
+        }
+      }
+    },
+    "Capacitor capacity": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ёмкость"
           }
         }
       }
@@ -1653,7 +1824,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ёмкость"
+            "value": "Вместимость"
           }
         }
       }
@@ -1664,6 +1835,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прыжок капитала отсюда"
+          }
+        }
+      }
+    },
+    "Cargo": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Трюм"
           }
         }
       }
@@ -1685,6 +1866,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Груз не влияет на характеристики, если не выбран как заряд модуля."
+          }
+        }
+      }
+    },
+    "Carriers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карриеры"
+          }
+        }
+      }
+    },
+    "Changes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменения"
           }
         }
       }
@@ -1813,6 +2014,16 @@
         }
       }
     },
+    "Clear": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить"
+          }
+        }
+      }
+    },
     "Clear Charge": {
       "localizations": {
         "ru": {
@@ -1907,6 +2118,16 @@
         }
       }
     },
+    "Combat recons": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Комбат-реконы"
+          }
+        }
+      }
+    },
     "Compare fits": {
       "localizations": {
         "ru": {
@@ -1954,6 +2175,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Завершённые"
+          }
+        }
+      }
+    },
+    "Composition: %lld pilots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состав: %lld пилотов"
           }
         }
       }
@@ -2174,12 +2405,52 @@
         }
       }
     },
+    "Danger": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опасн."
+          }
+        }
+      }
+    },
+    "Danger %lld%% · in gangs %lld%%": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опасность %1$lld%% · в банде %2$lld%%"
+          }
+        }
+      }
+    },
+    "Dangerous": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Опасен"
+          }
+        }
+      }
+    },
     "Dark: turret range": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Тёмная — дальность турелей"
+          }
+        }
+      }
+    },
+    "Data: zKillboard. Tap a fight for the victim's fit and the attackers.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Данные: zKillboard. Нажмите на бой — фит жертвы и список атакующих."
           }
         }
       }
@@ -2247,6 +2518,16 @@
         }
       }
     },
+    "Destroyed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уничтожено"
+          }
+        }
+      }
+    },
     "Destroyers": {
       "localizations": {
         "ru": {
@@ -2283,6 +2564,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Готово"
+          }
+        }
+      }
+    },
+    "Dreadnoughts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дредноуты"
           }
         }
       }
@@ -2659,6 +2950,26 @@
         }
       }
     },
+    "Find": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найти"
+          }
+        }
+      }
+    },
+    "Find a pilot": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найдите пилота"
+          }
+        }
+      }
+    },
     "Find a system…": {
       "localizations": {
         "ru": {
@@ -2733,6 +3044,36 @@
         }
       }
     },
+    "Fleet": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Флот"
+          }
+        }
+      }
+    },
+    "Force Auxiliaries": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Force Auxiliary"
+          }
+        }
+      }
+    },
+    "Force recons": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Форс-реконы"
+          }
+        }
+      }
+    },
     "Free remaps": {
       "extractionState": "stale",
       "localizations": {
@@ -2740,6 +3081,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бесплатных ремапов"
+          }
+        }
+      }
+    },
+    "Friendly": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свой"
           }
         }
       }
@@ -2770,6 +3121,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отсюда"
+          }
+        }
+      }
+    },
+    "GATE CAMP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "КЕМП НА ГЕЙТЕ"
           }
         }
       }
@@ -2826,6 +3187,16 @@
         }
       }
     },
+    "HERE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ЗДЕСЬ"
+          }
+        }
+      }
+    },
     "HIGH SEC": {
       "extractionState": "stale",
       "localizations": {
@@ -2865,6 +3236,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перегрев"
+          }
+        }
+      }
+    },
+    "Heavy interdictors": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хэви-интердикторы"
           }
         }
       }
@@ -2947,6 +3328,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Домашняя станция"
+          }
+        }
+      }
+    },
+    "Hostile": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Враг"
           }
         }
       }
@@ -3044,6 +3435,16 @@
         }
       }
     },
+    "ISK efficiency": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ISK-эффективность"
+          }
+        }
+      }
+    },
     "Icon & Schema Package": {
       "localizations": {
         "ru": {
@@ -3123,6 +3524,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "В космосе"
+          }
+        }
+      }
+    },
+    "In the game: the Local window → Ctrl+A, Ctrl+C. On a Mac with Universal Clipboard it lands here: tap Paste. Or type names, one per line.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В игре: окно Local → Ctrl+A, Ctrl+C. На Mac с универсальным буфером обмена список окажется здесь — нажмите «Вставить». Или впишите имена, по одному в строке."
+          }
+        }
+      }
+    },
+    "In the game: the directional scanner → Ctrl+A, Ctrl+C, then Paste here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В игре: окно направленного сканера → Ctrl+A, Ctrl+C, затем «Вставить» здесь."
+          }
+        }
+      }
+    },
+    "In the game: the fleet window → select the members → Ctrl+C, then Paste here.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В игре: окно флота → выделите участников → Ctrl+C, затем «Вставить» здесь."
           }
         }
       }
@@ -3252,6 +3683,16 @@
         }
       }
     },
+    "Interdictors": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Интердикторы"
+          }
+        }
+      }
+    },
     "Interface language follows the iPhone settings. Change it for Canopus only in Settings → Canopus → Language.": {
       "localizations": {
         "ru": {
@@ -3316,6 +3757,16 @@
         }
       }
     },
+    "Jumps around me:": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжков вокруг:"
+          }
+        }
+      }
+    },
     "Jumps: %lld": {
       "localizations": {
         "ru": {
@@ -3326,6 +3777,7 @@
         }
       }
     },
+    "K / L": {},
     "KILL": {
       "localizations": {
         "ru": {
@@ -3382,7 +3834,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Убить за"
+            "value": "Килл"
           }
         }
       }
@@ -3394,6 +3846,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Киллборд"
+          }
+        }
+      }
+    },
+    "Kill radar": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Радар убийств"
+          }
+        }
+      }
+    },
+    "Kill time": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убить за"
           }
         }
       }
@@ -3686,6 +4158,16 @@
         }
       }
     },
+    "Local": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локал"
+          }
+        }
+      }
+    },
     "Local and d-scan checks, pilot lookup and the live kill radar from the desktop app.": {
       "extractionState": "stale",
       "localizations": {
@@ -3729,12 +4211,52 @@
         }
       }
     },
+    "Logistics": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Логистика"
+          }
+        }
+      }
+    },
+    "Logistics frigates": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Логистические фрегаты"
+          }
+        }
+      }
+    },
     "Looking at recent losses on zKillboard…": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Смотрю последние потери на zKillboard…"
+          }
+        }
+      }
+    },
+    "Loss": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лосс"
+          }
+        }
+      }
+    },
+    "Lost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Потеряно"
           }
         }
       }
@@ -4121,6 +4643,16 @@
         }
       }
     },
+    "Mobile warp disruptors": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бабл-генераторы"
+          }
+        }
+      }
+    },
     "Mobility": {
       "extractionState": "stale",
       "localizations": {
@@ -4160,6 +4692,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ещё"
+          }
+        }
+      }
+    },
+    "My character": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мой персонаж"
           }
         }
       }
@@ -4482,6 +5024,16 @@
         }
       }
     },
+    "No data on zKillboard.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет данных на zKillboard."
+          }
+        }
+      }
+    },
     "No fit-related skills found for this fit.": {
       "localizations": {
         "ru": {
@@ -4564,6 +5116,16 @@
         }
       }
     },
+    "No kills around you in the last hour.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вокруг вас за последний час убийств не было."
+          }
+        }
+      }
+    },
     "No kills on the route in the last hour": {
       "localizations": {
         "ru": {
@@ -4620,6 +5182,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ни один следующий уровень навыка не улучшит это у этого фита."
+          }
+        }
+      }
+    },
+    "No pilot with that exact name.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пилота с таким именем нет."
           }
         }
       }
@@ -4755,6 +5327,16 @@
         }
       }
     },
+    "Not found: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не найдены: %@"
+          }
+        }
+      }
+    },
     "Note on this system…": {
       "localizations": {
         "ru": {
@@ -4781,6 +5363,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пусто: %@"
+          }
+        }
+      }
+    },
+    "Nothing recognised: copy the scanner's results with Ctrl+A, Ctrl+C.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ничего не распознано: скопируйте результаты сканера через Ctrl+A, Ctrl+C."
           }
         }
       }
@@ -4838,6 +5430,16 @@
         }
       }
     },
+    "Objects": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Объектов"
+          }
+        }
+      }
+    },
     "Offensive": {
       "extractionState": "stale",
       "localizations": {
@@ -4859,12 +5461,32 @@
         }
       }
     },
+    "Open on zKillboard": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть на zKillboard"
+          }
+        }
+      }
+    },
     "Open settings": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Открыть настройки"
+          }
+        }
+      }
+    },
+    "Other (structures, drones, objects)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочее (структуры, дроны, объекты)"
           }
         }
       }
@@ -4948,6 +5570,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ИСТОРИЯ ЦЕН · 30 ДНЕЙ"
+          }
+        }
+      }
+    },
+    "Paste": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вставить"
           }
         }
       }
@@ -5043,12 +5675,42 @@
         }
       }
     },
+    "Pilot name…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имя пилота…"
+          }
+        }
+      }
+    },
+    "Pilots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пилотов"
+          }
+        }
+      }
+    },
     "Place orders in EVE's market to see them here.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Выставьте ордера на рынке EVE, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Player kills of the last hour from zKillboard's live feed, near your character (from ESI) and on the map's route. Gate camps, bubbles and smartbombs are marked. The radar runs while Canopus is open.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийства игроков за последний час из живой ленты zKillboard — рядом с вашим персонажем (по ESI) и на маршруте с карты. Отмечаются кемпы на гейтах, бубли и смартбомбы. Радар работает, пока Canopus открыт."
           }
         }
       }
@@ -5222,6 +5884,36 @@
         }
       }
     },
+    "Radar off": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Радар выключен"
+          }
+        }
+      }
+    },
+    "Radar on": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Радар включён"
+          }
+        }
+      }
+    },
+    "Read": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разобрать"
+          }
+        }
+      }
+    },
     "Ready to deliver (%lld)": {
       "localizations": {
         "ru": {
@@ -5248,6 +5940,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пересчитываю фит для каждого навыка…"
+          }
+        }
+      }
+    },
+    "Recent fights": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последние бои"
           }
         }
       }
@@ -5599,6 +6301,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ОЧЕРЕДЬ НАВЫКОВ · %lld"
+          }
+        }
+      }
+    },
+    "SMARTBOMBS": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "СМАРТБОМБЫ"
           }
         }
       }
@@ -5987,12 +6699,52 @@
         }
       }
     },
+    "Ship types": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Типов кораблей"
+          }
+        }
+      }
+    },
     "Ship, module, skill, implant…": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Корабль, модуль, навык, имплант…"
+          }
+        }
+      }
+    },
+    "Ships": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кораблей"
+          }
+        }
+      }
+    },
+    "Ships by class": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабли по классам"
+          }
+        }
+      }
+    },
+    "Ships by type": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабли по типам"
           }
         }
       }
@@ -6220,6 +6972,16 @@
         }
       }
     },
+    "Solo kills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Соло-киллов"
+          }
+        }
+      }
+    },
     "Soon": {
       "extractionState": "stale",
       "localizations": {
@@ -6344,6 +7106,16 @@
         }
       }
     },
+    "Stealth bombers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стелс-бомберы"
+          }
+        }
+      }
+    },
     "Structure": {
       "extractionState": "stale",
       "localizations": {
@@ -6361,6 +7133,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Подсистемы"
+          }
+        }
+      }
+    },
+    "Supercarriers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Суперкарриеры"
           }
         }
       }
@@ -6508,7 +7290,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Целеуказание"
+            "value": "Захват целей"
           }
         }
       }
@@ -6643,6 +7425,16 @@
         }
       }
     },
+    "Their statistics and recent fights from zKillboard.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Его статистика и последние бои с zKillboard."
+          }
+        }
+      }
+    },
     "Thermal": {
       "localizations": {
         "ru": {
@@ -6659,6 +7451,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "У этой корпорации нет открытых предложений в LP-магазине."
+          }
+        }
+      }
+    },
+    "Threat is an estimate from your corporation and alliance and zKillboard statistics. \"Dangerous\": an active PvP pilot (kills this week, or many over the last months with a high danger ratio). Tap a pilot for the full record.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Угроза — оценка по вашей корпорации и альянсу и статистике zKillboard. «Опасен»: активный PvP-пилот (киллы за неделю или много за последние месяцы при высоком проценте опасности). Нажмите на пилота — подробная статистика."
           }
         }
       }
@@ -6700,6 +7502,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уровень"
+          }
+        }
+      }
+    },
+    "Titans": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Титаны"
           }
         }
       }
@@ -6845,6 +7657,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перебираю версии модулей и цены в Jita…"
+          }
+        }
+      }
+    },
+    "Turn the radar on to follow kills around you.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включите радар, чтобы следить за убийствами вокруг вас."
           }
         }
       }
@@ -7051,6 +7873,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скорость варпа"
+          }
+        }
+      }
+    },
+    "Watch": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Внимание"
           }
         }
       }
@@ -7299,6 +8131,16 @@
         }
       }
     },
+    "checking…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "проверяю…"
+          }
+        }
+      }
+    },
     "damp": {
       "localizations": {
         "ru": {
@@ -7369,12 +8211,32 @@
         }
       }
     },
+    "grid %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "на гриде %lld"
+          }
+        }
+      }
+    },
     "guidance disruption": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "сбивает ракеты"
+          }
+        }
+      }
+    },
+    "here": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "здесь"
           }
         }
       }
@@ -7399,6 +8261,16 @@
         }
       }
     },
+    "hostile %lld · dangerous %lld · watch %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "врагов %1$lld · опасных %2$lld · внимание %3$lld"
+          }
+        }
+      }
+    },
     "https://example.com/manifest.json": {},
     "hull": {
       "localizations": {
@@ -7416,6 +8288,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "корпус %@"
+          }
+        }
+      }
+    },
+    "in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в %@"
           }
         }
       }
@@ -7446,6 +8328,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "последний: %@"
+          }
+        }
+      }
+    },
+    "left: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ушли: %@"
+          }
+        }
+      }
+    },
+    "location unknown": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "местоположение неизвестно"
           }
         }
       }
@@ -7550,6 +8452,16 @@
         }
       }
     },
+    "now": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "сейчас"
+          }
+        }
+      }
+    },
     "nullsec": {
       "localizations": {
         "ru": {
@@ -7566,6 +8478,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "выкл."
+          }
+        }
+      }
+    },
+    "on grid: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "на гриде: %lld"
+          }
+        }
+      }
+    },
+    "on the route": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "на маршруте"
           }
         }
       }
@@ -7720,6 +8652,16 @@
         }
       }
     },
+    "since the last check": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с прошлой проверки"
+          }
+        }
+      }
+    },
     "stable at %@%%": {
       "localizations": {
         "ru": {
@@ -7860,6 +8802,16 @@
         }
       }
     },
+    "zKillboard asks to wait (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "zKillboard просит подождать (%lld)"
+          }
+        }
+      }
+    },
     "·": {
       "shouldTranslate": false
     },
@@ -7868,6 +8820,9 @@
     },
     "×%lld": {},
     "—": {
+      "shouldTranslate": false
+    },
+    "…": {
       "shouldTranslate": false
     },
     "→ %@": {

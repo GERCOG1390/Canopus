@@ -278,7 +278,9 @@ struct PageView: View {
         case .settings:
             SettingsPage()
         case .intel:
-            ComingSoon(page: page, text: "Local and d-scan checks, pilot lookup and the live kill radar from the desktop app.")
+            IntelPage()
+        case .killboard:
+            PilotPage()
         case .map:
             MapPage()
         default:
@@ -308,7 +310,6 @@ struct PageView: View {
         case .mail: MailView(characterService: s)
         case .clones: CloneView(characterService: s)
         case .fitting: FittingsView(characterService: s)
-        case .killboard: KillBoardView(characterService: s)
         case .wallet: WalletTabView(characterService: s)
         case .orders: MarketOrdersView(characterService: s)
         case .industry: IndustryView(characterService: s)

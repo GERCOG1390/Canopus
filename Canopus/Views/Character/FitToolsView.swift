@@ -480,7 +480,7 @@ private struct FitAbyssView: View {
                 Text(verbatim: "\(n0(n.hp)) HP").font(.mono(11)).foregroundStyle(C.muted)
             }
             HStack(spacing: 12) {
-                stat("Kill", seconds(n.ttk), bad: !(n.ttk?.isFinite ?? false))
+                stat("Kill time", seconds(n.ttk), bad: !(n.ttk?.isFinite ?? false))
                 stat("Hits", "\(n0(min(1, n.application) * 100))%", bad: n.application < 0.5)
                 stat("Hits you", n0(n.taken), bad: n.taken > repair)
                 if n.neut > 0 { stat("Neut, GJ/s", n1(n.neut), bad: n.neut >= 10) }

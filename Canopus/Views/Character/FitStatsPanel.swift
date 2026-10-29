@@ -216,7 +216,7 @@ struct FitStatsPanel: View {
         let c = s.capacitor
         return Card("Capacitor") {
             KVList {
-                KV(attr: StatAttr.capacitor, label: "Capacity", value: Text("\(n0(c.capacity)) GJ"))
+                KV(attr: StatAttr.capacitor, label: "Capacitor capacity", value: Text("\(n0(c.capacity)) GJ"))
                 KV(attr: StatAttr.recharge, label: "Recharge time", value: Text("\(n1(c.rechargeSec)) s"))
                 KV(attr: nil, label: "Use / peak recharge", value: Text("\(n2(c.usePerSecond)) / \(n2(c.peakRecharge)) GJ/s"))
                 KV(attr: nil, label: "Stability",

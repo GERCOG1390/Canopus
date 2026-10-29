@@ -75,3 +75,13 @@ belongs to.
   (sphere and reachable systems by ship and JDC) and alliance jump bridges (pasted list, capital
   distances, routes over bridges worked out locally as the desktop's routeLocal). Still: intel marks
   (with phase 3), set destination in game (needs ui.write_waypoint with the new SSO app).
+- 2026-10-28: phase 3 started. Intel page as the desktop's (Local check with threat rating from
+  corp / alliance and zKillboard, groups filter, arrivals and departures; D-scan by class and type with
+  notable groups; fleet composition; live kill radar on zKillboard's R2Z2 feed around the character's
+  ESI location and the map's route, with gate camps, bubbles and smartbombs). Lists are pasted (Universal
+  Clipboard from a Mac). The desktop's intel channels read the game's chat logs and stay desktop-only.
+  PvP is now the desktop's pilot dossier (any pilot by name, zKillboard stats, recent fights with the
+  victim's fit and the attackers); the old kill board screen is gone. Blue / red standings need the
+  contacts scopes (esi-characters/corporations/alliances.read_contacts) with the new SSO app, as does
+  "add dangerous pilots to contacts" (write_contacts). Still in phase 3: radar notifications.
+

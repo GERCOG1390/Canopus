@@ -113,7 +113,7 @@ struct CharacterRootView: View {
                         characterService: s
                     )
                 }
-            case .killboard:      KillBoardView(characterService: s)
+            case .killboard:      PilotPage()
             case .clone:          CloneView(characterService: s)
             case .loyalty:        LoyaltyPointsView(characterService: s)
             case .journal:        WalletJournalView(characterService: s)

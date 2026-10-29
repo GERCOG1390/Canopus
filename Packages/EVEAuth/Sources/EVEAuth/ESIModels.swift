@@ -415,6 +415,7 @@ public struct ESIKillItem: Decodable, Sendable {
 public struct ESIKillAttacker: Decodable, Sendable {
     public let characterId: Int?
     public let corporationId: Int?
+    public let allianceId: Int?
     public let finalBlow: Bool
     public let damageDone: Int
     public let shipTypeId: Int?
