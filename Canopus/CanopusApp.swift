@@ -9,6 +9,7 @@ struct CanopusApp: App {
     init() {
         CanopusFonts.register()
         CanopusAppearance.apply()
+        UNUserNotificationCenter.current().delegate = NotificationPresenter.shared
     }
 
     var body: some Scene {
@@ -20,10 +21,6 @@ struct CanopusApp: App {
                 .font(.ui(15))
                 // A new accent theme redraws everything with it.
                 .id(accent)
-                .task {
-                    _ = try? await UNUserNotificationCenter.current()
-                        .requestAuthorization(options: [.alert, .sound, .badge])
-                }
         }
     }
 }

@@ -449,7 +449,11 @@ private struct RadarTab: View {
         VStack(alignment: .leading, spacing: 12) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    Button(radar.enabled ? "Radar on" : "Radar off") { radar.enabled.toggle() }
+                    Button(radar.enabled ? "Radar on" : "Radar off") {
+                        radar.enabled.toggle()
+                        // The radar's alerts need permission: asked now, when it is turned on.
+                        if radar.enabled, NotificationSettings.shared.radar != .off { Task { await NotificationSettings.shared.authorize() } }
+                    }
                         .buttonStyle(CanopusButtonStyle(kind: radar.enabled ? .primary : .ghost))
                     Spacer()
                     Text(status).font(.ui(12)).foregroundStyle(radar.error == nil ? C.muted : C.bad).multilineTextAlignment(.trailing)
@@ -465,6 +469,7 @@ private struct RadarTab: View {
                         }
                     }
                 }
+                RadarNotifyPicker()
                 Button { radar.watchRoute.toggle() } label: {
                     HStack(spacing: 6) {
                         Text(verbatim: radar.watchRoute ? "✓" : " ").frame(width: 14)

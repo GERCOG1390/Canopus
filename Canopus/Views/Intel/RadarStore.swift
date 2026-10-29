@@ -6,6 +6,7 @@
 
 import Foundation
 import Observation
+import UserNotifications
 import Domain
 import EVEAuth
 import EVEStaticData
@@ -194,7 +195,24 @@ final class RadarStore {
         if recent.count > 2000 || recent.count % 50 == 0 {
             recent = Array(recent.filter { Date().timeIntervalSince($0.esi.killmailTime) <= Self.keep }.suffix(2000))
         }
-        await build(k)
+        if let kill = await build(k) { alert(kill) }
+    }
+
+    /// A notification for a fresh kill, as the desktop's radarAlert: danger only, every kill, or none.
+    private func alert(_ k: RadarKill) {
+        let settings = NotificationSettings.shared
+        let danger = k.camp || k.bubbles || k.smartbombs
+        guard settings.radar != .off, settings.radar == .all || danger,
+              // Older kills (the feed's backlog when the radar starts) are listed, not announced.
+              Date().timeIntervalSince(k.time) <= 600 else { return }
+        let content = UNMutableNotificationContent()
+        let kind = k.camp ? String(localized: "Gate camp") : k.smartbombs ? String(localized: "Smartbombs") : k.bubbles ? String(localized: "Bubbles") : String(localized: "Kill nearby")
+        let distance = k.jumps.map { String(localized: " (\($0) j.)") } ?? String(localized: " (on the route)")
+        content.title = "\(kind): \(k.system)" + (k.gate.map { " → \($0.toName)" } ?? "") + distance
+        content.body = "\(k.victimShipName) · \(Fmt.isk(k.value)) · " + String(localized: "\(k.attackers) attackers")
+        if settings.radarSound { content.sound = .default }
+        content.threadIdentifier = "radar"
+        UNUserNotificationCenter.current().add(UNNotificationRequest(identifier: "canopus.radar.\(k.id)", content: content, trigger: nil))
     }
 
     private var rebuilding = 0
@@ -211,11 +229,12 @@ final class RadarStore {
     }
 
     /// The radar entry for a kill in a watched system or on the route; added to the list.
-    private func build(_ k: R2Kill) async {
+    @discardableResult
+    private func build(_ k: R2Kill) async -> RadarKill? {
         let sys = k.esi.solarSystemId
         let jumps = watched[sys]
         let onRoute = routeSet.contains(sys)
-        guard jumps != nil || onRoute else { return }
+        guard jumps != nil || onRoute else { return nil }
         let attackers = k.esi.attackers
         await loadTypes(Set([k.esi.victim.shipTypeId] + attackers.compactMap(\.shipTypeId) + attackers.compactMap(\.weaponTypeId)))
 
@@ -252,6 +271,7 @@ final class RadarStore {
             for i in kills.indices where kills[i].systemId == sys && kills[i].gate?.to == g.to { kills[i].camp = true }
         }
         kills = Array(([kill] + kills.filter { $0.id != kill.id }).sorted { $0.time > $1.time }.prefix(200))
+        return kill
     }
 
     // MARK: Lookups

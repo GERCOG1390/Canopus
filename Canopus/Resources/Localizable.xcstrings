@@ -4,6 +4,26 @@
     "": {
       "shouldTranslate": false
     },
+    " (%lld j.)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " (%lld пр.)"
+          }
+        }
+      }
+    },
+    " (on the route)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " (на маршруте)"
+          }
+        }
+      }
+    },
     " (packaged %@ m³)": {
       "localizations": {
         "ru": {
@@ -436,6 +456,16 @@
         }
       }
     },
+    "%@: %@ %@ complete": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ %3$@ — изучено"
+          }
+        }
+      }
+    },
     "%@x": {},
     "%lld": {},
     "%lld %@": {},
@@ -489,6 +519,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Навыков: %lld · %@ SP"
+          }
+        }
+      }
+    },
+    "%lld attackers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "атак.: %lld"
           }
         }
       }
@@ -1681,6 +1721,16 @@
         }
       }
     },
+    "Bubbles": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бубли"
+          }
+        }
+      }
+    },
     "Buy": {
       "localizations": {
         "ru": {
@@ -1872,6 +1922,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Спокоен"
+          }
+        }
+      }
+    },
+    "Camps, bubbles, smartbombs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кемпы, бубли, смартбомбы"
           }
         }
       }
@@ -3035,6 +3095,16 @@
         }
       }
     },
+    "Every kill nearby": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все убийства рядом"
+          }
+        }
+      }
+    },
     "Every module on the ship": {
       "localizations": {
         "ru": {
@@ -3492,6 +3562,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Гамма — дыра во взрыве"
+          }
+        }
+      }
+    },
+    "Gate camp": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Кемп"
           }
         }
       }
@@ -4216,6 +4296,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Киллборд"
+          }
+        }
+      }
+    },
+    "Kill nearby": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийство"
           }
         }
       }
@@ -5927,6 +6017,26 @@
         }
       }
     },
+    "Notifications": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уведомления"
+          }
+        }
+      }
+    },
+    "Notifications are off for Canopus in the iPhone settings.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уведомления для Canopus выключены в настройках iPhone."
+          }
+        }
+      }
+    },
     "OFFLINE": {
       "extractionState": "stale",
       "localizations": {
@@ -5976,6 +6086,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Объектов"
+          }
+        }
+      }
+    },
+    "Off": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выкл."
           }
         }
       }
@@ -7581,6 +7701,16 @@
         }
       }
     },
+    "Skill training complete": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обучение навыку завершено"
+          }
+        }
+      }
+    },
     "Skills": {
       "localizations": {
         "ru": {
@@ -7658,6 +7788,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Малый"
+          }
+        }
+      }
+    },
+    "Smartbombs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Смартбомбы"
           }
         }
       }
@@ -8748,6 +8888,16 @@
         }
       }
     },
+    "When skill training completes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Когда обучение навыку завершено"
+          }
+        }
+      }
+    },
     "Where am I": {
       "localizations": {
         "ru": {
@@ -8794,6 +8944,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В этих пределах другие версии модулей не улучшают выбранную характеристику без заметных потерь в остальном."
+          }
+        }
+      }
+    },
+    "Without sound": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без звука"
           }
         }
       }
@@ -9741,6 +9901,16 @@
     },
     "✓": {
       "shouldTranslate": false
+    },
+    "✓ With sound": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Со звуком"
+          }
+        }
+      }
     },
     "✔ Usage: every skill trained": {
       "localizations": {

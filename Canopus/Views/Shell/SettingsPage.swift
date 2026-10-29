@@ -16,6 +16,7 @@ struct SettingsPage: View {
             VStack(alignment: .leading, spacing: 16) {
                 charactersCard
                 themeCard
+                NotificationsCard()
                 languageCard
                 databaseCard
                 aboutCard
@@ -138,6 +139,79 @@ struct SettingsPage: View {
         } catch AuthError.cancelled {
         } catch {
             if !error.isCancellation { self.error = error.localizedDescription }
+        }
+    }
+}
+
+/// Skill training and radar notifications; iOS is asked for permission when one is turned on.
+struct NotificationsCard: View {
+    @State private var settings = NotificationSettings.shared
+
+    var body: some View {
+        Card("Notifications") {
+            check("When skill training completes", on: settings.skillDone) {
+                settings.skillDone.toggle()
+                if settings.skillDone { Task { await settings.authorize() } }
+            }
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Kill radar").font(.ui(13)).foregroundStyle(C.text2)
+                RadarNotifyPicker()
+            }
+            if settings.status == .denied {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Notifications are off for Canopus in the iPhone settings.").font(.ui(12)).foregroundStyle(C.bad)
+                    Button("Open settings") {
+                        if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
+                    }
+                    .buttonStyle(.canopusSmall)
+                }
+            }
+        }
+        .task { await settings.refresh() }
+    }
+
+    private func check(_ label: LocalizedStringKey, on: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 8) {
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(on ? C.accent : .clear)
+                    .overlay(RoundedRectangle(cornerRadius: 3).strokeBorder(on ? .clear : C.lineStrong, lineWidth: 1))
+                    .overlay(on ? Text(verbatim: "✓").font(.ui(10, .bold)).foregroundStyle(C.onAccent) : nil)
+                    .frame(width: 16, height: 16)
+                Text(label).font(.ui(14)).foregroundStyle(C.text)
+            }
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+/// Radar alerts as the desktop: gate camps, bubbles and smartbombs; every kill nearby; none — and sound.
+struct RadarNotifyPicker: View {
+    @State private var settings = NotificationSettings.shared
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                ForEach(RadarNotify.allCases, id: \.self) { mode in
+                    Button(label(mode)) {
+                        settings.radar = mode
+                        if mode != .off { Task { await settings.authorize() } }
+                    }
+                    .buttonStyle(CanopusButtonStyle(kind: settings.radar == mode ? .primary : .ghost, small: true))
+                }
+            }
+            if settings.radar != .off {
+                Button(settings.radarSound ? String(localized: "✓ With sound") : String(localized: "Without sound")) { settings.radarSound.toggle() }
+                    .buttonStyle(.canopusSmall)
+            }
+        }
+    }
+
+    private func label(_ m: RadarNotify) -> String {
+        switch m {
+        case .danger: String(localized: "Camps, bubbles, smartbombs")
+        case .all: String(localized: "Every kill nearby")
+        case .off: String(localized: "Off")
         }
     }
 }

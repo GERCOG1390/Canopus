@@ -584,10 +584,13 @@ struct CharacterRootView: View {
             .filter { $0.identifier.hasPrefix("canopus.skill.") }
             .map(\.identifier)
         center.removePendingNotificationRequests(withIdentifiers: toRemove)
+        // Only when the pilot turned it on (Settings → Notifications) and iOS allows it.
+        guard NotificationSettings.shared.skillDone,
+              await center.notificationSettings().authorizationStatus == .authorized else { return }
         guard let entry, let finish = entry.finishDate, finish > Date() else { return }
         let content = UNMutableNotificationContent()
-        content.title = "Skill Training Complete"
-        content.body = "\(characterName): \(entry.skillName ?? "Skill \(entry.skillId)") \(romanNumeral(entry.finishedLevel)) complete"
+        content.title = String(localized: "Skill training complete")
+        content.body = String(localized: "\(characterName): \(entry.skillName ?? "Skill \(entry.skillId)") \(romanNumeral(entry.finishedLevel)) complete")
         content.sound = .default
         let comps = Calendar.current.dateComponents([.year,.month,.day,.hour,.minute,.second], from: finish)
         let req = UNNotificationRequest(

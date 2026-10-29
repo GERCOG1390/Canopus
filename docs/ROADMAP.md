@@ -83,7 +83,9 @@ belongs to.
   PvP is now the desktop's pilot dossier (any pilot by name, zKillboard stats, recent fights with the
   victim's fit and the attackers); the old kill board screen is gone. Blue / red standings need the
   contacts scopes (esi-characters/corporations/alliances.read_contacts) with the new SSO app, as does
-  "add dangerous pilots to contacts" (write_contacts). Still in phase 3: radar notifications.
+  "add dangerous pilots to contacts" (write_contacts). Radar notifications as the desktop's radarAlert
+  (camps / bubbles / smartbombs, every kill, off; sound), banners while the app is open; notification
+  permission asked when a notification is turned on, not at launch. Phase 3 done.
 - 2026-10-28: item info as the desktop's InfoPanel (description with ship traits and links, attributes by
   category with units and icons, effects in words, requirement tree, skill, masteries, variations,
   industry, reprocessing, hub prices), in Russian from the SDE. sde-import 3: the new export's renamed
@@ -91,4 +93,7 @@ belongs to.
   attribute categories, meta groups, races, factions, blueprints, type materials, certificates,
   masteries and Russian texts (l10n, type_traits_ru, zlib-compressed type_descriptions_ru). Database
   43 MB (was 31). Item names elsewhere in the app stay English for now.
+- 2026-10-28: names in the app's language everywhere (SDENames); EFT export stays English, EFT / fleet /
+  search accept both. Next: the fitting screen's modules tab in the desktop's layout (still the old
+  amber list with English slot labels), then phase 4.
 
