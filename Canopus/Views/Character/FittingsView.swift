@@ -951,10 +951,12 @@ private struct SubsystemSlotDefinition: Identifiable {
             ToolbarItemGroup(placement: .topBarTrailing) {
                 Menu {
                     Button {
-                        exportSheet = FittingTextSheet(
-                            title: "EXPORT FIT",
-                            text: exportEFT()
-                        )
+                        Task {
+                            // EFT is read by the game and other tools: English names whatever the app shows.
+                            let ids = Set([fit.shipTypeId] + currentItems.map(\.typeId) + configs.values.compactMap(\.chargeTypeId))
+                            let english = (try? await env.repository?.englishNames(ids: ids)) ?? [:]
+                            exportSheet = FittingTextSheet(title: "EXPORT FIT", text: exportEFT(english: english))
+                        }
                     } label: {
                         Text("Export EFT")
                     }
@@ -1719,9 +1721,10 @@ private struct SubsystemSlotDefinition: Identifiable {
         return "Affects \(groups) · \(attrs)"
     }
 
-    private func exportEFT() -> String {
+    private func exportEFT(english: [Int: String]) -> String {
+        let typeName = { (id: Int, fallback: String) in english[id] ?? self.typeName(id, fallback: fallback) }
         var lines: [String] = []
-        lines.append("[\(typeName(fit.shipTypeId, fallback: "Ship \(fit.shipTypeId)")), \(fit.name)]")
+        lines.append("[\(typeName(fit.shipTypeId, "Ship \(fit.shipTypeId)")), \(fit.name)]")
 
         let moduleOrder: [Slot] = [.low, .mid, .high, .rig, .sub]
         for slot in moduleOrder {
@@ -1729,7 +1732,7 @@ private struct SubsystemSlotDefinition: Identifiable {
             if !modules.isEmpty {
                 lines.append("")
                 for item in modules {
-                    lines.append(typeName(item.typeId, fallback: "Type \(item.typeId)"))
+                    lines.append(typeName(item.typeId, "Type \(item.typeId)"))
                 }
             }
         }
@@ -1745,9 +1748,9 @@ private struct SubsystemSlotDefinition: Identifiable {
         }
         if !cargo.isEmpty {
             lines.append("")
-            for typeId in cargo.keys.sorted(by: { typeName($0, fallback: "") < typeName($1, fallback: "") }) {
+            for typeId in cargo.keys.sorted(by: { typeName($0, "") < typeName($1, "") }) {
                 let quantity = cargo[typeId] ?? 1
-                let name = typeName(typeId, fallback: "Type \(typeId)")
+                let name = typeName(typeId, "Type \(typeId)")
                 lines.append(quantity > 1 ? "\(name) x\(quantity)" : name)
             }
         }
@@ -3339,10 +3342,11 @@ private struct FitImportSheet: View {
     }
 
     private func exactType(named name: String, repo: SDERepository) async throws -> ItemType {
-        let found = try await repo.search(name)
-        if let exact = found.first(where: { $0.name.caseInsensitiveCompare(name) == .orderedSame }) {
+        // The exact name in English or in the app's language first: shown names may be Russian.
+        if let exact = try await repo.type(named: name) {
             return exact
         }
+        let found = try await repo.search(name)
         if let first = found.first {
             return first
         }

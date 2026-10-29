@@ -68,7 +68,9 @@ public struct SDERepository: Sendable {
     /// Opens the bundled SDE database off the main thread.
     public static func openBundled() async throws -> SDERepository {
         let pool = try await Task.detached(priority: .userInitiated) {
-            try SDEDatabase.openBundled()
+            let pool = try SDEDatabase.openBundled()
+            try pool.read { try SDENames.load($0) }
+            return pool
         }.value
         return SDERepository(dbReader: pool)
     }
@@ -86,7 +88,7 @@ public struct SDERepository: Sendable {
                 .filter(Column("published") == true)
                 .order(Column("name"))
                 .fetchAll(db)
-                .map { $0.toDomain() }
+                .map { $0.toDomain() }.byName()
         }
         await cache.setAllCategories(result)
         return result
@@ -189,7 +191,7 @@ public struct SDERepository: Sendable {
                 .filter(Column("category_id") == categoryId && Column("published") == true)
                 .order(Column("name"))
                 .fetchAll(db)
-                .map { $0.toDomain() }
+                .map { $0.toDomain() }.byName()
         }
         await cache.setGroups(result, categoryId: categoryId)
         return result
@@ -219,7 +221,7 @@ public struct SDERepository: Sendable {
                     .filter(Column("parent_id") == nil)
                     .order(Column("name"))
             }
-            return try request.fetchAll(db).map { $0.toDomain() }
+            return try request.fetchAll(db).map { $0.toDomain() }.byName()
         }
         await cache.setMarketGroups(result, parentId: parentId)
         return result
@@ -269,7 +271,7 @@ public struct SDERepository: Sendable {
                 .filter(Column("group_id") == groupId && Column("published") == true)
                 .order(Column("name"))
                 .fetchAll(db)
-                .map { $0.toDomain() }
+                .map { $0.toDomain() }.byName()
         }
     }
 
@@ -279,7 +281,7 @@ public struct SDERepository: Sendable {
                 .filter(Column("market_group_id") == marketGroupId && Column("published") == true)
                 .order(Column("name"))
                 .fetchAll(db)
-                .map { $0.toDomain() }
+                .map { $0.toDomain() }.byName()
         }
     }
 
@@ -647,10 +649,10 @@ public struct SDERepository: Sendable {
                     ORDER BY t.name LIMIT 300
                     """
                 let args = StatementArguments(groupIds) + StatementArguments([sz])
-                return try TypeRecord.fetchAll(db, sql: sql, arguments: args).map { $0.toDomain() }
+                return try TypeRecord.fetchAll(db, sql: sql, arguments: args).map { $0.toDomain() }.byName()
             } else {
                 let sql = "SELECT * FROM types WHERE published = 1 AND group_id IN (\(gp)) ORDER BY name LIMIT 300"
-                return try TypeRecord.fetchAll(db, sql: sql, arguments: StatementArguments(groupIds)).map { $0.toDomain() }
+                return try TypeRecord.fetchAll(db, sql: sql, arguments: StatementArguments(groupIds)).map { $0.toDomain() }.byName()
             }
         }
         await cache.setCompatibleCharges(result, weaponTypeId: weaponTypeId)
@@ -667,7 +669,7 @@ public struct SDERepository: Sendable {
                 ORDER BY g.name
                 """
             return try GroupRecord.fetchAll(db, sql: sql, arguments: [weaponTypeId])
-                .map { $0.toDomain() }
+                .map { $0.toDomain() }.byName()
         }
     }
 
@@ -959,8 +961,29 @@ public struct SDERepository: Sendable {
                 ORDER BY rank
                 LIMIT 100
                 """
-            return try TypeRecord.fetchAll(db, sql: sql, arguments: [pattern])
-                .map { $0.toDomain() }
+            var found = try TypeRecord.fetchAll(db, sql: sql, arguments: [pattern])
+            // Names in the app's language (Russian) too: the FTS index holds the English ones.
+            let q = trimmed.lowercased()
+            let ruIds = SDENames.ruTypeIds.filter { $0.key.contains(q) }.sorted { ($0.key.hasPrefix(q) ? 0 : 1, $0.key.count) < ($1.key.hasPrefix(q) ? 0 : 1, $1.key.count) }.prefix(100).map(\.value)
+            let have = Set(found.map(\.id))
+            let extra = ruIds.filter { !have.contains($0) }
+            if !extra.isEmpty {
+                found = try TypeRecord.fetchAll(db, sql: "SELECT * FROM types WHERE published = 1 AND id IN (\(extra.map(String.init).joined(separator: ",")))") + found
+            }
+            return found.prefix(100).map { $0.toDomain() }
         }
+    }
+}
+
+/// Lists the SQL orders by English name are re-sorted by the shown name (Russian when the app is).
+protocol NamedForSorting { var name: String { get } }
+extension ItemType: NamedForSorting {}
+extension ItemGroup: NamedForSorting {}
+extension ItemCategory: NamedForSorting {}
+extension MarketGroup: NamedForSorting {}
+
+extension Array where Element: NamedForSorting {
+    func byName() -> [Element] {
+        SDENames.appIsRussian ? sorted { $0.name.localizedStandardCompare($1.name) == .orderedAscending } : self
     }
 }

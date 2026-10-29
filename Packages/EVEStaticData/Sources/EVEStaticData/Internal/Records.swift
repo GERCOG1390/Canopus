@@ -10,7 +10,7 @@ struct CategoryRecord: Codable, FetchableRecord, TableRecord, Sendable {
     let published: Bool
 
     func toDomain() -> ItemCategory {
-        ItemCategory(id: id, name: name, published: published)
+        ItemCategory(id: id, name: SDENames.name("category", id, name), published: published)
     }
 }
 
@@ -29,7 +29,7 @@ struct GroupRecord: Codable, FetchableRecord, TableRecord, Sendable {
     }
 
     func toDomain() -> ItemGroup {
-        ItemGroup(id: id, categoryId: categoryId, name: name, published: published)
+        ItemGroup(id: id, categoryId: categoryId, name: SDENames.name("group", id, name), published: published)
     }
 }
 
@@ -52,7 +52,7 @@ struct MarketGroupRecord: Codable, FetchableRecord, TableRecord, Sendable {
     }
 
     func toDomain() -> MarketGroup {
-        MarketGroup(id: id, parentId: parentId, name: name, description: description, iconId: iconId, hasTypes: hasTypes)
+        MarketGroup(id: id, parentId: parentId, name: SDENames.name("market_group", id, name), description: description, iconId: iconId, hasTypes: hasTypes)
     }
 }
 
@@ -87,7 +87,7 @@ struct TypeRecord: Codable, FetchableRecord, TableRecord, Sendable {
     func toDomain() -> ItemType {
         ItemType(
             id: id, groupId: groupId, marketGroupId: marketGroupId,
-            name: name, typeDescription: description, mass: mass,
+            name: SDENames.name("type", id, name), typeDescription: description, mass: mass,
             volume: volume, capacity: capacity, portionSize: portionSize,
             basePrice: basePrice, published: published, metaGroupId: metaGroupId,
             variationParentId: variationParentId

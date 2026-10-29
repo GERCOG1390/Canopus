@@ -111,6 +111,13 @@ extension SDERepository {
                     out[(row["name"] as String).lowercased()] = (row["id"], row["category_id"])
                 }
             }
+            // Lists copied from a Russian client name ships in Russian.
+            let ruHits = lower.filter { out[$0] == nil }.compactMap { n in SDENames.ruTypeIds[n].map { (n, $0) } }
+            if !ruHits.isEmpty {
+                let cats = try Row.fetchAll(db, sql: "SELECT t.id, g.category_id FROM types t JOIN groups g ON g.id = t.group_id WHERE t.id IN (\(ruHits.map { String($0.1) }.joined(separator: ",")))")
+                    .reduce(into: [Int: Int]()) { $0[$1["id"]] = $1["category_id"] }
+                for (n, id) in ruHits { out[n] = (id, cats[id] ?? 0) }
+            }
             return out
         }
     }
