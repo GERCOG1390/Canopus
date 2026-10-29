@@ -71,5 +71,7 @@ belongs to.
   desktop's GalaxyMap): security colours, gates, kills in the last hour, region and system names,
   orbit / move / pinch, tap to pick, search, where am I, top / side / whole views, system card with
   kills and jumps, ESI routes (safest / shortest / low-null) with avoided systems and danger on the
-  way, notes. Next on the map: sovereignty, capital jump range, jump bridges, intel marks (with
-  phase 3), set destination in game (needs the ui.write_waypoint scope with the new SSO app).
+  way, notes. Then sovereignty (alliance colours, raidable Skyhooks, timers), capital jump range
+  (sphere and reachable systems by ship and JDC) and alliance jump bridges (pasted list, capital
+  distances, routes over bridges worked out locally as the desktop's routeLocal). Still: intel marks
+  (with phase 3), set destination in game (needs ui.write_waypoint with the new SSO app).

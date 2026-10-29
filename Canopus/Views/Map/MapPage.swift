@@ -2,6 +2,7 @@
 // system's card, the route with its danger (kills in the last hour), avoided systems and notes.
 
 import SwiftUI
+import simd
 import EVEAuth
 import EVEStaticData
 
@@ -23,6 +24,22 @@ struct MapPage: View {
     @State private var routing = false
     @State private var search = ""
     @State private var marks = SystemMarks.load()
+    @State private var bridgeHops = 0
+    // Sovereignty
+    @State private var showSov = false
+    @State private var sov: SovData?
+    @State private var sovError: Error?
+    // Jump bridges
+    @State private var bridges = BridgeStore.load()
+    @State private var showBridges = true
+    @State private var viaBridges = true
+    @State private var bridgesOpen = false
+    // Capital jump range
+    @State private var jumpFrom: Int?
+    @State private var jumpShips: [JumpDriveShip] = []
+    @State private var jumpShip: JumpDriveShip?
+    @State private var jumpAll5 = true
+    @State private var jdcLevel: Int?
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -60,8 +77,18 @@ struct MapPage: View {
         }
         .task(id: env.repositoryVersion) { await load() }
         .task { await loadTraffic() }
-        .task(id: "\(origin ?? 0)-\(routeTo ?? 0)-\(flag.rawValue)-\(marks.avoid.sorted())") { await loadRoute() }
+        .task(id: "\(origin ?? 0)-\(routeTo ?? 0)-\(flag.rawValue)-\(marks.avoid.sorted())-\(viaBridges)-\(bridges.list.count)") { await loadRoute() }
+        .task(id: showSov) { await loadSov() }
+        .task(id: jumpAll5) { await loadJdc() }
         .onChange(of: selected) { syncOverlay() }
+        .onChange(of: bridges) { bridges.save(); syncOverlay() }
+        .onChange(of: showBridges) { syncOverlay() }
+        .onChange(of: jumpKey) { syncOverlay(); if let j = overlay.jump { controller.fit([j.from] + j.systems) } }
+        .sheet(isPresented: $bridgesOpen) {
+            if let galaxy {
+                NavigationStack { BridgesSheet(galaxy: galaxy, store: $bridges, onSystem: { bridgesOpen = false; controller.fly(to: $0) }) }
+            }
+        }
         .onChange(of: route) { syncOverlay() }
         .onChange(of: marks) { marks.save(); syncOverlay() }
     }
@@ -89,6 +116,18 @@ struct MapPage: View {
                 routeFrom = a
                 routeTo = b
                 selected = b
+            }
+            // `-mapSov YES`, `-mapJump 1DQ1-A:Thanatos`, `-mapBridges "A » B;C » D"`.
+            if UserDefaults.standard.bool(forKey: "mapSov") { showSov = true }
+            if let text = UserDefaults.standard.string(forKey: "mapBridges") {
+                bridges.text = text.replacingOccurrences(of: ";", with: "\n")
+                bridges.list = MapLogic.parseBridges(bridges.text, galaxy: g).bridges
+            }
+            if let parts = UserDefaults.standard.string(forKey: "mapJump")?.split(separator: ":"), parts.count == 2, let id = byName(String(parts[0])) {
+                await loadJdc()
+                jumpShip = jumpShips.first { $0.name == parts[1] }
+                jumpFrom = id
+                selected = id
             } else if let n = UserDefaults.standard.string(forKey: "mapFly"), let id = byName(n) {
                 try? await Task.sleep(for: .milliseconds(500))
                 controller.fly(to: id)
@@ -119,9 +158,19 @@ struct MapPage: View {
         routeError = nil
         guard let from = origin, let to = routeTo, from != to else { return }
         routing = true
+        bridgeHops = 0
         defer { routing = false }
         // ESI refuses the start or the end in the avoid list.
         let avoid = marks.avoid.filter { $0 != from && $0 != to }.sorted()
+        // ESI routes over stargates only. With jump bridges the route is worked out here, and used only
+        // when it actually takes a bridge: otherwise ESI's route is exactly the game's.
+        if viaBridges, !bridges.list.isEmpty, let g = galaxy,
+           let local = MapLogic.route(g, from: from, to: to, flag: flag.rawValue, bridges: bridges.list, avoid: avoid), local.bridgeHops > 0 {
+            route = local.ids
+            bridgeHops = local.bridgeHops
+            controller.fit(route)
+            return
+        }
         do {
             route = try await MarketService().route(from: from, to: to, flag: flag, avoid: avoid)
             controller.fit(route)
@@ -137,8 +186,60 @@ struct MapPage: View {
         o.selected = selected
         o.avoid = Set(marks.avoid)
         o.noted = Set(marks.notes.keys)
+        o.sovColors = showSov ? sov?.systemColors : nil
+        o.skyhooks = showSov ? Array(sov?.skyhooks.keys ?? [:].keys) : []
+        o.timers = showSov ? Array(sov?.timers.keys ?? [:].keys) : []
+        o.bridges = showBridges ? bridges.list : []
+        o.jump = jumpReach
         overlay = o
     }
+
+    // MARK: Sovereignty
+
+    /// Who holds each system, raidable Skyhooks and sovereignty timers (public ESI), every 10 minutes.
+    private func loadSov() async {
+        guard showSov else { syncOverlay(); return }
+        while !Task.isCancelled {
+            do {
+                let market = MarketService()
+                async let systems = market.sovereignty()
+                async let hooks = market.raidableSkyhooks()
+                async let campaigns = market.sovereigntyCampaigns()
+                sov = try await SovData(systems: systems, skyhooks: (try? await hooks) ?? [], campaigns: (try? await campaigns) ?? [], market: market)
+                sovError = nil
+            } catch {
+                if error.isCancellation { return }
+                sovError = error
+            }
+            syncOverlay()
+            try? await Task.sleep(for: .seconds(600))
+        }
+    }
+
+    // MARK: Capital jump range
+
+    /// Jump Drive Calibration: V, or the character's level.
+    private func loadJdc() async {
+        if jumpShips.isEmpty, let repo = env.repository { jumpShips = (try? await repo.jumpDriveShips()) ?? [] }
+        guard !jumpAll5, let svc = env.characterStore.selectedService else { jdcLevel = 5; return }
+        let skills = try? await svc.skills()
+        jdcLevel = skills?.skills.first { $0.skillId == 21611 }?.activeSkillLevel ?? 0
+    }
+
+    /// Base range × (1 + 20% per Jump Drive Calibration level), light years.
+    private var jumpRange: Float {
+        guard let ship = jumpShip else { return 0 }
+        return Float(ship.baseRange * (1 + 0.2 * Double(jdcLevel ?? 5)))
+    }
+
+    private var jumpReach: GalaxyJump? {
+        guard let from = jumpFrom, let g = galaxy, let i = g.index[from], jumpRange > 0 else { return nil }
+        let p = g.positions[i]
+        let systems = (0..<g.count).filter { j in j != i && g.jumpable[j] && simd_length(g.positions[j] - p) <= jumpRange }.map { g.ids[$0] }
+        return GalaxyJump(from: from, range: jumpRange, systems: systems)
+    }
+
+    private var jumpKey: String { "\(jumpFrom ?? 0)-\(jumpShip?.id ?? 0)-\(jdcLevel ?? -1)" }
 
     private func pvp(_ id: Int) -> Int { kills[id].map { $0.shipKills + $0.podKills } ?? 0 }
 
@@ -195,6 +296,10 @@ struct MapPage: View {
                     Button("Whole map") { controller.show(.all) }.buttonStyle(.canopusSmall)
                     toggle("Stargates", $overlay.showGates)
                     toggle("Kills in the last hour", $overlay.showKills)
+                    toggle("Sovereignty", $showSov)
+                    Button(bridges.list.isEmpty ? String(localized: "Bridges") : String(localized: "Bridges: \(bridges.list.count)")) { bridgesOpen = true }
+                        .buttonStyle(.canopusSmall)
+                    if !bridges.list.isEmpty { toggle("Show bridges", $showBridges) }
                 }
             }
         }
@@ -231,24 +336,44 @@ struct MapPage: View {
 
     private var legend: some View {
         VStack(alignment: .leading, spacing: 3) {
-            legendRow(Circle().fill(C.sec(1)), "highsec")
-            legendRow(Circle().fill(C.sec(0.3)), "lowsec")
-            legendRow(Circle().fill(C.sec(-0.5)), "nullsec")
+            if showSov, let sov {
+                ForEach(sov.top, id: \.id) { a in
+                    HStack(spacing: 6) {
+                        Circle().fill(Color(rgba: sov.allianceColors[a.id] ?? .one)).frame(width: 9, height: 9)
+                        Text(verbatim: sov.names[a.id] ?? "#\(a.id)").font(.ui(11)).foregroundStyle(C.text2).lineLimit(1)
+                        Text(verbatim: "\(a.count)").font(.mono(10)).foregroundStyle(C.faint)
+                    }
+                }
+                legendRow(Circle().fill(Color(red: 0xC7 / 255, green: 0x7D / 255, blue: 1)), "Skyhooks open to theft: \(sov.skyhooks.count)")
+                legendRow(Circle().fill(Color(red: 1, green: 0x9F / 255, blue: 0x1C / 255)), "Sovereignty timers: \(sov.timers.count)")
+            } else if showSov, let sovError {
+                Text(sovError.localizedDescription).font(.ui(11)).foregroundStyle(C.bad)
+            } else {
+                legendRow(Circle().fill(C.sec(1)), "highsec")
+                legendRow(Circle().fill(C.sec(0.3)), "lowsec")
+                legendRow(Circle().fill(C.sec(-0.5)), "nullsec")
+            }
             if overlay.showKills {
                 legendRow(Circle().fill(Color(red: 1, green: 0x4A / 255, blue: 0x2E / 255).opacity(0.6)), "kills in the last hour")
             }
             if overlay.current != nil { legendRow(Circle().strokeBorder(C.accent, lineWidth: 2), "you are here") }
             if !marks.avoid.isEmpty { legendRow(Circle().strokeBorder(C.muted, lineWidth: 2), "avoided") }
             if !marks.notes.isEmpty { legendRow(Text(verbatim: "✎").font(.ui(10)).foregroundStyle(C.warn), "note") }
+            if showBridges && !bridges.list.isEmpty { legendRow(Rectangle().fill(C.star).frame(height: 2), "bridges") }
+            if jumpReach != nil { legendRow(Circle().fill(Color(red: 0x8E / 255, green: 0xCB / 255, blue: 1)), "in jump range") }
         }
         .padding(8)
         .background(C.panel.opacity(0.85), in: RoundedRectangle(cornerRadius: 8))
     }
 
-    private func legendRow<Mark: View>(_ mark: Mark, _ label: LocalizedStringKey) -> some View {
+    private func legendRow<Mark: View>(_ mark: Mark, _ label: String.LocalizationValue) -> some View {
+        legendRow(mark, Text(String(localized: label)))
+    }
+
+    private func legendRow<Mark: View>(_ mark: Mark, _ label: Text) -> some View {
         HStack(spacing: 6) {
             mark.frame(width: 9, height: 9)
-            Text(label).font(.ui(11)).foregroundStyle(C.text2)
+            label.font(.ui(11)).foregroundStyle(C.text2)
         }
     }
 
@@ -262,6 +387,9 @@ struct MapPage: View {
             }
             if routeTo != nil {
                 routePanel(g)
+            }
+            if jumpFrom != nil {
+                jumpPanel(g)
             }
         }
         .frame(maxWidth: 420)
@@ -283,6 +411,20 @@ struct MapPage: View {
                 if let j = jumps[id] { Text("Jumps: \(j)").foregroundStyle(C.muted) }
             }
             .font(.ui(12))
+            if showSov, let sov, let info = sov.systems[id] {
+                VStack(alignment: .leading, spacing: 2) {
+                    if let a = info.alliance {
+                        Text(verbatim: sov.names[a] ?? "#\(a)").foregroundStyle(Color(rgba: sov.allianceColors[a] ?? .one))
+                    }
+                    if let end = sov.skyhooks[id] {
+                        Text("Skyhook open to theft until \(Self.eveTime(end)) EVE").foregroundStyle(Color(red: 0xC7 / 255, green: 0x7D / 255, blue: 1))
+                    }
+                    if let t = sov.timers[id] {
+                        Text("Sovereignty timer: \(t.event) · \(Self.eveDateTime(t.start)) EVE").foregroundStyle(Color(red: 1, green: 0x9F / 255, blue: 0x1C / 255))
+                    }
+                }
+                .font(.ui(12))
+            }
             HStack(spacing: 6) {
                 Button("Route here") { routeTo = id }
                     .buttonStyle(.canopusSmall)
@@ -296,6 +438,7 @@ struct MapPage: View {
             if origin == nil {
                 Text("Pick the route's start first: From here").font(.ui(11)).foregroundStyle(C.faint)
             }
+            Button("Capital jump from here") { jumpFrom = id }.buttonStyle(.canopusSmall)
             NoteField(text: Binding(get: { marks.notes[id] ?? "" }, set: { marks.notes[id] = $0.isEmpty ? nil : $0 }))
         }
         .canopusSurface(padding: 12)
@@ -322,6 +465,9 @@ struct MapPage: View {
                         .buttonStyle(CanopusButtonStyle(kind: flag == f ? .primary : .ghost, small: true))
                 }
             }
+            if !bridges.list.isEmpty {
+                toggle("Through the alliance's bridges", $viaBridges)
+            }
             let avoided = marks.avoid.filter { $0 != origin && $0 != routeTo }.count
             if avoided > 0 {
                 HStack {
@@ -344,6 +490,14 @@ struct MapPage: View {
                     Text(verbatim: "\(count.null)").foregroundStyle(C.sec(-0.5))
                 }
                 .font(.mono(13))
+                if bridgeHops > 0 {
+                    (Text("Over bridges: \(bridgeHops)").foregroundColor(C.star) + Text(" · subcapitals only").foregroundColor(C.muted))
+                        .font(.ui(12))
+                    if flag != .shortest {
+                        Text("Canopus works out routes with bridges: the safe one can differ from the game's by a couple of jumps.")
+                            .font(.ui(11)).foregroundStyle(C.faint)
+                    }
+                }
                 if hot.isEmpty {
                     Text("No kills on the route in the last hour").font(.ui(12)).foregroundStyle(C.muted)
                 } else {
@@ -362,6 +516,211 @@ struct MapPage: View {
             }
         }
         .canopusSurface(padding: 12)
+    }
+}
+
+extension MapPage {
+    fileprivate func jumpPanel(_ g: GalaxyData) -> some View {
+        let name = jumpFrom.flatMap { g.index[$0] }.map { g.names[$0] } ?? ""
+        return VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Jump from \(name)").font(.ui(15, .semibold)).foregroundStyle(C.text)
+                Spacer()
+                Button("✕") { jumpFrom = nil }.buttonStyle(.canopusSmall)
+            }
+            Menu {
+                ForEach(jumpShips) { ship in
+                    Button(ship.name) { jumpShip = ship }
+                }
+            } label: {
+                Text(jumpShip?.name ?? String(localized: "Pick a ship with a jump drive")).font(.ui(13))
+            }
+            .buttonStyle(.canopusGhost)
+            HStack(spacing: 6) {
+                Button("Jump Drive Calibration V") { jumpAll5 = true }
+                    .buttonStyle(CanopusButtonStyle(kind: jumpAll5 ? .primary : .ghost, small: true))
+                if env.characterStore.selectedService != nil {
+                    Button("Character's skills") { jumpAll5 = false }
+                        .buttonStyle(CanopusButtonStyle(kind: jumpAll5 ? .ghost : .primary, small: true))
+                }
+            }
+            if jumpShip != nil, jumpRange > 0 {
+                HStack(spacing: 6) {
+                    Text(verbatim: String(format: "%.2f ly", jumpRange)).font(.mono(14, medium: true)).foregroundStyle(C.text)
+                    Text(verbatim: "· JDC \(jdcLevel ?? 5)").font(.ui(12)).foregroundStyle(C.muted)
+                }
+                Text("Systems in range: \(jumpReach?.systems.count ?? 0)").font(.ui(13)).foregroundStyle(C.text2)
+                Text("Highsec and Pochven can't be jumped to. Bridges are closed to capitals.").font(.ui(11)).foregroundStyle(C.faint)
+            }
+        }
+        .canopusSurface(padding: 12)
+    }
+
+    fileprivate static func eveTime(_ d: Date) -> String {
+        let f = DateFormatter()
+        f.timeZone = TimeZone(identifier: "UTC")
+        f.dateFormat = "HH:mm"
+        return f.string(from: d)
+    }
+
+    fileprivate static func eveDateTime(_ d: Date) -> String {
+        let f = DateFormatter()
+        f.timeZone = TimeZone(identifier: "UTC")
+        f.dateFormat = "yyyy-MM-dd HH:mm"
+        return f.string(from: d)
+    }
+}
+
+/// Sovereignty as the map shows it: holder colours (the ten biggest alliances distinct), names, Skyhooks, timers.
+struct SovData {
+    struct Holder { let alliance: Int?; let faction: Int? }
+    let systems: [Int: Holder]
+    let skyhooks: [Int: Date]
+    let timers: [Int: (event: String, start: Date)]
+    let top: [(id: Int, count: Int)]
+    let allianceColors: [Int: SIMD4<Float>]
+    let names: [Int: String]
+
+    @MainActor
+    init(systems list: [ESISovereigntySystem], skyhooks hooks: [ESIRaidableSkyhook], campaigns: [ESISovereigntyCampaign], market: MarketService) async throws {
+        var systems: [Int: Holder] = [:]
+        var counts: [Int: Int] = [:]
+        for s in list {
+            let a = s.claim?.alliance?.allianceId
+            systems[s.solarSystemId] = Holder(alliance: a, faction: a == nil ? s.claim?.faction?.factionId : nil)
+            if let a { counts[a, default: 0] += 1 }
+        }
+        var skyhooks: [Int: Date] = [:]
+        for h in hooks { skyhooks[h.solarSystemId] = max(skyhooks[h.solarSystemId] ?? .distantPast, h.theftVulnerability?.end ?? .distantPast) }
+        var timers: [Int: (event: String, start: Date)] = [:]
+        for c in campaigns { timers[c.solarSystemId] = (c.eventType, c.startTime) }
+        let top = counts.sorted { $0.value != $1.value ? $0.value > $1.value : $0.key < $1.key }.prefix(10).map { (id: $0.key, count: $0.value) }
+        var colors = Dictionary(uniqueKeysWithValues: counts.keys.map { ($0, MapLogic.hashedColor($0)) })
+        for (k, a) in top.enumerated() { colors[a.id] = MapLogic.color(hex: MapLogic.topColors[k]) }
+        self.systems = systems
+        self.skyhooks = skyhooks
+        self.timers = timers
+        self.top = top
+        allianceColors = colors
+        names = (try? await market.names(ids: Array(counts.keys))) ?? [:]
+    }
+
+    /// Star colour per system id (alliance holders only; the map dims the rest).
+    var systemColors: [Int: SIMD4<Float>] {
+        systems.reduce(into: [:]) { out, e in if let a = e.value.alliance { out[e.key] = allianceColors[a] } }
+    }
+}
+
+extension Color {
+    init(rgba v: SIMD4<Float>) {
+        self.init(red: Double(v.x), green: Double(v.y), blue: Double(v.z), opacity: Double(v.w))
+    }
+}
+
+/// Paste the alliance's jump bridges, pick the capital: distances show how far each bridge reaches.
+private struct BridgesSheet: View {
+    let galaxy: GalaxyData
+    @Binding var store: BridgeStore
+    let onSystem: (Int) -> Void
+    @Environment(\.dismiss) private var dismiss
+    @State private var text = ""
+    @State private var unknown: [String] = []
+    @State private var capitalSearch = ""
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 12) {
+                Text("Paste the bridge list, one per line: \"1DQ1-A » 8WA-Z6\", Dotlan's format (\"1DQ1-A @ 3-4 » 8WA-Z6 @ 1-1\") or structure names. Since Cradle of War bridges take subcapitals only, and a jump costs more the farther it is from the alliance capital.")
+                    .font(.ui(12)).foregroundStyle(C.muted)
+                TextEditor(text: $text)
+                    .font(.mono(13))
+                    .scrollContentBackground(.hidden)
+                    .frame(minHeight: 140)
+                    .padding(6)
+                    .background(C.card, in: RoundedRectangle(cornerRadius: 8))
+                    .overlay(RoundedRectangle(cornerRadius: 8).strokeBorder(C.border, lineWidth: 1))
+                    .textInputAutocapitalization(.characters)
+                    .autocorrectionDisabled()
+                HStack {
+                    Button("Save") {
+                        let r = MapLogic.parseBridges(text, galaxy: galaxy)
+                        unknown = r.unknown
+                        store.text = text
+                        store.list = r.bridges
+                    }
+                    .buttonStyle(.canopus)
+                    Text("Bridges found: \(store.list.count)").font(.ui(12)).foregroundStyle(C.muted)
+                }
+                if !unknown.isEmpty {
+                    Text("Lines not recognised: \(unknown.count)").font(.ui(12)).foregroundStyle(C.bad)
+                    ForEach(unknown.prefix(5), id: \.self) { Text(verbatim: $0).font(.mono(11)).foregroundStyle(C.muted) }
+                }
+                capital
+                rows
+            }
+            .padding(16)
+        }
+        .background(C.bg)
+        .navigationTitle("Alliance bridges (Ansiblex)")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } } }
+        .onAppear { text = store.text }
+    }
+
+    private func name(_ id: Int) -> String { galaxy.index[id].map { galaxy.names[$0] } ?? "#\(id)" }
+
+    @ViewBuilder private var capital: some View {
+        HStack(spacing: 8) {
+            Text("Alliance capital:").font(.ui(13)).foregroundStyle(C.text2)
+            if let c = store.capital {
+                Button(name(c)) { onSystem(c) }.font(.ui(13)).foregroundStyle(C.accentText)
+                Button("✕") { store.capital = nil }.buttonStyle(.canopusSmall)
+            } else {
+                TextField("Find a system…", text: $capitalSearch)
+                    .font(.ui(13)).textInputAutocapitalization(.never).autocorrectionDisabled()
+                    .padding(6).background(C.card, in: RoundedRectangle(cornerRadius: 6))
+            }
+        }
+        if store.capital == nil, !capitalSearch.isEmpty {
+            let q = capitalSearch.lowercased()
+            ForEach((0..<galaxy.count).filter { galaxy.names[$0].lowercased().hasPrefix(q) }.prefix(6), id: \.self) { i in
+                Button(galaxy.names[i]) { store.capital = galaxy.ids[i]; capitalSearch = "" }.font(.ui(13)).foregroundStyle(C.accentText)
+            }
+        }
+    }
+
+    @ViewBuilder private var rows: some View {
+        // Cost grows with the distance from the capital to the bridge's far end.
+        let list = store.list.map { b -> (b: GalaxyPair, len: Float?, far: Float?) in
+            let far = store.capital.map { c in max(MapLogic.lightYears(galaxy, c, b.a) ?? 0, MapLogic.lightYears(galaxy, c, b.b) ?? 0) }
+            return (b, MapLogic.lightYears(galaxy, b.a, b.b), far)
+        }.sorted { ($0.far ?? 0) < ($1.far ?? 0) }
+        if !list.isEmpty {
+            VStack(spacing: 0) {
+                HStack {
+                    Text("Bridge").frame(maxWidth: .infinity, alignment: .leading)
+                    Text("Length, ly").frame(width: 80, alignment: .trailing)
+                    if store.capital != nil { Text("From capital, ly").frame(width: 110, alignment: .trailing) }
+                }
+                .font(.ui(11, .medium)).foregroundStyle(C.muted).padding(.bottom, 6)
+                ForEach(Array(list.enumerated()), id: \.offset) { _, r in
+                    HStack {
+                        HStack(spacing: 4) {
+                            Button(name(r.b.a)) { onSystem(r.b.a) }
+                            Text(verbatim: "⇄").foregroundStyle(C.muted)
+                            Button(name(r.b.b)) { onSystem(r.b.b) }
+                        }
+                        .font(.ui(13)).foregroundStyle(C.accentText)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(verbatim: r.len.map { String(format: "%.1f", $0) } ?? "—").frame(width: 80, alignment: .trailing)
+                        if store.capital != nil { Text(verbatim: r.far.map { String(format: "%.1f", $0) } ?? "—").frame(width: 110, alignment: .trailing) }
+                    }
+                    .font(.mono(12))
+                    .padding(.vertical, 4)
+                }
+            }
+            .canopusSurface(padding: 10)
+        }
     }
 }
 

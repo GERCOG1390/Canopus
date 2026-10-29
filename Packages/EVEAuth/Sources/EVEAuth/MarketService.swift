@@ -14,6 +14,33 @@ public struct ESISystemJumps: Decodable, Sendable {
     public let shipJumps: Int
 }
 
+public struct ESISovereigntySystem: Decodable, Sendable {
+    public struct Claim: Decodable, Sendable {
+        public struct Alliance: Decodable, Sendable { public let allianceId: Int }
+        public struct Faction: Decodable, Sendable { public let factionId: Int }
+        public let alliance: Alliance?
+        public let faction: Faction?
+    }
+    public let solarSystemId: Int
+    public let claim: Claim?
+}
+
+struct ESISovereigntySystems: Decodable, Sendable { let solarSystems: [ESISovereigntySystem] }
+
+public struct ESIRaidableSkyhook: Decodable, Sendable {
+    public struct Window: Decodable, Sendable { public let end: Date }
+    public let solarSystemId: Int
+    public let theftVulnerability: Window?
+}
+
+struct ESIRaidableSkyhooks: Decodable, Sendable { let skyhooks: [ESIRaidableSkyhook] }
+
+public struct ESISovereigntyCampaign: Decodable, Sendable {
+    public let solarSystemId: Int
+    public let eventType: String
+    public let startTime: Date
+}
+
 /// Route preference, as the game's autopilot.
 public enum ESIRouteFlag: String, CaseIterable, Sendable {
     case secure, shortest, insecure
@@ -119,6 +146,49 @@ public final class MarketService {
         var query = [URLQueryItem(name: "flag", value: flag.rawValue)]
         if !avoid.isEmpty { query.append(URLQueryItem(name: "avoid", value: avoid.map(String.init).joined(separator: ","))) }
         return try await get(path: "/route/\(from)/\(to)/", queryItems: query, as: [Int].self)
+    }
+
+    /// Who holds each system (alliance or NPC faction), from ESI's current sovereignty endpoint.
+    public func sovereignty() async throws -> [ESISovereigntySystem] {
+        try await getNew("/sovereignty/systems", as: ESISovereigntySystems.self).solarSystems
+    }
+
+    /// Skyhooks open to theft now, with when the window closes.
+    public func raidableSkyhooks() async throws -> [ESIRaidableSkyhook] {
+        try await getNew("/skyhooks/raidable", as: ESIRaidableSkyhooks.self).skyhooks
+    }
+
+    /// Sovereignty timers (ihub / TCU defense events).
+    public func sovereigntyCampaigns() async throws -> [ESISovereigntyCampaign] {
+        try await getNew("/sovereignty/campaigns", as: [ESISovereigntyCampaign].self)
+    }
+
+    /// Names of any EVE ids (alliances, systems, characters…), 1000 per request; unknown ids are skipped.
+    public func names(ids: [Int]) async throws -> [Int: String] {
+        var out: [Int: String] = [:]
+        let unique = Array(Set(ids.filter { $0 > 0 }))
+        for start in stride(from: 0, to: unique.count, by: 1000) {
+            let chunk = Array(unique[start..<min(start + 1000, unique.count)])
+            guard let req = makeRequest(path: "/universe/names/") else { throw URLError(.badURL) }
+            var post = req
+            post.httpMethod = "POST"
+            post.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            post.httpBody = try JSONEncoder().encode(chunk)
+            let (data, response) = try await urlSession.data(for: post)
+            if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) { throw URLError(.badServerResponse) }
+            for n in try JSONDecoder.esi.decode([ESINameResult].self, from: data) { out[n.id] = n.name }
+        }
+        return out
+    }
+
+    /// The versioned ESI (no /latest, a compatibility date), where the newer endpoints live.
+    private func getNew<T: Decodable & Sendable>(_ path: String, as type: T.Type) async throws -> T {
+        var req = URLRequest(url: URL(string: "https://esi.evetech.net" + path)!)
+        req.setValue(EVEConstants.userAgent, forHTTPHeaderField: "User-Agent")
+        req.setValue("2026-08-04", forHTTPHeaderField: "X-Compatibility-Date")
+        let (data, response) = try await urlSession.data(for: req)
+        if let http = response as? HTTPURLResponse, !(200..<300).contains(http.statusCode) { throw URLError(.badServerResponse) }
+        return try JSONDecoder.esi.decode(T.self, from: data)
     }
 
     // MARK: - Private

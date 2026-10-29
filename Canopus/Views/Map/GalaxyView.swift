@@ -19,6 +19,26 @@ struct GalaxyOverlay: Equatable {
     var selected: Int?
     var avoid: Set<Int> = []
     var noted: Set<Int> = []
+    /// Sovereignty on: systems coloured by holder instead of security.
+    var sovColors: [Int: SIMD4<Float>]?
+    var skyhooks: [Int] = []
+    var timers: [Int] = []
+    /// The alliance's jump bridges (system id pairs), drawn as arcs.
+    var bridges: [GalaxyPair] = []
+    /// A capital's jump range: the sphere around the start and the systems inside it.
+    var jump: GalaxyJump?
+}
+
+struct GalaxyPair: Equatable, Codable, Hashable {
+    let a: Int
+    let b: Int
+}
+
+struct GalaxyJump: Equatable {
+    let from: Int
+    /// Light years.
+    let range: Float
+    let systems: [Int]
 }
 
 /// Drives the map from SwiftUI: camera moves and the selection callback.
@@ -83,6 +103,11 @@ final class GalaxyMTKView: MTKView, MTKViewDelegate {
     private var routeLine: (MTLBuffer, MTLBuffer, Int)?
     private var routeDots: (MTLBuffer, MTLBuffer, Int)?
     private var rings: (MTLBuffer, MTLBuffer, Int)?
+    private var sovMarks: (MTLBuffer, MTLBuffer, Int)?
+    private var bridgeLines: (MTLBuffer, MTLBuffer, Int)?
+    private var jumpLines: (MTLBuffer, MTLBuffer, Int)?
+    private var jumpDots: (MTLBuffer, MTLBuffer, Int)?
+    private var secColors: [SIMD4<Float>] = []
 
     // Camera: orbit around `target`.
     private var target = SIMD3<Float>(0, 0, 0)
@@ -156,6 +181,7 @@ final class GalaxyMTKView: MTKView, MTKViewDelegate {
         centre /= Float(max(n, 1))
         starBuffer = device.makeBuffer(bytes: pos, length: MemoryLayout<SIMD4<Float>>.stride * max(n, 1))
         starColors = device.makeBuffer(bytes: col, length: MemoryLayout<SIMD4<Float>>.stride * max(n, 1))
+        secColors = col
 
         // Stargates: coloured like their systems, faint so the stars stay readable.
         var ends = [SIMD4<Float>](), ecol = [SIMD4<Float>]()
@@ -253,6 +279,70 @@ final class GalaxyMTKView: MTKView, MTKViewDelegate {
             routeLine = buffers(device, ends, lcol, count: ends.count / 2)
             let accent = GalaxyColors.rgba(UIColor(C.accent))
             routeDots = buffers(device, idx.map { SIMD4(data.positions[$0], 9) }, idx.map { _ in accent })
+        }
+        // Sovereignty: stars coloured by holder; raidable Skyhooks and sovereignty timers marked.
+        if o.sovColors != old.sovColors || o.skyhooks != old.skyhooks || o.timers != old.timers || sovMarks == nil {
+            var col = secColors
+            if let sov = o.sovColors {
+                let dim = SIMD4<Float>(0x3A / 255, 0x3C / 255, 0x42 / 255, 1), open = SIMD4<Float>(0x9D / 255, 0x9E / 255, 0x99 / 255, 1)
+                for i in 0..<data.count {
+                    col[i] = sov[data.ids[i]] ?? (data.security[i] >= 0.45 ? dim : open)
+                }
+            }
+            col.withUnsafeBytes { memcpy(starColors.contents(), $0.baseAddress!, $0.count) }
+            var pos = [SIMD4<Float>](), mc = [SIMD4<Float>]()
+            if o.sovColors != nil {
+                for (ids, color, size) in [(o.skyhooks, SIMD4<Float>(0xC7 / 255, 0x7D / 255, 1, 1), Float(13)), (o.timers, SIMD4<Float>(1, 0x9F / 255, 0x1C / 255, 1), 24)] {
+                    for id in ids { if let i = data.index[id] { pos.append(SIMD4(data.positions[i], size)); mc.append(color) } }
+                }
+            }
+            sovMarks = buffers(device, pos, mc)
+        }
+        // Jump bridges: arcs above the plane, in the star colour.
+        if o.bridges != old.bridges || bridgeLines == nil {
+            var ends = [SIMD4<Float>](), bc = [SIMD4<Float>]()
+            let star = GalaxyColors.rgba(UIColor(C.star)) * SIMD4(1, 1, 1, 0.85)
+            for pair in o.bridges {
+                guard let i = data.index[pair.a], let j = data.index[pair.b] else { continue }
+                let a = data.positions[i], b = data.positions[j]
+                var mid = (a + b) / 2
+                mid.y += simd_length(a - b) * 0.25
+                var prev = a
+                for k in 1...16 {
+                    let t = Float(k) / 16
+                    let p = (1 - t) * (1 - t) * a + 2 * (1 - t) * t * mid + t * t * b
+                    ends.append(SIMD4(prev, 1)); ends.append(SIMD4(p, 0))
+                    bc.append(star); bc.append(star)
+                    prev = p
+                }
+            }
+            bridgeLines = buffers(device, ends, bc, count: ends.count / 2)
+        }
+        // Capital jump range: a faint wire sphere and the systems a jump drive can enter.
+        if o.jump != old.jump || (o.jump != nil && jumpLines == nil) {
+            jumpLines = nil
+            jumpDots = nil
+            if let j = o.jump, let i = data.index[j.from] {
+                let c = data.positions[i], reach = SIMD4<Float>(0x8E / 255, 0xCB / 255, 1, 1)
+                var ends = [SIMD4<Float>](), jc = [SIMD4<Float>]()
+                func circle(_ point: (Float) -> SIMD3<Float>) {
+                    for k in 0..<48 {
+                        ends.append(SIMD4(c + point(Float(k) / 48 * 2 * .pi), 0.6)); ends.append(SIMD4(c + point(Float(k + 1) / 48 * 2 * .pi), 0))
+                        jc.append(reach * SIMD4(1, 1, 1, 0.12)); jc.append(reach * SIMD4(1, 1, 1, 0.12))
+                    }
+                }
+                for m in 0..<12 {
+                    let phi = Float(m) / 12 * .pi
+                    circle { t in j.range * SIMD3(cos(t) * cos(phi), sin(t), cos(t) * sin(phi)) }
+                }
+                for l in 1..<6 {
+                    let lat = Float(l) / 6 * .pi - .pi / 2
+                    circle { t in j.range * SIMD3(cos(lat) * cos(t), sin(lat), cos(lat) * sin(t)) }
+                }
+                jumpLines = buffers(device, ends, jc, count: ends.count / 2)
+                let idx = j.systems.compactMap { data.index[$0] }
+                jumpDots = buffers(device, idx.map { SIMD4(data.positions[$0], 9) }, idx.map { _ in reach })
+            }
         }
         // Rings: avoided systems, the current one, the selection.
         var pos = [SIMD4<Float>](), col = [SIMD4<Float>]()
@@ -438,7 +528,11 @@ final class GalaxyMTKView: MTKView, MTKViewDelegate {
 
         points(glowPipeline, killPoints)
         if overlay.showGates { lines(gateEnds, gateColors, gateCount) }
+        lines(jumpLines?.0, jumpLines?.1, jumpLines?.2 ?? 0)
         points(dotPipeline, (starBuffer, starColors, data.count))
+        lines(bridgeLines?.0, bridgeLines?.1, bridgeLines?.2 ?? 0)
+        points(dotPipeline, jumpDots)
+        points(dotPipeline, sovMarks)
         lines(routeLine?.0, routeLine?.1, routeLine?.2 ?? 0)
         points(dotPipeline, routeDots)
         points(ringPipeline, rings)

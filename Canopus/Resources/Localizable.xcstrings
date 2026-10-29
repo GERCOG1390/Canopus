@@ -34,6 +34,16 @@
         }
       }
     },
+    " · subcapitals only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · только для субкапиталов"
+          }
+        }
+      }
+    },
     "#%lld · %@": {},
     "%@ %@ free": {
       "localizations": {
@@ -879,6 +889,26 @@
         }
       }
     },
+    "Alliance bridges (Ansiblex)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мосты альянса (Ansiblex)"
+          }
+        }
+      }
+    },
+    "Alliance capital:": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Столица альянса:"
+          }
+        }
+      }
+    },
     "Allowed loss:": {
       "localizations": {
         "ru": {
@@ -1330,6 +1360,46 @@
         }
       }
     },
+    "Bridge": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мост"
+          }
+        }
+      }
+    },
+    "Bridges": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мосты"
+          }
+        }
+      }
+    },
+    "Bridges found: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найдено мостов: %lld"
+          }
+        }
+      }
+    },
+    "Bridges: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мосты: %lld"
+          }
+        }
+      }
+    },
     "Brokers Fee": {
       "localizations": {
         "ru": {
@@ -1547,6 +1617,16 @@
     },
     "Canopus": {},
     "Canopus %@ (%@)": {},
+    "Canopus works out routes with bridges: the safe one can differ from the game's by a couple of jumps.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маршрут с мостами считает Canopus: безопасный вариант может отличаться от игрового на пару прыжков."
+          }
+        }
+      }
+    },
     "Capacitor": {
       "extractionState": "stale",
       "localizations": {
@@ -1574,6 +1654,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ёмкость"
+          }
+        }
+      }
+    },
+    "Capital jump from here": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжок капитала отсюда"
           }
         }
       }
@@ -1627,6 +1717,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "У персонажа"
+          }
+        }
+      }
+    },
+    "Character's skills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки персонажа"
           }
         }
       }
@@ -2654,6 +2754,16 @@
         }
       }
     },
+    "From capital, ly": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "От столицы, св. лет"
+          }
+        }
+      }
+    },
     "From here": {
       "localizations": {
         "ru": {
@@ -2785,6 +2895,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Верхние слоты"
+          }
+        }
+      }
+    },
+    "Highsec and Pochven can't be jumped to. Bridges are closed to capitals.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хайсек и Почвень недоступны для прыжка. Мосты капиталам закрыты."
           }
         }
       }
@@ -3174,6 +3294,7 @@
         }
       }
     },
+    "Jump Drive Calibration V": {},
     "Jump clones": {
       "extractionState": "stale",
       "localizations": {
@@ -3181,6 +3302,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Джамп-клонов"
+          }
+        }
+      }
+    },
+    "Jump from %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжок из %@"
           }
         }
       }
@@ -3475,12 +3606,32 @@
         }
       }
     },
+    "Length, ly": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Длина, св. лет"
+          }
+        }
+      }
+    },
     "Letter": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Письмо"
+          }
+        }
+      }
+    },
+    "Lines not recognised: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не распознано строк: %lld"
           }
         }
       }
@@ -4728,6 +4879,16 @@
         }
       }
     },
+    "Over bridges: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По мостам: %lld"
+          }
+        }
+      }
+    },
     "Owned in Assets": {
       "extractionState": "stale",
       "localizations": {
@@ -4801,6 +4962,16 @@
         }
       }
     },
+    "Paste the bridge list, one per line: \"1DQ1-A » 8WA-Z6\", Dotlan's format (\"1DQ1-A @ 3-4 » 8WA-Z6 @ 1-1\") or structure names. Since Cradle of War bridges take subcapitals only, and a jump costs more the farther it is from the alliance capital.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вставьте список мостов, по одному на строку: «1DQ1-A » 8WA-Z6», формат Dotlan («1DQ1-A @ 3-4 » 8WA-Z6 @ 1-1») или названия структур. После Cradle of War мосты доступны только субкапиталам, а цена прыжка растёт с расстоянием от столицы альянса."
+          }
+        }
+      }
+    },
     "Paused": {
       "localizations": {
         "ru": {
@@ -4837,6 +5008,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Восприятие"
+          }
+        }
+      }
+    },
+    "Pick a ship with a jump drive": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите корабль с прыжковым двигателем"
           }
         }
       }
@@ -5515,6 +5696,16 @@
         }
       }
     },
+    "Save": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить"
+          }
+        }
+      }
+    },
     "Save fits in-game to see them here.": {
       "localizations": {
         "ru": {
@@ -5826,6 +6017,16 @@
         }
       }
     },
+    "Show bridges": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывать мосты"
+          }
+        }
+      }
+    },
     "Side": {
       "localizations": {
         "ru": {
@@ -5989,6 +6190,26 @@
         }
       }
     },
+    "Skyhook open to theft until %@ EVE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skyhook уязвим до %@ EVE"
+          }
+        }
+      }
+    },
+    "Skyhooks open to theft: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Skyhook уязвимы: %lld"
+          }
+        }
+      }
+    },
     "Sleepers": {
       "localizations": {
         "ru": {
@@ -6006,6 +6227,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скоро"
+          }
+        }
+      }
+    },
+    "Sovereignty": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Суверенитет"
+          }
+        }
+      }
+    },
+    "Sovereignty timer: %@ · %@ EVE": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Таймер суверенитета: %1$@ · %2$@ EVE"
+          }
+        }
+      }
+    },
+    "Sovereignty timers: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Таймеры суверенитета: %lld"
           }
         }
       }
@@ -6130,6 +6381,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Заменить"
+          }
+        }
+      }
+    },
+    "Systems in range: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Систем в досягаемости: %lld"
           }
         }
       }
@@ -6408,6 +6669,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Через low/null"
+          }
+        }
+      }
+    },
+    "Through the alliance's bridges": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Через мосты альянса"
           }
         }
       }
@@ -6998,6 +7269,16 @@
         }
       }
     },
+    "bridges": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "мосты"
+          }
+        }
+      }
+    },
     "chain lightning": {
       "localizations": {
         "ru": {
@@ -7135,6 +7416,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "корпус %@"
+          }
+        }
+      }
+    },
+    "in jump range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в досягаемости прыжка"
           }
         }
       }
