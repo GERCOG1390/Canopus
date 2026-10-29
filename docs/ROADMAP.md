@@ -84,4 +84,11 @@ belongs to.
   victim's fit and the attackers); the old kill board screen is gone. Blue / red standings need the
   contacts scopes (esi-characters/corporations/alliances.read_contacts) with the new SSO app, as does
   "add dangerous pilots to contacts" (write_contacts). Still in phase 3: radar notifications.
+- 2026-10-28: item info as the desktop's InfoPanel (description with ship traits and links, attributes by
+  category with units and icons, effects in words, requirement tree, skill, masteries, variations,
+  industry, reprocessing, hub prices), in Russian from the SDE. sde-import 3: the new export's renamed
+  keys were silently dropped (attribute display names, market group names); now read, plus units,
+  attribute categories, meta groups, races, factions, blueprints, type materials, certificates,
+  masteries and Russian texts (l10n, type_traits_ru, zlib-compressed type_descriptions_ru). Database
+  43 MB (was 31). Item names elsewhere in the app stay English for now.
 

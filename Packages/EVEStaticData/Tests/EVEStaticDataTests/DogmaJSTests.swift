@@ -77,6 +77,23 @@ struct DogmaJSTests {
         #expect((ham?.dps ?? 0) > 1)
     }
 
+    /// The item info bundle (the desktop's info()) on real types, in Russian.
+    @Test func typeInfoBundle() async throws {
+        let repo = await (try engine()).repo
+        let dc = try await repo.typeInfo(id: 2048, russian: true)          // Damage Control II
+        #expect(dc.name == "Damage Control II")
+        #expect(dc.attributes.contains { $0.id == 50 && $0.category == "Fitting" })
+        #expect(dc.modifiers.contains { $0.state == .online && $0.target == .ship && $0.op == 0 })
+        #expect(!dc.requirements.isEmpty && dc.variations.count > 3)
+        #expect(dc.producedBy != nil && !dc.reprocess.isEmpty)
+        let drake = try await repo.typeInfo(id: 24698, russian: true)      // Drake
+        #expect(!(drake.traits?.bySkill.isEmpty ?? true))
+        #expect(drake.masteries.count == 5)
+        #expect(drake.description?.contains("Drake") == true || drake.description?.isEmpty == false)
+        let skill = try await repo.typeInfo(id: 3300, russian: false)      // Gunnery
+        #expect(skill.skill != nil && !skill.requiredFor.isEmpty)
+    }
+
     @Test func hamCerberusMatchesPyfa() async throws {
         let ham = 25715, scourge = 2679
         let spec = JSFitSpec(shipTypeId: 11993, modules: [

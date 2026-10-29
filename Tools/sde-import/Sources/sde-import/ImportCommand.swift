@@ -249,9 +249,9 @@ struct ImportCommand: AsyncParsableCommand {
     }
 }
 
-/// Bumped when the importer writes new data from the same CCP build (2: the map — systems and stargates).
+/// Bumped when the importer writes new data from the same CCP build (2: the map; 3: item info — units, meta groups, blueprints, reprocessing, masteries, Russian texts).
 /// The sde-update workflow reads this line: a release is skipped only when the CCP build and it are unchanged.
-let importerVersion = "2"
+let importerVersion = "3"
 
 private struct SDEPackageManifest: Encodable {
     let build: String

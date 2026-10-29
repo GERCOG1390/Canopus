@@ -82,6 +82,18 @@ struct SDEMarketGroup: Decodable {
     let descriptionID: LocalizedString?
     let iconID: Int?
     let hasTypes: Bool?
+
+    /// The current export says name / description; the legacy one nameID / descriptionID.
+    private enum Keys: String, CodingKey { case parentGroupID, nameID, descriptionID, name, description, iconID, hasTypes }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: Keys.self)
+        parentGroupID = try c.decodeIfPresent(Int.self, forKey: .parentGroupID)
+        nameID = try c.decodeIfPresent(LocalizedString.self, forKey: .name) ?? c.decodeIfPresent(LocalizedString.self, forKey: .nameID)
+        descriptionID = try c.decodeIfPresent(LocalizedString.self, forKey: .description) ?? c.decodeIfPresent(LocalizedString.self, forKey: .descriptionID)
+        iconID = try c.decodeIfPresent(Int.self, forKey: .iconID)
+        hasTypes = try c.decodeIfPresent(Bool.self, forKey: .hasTypes)
+    }
 }
 
 // MARK: - Dogma Attributes
@@ -96,12 +108,34 @@ struct SDEMarketGroup: Decodable {
 struct SDEDogmaAttribute: Decodable {
     let name: String?
     let displayNameID: LocalizedString?
+    let tooltip: LocalizedString?
+    let categoryID: Int?
     let unitID: Int?
     let iconID: Int?
     let highIsGood: Bool?
     let stackable: Bool?
     let defaultValue: Double?
     let published: Bool?
+
+    /// The current export says displayName / tooltipDescription / attributeCategoryID; the legacy one displayNameID.
+    private enum Keys: String, CodingKey {
+        case name, displayNameID, displayName, tooltipDescription, attributeCategoryID, categoryID
+        case unitID, iconID, highIsGood, stackable, defaultValue, published
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: Keys.self)
+        name = try c.decodeIfPresent(String.self, forKey: .name)
+        displayNameID = try c.decodeIfPresent(LocalizedString.self, forKey: .displayName) ?? c.decodeIfPresent(LocalizedString.self, forKey: .displayNameID)
+        tooltip = try? c.decodeIfPresent(LocalizedString.self, forKey: .tooltipDescription)
+        categoryID = try c.decodeIfPresent(Int.self, forKey: .attributeCategoryID) ?? c.decodeIfPresent(Int.self, forKey: .categoryID)
+        unitID = try c.decodeIfPresent(Int.self, forKey: .unitID)
+        iconID = try c.decodeIfPresent(Int.self, forKey: .iconID)
+        highIsGood = try c.decodeIfPresent(Bool.self, forKey: .highIsGood)
+        stackable = try c.decodeIfPresent(Bool.self, forKey: .stackable)
+        defaultValue = try c.decodeIfPresent(Double.self, forKey: .defaultValue)
+        published = try c.decodeIfPresent(Bool.self, forKey: .published)
+    }
 }
 
 // MARK: - Dogma Effects
@@ -198,3 +232,10 @@ struct SDEMapStargate: Decodable {
     let solarSystemID: Int
     let destination: Destination
 }
+
+// MARK: - Item info (importer 3)
+
+struct SDEAttributeCategory: Decodable {
+    let name: String?
+}
+

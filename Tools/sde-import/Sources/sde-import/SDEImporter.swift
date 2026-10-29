@@ -37,6 +37,9 @@ struct SDEImporter {
         print("→ Deriving skill requirements…")
         print("  \(try await deriveSkillRequirements()) rows")
 
+        print("→ Importing item info (units, meta groups, blueprints, reprocessing, masteries)…")
+        print("  \(try await importItemInfo())")
+
         print("→ Importing the map…")
         print("  \(try await importMap())")
 
@@ -58,6 +61,7 @@ struct SDEImporter {
                     sql: "INSERT OR IGNORE INTO categories (id, name, published) VALUES (?, ?, ?)",
                     arguments: [id, r.name?.english ?? "", r.published == true ? 1 : 0]
                 )
+                try Self.russian(database, "category", id, "name", r.name?.ru)
             }
         }
         return "\(records.count) categories"
@@ -75,6 +79,7 @@ struct SDEImporter {
                     sql: "INSERT OR IGNORE INTO groups (id, category_id, name, published) VALUES (?, ?, ?, ?)",
                     arguments: [id, categoryID, r.name?.english ?? "", r.published == true ? 1 : 0]
                 )
+                try Self.russian(database, "group", id, "name", r.name?.ru)
             }
         }
         return "\(records.count) groups"
@@ -99,6 +104,7 @@ struct SDEImporter {
                         r.iconID, r.hasTypes == true ? 1 : 0,
                     ]
                 )
+                try Self.russian(database, "market_group", id, "name", r.nameID?.ru)
             }
         }
         return "\(records.count) market groups"
@@ -128,7 +134,8 @@ struct SDEImporter {
                         """,
                     arguments: [
                         id, groupID, m["marketGroupID"]?.int,
-                        englishOf(m["name"]) ?? "", englishOf(m["description"]),
+                        // Descriptions of unpublished types (NPCs, internal items) aren't shown anywhere.
+                        englishOf(m["name"]) ?? "", m["published"]?.bool == true ? englishOf(m["description"]) : nil,
                         m["mass"]?.float, m["volume"]?.float, m["capacity"]?.float, m["packagedVolume"]?.float,
                         m["portionSize"]?.int, m["basePrice"]?.float,
                         m["published"]?.bool == true ? 1 : 0,
@@ -136,6 +143,15 @@ struct SDEImporter {
                     ]
                 )
                 try insertTraits(m["traits"], forTypeId: id, into: database)
+                try insertTraits(m["traits"], forTypeId: id, into: database, lang: "ru")
+                // Russian texts for what the app shows: published types.
+                if m["published"]?.bool == true {
+                    try Self.russian(database, "type", id, "name", m["name"]?.mapping?["ru"]?.string)
+                    if let ru = m["description"]?.mapping?["ru"]?.string, !ru.isEmpty,
+                       let z = try? (Data(ru.utf8) as NSData).compressed(using: .zlib) {
+                        try database.execute(sql: "INSERT OR REPLACE INTO type_descriptions_ru (type_id, z) VALUES (?, ?)", arguments: [id, z as Data])
+                    }
+                }
             }
         }
         return "\(entries.count) types"
@@ -145,16 +161,17 @@ struct SDEImporter {
         node?.mapping?["en"]?.string
     }
 
-    private func insertTraits(_ traitsNode: Node?, forTypeId typeId: Int, into database: Database) throws {
+    private func insertTraits(_ traitsNode: Node?, forTypeId typeId: Int, into database: Database, lang: String = "en") throws {
         guard let traits = traitsNode?.mapping else { return }
         var sort = 0
+        let table = lang == "en" ? "type_traits" : "type_traits_\(lang)"
 
         func bonusMappings(_ node: Node?) -> [Node.Mapping] {
             node?.sequence?.compactMap(\.mapping) ?? []
         }
 
         func displayText(_ bonus: Node.Mapping) -> String {
-            englishOf(bonus["text"]) ?? englishOf(bonus["bonusText"]) ?? ""
+            bonus["text"]?.mapping?[lang]?.string ?? bonus["bonusText"]?.mapping?[lang]?.string ?? ""
         }
 
         for bonus in bonusMappings(traits["roleBonuses"]) + bonusMappings(traits["miscBonuses"]) {
@@ -162,7 +179,7 @@ struct SDEImporter {
             guard !text.isEmpty else { continue }
             let skillId: Int? = nil
             try database.execute(
-                sql: "INSERT INTO type_traits (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
+                sql: "INSERT INTO \(table) (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
                 arguments: [typeId, skillId, bonus["bonus"]?.float, bonus["unitID"]?.int, text, sort]
             )
             sort += 1
@@ -176,7 +193,7 @@ struct SDEImporter {
                     let text = displayText(bonus)
                     guard !text.isEmpty else { continue }
                     try database.execute(
-                        sql: "INSERT INTO type_traits (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
+                        sql: "INSERT INTO \(table) (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
                         arguments: [typeId, skillId, bonus["bonus"]?.float, bonus["unitID"]?.int, text, sort]
                     )
                     sort += 1
@@ -197,18 +214,17 @@ struct SDEImporter {
         guard let url = findFile("typeBonus.yaml") else {
             return "skipped — no standalone typeBonus.yaml (traits already derived from types.yaml)"
         }
-
-        let records = try parseTypeBonusYAML(url)
+        // The same shape as types.yaml's old `traits` key: roleBonuses, miscBonuses, types → skill → bonuses.
+        let entries = try parseYAMLNodeMap(url)
         try await db.write { database in
             try database.execute(sql: "DELETE FROM type_traits")
-            for record in records {
-                try database.execute(
-                    sql: "INSERT INTO type_traits (type_id, skill_id, bonus, unit_id, text, sort) VALUES (?, ?, ?, ?, ?, ?)",
-                    arguments: [record.typeId, record.skillId, record.bonus, record.unitId, record.text, record.sort]
-                )
+            try database.execute(sql: "DELETE FROM type_traits_ru")
+            for (id, m) in entries {
+                try insertTraits(Node.mapping(m), forTypeId: id, into: database)
+                try insertTraits(Node.mapping(m), forTypeId: id, into: database, lang: "ru")
             }
         }
-        return "\(records.count) type bonuses"
+        return "\(entries.count) types with bonuses"
     }
 
     private func importDogmaAttributes() async throws -> String {
@@ -222,19 +238,22 @@ struct SDEImporter {
                     sql: """
                         INSERT OR IGNORE INTO dogma_attributes
                         (id, name, display_name, unit_id, icon_id,
-                         high_is_good, stackable, default_value, published)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                         high_is_good, stackable, default_value, published, category_id, tooltip)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                         """,
                     arguments: [
                         id, r.name ?? "",
-                        r.displayNameID?.english,
+                        r.displayNameID?.en.flatMap { $0.isEmpty ? nil : $0 },
                         r.unitID, r.iconID,
                         r.highIsGood == true ? 1 : 0,
                         r.stackable != false ? 1 : 0,
                         r.defaultValue,
                         r.published == true ? 1 : 0,
+                        r.categoryID, r.tooltip?.en,
                     ]
                 )
+                try Self.russian(database, "attribute", id, "name", r.displayNameID?.ru)
+                try Self.russian(database, "attribute", id, "tooltip", r.tooltip?.ru)
             }
         }
         return "\(records.count) dogma attributes"
@@ -395,7 +414,7 @@ struct SDEImporter {
 
     // MARK: - Helpers
 
-    private func findFile(_ name: String) -> URL? {
+    func findFile(_ name: String) -> URL? {
         let candidates = [sdeRoot.appending(component: name),
                           sdeRoot.appending(component: "fsd").appending(component: name)]
         return candidates.first { FileManager.default.fileExists(atPath: $0.path) }
@@ -404,7 +423,7 @@ struct SDEImporter {
     /// Every fsd/*.yaml file is one giant top-level mapping keyed by the entity's
     /// numeric ID. Yams decodes that naturally into [String: T]; we just convert
     /// the string keys back to Int.
-    private func parseYAMLMap<T: Decodable>(_ url: URL, as type: T.Type) throws -> [(id: Int, value: T)] {
+    func parseYAMLMap<T: Decodable>(_ url: URL, as type: T.Type) throws -> [(id: Int, value: T)] {
         let content = try String(contentsOf: url, encoding: .utf8)
         let dict = try YAMLDecoder().decode([String: T].self, from: content)
         return dict.compactMap { key, value in
@@ -415,7 +434,7 @@ struct SDEImporter {
     /// Low-level counterpart of parseYAMLMap for very large files (types.yaml,
     /// typeDogma.yaml), composing the raw Node tree instead of going through
     /// Decodable. See importTypes/importTypeDogma for why this is necessary.
-    private func parseYAMLNodeMap(_ url: URL) throws -> [(id: Int, mapping: Node.Mapping)] {
+    func parseYAMLNodeMap(_ url: URL) throws -> [(id: Int, mapping: Node.Mapping)] {
         let content = try String(contentsOf: url, encoding: .utf8)
         guard let root = try Yams.compose(yaml: content), let topMapping = root.mapping else {
             return []
