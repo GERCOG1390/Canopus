@@ -111,3 +111,10 @@ belongs to.
   old SDE category lists with their odd item renders. sde-import 4: game UI icons resolved, as the
   desktop does, through the client's resfileindex to CCP's resource CDN (icons table, 3601 of 4806;
   the rest aren't in the client); third-party icon lookup only as a fallback for older databases.
+- 2026-10-31: the character page as the desktop's: tabs (all characters, overview, skills, implants &
+  clones, ship & fits, assets, wallet, contracts) instead of the old "Sections" list. Overview adds
+  online / last login, creation date, logins, attributes with implant bonuses, active implants and the
+  corporation history; "all characters" shows each pilot's system, ship, queue, ISK, industry, jump
+  fatigue and clone jump timer. Sidebar as the desktop: Pilot = character, mail; Economy = market,
+  industry, mining (until Activities). Fixed: ESI 304 shown as an error; SDE packages compared by CCP
+  build and importer version. Next: wallet, contracts, assets, blueprints and reputation tabs.

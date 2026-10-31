@@ -98,9 +98,9 @@ enum NavSection: String, CaseIterable, Identifiable {
 
     var pages: [Page] {
         switch self {
-        case .pilot: [.character, .skills, .mail, .clones]
+        case .pilot: [.character, .mail]
         case .combat: [.intel, .fitting, .killboard]
-        case .economy: [.market, .industry, .wallet, .mining, .contracts, .assets]
+        case .economy: [.market, .industry, .mining]
         case .space: [.map]
         case .more: [.database, .settings]
         }
@@ -193,7 +193,8 @@ struct RootShell: View {
             sidebarPage = page
             return
         }
-        guard let s = NavSection.allCases.first(where: { $0.pages.contains(page) }) else { return }
+        // Pages that are tabs of another page (skills, wallet…) open in the pilot section.
+        let s = NavSection.allCases.first(where: { $0.pages.contains(page) }) ?? .pilot
         section = s
         var p = NavigationPath()
         if s.pages.first != page || page != .character { p.append(page) }
@@ -300,27 +301,19 @@ struct PageView: View {
     @ViewBuilder
     private func characterPage(_ s: CharacterService) -> some View {
         switch page {
-        case .character:
-            CharacterRootView(switchToTab: { tab in
-                switch tab {
-                case .skills: open(.skills)
-                case .wallet: open(.wallet)
-                case .assets: open(.assets)
-                case .items: open(.database)
-                case .home: open(.character)
-                }
-            })
-        case .skills: SkillsView()
+        // Skills, clones, wallet, contracts and assets are tabs of the character page, as on the desktop.
+        case .character: CharacterPage()
+        case .skills: CharacterPage(tab: .skills)
+        case .clones: CharacterPage(tab: .clones)
+        case .wallet: CharacterPage(tab: .wallet)
+        case .contracts: CharacterPage(tab: .contracts)
+        case .assets: CharacterPage(tab: .assets)
         case .mail: MailView(characterService: s)
-        case .clones: CloneView(characterService: s)
         case .fitting: FittingsView(characterService: s)
-        case .wallet: WalletTabView(characterService: s)
         case .orders: MarketPage(tab: .orders)
         case .industry: IndustryView(characterService: s)
         case .mining: MiningLedgerView(characterService: s)
         case .loyalty: MarketPage(tab: .lp)
-        case .contracts: ContractsView(characterService: s)
-        case .assets: AssetsView(characterService: s)
         default: EmptyView()
         }
     }

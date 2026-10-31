@@ -256,6 +256,20 @@ public struct ESICharacterAttributes: Decodable, Sendable {
     public let bonusRemaps: Int?
 }
 
+// MARK: - Online status and jump fatigue
+
+public struct ESIOnlineStatus: Decodable, Sendable {
+    public let online: Bool
+    public let lastLogin: Date?
+    public let lastLogout: Date?
+    public let logins: Int?
+}
+
+public struct ESIJumpFatigue: Decodable, Sendable {
+    public let jumpFatigueExpireDate: Date?
+    public let lastJumpDate: Date?
+}
+
 // MARK: - Employment history
 
 public struct ESIEmploymentHistoryItem: Decodable, Sendable, Identifiable {

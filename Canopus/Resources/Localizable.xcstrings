@@ -519,6 +519,26 @@
         }
       }
     },
+    "%lld active": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld в работе"
+          }
+        }
+      }
+    },
+    "%lld active, %lld ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld в работе, %lld готово"
+          }
+        }
+      }
+    },
     "%lld attackers": {
       "localizations": {
         "ru": {
@@ -725,6 +745,16 @@
     },
     "%lldx": {},
     "%lld×": {},
+    "(+%lld implants)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "(+%lld импланты)"
+          }
+        }
+      }
+    },
     "* Asset and implant values use ESI adjusted prices.\n  Items without market data are counted as 0 ISK.": {
       "localizations": {
         "ru": {
@@ -988,6 +1018,16 @@
         }
       }
     },
+    "Active implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активные импланты"
+          }
+        }
+      }
+    },
     "Active tank": {
       "localizations": {
         "ru": {
@@ -1094,6 +1134,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Все"
+          }
+        }
+      }
+    },
+    "All characters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все персонажи"
+          }
+        }
+      }
+    },
+    "All characters: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все персонажи: %lld"
           }
         }
       }
@@ -2692,6 +2752,16 @@
         }
       }
     },
+    "Corporation history": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "История корпораций"
+          }
+        }
+      }
+    },
     "Cost %@": {
       "localizations": {
         "ru": {
@@ -4159,6 +4229,16 @@
         }
       }
     },
+    "Implants & clones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты и клоны"
+          }
+        }
+      }
+    },
     "Implants (%lld)": {
       "extractionState": "stale",
       "localizations": {
@@ -4524,6 +4604,16 @@
         }
       }
     },
+    "Jump fatigue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Усталость от прыжков"
+          }
+        }
+      }
+    },
     "Jump from %@": {
       "localizations": {
         "ru": {
@@ -4859,6 +4949,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не менялась"
+          }
+        }
+      }
+    },
+    "Last login: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Последний вход: %@"
           }
         }
       }
@@ -6124,6 +6224,16 @@
         }
       }
     },
+    "No data": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет данных"
+          }
+        }
+      }
+    },
     "No data on zKillboard.": {
       "localizations": {
         "ru": {
@@ -6801,6 +6911,16 @@
         }
       }
     },
+    "Overview": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обзор"
+          }
+        }
+      }
+    },
     "Owned in Assets": {
       "extractionState": "stale",
       "localizations": {
@@ -7410,6 +7530,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Красным — ваш ордер перебит (данные хабов обновляются раз в несколько минут)."
+          }
+        }
+      }
+    },
+    "Refresh": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновить"
+          }
+        }
+      }
+    },
+    "Refreshing…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обновляю…"
           }
         }
       }
@@ -8301,6 +8441,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Корабль"
+          }
+        }
+      }
+    },
+    "Ship & fits": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабль и фиты"
           }
         }
       }
@@ -9367,6 +9517,16 @@
         }
       }
     },
+    "Total ISK: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всего ISK: %@"
+          }
+        }
+      }
+    },
     "Total LP": {
       "extractionState": "stale",
       "localizations": {
@@ -10217,6 +10377,16 @@
         }
       }
     },
+    "docked": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в доке"
+          }
+        }
+      }
+    },
     "drones %@": {
       "localizations": {
         "ru": {
@@ -10389,6 +10559,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "в досягаемости прыжка"
+          }
+        }
+      }
+    },
+    "in space": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в космосе"
           }
         }
       }
@@ -10706,6 +10886,16 @@
         }
       }
     },
+    "ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "готов"
+          }
+        }
+      }
+    },
     "remaining": {
       "localizations": {
         "ru": {
@@ -11009,6 +11199,26 @@
     "·": {
       "shouldTranslate": false
     },
+    "· Created %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· Создан %@"
+          }
+        }
+      }
+    },
+    "· logins: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· входов: %@"
+          }
+        }
+      }
+    },
     "×%@": {
       "shouldTranslate": false
     },
@@ -11094,6 +11304,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "≈ %@ по лучшему курсу"
+          }
+        }
+      }
+    },
+    "● in game": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "● в игре"
           }
         }
       }

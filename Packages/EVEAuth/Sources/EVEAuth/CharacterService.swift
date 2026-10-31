@@ -159,6 +159,18 @@ public final class CharacterService {
         }
     }
 
+    public func online() async throws -> ESIOnlineStatus {
+        try await cached("online", ttl: 60) {
+            try await esiGet("/characters/\(tokens.characterId)/online/", as: ESIOnlineStatus.self)
+        }
+    }
+
+    public func fatigue() async throws -> ESIJumpFatigue {
+        try await cached("fatigue", ttl: 300) {
+            try await esiGet("/characters/\(tokens.characterId)/fatigue/", as: ESIJumpFatigue.self)
+        }
+    }
+
     public func employmentHistory() async throws -> [ESIEmploymentHistoryItem] {
         try await cached("employmentHistory", ttl: 3_600) {
             try await esiGetPublic("/characters/\(tokens.characterId)/corporationhistory/", as: [ESIEmploymentHistoryItem].self)

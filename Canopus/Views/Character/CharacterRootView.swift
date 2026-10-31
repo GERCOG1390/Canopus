@@ -23,8 +23,10 @@ private struct ShipLocationSummary: Hashable {
     }
 }
 
+/// The character overview (the desktop's Overview.tsx): who, where and in what, wallet / SP / location /
+/// queue, the training queue, attributes with implant bonuses, active implants, corporation history.
 struct CharacterRootView: View {
-    var switchToTab: (EVETab) -> Void = { _ in }
+    var openTab: (CharacterTab) -> Void = { _ in }
 
     @Environment(AppEnvironment.self) private var env
     @State private var skillQueue: [SkillQueueEntry] = []
@@ -40,11 +42,18 @@ struct CharacterRootView: View {
     @State private var shipTypeName: String?
     @State private var shipLocation: ShipLocationSummary?
     @State private var serverStatus: ESIServerStatus?
+    @State private var online: ESIOnlineStatus?
+    @State private var attributes: ESICharacterAttributes?
+    @State private var implants: [Int] = []
+    @State private var implantBonus: [Int: Int] = [:]
+    @State private var typeNames: [Int: String] = [:]
+    @State private var history: [ESIEmploymentHistoryItem] = []
+    @State private var corpNames: [Int: String] = [:]
     @State private var switcherOpen = false
     @State private var error: Error?
 
     enum Destination: Hashable {
-        case characterSheet, wealth, mail, transactions, mining, fittings, activeShipFit, killboard, clone, loyalty, journal, industry, orders, contracts
+        case activeShipFit
     }
 
     private var svc: CharacterService? { env.characterStore.selectedService }
@@ -61,7 +70,9 @@ struct CharacterRootView: View {
                     statGrid
                     alertsBlock
                     queueCard
-                    sectionsCard
+                    attributesCard
+                    implantsCard
+                    historyCard
                 }
                 .padding(.horizontal, 16)
                 .padding(.top, 8)
@@ -72,8 +83,6 @@ struct CharacterRootView: View {
             // Character switcher overlay
             if switcherOpen { switcherOverlay }
         }
-        .navigationTitle("Character")
-        .navigationBarTitleDisplayMode(.inline)
         .toolbar { toolbarContent }
         .navigationDestination(for: Destination.self) { dest in
             destinationView(for: dest)
@@ -93,12 +102,6 @@ struct CharacterRootView: View {
     private func destinationView(for dest: Destination) -> some View {
         if let s = svc {
             switch dest {
-            case .characterSheet: CharacterSheetView(characterService: s)
-            case .wealth:         WealthView(characterService: s)
-            case .mail:           MailView(characterService: s)
-            case .transactions:   WalletTransactionsView(characterService: s)
-            case .mining:         MiningLedgerView(characterService: s)
-            case .fittings:       FittingsView(characterService: s)
             case .activeShipFit:
                 if let ship {
                     FitDetailView(
@@ -113,13 +116,6 @@ struct CharacterRootView: View {
                         characterService: s
                     )
                 }
-            case .killboard:      PilotPage()
-            case .clone:          CloneView(characterService: s)
-            case .loyalty:        MarketPage(tab: .lp)
-            case .journal:        WalletJournalView(characterService: s)
-            case .industry:       IndustryView(characterService: s)
-            case .orders:         MarketPage(tab: .orders)
-            case .contracts:      ContractsView(characterService: s)
             }
         }
     }
@@ -187,6 +183,23 @@ struct CharacterRootView: View {
                     }
                     .font(.ui(12))
                     .foregroundStyle(C.muted)
+
+                    HStack(spacing: 6) {
+                        if let online {
+                            if online.online {
+                                Text("● in game").foregroundStyle(C.good)
+                            } else {
+                                Text("Last login: \(online.lastLogin.map { $0.formatted(date: .abbreviated, time: .shortened) } ?? "—")")
+                            }
+                        }
+                        if let born = charInfo?.birthday {
+                            Text("· Created \(born.formatted(date: .abbreviated, time: .omitted))")
+                        }
+                        if let n = online?.logins, n > 0 { Text("· logins: \(n.formatted())") }
+                    }
+                    .font(.ui(12))
+                    .foregroundStyle(C.muted)
+                    .lineLimit(2)
                 }
                 Spacer(minLength: 0)
             }
@@ -232,7 +245,7 @@ struct CharacterRootView: View {
 
     private var statGrid: some View {
         LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
-            Button { switchToTab(.wallet) } label: {
+            Button { openTab(.wallet) } label: {
                 StatTile(label: "Wallet", value: walletBalance.map { Fmt.isk($0) } ?? "—", sub: walletBalance.map { Fmt.isk($0, compact: false) })
             }
             .buttonStyle(.plain)
@@ -243,7 +256,7 @@ struct CharacterRootView: View {
                 sub: shipLocation?.locationName ?? (systemName == nil ? nil : String(localized: "In space")),
                 valueColor: systemSec.map { C.sec($0) } ?? C.text
             )
-            Button { switchToTab(.skills) } label: {
+            Button { openTab(.skills) } label: {
                 StatTile(
                     label: "Skill queue",
                     value: queueEnd.map { Fmt.duration(until: $0) } ?? String(localized: "empty"),
@@ -296,7 +309,7 @@ struct CharacterRootView: View {
     private var queueCard: some View {
         Card(title: "Training queue", actions: {
             if !skillQueue.isEmpty {
-                Button("All") { switchToTab(.skills) }.buttonStyle(.canopusSmall)
+                Button("All") { openTab(.skills) }.buttonStyle(.canopusSmall)
             }
         }) {
             if skillQueue.isEmpty {
@@ -342,51 +355,70 @@ struct CharacterRootView: View {
         }
     }
 
-    // MARK: - Sections
+    // MARK: - Attributes, implants, corporation history
 
-    private var sectionsCard: some View {
-        let links: [(String, String, Destination)] = [
-            ("Character Sheet", "win_charactersheet", .characterSheet),
-            ("Wealth Overview", "win_assets", .wealth),
-            ("EVE Mail", "win_evemail", .mail),
-            ("Clone & Implants", "win_jumpclones", .clone),
-            ("Fittings", "win_fittingmanagement", .fittings),
-            ("Kill Board", "win_killreport", .killboard),
-            ("Wallet Journal", "win_journal", .journal),
-            ("Transactions", "win_market", .transactions),
-            ("Market Orders", "win_marketorders", .orders),
-            ("Industry Jobs", "win_industry", .industry),
-            ("Mining Ledger", "win_miningledger", .mining),
-            ("Loyalty Points", "win_lpstore", .loyalty),
-            ("Contracts", "win_contracts", .contracts),
-        ]
-        return VStack(alignment: .leading, spacing: 10) {
-            SectionLabel("Sections")
-            VStack(spacing: 0) {
-                ForEach(links, id: \.0) { title, icon, dest in
-                    NavigationLink(value: dest) {
-                        HStack(spacing: 14) {
-                            GameIcon(icon, size: 26)
-                            Text(LocalizedStringKey(title))
-                                .font(.ui(15))
-                                .foregroundStyle(C.text)
+    /// Perception, memory, willpower, intelligence, charisma and the implant attribute that raises each.
+    private static let attributeRows: [(LocalizedStringKey, KeyPath<ESICharacterAttributes, Int>, Int)] = [
+        ("Perception", \.perception, 178), ("Memory", \.memory, 177), ("Willpower", \.willpower, 179),
+        ("Intelligence", \.intelligence, 176), ("Charisma", \.charisma, 175),
+    ]
+
+    private var attributesCard: some View {
+        Card(String(localized: "Attributes")) {
+            if let attributes {
+                VStack(spacing: 8) {
+                    ForEach(Self.attributeRows, id: \.2) { name, key, bonusAttr in
+                        let bonus = implantBonus[bonusAttr] ?? 0
+                        HStack {
+                            Text(name).font(.ui(14)).foregroundStyle(C.text)
                             Spacer()
-                            Glyph(name: .chevron, size: 14)
-                                .foregroundStyle(C.faint)
+                            Text(verbatim: "\(attributes[keyPath: key] + bonus)").font(.mono(14, medium: true)).foregroundStyle(C.text)
+                            if bonus > 0 {
+                                Text("(+\(bonus) implants)").font(.ui(12)).foregroundStyle(C.good)
+                            }
                         }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 12)
-                        .contentShape(Rectangle())
                     }
-                    .buttonStyle(.plain)
-                    if title != links.last?.0 {
-                        Rectangle().fill(C.border).frame(height: 1).padding(.leading, 56)
+                }
+            } else {
+                Text("No data").font(.ui(13)).foregroundStyle(C.muted)
+            }
+        }
+    }
+
+    private var implantsCard: some View {
+        Card(String(localized: "Active implants")) {
+            if implants.isEmpty {
+                Text("No implants").font(.ui(13)).foregroundStyle(C.muted)
+            }
+            ForEach(implants, id: \.self) { id in
+                NavigationLink { TypeDetailView(typeId: id, typeName: typeNames[id] ?? "") } label: {
+                    HStack(spacing: 8) {
+                        EVETypeIcon(typeId: id, size: 24)
+                        Text(verbatim: typeNames[id] ?? "#\(id)").font(.ui(13)).foregroundStyle(C.accentText).lineLimit(1)
+                        Spacer(minLength: 0)
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    @ViewBuilder private var historyCard: some View {
+        if !history.isEmpty {
+            Card(String(localized: "Corporation history")) {
+                ForEach(Array(history.enumerated()), id: \.element.id) { i, h in
+                    HStack(spacing: 8) {
+                        EVECorpLogo(corpId: h.corporationId, size: 20)
+                        Text(verbatim: corpNames[h.corporationId] ?? "#\(h.corporationId)").font(.ui(13)).foregroundStyle(C.text).lineLimit(1)
+                        Spacer(minLength: 6)
+                        Text(verbatim: "\(h.startDate.formatted(.iso8601.year().month().day())) — ")
+                            .font(.mono(11)).foregroundStyle(C.muted)
+                        + Text(i == 0 ? String(localized: "now") : history[i - 1].startDate.formatted(.iso8601.year().month().day()))
+                            .font(.mono(11)).foregroundStyle(C.muted)
                     }
                 }
             }
-            .canopusSurface(padding: nil)
         }
-        .padding(.top, 4)
     }
 
     // MARK: - Character switcher overlay
@@ -500,12 +532,40 @@ struct CharacterRootView: View {
                 systemSec = sys?.securityStatus
             }
 
+            await loadDetails(service)
+
             let active = skillQueue.first(where: \.isActive)
             saveWidgetData(service: service, activeEntry: active)
             await scheduleSkillNotification(entry: active, characterName: charName)
         } catch {
             if !error.isCancellation { self.error = error }
         }
+    }
+
+    /// Online status, attributes, implants (with their attribute bonuses) and the corporation history.
+    private func loadDetails(_ service: CharacterService) async {
+        async let o = try? service.online()
+        async let a = try? service.characterAttributes()
+        async let imp = try? service.implants()
+        async let h = try? service.employmentHistory()
+        online = await o
+        attributes = await a
+        implants = await imp ?? []
+        let hist = (await h ?? []).sorted { $0.startDate > $1.startDate }
+        if let repo = env.repository, !implants.isEmpty {
+            let maps = (try? await repo.typeAttributeMaps(typeIds: Set(implants))) ?? [:]
+            var bonus: [Int: Int] = [:]
+            for m in maps.values { for attr in 175...179 { bonus[attr, default: 0] += Int(m[attr] ?? 0) } }
+            implantBonus = bonus
+            typeNames = ((try? await repo.types(ids: Set(implants))) ?? [:]).mapValues(\.name)
+        } else {
+            implantBonus = [:]
+        }
+        let ids = Array(Set(hist.map(\.corporationId)))
+        if let resolved = try? await service.resolveNames(ids: ids) {
+            corpNames = Dictionary(resolved.map { ($0.id, $0.name) }, uniquingKeysWith: { a, _ in a })
+        }
+        history = hist
     }
 
     private func resolveShipLocation(
