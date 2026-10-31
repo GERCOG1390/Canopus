@@ -55,3 +55,17 @@ extension SDERepository {
         }
     }
 }
+
+extension SDERepository {
+    /// Published types anywhere under a market group (the desktop's marketTypesIn).
+    public func marketTypes(in groupId: Int, limit: Int = 3000) async throws -> [Int] {
+        try await dbReader.read { db in
+            try Int.fetchAll(db, sql: """
+                WITH RECURSIVE sub(id) AS (
+                    SELECT ? UNION ALL SELECT m.id FROM market_groups m JOIN sub ON m.parent_id = sub.id
+                )
+                SELECT t.id FROM types t JOIN sub ON t.market_group_id = sub.id WHERE t.published = 1 LIMIT ?
+                """, arguments: [groupId, limit])
+        }
+    }
+}

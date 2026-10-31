@@ -50,6 +50,19 @@ public actor PublicESI {
         return out.map { (id: $0.0, name: $0.1) }
     }
 
+    /// Corporation ids for exact names.
+    public func corporationIds(names: [String]) async throws -> [(id: Int, name: String)] {
+        struct Hit: Decodable { let id: Int; let name: String }
+        struct Res: Decodable { let corporations: [Hit]? }
+        let r: Res = try await post("https://esi.evetech.net/latest/universe/ids/", body: Array(Set(names)))
+        return (r.corporations ?? []).map { (id: $0.id, name: $0.name) }
+    }
+
+    /// A corporation's LP store offers (public).
+    public func loyaltyOffers(corporationId: Int) async throws -> [ESILoyaltyStoreOffer] {
+        try await get("https://esi.evetech.net/latest/loyalty/stores/\(corporationId)/offers/")
+    }
+
     public struct Affiliation: Decodable, Sendable {
         public let characterId: Int
         public let corporationId: Int

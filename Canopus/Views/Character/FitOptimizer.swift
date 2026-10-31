@@ -212,37 +212,3 @@ enum FitOptimizer {
         .map { $0 }
     }
 }
-
-/// Best buy / sell at a trade hub from Fuzzwork's aggregates (backed by ESI order snapshots), as the desktop.
-enum HubPrices {
-    static let jitaStation = 60003760
-
-    /// Lowest Jita sell order per type.
-    static func jitaSell(typeIds: Set<Int>) async throws -> [Int: Double] {
-        try await prices(station: jitaStation, typeIds: typeIds).compactMapValues(\.sell)
-    }
-
-    /// Lowest sell and highest buy order at a station, per type.
-    static func prices(station: Int, typeIds: Set<Int>) async throws -> [Int: (sell: Double?, buy: Double?)] {
-        var out: [Int: (sell: Double?, buy: Double?)] = [:]
-        let ids = typeIds.sorted()
-        for start in stride(from: 0, to: ids.count, by: 200) {
-            let chunk = ids[start..<min(start + 200, ids.count)]
-            var url = URLComponents(string: "https://market.fuzzwork.co.uk/aggregates/")!
-            url.queryItems = [URLQueryItem(name: "station", value: String(station)), URLQueryItem(name: "types", value: chunk.map(String.init).joined(separator: ","))]
-            var request = URLRequest(url: url.url!)
-            request.setValue(EVEConstants.userAgent, forHTTPHeaderField: "User-Agent")
-            let (data, _) = try await URLSession.shared.data(for: request)
-            // Values come as strings, or as plain numbers for types without orders.
-            let raw = try JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]] ?? [:]
-            let number = { (v: Any?) in (v as? String).flatMap(Double.init) ?? (v as? NSNumber)?.doubleValue }
-            for (id, sides) in raw {
-                guard let id = Int(id) else { continue }
-                let sell = number(sides["sell"]?["min"]).flatMap { $0 > 0 ? $0 : nil }
-                let buy = number(sides["buy"]?["max"]).flatMap { $0 > 0 ? $0 : nil }
-                out[id] = (sell, buy)
-            }
-        }
-        return out
-    }
-}

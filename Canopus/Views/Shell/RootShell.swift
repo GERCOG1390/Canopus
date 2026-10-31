@@ -12,7 +12,7 @@ import UIKit
 enum Page: String, Hashable, CaseIterable, Identifiable {
     case character, skills, mail, clones
     case intel, fitting, killboard
-    case wallet, orders, industry, mining, loyalty, contracts, assets
+    case market, wallet, orders, industry, mining, loyalty, contracts, assets
     case map
     case database
     case settings
@@ -28,6 +28,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .intel: "Intel"
         case .fitting: "Fitting"
         case .killboard: "PvP"
+        case .market: "Market"
         case .wallet: "Wallet"
         case .orders: "Market orders"
         case .industry: "Industry"
@@ -51,6 +52,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .intel: "win_overview"
         case .fitting: "win_fitting"
         case .killboard: "win_killreport"
+        case .market: "win_market"
         case .wallet: "win_wallet"
         case .orders: "win_marketorders"
         case .industry: "win_industry"
@@ -98,7 +100,7 @@ enum NavSection: String, CaseIterable, Identifiable {
         switch self {
         case .pilot: [.character, .skills, .mail, .clones]
         case .combat: [.intel, .fitting, .killboard]
-        case .economy: [.wallet, .orders, .industry, .mining, .loyalty, .contracts, .assets]
+        case .economy: [.market, .industry, .wallet, .mining, .contracts, .assets]
         case .space: [.map]
         case .more: [.database, .settings]
         }
@@ -281,6 +283,8 @@ struct PageView: View {
             IntelPage()
         case .killboard:
             PilotPage()
+        case .market:
+            MarketPage()
         case .map:
             MapPage()
         default:
@@ -311,10 +315,10 @@ struct PageView: View {
         case .clones: CloneView(characterService: s)
         case .fitting: FittingsView(characterService: s)
         case .wallet: WalletTabView(characterService: s)
-        case .orders: MarketOrdersView(characterService: s)
+        case .orders: MarketPage(tab: .orders)
         case .industry: IndustryView(characterService: s)
         case .mining: MiningLedgerView(characterService: s)
-        case .loyalty: LoyaltyPointsView(characterService: s)
+        case .loyalty: MarketPage(tab: .lp)
         case .contracts: ContractsView(characterService: s)
         case .assets: AssetsView(characterService: s)
         default: EmptyView()

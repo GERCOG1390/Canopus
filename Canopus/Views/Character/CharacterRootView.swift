@@ -115,10 +115,10 @@ struct CharacterRootView: View {
                 }
             case .killboard:      PilotPage()
             case .clone:          CloneView(characterService: s)
-            case .loyalty:        LoyaltyPointsView(characterService: s)
+            case .loyalty:        MarketPage(tab: .lp)
             case .journal:        WalletJournalView(characterService: s)
             case .industry:       IndustryView(characterService: s)
-            case .orders:         MarketOrdersView(characterService: s)
+            case .orders:         MarketPage(tab: .orders)
             case .contracts:      ContractsView(characterService: s)
             }
         }

@@ -446,6 +446,7 @@
     "%@ — %@": {
       "shouldTranslate": false
     },
+    "%@ — %@ LP": {},
     "%@%@%% resistance": {
       "localizations": {
         "ru": {
@@ -539,6 +540,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "нападавших: %1$lld%2$@"
+          }
+        }
+      }
+    },
+    "%lld days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld дн."
           }
         }
       }
@@ -1199,6 +1210,16 @@
         }
       }
     },
+    "Any hub": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Любой хаб"
+          }
+        }
+      }
+    },
     "Applied DPS": {
       "localizations": {
         "ru": {
@@ -1225,6 +1246,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Применяю оружие фита к NPC…"
+          }
+        }
+      }
+    },
+    "Appraise at Jita": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оценить по Jita"
+          }
+        }
+      }
+    },
+    "Arbitrage": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Арбитраж"
+          }
+        }
+      }
+    },
+    "Arbitrage between trade hubs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Арбитраж между торговыми хабами"
           }
         }
       }
@@ -1357,6 +1408,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сред."
+          }
+        }
+      }
+    },
+    "Avg price (30 d)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ср. цена (30 дн)"
+          }
+        }
+      }
+    },
+    "Avg volume a day": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ср. объём в день"
           }
         }
       }
@@ -1570,6 +1641,16 @@
         }
       }
     },
+    "Best rate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучший курс"
+          }
+        }
+      }
+    },
     "Better for extra ISK": {
       "localizations": {
         "ru": {
@@ -1711,6 +1792,26 @@
         }
       }
     },
+    "Broker fee, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Брокерская комиссия, %"
+          }
+        }
+      }
+    },
+    "Broker fees": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Брокерские комиссии"
+          }
+        }
+      }
+    },
     "Brokers Fee": {
       "localizations": {
         "ru": {
@@ -1747,6 +1848,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Покупка (%lld)"
+          }
+        }
+      }
+    },
+    "Buy at the best sell price in one hub and sell in another: straight into buy orders or with your own sell order. Pick a market category: Canopus compares prices in all five hubs (Fuzzwork data, refreshed about every 30 minutes).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Покупка по лучшей цене продажи в одном хабе и продажа в другом — сразу в buy-ордера или своим ордером на продажу. Выберите категорию рынка: Canopus сравнит цены во всех пяти хабах (данные Fuzzwork, обновляются примерно раз в 30 минут)."
           }
         }
       }
@@ -2307,6 +2418,16 @@
         }
       }
     },
+    "Collecting prices…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Собираю цены по хабам…"
+          }
+        }
+      }
+    },
     "Combat": {
       "extractionState": "stale",
       "localizations": {
@@ -2455,6 +2576,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать"
+          }
+        }
+      }
+    },
+    "Copy from the inventory (Ctrl+A, Ctrl+C) or type one per line: Tritanium 10000 · 5 x Hobgoblin I": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопируйте из инвентаря (Ctrl+A, Ctrl+C) или введите по одному в строке: Tritanium 10000 · 5 x Hobgoblin I"
           }
         }
       }
@@ -2691,6 +2822,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дата"
+          }
+        }
+      }
+    },
+    "Deals: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделок: %lld"
           }
         }
       }
@@ -3115,6 +3256,16 @@
         }
       }
     },
+    "Everything bought has been sold.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всё купленное продано."
+          }
+        }
+      }
+    },
     "Everything that needs %@": {
       "localizations": {
         "ru": {
@@ -3370,6 +3521,16 @@
         }
       }
     },
+    "Find deals": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найти сделки"
+          }
+        }
+      }
+    },
     "Firepower": {
       "extractionState": "stale",
       "localizations": {
@@ -3505,6 +3666,16 @@
         }
       }
     },
+    "From": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откуда"
+          }
+        }
+      }
+    },
     "From capital, ly": {
       "localizations": {
         "ru": {
@@ -3582,6 +3753,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Графика"
+          }
+        }
+      }
+    },
+    "Green: the best price to buy from sellers and the best price to sell into buy orders.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зелёным отмечены лучшая цена покупки у продавцов и лучшая цена продажи в buy-ордера."
           }
         }
       }
@@ -4153,6 +4334,16 @@
         }
       }
     },
+    "Item name…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Название предмета (рус/англ)…"
+          }
+        }
+      }
+    },
     "Item not found": {
       "localizations": {
         "ru": {
@@ -4170,6 +4361,48 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предметов"
+          }
+        }
+      }
+    },
+    "Jita 4-4: buying": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jita 4-4: покупают"
+          }
+        }
+      }
+    },
+    "Jita 4-4: selling": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jita 4-4: продают"
+          }
+        }
+      }
+    },
+    "Jita buy": {},
+    "Jita sell": {},
+    "Jita: buy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jita: покупка"
+          }
+        }
+      }
+    },
+    "Jita: sell": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Jita: продажа"
           }
         }
       }
@@ -4475,6 +4708,26 @@
         }
       }
     },
+    "LP store": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LP-магазин"
+          }
+        }
+      }
+    },
+    "LP store: what pays best for loyalty points": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LP-магазин: что выгоднее всего купить за очки лояльности"
+          }
+        }
+      }
+    },
     "Lands": {
       "localizations": {
         "ru": {
@@ -4678,6 +4931,16 @@
         }
       }
     },
+    "Loading the store and Jita prices…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загружаю магазин и цены Jita…"
+          }
+        }
+      }
+    },
     "Local": {
       "localizations": {
         "ru": {
@@ -4767,6 +5030,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добыча"
+          }
+        }
+      }
+    },
+    "Loot appraisal": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оценка лута"
           }
         }
       }
@@ -5200,6 +5473,16 @@
         }
       }
     },
+    "Min. margin, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мин. маржа, %"
+          }
+        }
+      }
+    },
     "Mining Ledger": {
       "extractionState": "stale",
       "localizations": {
@@ -5356,6 +5639,26 @@
         }
       }
     },
+    "My orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мои ордера"
+          }
+        }
+      }
+    },
+    "My trades": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мои сделки"
+          }
+        }
+      }
+    },
     "M³  TOTAL VOLUME": {
       "localizations": {
         "ru": {
@@ -5489,6 +5792,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нужен персонаж: войдите через EVE SSO, чтобы посчитать, что даст каждый следующий уровень ваших навыков."
+          }
+        }
+      }
+    },
+    "Net profit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чистая прибыль"
           }
         }
       }
@@ -5684,12 +5997,32 @@
         }
       }
     },
+    "No corporation with that exact name": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпорации с таким названием нет"
+          }
+        }
+      }
+    },
     "No data on zKillboard.": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Нет данных на zKillboard."
+          }
+        }
+      }
+    },
+    "No deals with that margin: lower the minimum margin or pick another category.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выгодных сделок с такой маржой нет — уменьшите мин. маржу или выберите другую категорию."
           }
         }
       }
@@ -5856,6 +6189,26 @@
         }
       }
     },
+    "No open orders.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активных ордеров нет."
+          }
+        }
+      }
+    },
+    "No orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет ордеров"
+          }
+        }
+      }
+    },
     "No pilot with that exact name.": {
       "localizations": {
         "ru": {
@@ -5876,12 +6229,32 @@
         }
       }
     },
+    "No sales with a known buy price in this period.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "За этот период нет продаж с известной ценой покупки."
+          }
+        }
+      }
+    },
     "No such system": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Нет такой системы"
+          }
+        }
+      }
+    },
+    "No trade history": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет истории торгов"
           }
         }
       }
@@ -6003,6 +6376,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не найдены: %@"
+          }
+        }
+      }
+    },
+    "Not recognised: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не распознано: %@"
+          }
+        }
+      }
+    },
+    "Not sold": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не продано"
           }
         }
       }
@@ -6151,6 +6544,16 @@
         }
       }
     },
+    "Offers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предложений"
+          }
+        }
+      }
+    },
     "Offline": {
       "localizations": {
         "ru": {
@@ -6197,6 +6600,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть настройки"
+          }
+        }
+      }
+    },
+    "Or the exact name, e.g. Caldari Navy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Или точное название, например Caldari Navy"
           }
         }
       }
@@ -6335,6 +6748,16 @@
         }
       }
     },
+    "Paste a list of items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вставьте список предметов"
+          }
+        }
+      }
+    },
     "Paste the bridge list, one per line: \"1DQ1-A » 8WA-Z6\", Dotlan's format (\"1DQ1-A @ 3-4 » 8WA-Z6 @ 1-1\") or structure names. Since Cradle of War bridges take subcapitals only, and a jump costs more the farther it is from the alliance capital.": {
       "localizations": {
         "ru": {
@@ -6385,12 +6808,42 @@
         }
       }
     },
+    "Pick a corporation: from your loyalty points or the popular stores.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите корпорацию — из ваших очков лояльности или из популярных магазинов."
+          }
+        }
+      }
+    },
+    "Pick a market category and tap Find deals.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите категорию рынка и нажмите «Найти сделки»."
+          }
+        }
+      }
+    },
     "Pick a ship with a jump drive": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Выберите корабль с прыжковым двигателем"
+          }
+        }
+      }
+    },
+    "Pick an item in the market tree or find it by name to compare prices across the trade hubs.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите предмет в дереве рынка или найдите по названию, чтобы сравнить цены в торговых хабах."
           }
         }
       }
@@ -6436,6 +6889,16 @@
         }
       }
     },
+    "Place a sell order": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выставить ордер на продажу"
+          }
+        }
+      }
+    },
     "Place orders in EVE's market to see them here.": {
       "localizations": {
         "ru": {
@@ -6472,6 +6935,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Популярные фиты"
+          }
+        }
+      }
+    },
+    "Popular stores": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Популярные магазины"
           }
         }
       }
@@ -6517,6 +6990,16 @@
         }
       }
     },
+    "Price history, The Forge (90 days)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "История цен, The Forge (90 дней)"
+          }
+        }
+      }
+    },
     "Price optimizer": {
       "localizations": {
         "ru": {
@@ -6527,12 +7010,32 @@
         }
       }
     },
+    "Prices": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цены"
+          }
+        }
+      }
+    },
     "Primary attribute": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Основной атрибут"
+          }
+        }
+      }
+    },
+    "Profit by item": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прибыль по предметам"
           }
         }
       }
@@ -6755,6 +7258,16 @@
         }
       }
     },
+    "Red: your order is outbid (hub data refreshes every few minutes).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Красным — ваш ордер перебит (данные хабов обновляются раз в несколько минут)."
+          }
+        }
+      }
+    },
     "Region %lld": {
       "localizations": {
         "ru": {
@@ -6904,6 +7417,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Результат"
+          }
+        }
+      }
+    },
+    "Result = revenue after tax − the store's ISK − the items to hand in at Jita sell price. Watch \"on sale\": a rare item sells slowly. Blueprint copies have no market price and are hidden by default.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Итог = выручка после налога − ISK магазина − сдаваемые предметы по цене продажи Jita. Смотрите на «на продаже»: редкий предмет продаётся медленно. У копий чертежей нет рыночной цены, по умолчанию они скрыты."
           }
         }
       }
@@ -7225,6 +7748,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "Безопасный"
+          }
+        }
+      }
+    },
+    "Sales are matched to earlier buys of the same item (oldest first). ESI gives about three months of transactions: goods bought earlier aren't counted. Taxes and fees come from the wallet journal.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продажи сопоставляются с более ранними покупками того же предмета (сначала самые старые). ESI отдаёт примерно три месяца транзакций: купленное раньше не учитывается. Налоги и комиссии — из журнала кошелька."
+          }
+        }
+      }
+    },
+    "Sales tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог с продаж"
+          }
+        }
+      }
+    },
+    "Sales tax, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог с продаж, %"
           }
         }
       }
@@ -7660,6 +8213,16 @@
         }
       }
     },
+    "Show blueprints": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывать чертежи"
+          }
+        }
+      }
+    },
     "Show bridges": {
       "localizations": {
         "ru": {
@@ -7716,6 +8279,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Войдите персонажем, чтобы сравнить с вашими навыками."
+          }
+        }
+      }
+    },
+    "Sign in with a character to see your orders.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем, чтобы увидеть свои ордера."
+          }
+        }
+      }
+    },
+    "Sign in with a character to see your trades.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем, чтобы увидеть свои сделки."
           }
         }
       }
@@ -8015,6 +8598,16 @@
         }
       }
     },
+    "Spread": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Спред"
+          }
+        }
+      }
+    },
     "Stability": {
       "localizations": {
         "ru": {
@@ -8073,6 +8666,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стелс-бомберы"
+          }
+        }
+      }
+    },
+    "Straight into buy orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сразу в ордера на покупку"
           }
         }
       }
@@ -8296,6 +8899,16 @@
         }
       }
     },
+    "The Forge, 30 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The Forge, 30 дней"
+          }
+        }
+      }
+    },
     "The drones don't fit in the drone bay": {
       "localizations": {
         "ru": {
@@ -8362,6 +8975,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сила штрафа выпадает случайно: до T3 — 30% или 50%, с T4 — 50% или 70%. По умолчанию — худший вариант."
+          }
+        }
+      }
+    },
+    "The price is the best order in the hub; a big lot climbs the book, so \"total profit\" is an upper bound. Check the order book before buying and mind the hauling (ISK / m³ is the profit per cubic metre).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цена — лучший ордер в хабе; крупная партия «съедает» стакан, поэтому «прибыль всего» — верхняя оценка. Проверьте стакан перед покупкой и учитывайте перевозку (ISK / м³ — прибыль на кубометр)."
           }
         }
       }
@@ -8507,6 +9130,16 @@
         }
       }
     },
+    "To": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Куда"
+          }
+        }
+      }
+    },
     "Too many modules in %@ slots: %@ of %@": {
       "localizations": {
         "ru": {
@@ -8585,6 +9218,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Торговля"
+          }
+        }
+      }
+    },
+    "Trade hubs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Торговые хабы"
           }
         }
       }
@@ -8668,6 +9311,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Включите радар, чтобы следить за убийствами вокруг вас."
+          }
+        }
+      }
+    },
+    "Turnover (sales)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оборот (продажи)"
           }
         }
       }
@@ -9049,6 +9702,16 @@
         }
       }
     },
+    "With a sell order (Jita sell price)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ордером на продажу (цена продажи Jita)"
+          }
+        }
+      }
+    },
     "Within these limits no other version improves this without noticeable losses elsewhere.": {
       "localizations": {
         "ru": {
@@ -9119,6 +9782,16 @@
         }
       }
     },
+    "Your LP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваши LP"
+          }
+        }
+      }
+    },
     "Your contracts will appear here.": {
       "localizations": {
         "ru": {
@@ -9145,6 +9818,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ваш уровень"
+          }
+        }
+      }
+    },
+    "Your loyalty points": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ваши очки лояльности"
           }
         }
       }
@@ -9232,6 +9915,16 @@
         }
       }
     },
+    "at Jita %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "по Jita %@"
+          }
+        }
+      }
+    },
     "available": {
       "localizations": {
         "ru": {
@@ -9248,6 +9941,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "избегать"
+          }
+        }
+      }
+    },
+    "best %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "лучшая %@"
           }
         }
       }
@@ -9372,6 +10075,16 @@
         }
       }
     },
+    "from sales %@ minus taxes and fees": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с продаж %@ минус налоги и комиссии"
+          }
+        }
+      }
+    },
     "grid %lld": {
       "localizations": {
         "ru": {
@@ -9473,6 +10186,16 @@
         }
       }
     },
+    "items %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "предметы %@"
+          }
+        }
+      }
+    },
     "kills in the last hour": {
       "localizations": {
         "ru": {
@@ -9533,6 +10256,16 @@
         }
       }
     },
+    "margin %@%%": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "маржа %@%%"
+          }
+        }
+      }
+    },
     "medium": {
       "localizations": {
         "ru": {
@@ -9579,6 +10312,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "без имплантов"
+          }
+        }
+      }
+    },
+    "no price": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет цены"
           }
         }
       }
@@ -9669,6 +10412,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "на гриде: %lld"
+          }
+        }
+      }
+    },
+    "on sale %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "на продаже %@"
+          }
+        }
+      }
+    },
+    "on sale: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "на продаже: %@"
           }
         }
       }
@@ -9934,6 +10697,16 @@
       }
     },
     "type_id": {},
+    "type_id %@ · tap the name for full info": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "type_id %@ · нажмите на название, чтобы открыть информацию"
+          }
+        }
+      }
+    },
     "unstable": {
       "localizations": {
         "ru": {
@@ -10027,12 +10800,32 @@
     "—": {
       "shouldTranslate": false
     },
+    "— all —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— все —"
+          }
+        }
+      }
+    },
     "— empty slot —": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "— пустой слот —"
+          }
+        }
+      }
+    },
+    "— market category —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— категория рынка —"
           }
         }
       }
@@ -10057,6 +10850,16 @@
         }
       }
     },
+    "— pick a corporation —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— выберите корпорацию —"
+          }
+        }
+      }
+    },
     "…": {
       "shouldTranslate": false
     },
@@ -10066,8 +10869,28 @@
     "−": {
       "shouldTranslate": false
     },
+    "≈ %@ at the best rate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ по лучшему курсу"
+          }
+        }
+      }
+    },
     "✓": {
       "shouldTranslate": false
+    },
+    "✓ Show blueprints": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Показывать чертежи"
+          }
+        }
+      }
     },
     "✓ With sound": {
       "localizations": {

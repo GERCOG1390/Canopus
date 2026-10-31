@@ -114,7 +114,7 @@ struct TypeDetailView: View {
         case .vars: VariationsTab(b: b)
         case .industry: IndustryTab(b: b)
         case .reprocess: ReprocessTab(b: b)
-        case .market: MarketTab(typeId: b.typeId)
+        case .market: HubPricesTab(typeId: b.typeId)
         }
     }
 }
@@ -768,7 +768,7 @@ private struct ReprocessTab: View {
     }
 }
 
-private struct MarketTab: View {
+private struct HubPricesTab: View {
     let typeId: Int
     @State private var rows: [(hub: String, sell: Double?, buy: Double?)]?
 
@@ -802,35 +802,6 @@ private struct MarketTab: View {
                 out.append((hub, p?.sell, p?.buy))
             }
             rows = out.map { (hub: $0.0, sell: $0.1, buy: $0.2) }
-        }
-    }
-}
-
-/// Lays its children out in rows, wrapping like text.
-private struct FlowRow: Layout {
-    var spacing: CGFloat = 6
-
-    func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-        let width = proposal.width ?? .infinity
-        var x: CGFloat = 0, y: CGFloat = 0, rowHeight: CGFloat = 0, maxX: CGFloat = 0
-        for s in subviews {
-            let size = s.sizeThatFits(.unspecified)
-            if x > 0 && x + size.width > width { x = 0; y += rowHeight + spacing; rowHeight = 0 }
-            x += size.width + spacing
-            maxX = max(maxX, x)
-            rowHeight = max(rowHeight, size.height)
-        }
-        return CGSize(width: min(width, maxX), height: y + rowHeight)
-    }
-
-    func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-        var x = bounds.minX, y = bounds.minY, rowHeight: CGFloat = 0
-        for s in subviews {
-            let size = s.sizeThatFits(.unspecified)
-            if x > bounds.minX && x + size.width > bounds.maxX { x = bounds.minX; y += rowHeight + spacing; rowHeight = 0 }
-            s.place(at: CGPoint(x: x, y: y), proposal: .unspecified)
-            x += size.width + spacing
-            rowHeight = max(rowHeight, size.height)
         }
     }
 }

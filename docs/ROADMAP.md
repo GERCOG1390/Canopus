@@ -99,3 +99,9 @@ belongs to.
   the desktop's nextState, identical modules as "6×", charge, problems, remove one), empty slots,
   drones with launched −/+ and ×+1, implants, cargo. Next: phase 4 (economy).
 
+- 2026-10-30: phase 4, Market as the desktop's MarketPage: prices (market tree, search, an item's
+  market: Jita / 30-day tiles, five hubs with spread, 90-day history, Jita 4-4 order books), loot
+  appraisal, hub arbitrage (instant or with a sell order, tax / broker / min margin), LP store (own LP
+  and popular corporations, ISK/LP after tax and hand-in items), my orders (outbid in red), my trades
+  (FIFO profit, taxes and fees from the journal, unsold stock at Jita). Orders and LP pages now open
+  Market's tabs. Next: industry.
