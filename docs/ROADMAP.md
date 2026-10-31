@@ -105,3 +105,9 @@ belongs to.
   and popular corporations, ISK/LP after tax and hand-in items), my orders (outbid in red), my trades
   (FIFO profit, taxes and fees from the journal, unsold stock at Jita). Orders and LP pages now open
   Market's tabs. Next: industry.
+- 2026-10-31: the market tree as the desktop's MarketTree (groups open in place with the game icon and
+  item count, items Tech I → Tech II → faction… with the short meta badge and ⓘ), used by Market →
+  Prices and by the reference, which is now search (Russian / English) plus that tree instead of the
+  old SDE category lists with their odd item renders. sde-import 4: game UI icons resolved, as the
+  desktop does, through the client's resfileindex to CCP's resource CDN (icons table, 3601 of 4806;
+  the rest aren't in the client); third-party icon lookup only as a fallback for older databases.

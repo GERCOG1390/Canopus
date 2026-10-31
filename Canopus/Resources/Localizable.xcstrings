@@ -4334,6 +4334,16 @@
         }
       }
     },
+    "Item name (Russian or English)…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Название предмета (рус/англ)…"
+          }
+        }
+      }
+    },
     "Item name…": {
       "localizations": {
         "ru": {
@@ -6416,6 +6426,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дешевле без потерь не получается: каждый модуль уже самая дешёвая версия с такими ТТХ."
+          }
+        }
+      }
+    },
+    "Nothing found": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ничего не найдено"
           }
         }
       }
@@ -8854,6 +8874,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ТИП"
+          }
+        }
+      }
+    },
+    "Tap an item for its full info: description, attributes, requirements, variations, industry and prices.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите на предмет, чтобы открыть полную информацию: описание, атрибуты, требования, вариации, производство и цены."
           }
         }
       }

@@ -40,6 +40,9 @@ struct SDEImporter {
         print("→ Importing item info (units, meta groups, blueprints, reprocessing, masteries)…")
         print("  \(try await importItemInfo())")
 
+        print("→ Locating icons on CCP's resource CDN…")
+        print("  \(try await importIcons())")
+
         print("→ Importing the map…")
         print("  \(try await importMap())")
 

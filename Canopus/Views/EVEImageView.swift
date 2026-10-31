@@ -1,4 +1,5 @@
 import SwiftUI
+import EVEStaticData
 import ImageIO
 import EVEAuth
 
@@ -366,6 +367,7 @@ struct EVETypeIcon: View {
 struct EVEIconImage: View {
     let iconId: Int
     var size: CGFloat = 24
+    @Environment(AppEnvironment.self) private var env
     @State private var resolvedURL: URL?
 
     var body: some View {
@@ -379,6 +381,8 @@ struct EVEIconImage: View {
         .frame(width: size, height: size)
         .task(id: iconId) {
             resolvedURL = nil
+            // CCP's own resource CDN, as the desktop; the old lookup only for a database without icons.
+            if let url = try? await env.repository?.iconURL(id: iconId) { resolvedURL = url; return }
             resolvedURL = await EVEIconFileResolver.shared.url(for: iconId)
         }
     }

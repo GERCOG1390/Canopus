@@ -251,6 +251,9 @@ enum SchemaCreator {
             CREATE TABLE type_materials (type_id INTEGER NOT NULL, material_id INTEGER NOT NULL, quantity INTEGER NOT NULL);
             CREATE INDEX idx_type_materials ON type_materials(type_id);
 
+            -- Game UI icons: iconID → the file on CCP's client resource CDN (resources.eveonline.com).
+            CREATE TABLE icons (id INTEGER PRIMARY KEY, path TEXT NOT NULL);
+
             -- Certificates (skill levels for basic … elite) and ship masteries (level 1–5 → certificates).
             CREATE TABLE certificates (id INTEGER PRIMARY KEY, name TEXT NOT NULL);
             CREATE TABLE certificate_skills (

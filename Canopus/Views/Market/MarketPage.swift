@@ -55,98 +55,22 @@ struct MarketPage: View {
 // MARK: - Prices: the market tree and search
 
 private struct MarketPrices: View {
-    @Environment(AppEnvironment.self) private var env
-    @State private var query = ""
-    @State private var hits: [ItemType] = []
-    @State private var groups: [MarketGroup] = []
-    @State private var debugType: Int?
+    @State private var picked: Int?
 
     var body: some View {
-        List {
-            Section {
-                HStack(spacing: 6) {
-                    Glyph(name: .search, size: 14).foregroundStyle(C.muted)
-                    TextField("Item name…", text: $query).font(.ui(14)).autocorrectionDisabled().textInputAutocapitalization(.never)
-                }
-            }
-            if !query.isEmpty {
-                Section {
-                    ForEach(hits.filter { $0.marketGroupId != nil }) { t in
-                        NavigationLink { TypeMarketView(typeId: t.id, name: t.name) } label: { typeRow(t) }
-                    }
-                }
-            } else {
-                Section {
-                    ForEach(groups) { g in
-                        NavigationLink { MarketLevel(group: g) } label: { groupRow(g) }
-                    }
-                } footer: {
-                    Text("Pick an item in the market tree or find it by name to compare prices across the trade hubs.").font(.ui(12)).foregroundStyle(C.faint)
-                }
-            }
+        ScrollView {
+            ItemLookup(onPick: { picked = $0.id }, selected: picked, marketOnly: true,
+                       hint: "Pick an item in the market tree or find it by name to compare prices across the trade hubs.")
+                .padding(16)
         }
-        .scrollContentBackground(.hidden)
-        .navigationDestination(item: $debugType) { TypeMarketView(typeId: $0, name: "") }
+        .navigationDestination(item: $picked) { TypeMarketView(typeId: $0, name: "") }
         #if DEBUG
         // Debug builds: `-marketType 2048` opens an item's market (screenshots).
         .task {
             let id = UserDefaults.standard.integer(forKey: "marketType")
-            if id > 0, debugType == nil { try? await Task.sleep(for: .milliseconds(400)); debugType = id }
+            if id > 0, picked == nil { try? await Task.sleep(for: .milliseconds(400)); picked = id }
         }
         #endif
-        .task(id: query) {
-            guard let repo = env.repository else { return }
-            if query.isEmpty {
-                if groups.isEmpty { groups = (try? await repo.marketGroups(parentId: nil)) ?? [] }
-            } else {
-                try? await Task.sleep(for: .milliseconds(200))
-                hits = (try? await repo.search(query)) ?? []
-            }
-        }
-    }
-}
-
-private func groupRow(_ g: MarketGroup) -> some View {
-    HStack(spacing: 10) {
-        if let icon = g.iconId { EVEIconImage(iconId: icon, size: 28) } else { Color.clear.frame(width: 28, height: 28) }
-        Text(verbatim: g.name).font(.ui(14)).foregroundStyle(C.text)
-    }
-}
-
-private func typeRow(_ t: ItemType) -> some View {
-    HStack(spacing: 10) {
-        EVETypeIcon(typeId: t.id, size: 28)
-        Text(verbatim: t.name).font(.ui(14)).foregroundStyle(C.text)
-        Spacer(minLength: 0)
-        TypeMetaBadge(metaGroupId: t.metaGroupId)
-    }
-}
-
-/// One level of the market tree: subgroups, then the items of the group.
-private struct MarketLevel: View {
-    let group: MarketGroup
-    @Environment(AppEnvironment.self) private var env
-    @State private var children: [MarketGroup] = []
-    @State private var types: [ItemType] = []
-
-    var body: some View {
-        List {
-            ForEach(children) { g in
-                NavigationLink { MarketLevel(group: g) } label: { groupRow(g) }
-            }
-            ForEach(types) { t in
-                NavigationLink { TypeMarketView(typeId: t.id, name: t.name) } label: { typeRow(t) }
-            }
-        }
-        .scrollContentBackground(.hidden)
-        .background(C.bg)
-        .navigationTitle(group.name)
-        .navigationBarTitleDisplayMode(.inline)
-        .task {
-            guard let repo = env.repository else { return }
-            children = (try? await repo.marketGroups(parentId: group.id)) ?? []
-            if group.hasTypes { types = (try? await repo.types(marketGroupId: group.id)) ?? [] }
-        }
     }
 }
 
