@@ -119,7 +119,9 @@ struct RootShell: View {
 
     var body: some View {
         ZStack {
-            if sizeClass == .regular {
+            // The sidebar only on iPad: a large iPhone turned sideways reports a regular width too, and
+            // switching layouts there rebuilt every screen (an open fit was lost).
+            if usesSidebar {
                 splitView
             } else {
                 tabView
@@ -183,13 +185,15 @@ struct RootShell: View {
         }
     }
 
+    private var usesSidebar: Bool { UIDevice.current.userInterfaceIdiom == .pad && sizeClass == .regular }
+
     private func path(_ s: NavSection) -> Binding<NavigationPath> {
         Binding(get: { paths[s] ?? NavigationPath() }, set: { paths[s] = $0 })
     }
 
     /// Opens a page from anywhere (the character overview's "skills", "wallet" links).
     private func open(_ page: Page) {
-        if sizeClass == .regular {
+        if usesSidebar {
             sidebarPage = page
             return
         }

@@ -33,6 +33,8 @@ private struct FittingClassEntry: Identifiable {
 private struct DraftFitRoute: Identifiable {
     let fit: ESIFitting
     let typeNames: [Int: String]
+    /// Reopened after SwiftUI rebuilt the screen: continue from the saved draft.
+    var restore = false
 
     var id: Int { fit.fittingId }
 }
@@ -176,6 +178,7 @@ struct FittingsView: View {
     @State private var showNewFitPicker = false
     @State private var showImportSheet = false
     @State private var draftRoute: DraftFitRoute?
+    @State private var listToken = FitListToken()
 
     private var activeShipFit: ESIFitting? {
         guard let currentShip else { return nil }
@@ -226,7 +229,7 @@ struct FittingsView: View {
                             if let activeShipFit {
                                 classSectionHeader("ACTIVE SHIP")
                                 NavigationLink {
-                                    FitDetailView(fit: activeShipFit, typeNames: typeNames, characterService: characterService)
+                                    FitDetailView(fit: activeShipFit, typeNames: typeNames, characterService: characterService, listId: listToken.id)
                                 } label: {
                                     activeShipRow(activeShipFit)
                                 }
@@ -240,7 +243,7 @@ struct FittingsView: View {
                                     shipSectionHeader(shipEntry.shipName, typeId: shipEntry.id, count: shipEntry.fits.count)
                                     ForEach(shipEntry.fits) { fit in
                                         NavigationLink {
-                                            FitDetailView(fit: fit, typeNames: typeNames, characterService: characterService)
+                                            FitDetailView(fit: fit, typeNames: typeNames, characterService: characterService, listId: listToken.id)
                                         } label: {
                                             fitRowGrouped(fit)
                                         }
@@ -314,12 +317,22 @@ struct FittingsView: View {
         }
         .sheet(item: $draftRoute) { route in
             NavigationStack {
-                FitDetailView(fit: route.fit, typeNames: route.typeNames, characterService: characterService)
+                FitDetailView(fit: route.fit, typeNames: route.typeNames, characterService: characterService,
+                              listId: listToken.id, restoreDraft: route.restore)
             }
             // A page-sized sheet on iPad; the fitting screen is too dense for the default form sheet.
             .presentationSizing(.page)
         }
         .task(id: env.dataKey) { await load() }
+        .onAppear {
+            // The fit was open in a list SwiftUI has since rebuilt (another page, the phone turned):
+            // open it again where the pilot left it.
+            let store = FitDraftStore.shared
+            if let from = store.openFrom, from != listToken.id, !FitListToken.live.contains(from),
+               let d = store.draft, draftRoute == nil {
+                draftRoute = DraftFitRoute(fit: d.fitting, typeNames: d.typeNames, restore: true)
+            }
+        }
         .alert("Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
         ) {
@@ -472,6 +485,10 @@ struct FitDetailView: View {
     let fit: ESIFitting
     let typeNames: [Int: String]
     let characterService: CharacterService
+    /// The fittings list that opened this fit (to tell the pilot closing it from SwiftUI rebuilding it).
+    var listId: UUID? = nil
+    /// Continue from the saved draft of this fit (it was reopened after a rebuild).
+    var restoreDraft = false
 
     @Environment(AppEnvironment.self) private var env
     @State private var configs: [String: ModuleConfig] = [:]
@@ -518,6 +535,8 @@ struct FitDetailView: View {
     @State private var modulePickerSlot: SlotSelection?
     @State private var exportSheet: FittingTextSheet?
     @State private var recalcTask: Task<Void, Never>?
+    /// Set once the fit is loaded: from then on every change is kept in the draft.
+    @State private var draftReady = false
 
     private enum StatIcon {
         static let capacitorCapacity = 1668
@@ -1057,13 +1076,45 @@ private struct SubsystemSlotDefinition: Identifiable {
         }
         .task(id: env.repositoryVersion) { await initialLoad() }
         .onChange(of: configs) { _, _ in
+            saveDraft()
             guard skillsReady else { return }
             scheduleFitRefresh()
         }
+        .onChange(of: draftSnapshot) { _, _ in saveDraft() }
+        .onChange(of: droneActive) { _, _ in saveDraft() }
+        .onAppear { if let listId { FitDraftStore.shared.setOpen(listId) } }
         .onDisappear {
             recalcTask?.cancel()
             recalcTask = nil
+            // Closed by the pilot when the list that opened it is still there; otherwise SwiftUI rebuilt
+            // the screen and the new list reopens the fit.
+            if let listId {
+                Task { @MainActor in
+                    try? await Task.sleep(for: .milliseconds(600))
+                    if FitListToken.live.contains(listId), FitDraftStore.shared.openFrom == listId { FitDraftStore.shared.setOpen(nil) }
+                }
+            }
         }
+    }
+
+    // MARK: - Draft (kept outside the screen, as the desktop's FittingProvider)
+
+    private var draftSnapshot: [FitDraft.Item] {
+        currentItems.map { FitDraft.Item(typeId: $0.typeId, flag: $0.flag, quantity: $0.quantity) }
+    }
+
+    private func saveDraft() {
+        guard draftReady else { return }
+        var names = typeNames
+        for (id, t) in localTypes { names[id] = t.name }
+        names.merge(localTypeNames) { a, _ in a }
+        FitDraftStore.shared.save(FitDraft(
+            fittingId: fit.fittingId, name: fit.name, description: fit.description, shipTypeId: fit.shipTypeId,
+            items: draftSnapshot,
+            configs: configs.mapValues { FitDraft.Config(state: $0.state.rawValue, chargeTypeId: $0.chargeTypeId) },
+            droneActive: droneActive,
+            typeNames: names.filter { id, _ in id == fit.shipTypeId || draftSnapshot.contains { $0.typeId == id } }
+        ))
     }
 
     // MARK: - Ship header (the desktop's fit-ship card)
@@ -2144,7 +2195,13 @@ private struct SubsystemSlotDefinition: Identifiable {
 
     private func initialLoad() async {
         guard let repo = env.repository else { return }
-        await loadLiveItemsIfCurrentShip()
+        let saved = restoreDraft ? FitDraftStore.shared.draft(for: fit.fittingId) : nil
+        if let saved, editableItems == nil {
+            editableItems = saved.fitting.items
+            droneActive = saved.droneActive
+        } else {
+            await loadLiveItemsIfCurrentShip()
+        }
         if editableItems == nil {
             editableItems = liveItems ?? fit.items
         }
@@ -2203,6 +2260,10 @@ private struct SubsystemSlotDefinition: Identifiable {
                 }
             }
         }
+
+        if let saved { configs.merge(saved.moduleConfigs) { _, kept in kept } }
+        draftReady = true
+        saveDraft()
 
         // Load the character's skills and implants (the engine fits with them)
         await loadSkillData(repo: repo)
