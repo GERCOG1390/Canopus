@@ -165,6 +165,18 @@ public final class CharacterService {
         }
     }
 
+    public func blueprints() async throws -> [ESIBlueprint] {
+        try await cached("blueprints", ttl: 3_600) {
+            try await esiGetPaginated("/characters/\(tokens.characterId)/blueprints/", as: ESIBlueprint.self)
+        }
+    }
+
+    public func standings() async throws -> [ESIStanding] {
+        try await cached("standings", ttl: 3_600) {
+            try await esiGet("/characters/\(tokens.characterId)/standings/", as: [ESIStanding].self)
+        }
+    }
+
     public func online() async throws -> ESIOnlineStatus {
         try await cached("online", ttl: 60) {
             try await esiGet("/characters/\(tokens.characterId)/online/", as: ESIOnlineStatus.self)

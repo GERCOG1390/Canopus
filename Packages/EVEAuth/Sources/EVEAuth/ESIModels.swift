@@ -266,6 +266,28 @@ public struct ESICharacterAttributes: Decodable, Sendable {
     public let bonusRemaps: Int?
 }
 
+// MARK: - Blueprints and standings
+
+public struct ESIBlueprint: Decodable, Sendable, Identifiable {
+    public var id: Int { itemId }
+    public let itemId: Int
+    public let typeId: Int
+    public let locationId: Int
+    public let locationFlag: String
+    public let materialEfficiency: Int
+    public let timeEfficiency: Int
+    /// -1 for originals
+    public let runs: Int
+    public let quantity: Int
+}
+
+public struct ESIStanding: Decodable, Sendable {
+    public let fromId: Int
+    /// agent, npc_corp or faction
+    public let fromType: String
+    public let standing: Double
+}
+
 // MARK: - Online status and jump fatigue
 
 public struct ESIOnlineStatus: Decodable, Sendable {

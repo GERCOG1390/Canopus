@@ -278,6 +278,16 @@
         }
       }
     },
+    "%@ LP in total": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "всего %@ LP"
+          }
+        }
+      }
+    },
     "%@ SP": {},
     "%@ SP/hour": {
       "localizations": {
@@ -1118,6 +1128,16 @@
         }
       }
     },
+    "Agents": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Агенты"
+          }
+        }
+      }
+    },
     "Align time": {
       "localizations": {
         "ru": {
@@ -1771,6 +1791,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Кровавые рейдеры"
+          }
+        }
+      }
+    },
+    "Blueprint or what it makes…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чертёж или что он производит…"
+          }
+        }
+      }
+    },
+    "Blueprints": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чертежи"
           }
         }
       }
@@ -2791,6 +2831,26 @@
         }
       }
     },
+    "Copies (BPC)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копий (BPC)"
+          }
+        }
+      }
+    },
+    "Copies only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только копии"
+          }
+        }
+      }
+    },
     "Copy": {
       "localizations": {
         "ru": {
@@ -2888,6 +2948,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выплата корпорации"
+          }
+        }
+      }
+    },
+    "Corporations with LP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпораций с LP"
           }
         }
       }
@@ -3747,6 +3817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сооружение %lld"
+          }
+        }
+      }
+    },
+    "Factions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фракции"
           }
         }
       }
@@ -5606,6 +5686,16 @@
         }
       }
     },
+    "Loyalty points (LP)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очки лояльности (LP)"
+          }
+        }
+      }
+    },
     "MAIL": {
       "extractionState": "stale",
       "localizations": {
@@ -6305,6 +6395,16 @@
         }
       }
     },
+    "NPC corporations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NPC-корпорации"
+          }
+        }
+      }
+    },
     "NPCs: %lld": {
       "localizations": {
         "ru": {
@@ -6430,6 +6530,16 @@
         }
       }
     },
+    "No LP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет LP"
+          }
+        }
+      }
+    },
     "No LP Store Offers": {
       "extractionState": "stale",
       "localizations": {
@@ -6550,6 +6660,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет данных об атрибутах"
+          }
+        }
+      }
+    },
+    "No blueprints": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чертежей нет"
           }
         }
       }
@@ -7265,6 +7385,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Залог ордера"
+          }
+        }
+      }
+    },
+    "Originals (BPO)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оригиналов (BPO)"
+          }
+        }
+      }
+    },
+    "Originals only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только оригиналы"
           }
         }
       }
@@ -8102,6 +8242,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Налог на переработку"
+          }
+        }
+      }
+    },
+    "Reputation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Репутация"
           }
         }
       }
@@ -9427,6 +9577,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стабильность"
+          }
+        }
+      }
+    },
+    "Standings": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Репутация (стендинги)"
           }
         }
       }
@@ -11113,6 +11273,16 @@
         }
       }
     },
+    "in a container": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "в контейнере"
+          }
+        }
+      }
+    },
     "in jump range": {
       "localizations": {
         "ru": {
@@ -11149,6 +11319,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "убийства за час"
+          }
+        }
+      }
+    },
+    "last jump: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "последний прыжок: %@"
           }
         }
       }
@@ -11513,6 +11693,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ригов"
+          }
+        }
+      }
+    },
+    "runs %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "прогонов: %lld"
           }
         }
       }
@@ -11900,6 +12090,16 @@
     },
     "✓": {
       "shouldTranslate": false
+    },
+    "✓ All characters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Все персонажи"
+          }
+        }
+      }
     },
     "✓ Only active": {
       "localizations": {

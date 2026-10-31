@@ -127,3 +127,20 @@ extension SDERepository {
         }
     }
 }
+
+extension SDERepository {
+    /// What each blueprint manufactures (or, for reactions, produces): blueprint → product.
+    public func blueprintProducts(_ ids: Set<Int>) async throws -> [Int: Int] {
+        guard !ids.isEmpty else { return [:] }
+        return try await dbReader.read { db in
+            var out: [Int: Int] = [:]
+            for r in try Row.fetchAll(db, sql: """
+                SELECT blueprint_id, type_id FROM blueprint_products
+                WHERE activity IN ('manufacturing', 'reaction') AND blueprint_id IN (\(ids.map(String.init).joined(separator: ",")))
+                """) {
+                out[r["blueprint_id"]] = r["type_id"]
+            }
+            return out
+        }
+    }
+}

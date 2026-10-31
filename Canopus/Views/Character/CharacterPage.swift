@@ -7,7 +7,7 @@ import EVEAuth
 import EVEStaticData
 
 enum CharacterTab: String, CaseIterable {
-    case all, overview, skills, clones, fits, assets, wallet, contracts
+    case all, overview, skills, clones, fits, assets, blueprints, wallet, contracts, reputation
 
     var label: String {
         switch self {
@@ -17,8 +17,10 @@ enum CharacterTab: String, CaseIterable {
         case .clones: "Implants & clones"
         case .fits: "Ship & fits"
         case .assets: "Assets"
+        case .blueprints: "Blueprints"
         case .wallet: "Wallet"
         case .contracts: "Contracts"
+        case .reputation: "Reputation"
         }
     }
 }
@@ -56,6 +58,8 @@ struct CharacterPage: View {
                     case .assets: AssetsTab(characterService: s)
                     case .wallet: WalletTab(characterService: s)
                     case .contracts: ContractsTab(characterService: s)
+                    case .blueprints: BlueprintsTab(characterService: s)
+                    case .reputation: ReputationTab(characterService: s)
                     }
                 }
                 .id(s.tokens.characterId)
