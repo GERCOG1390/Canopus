@@ -28,15 +28,28 @@ public final class CharacterService {
         }
     }
 
-    private func cached<T>(_ key: String, ttl: TimeInterval, fetch: () async throws -> T) async throws -> T {
+    /// Requests under way, by cache key: a second screen asking for the same data waits for the first
+    /// request instead of sending its own.
+    private var inflight: [String: Task<any Sendable, Error>] = [:]
+
+    private func cached<T: Sendable>(_ key: String, ttl: TimeInterval, fetch: @escaping @MainActor () async throws -> T) async throws -> T {
         if let entry = cacheStore[key],
            Date().timeIntervalSince(entry.timestamp) < ttl,
            let value = entry.value as? T {
             return value
         }
-        let value = try await fetch()
+        if let running = inflight[key], let value = try await running.value as? T { return value }
+        let task = Task<any Sendable, Error> { @MainActor in try await fetch() }
+        inflight[key] = task
+        defer { inflight[key] = nil }
+        guard let value = try await task.value as? T else { throw URLError(.cannotDecodeContentData) }
         cacheStore[key] = (value, Date())
         return value
+    }
+
+    /// JSON decoding off the main thread: assets, the journal and contracts can be thousands of rows.
+    private nonisolated static func decode<T: Decodable & Sendable>(_ type: T.Type, _ data: Data) async throws -> T {
+        try await Task.detached(priority: .userInitiated) { try JSONDecoder.esi.decode(T.self, from: data) }.value
     }
 
     public init(tokens: StoredTokens, authClient: EVEAuthClient, urlSession: URLSession = .shared) {
@@ -48,37 +61,37 @@ public final class CharacterService {
     // MARK: - ESI endpoints
 
     public func characterInfo() async throws -> ESICharacterInfo {
-        try await cached("characterInfo", ttl: 300) {
+        try await cached("characterInfo", ttl: 300) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/", as: ESICharacterInfo.self)
         }
     }
 
     public func skillQueue() async throws -> [ESISkillQueueItem] {
-        try await cached("skillQueue", ttl: 30) {
+        try await cached("skillQueue", ttl: 30) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/skillqueue/", as: [ESISkillQueueItem].self)
         }
     }
 
     public func skills() async throws -> ESISkillsResponse {
-        try await cached("skills", ttl: 60) {
+        try await cached("skills", ttl: 60) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/skills/", as: ESISkillsResponse.self)
         }
     }
 
     public func wallet() async throws -> Double {
-        try await cached("wallet", ttl: 30) {
+        try await cached("wallet", ttl: 30) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/wallet/", as: Double.self)
         }
     }
 
     public func corporationInfo(corpId: Int) async throws -> ESICorporationInfo {
-        try await cached("corporationInfo:\(corpId)", ttl: 3_600) {
+        try await cached("corporationInfo:\(corpId)", ttl: 3_600) { [self] in
             try await esiGetPublic("/corporations/\(corpId)/", as: ESICorporationInfo.self)
         }
     }
 
     public func allianceInfo(allianceId: Int) async throws -> ESIAllianceInfo {
-        try await cached("allianceInfo:\(allianceId)", ttl: 3_600) {
+        try await cached("allianceInfo:\(allianceId)", ttl: 3_600) { [self] in
             try await esiGetPublic("/alliances/\(allianceId)/", as: ESIAllianceInfo.self)
         }
     }
@@ -86,31 +99,31 @@ public final class CharacterService {
     // MARK: - Clones, Implants, Loyalty, Wallet Journal
 
     public func implants() async throws -> [Int] {
-        try await cached("implants", ttl: 300) {
+        try await cached("implants", ttl: 300) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/implants/", as: [Int].self)
         }
     }
 
     public func clones() async throws -> ESIClonesInfo {
-        try await cached("clones", ttl: 300) {
+        try await cached("clones", ttl: 300) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/clones/", as: ESIClonesInfo.self)
         }
     }
 
     public func loyaltyPoints() async throws -> [ESILoyaltyPoint] {
-        try await cached("loyaltyPoints", ttl: 300) {
+        try await cached("loyaltyPoints", ttl: 300) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/loyalty/points/", as: [ESILoyaltyPoint].self)
         }
     }
 
     public func loyaltyStoreOffers(corpId: Int) async throws -> [ESILoyaltyStoreOffer] {
-        try await cached("loyaltyStoreOffers:\(corpId)", ttl: 3_600) {
+        try await cached("loyaltyStoreOffers:\(corpId)", ttl: 3_600) { [self] in
             try await esiGetPublic("/loyalty/stores/\(corpId)/offers/", as: [ESILoyaltyStoreOffer].self)
         }
     }
 
     public func walletJournal() async throws -> [ESIWalletEntry] {
-        try await cached("walletJournal", ttl: 60) {
+        try await cached("walletJournal", ttl: 60) { [self] in
             try await esiGetPaginated("/characters/\(tokens.characterId)/wallet/journal/", as: ESIWalletEntry.self)
         }
     }
@@ -118,79 +131,79 @@ public final class CharacterService {
     // MARK: - M3 Endpoints
 
     public func assets() async throws -> [ESIAsset] {
-        try await cached("assets", ttl: 60) {
+        try await cached("assets", ttl: 60) { [self] in
             try await esiGetPaginated("/characters/\(tokens.characterId)/assets/", as: ESIAsset.self)
         }
     }
 
     public func industryJobs() async throws -> [ESIIndustryJob] {
-        try await cached("industryJobs", ttl: 120) {
+        try await cached("industryJobs", ttl: 120) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/industry/jobs/", as: [ESIIndustryJob].self)
         }
     }
 
     public func marketOrders() async throws -> [ESIMarketOrder] {
-        try await cached("marketOrders", ttl: 120) {
+        try await cached("marketOrders", ttl: 120) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/orders/", as: [ESIMarketOrder].self)
         }
     }
 
     public func contracts() async throws -> [ESIContract] {
-        try await cached("contracts", ttl: 120) {
+        try await cached("contracts", ttl: 120) { [self] in
             try await esiGetPaginated("/characters/\(tokens.characterId)/contracts/", as: ESIContract.self)
         }
     }
 
     public func contractItems(contractId: Int) async throws -> [ESIContractItem] {
-        try await cached("contractItems:\(contractId)", ttl: 3_600) {
+        try await cached("contractItems:\(contractId)", ttl: 3_600) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/contracts/\(contractId)/items/", as: [ESIContractItem].self)
         }
     }
 
     public func currentShip() async throws -> ESICurrentShip {
-        try await cached("currentShip", ttl: 15) {
+        try await cached("currentShip", ttl: 15) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/ship/", as: ESICurrentShip.self)
         }
     }
 
     public func location() async throws -> ESICharacterLocation {
-        try await cached("location", ttl: 15) {
+        try await cached("location", ttl: 15) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/location/", as: ESICharacterLocation.self)
         }
     }
 
     public func characterAttributes() async throws -> ESICharacterAttributes {
-        try await cached("characterAttributes", ttl: 300) {
+        try await cached("characterAttributes", ttl: 300) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/attributes/", as: ESICharacterAttributes.self)
         }
     }
 
     public func blueprints() async throws -> [ESIBlueprint] {
-        try await cached("blueprints", ttl: 3_600) {
+        try await cached("blueprints", ttl: 3_600) { [self] in
             try await esiGetPaginated("/characters/\(tokens.characterId)/blueprints/", as: ESIBlueprint.self)
         }
     }
 
     public func standings() async throws -> [ESIStanding] {
-        try await cached("standings", ttl: 3_600) {
+        try await cached("standings", ttl: 3_600) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/standings/", as: [ESIStanding].self)
         }
     }
 
     public func online() async throws -> ESIOnlineStatus {
-        try await cached("online", ttl: 60) {
+        try await cached("online", ttl: 60) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/online/", as: ESIOnlineStatus.self)
         }
     }
 
     public func fatigue() async throws -> ESIJumpFatigue {
-        try await cached("fatigue", ttl: 300) {
+        try await cached("fatigue", ttl: 300) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/fatigue/", as: ESIJumpFatigue.self)
         }
     }
 
     public func employmentHistory() async throws -> [ESIEmploymentHistoryItem] {
-        try await cached("employmentHistory", ttl: 3_600) {
+        try await cached("employmentHistory", ttl: 3_600) { [self] in
             try await esiGetPublic("/characters/\(tokens.characterId)/corporationhistory/", as: [ESIEmploymentHistoryItem].self)
         }
     }
@@ -198,7 +211,7 @@ public final class CharacterService {
     // MARK: - Fittings
 
     public func fittings() async throws -> [ESIFitting] {
-        try await cached("fittings", ttl: 60) {
+        try await cached("fittings", ttl: 60) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/fittings/", as: [ESIFitting].self)
         }
     }
@@ -221,14 +234,14 @@ public final class CharacterService {
     public func walletTransactions(fromId: Int? = nil) async throws -> [ESIWalletTransaction] {
         var items: [URLQueryItem] = []
         if let from = fromId { items.append(.init(name: "from_id", value: "\(from)")) }
-        return try await cached("walletTransactions:\(fromId.map(String.init) ?? "latest")", ttl: 60) {
+        return try await cached("walletTransactions:\(fromId.map(String.init) ?? "latest")", ttl: 60) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/wallet/transactions/",
                              queryItems: items, as: [ESIWalletTransaction].self)
         }
     }
 
     public func miningLedger() async throws -> [ESIMiningEntry] {
-        try await cached("miningLedger", ttl: 300) {
+        try await cached("miningLedger", ttl: 300) { [self] in
             try await esiGetPaginated("/characters/\(tokens.characterId)/mining/", as: ESIMiningEntry.self)
         }
     }
@@ -242,7 +255,7 @@ public final class CharacterService {
             for l in labs { items.append(.init(name: "labels[]", value: "\(l)")) }
         }
         let labelKey = labels?.map(String.init).joined(separator: ",") ?? "all"
-        return try await cached("mailHeaders:\(lastMailId.map(String.init) ?? "latest"):\(labelKey)", ttl: 30) {
+        return try await cached("mailHeaders:\(lastMailId.map(String.init) ?? "latest"):\(labelKey)", ttl: 30) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/mail/", queryItems: items, as: [ESIMailHeader].self)
         }
     }
@@ -252,7 +265,7 @@ public final class CharacterService {
     }
 
     public func mailLabels() async throws -> ESIMailLabelsResponse {
-        try await cached("mailLabels", ttl: 60) {
+        try await cached("mailLabels", ttl: 60) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/mail/labels/", as: ESIMailLabelsResponse.self)
         }
     }
@@ -286,19 +299,19 @@ public final class CharacterService {
     // MARK: - Universe location resolution
 
     public func stationInfo(id: Int) async throws -> ESIStationInfo {
-        try await cached("stationInfo:\(id)", ttl: 86_400) {
+        try await cached("stationInfo:\(id)", ttl: 86_400) { [self] in
             try await esiGetPublic("/universe/stations/\(id)/", as: ESIStationInfo.self)
         }
     }
 
     public func systemInfo(id: Int) async throws -> ESISystemInfo {
-        try await cached("systemInfo:\(id)", ttl: 86_400) {
+        try await cached("systemInfo:\(id)", ttl: 86_400) { [self] in
             try await esiGetPublic("/universe/systems/\(id)/", as: ESISystemInfo.self)
         }
     }
 
     public func structureInfo(id: Int) async throws -> ESIStructureInfo {
-        try await cached("structureInfo:\(id)", ttl: 3_600) {
+        try await cached("structureInfo:\(id)", ttl: 3_600) { [self] in
             try await esiGet("/universe/structures/\(id)/", as: ESIStructureInfo.self)
         }
     }
@@ -320,13 +333,13 @@ public final class CharacterService {
                 if let http2 = resp2 as? HTTPURLResponse, !(200..<300).contains(http2.statusCode) {
                     throw AuthError.httpError(http2.statusCode, String(data: data2, encoding: .utf8))
                 }
-                return try JSONDecoder.esi.decode(T.self, from: data2)
+                return try await Self.decode(T.self, data2)
             }
             guard (200..<300).contains(http.statusCode) else {
                 throw AuthError.httpError(http.statusCode, String(data: data, encoding: .utf8))
             }
         }
-        return try JSONDecoder.esi.decode(T.self, from: data)
+        return try await Self.decode(T.self, data)
     }
 
     // MARK: - Authenticated PUT
@@ -375,7 +388,7 @@ public final class CharacterService {
                 throw AuthError.httpError(http.statusCode, String(data: data, encoding: .utf8))
             }
         }
-        return try JSONDecoder.esi.decode(T.self, from: data)
+        return try await Self.decode(T.self, data)
     }
 
     // MARK: - Authenticated POST
@@ -402,13 +415,13 @@ public final class CharacterService {
                 if let http2 = resp2 as? HTTPURLResponse, !(200..<300).contains(http2.statusCode) {
                     throw AuthError.httpError(http2.statusCode, String(data: data2, encoding: .utf8))
                 }
-                return try JSONDecoder.esi.decode(T.self, from: data2)
+                return try await Self.decode(T.self, data2)
             }
             guard (200..<300).contains(http.statusCode) else {
                 throw AuthError.httpError(http.statusCode, String(data: data, encoding: .utf8))
             }
         }
-        return try JSONDecoder.esi.decode(T.self, from: data)
+        return try await Self.decode(T.self, data)
     }
 
     private func makeRequestWithQuery(path: String, queryItems: [URLQueryItem]) -> URLRequest {
@@ -448,14 +461,14 @@ public final class CharacterService {
                 if let http2 = resp2 as? HTTPURLResponse, !(200..<300).contains(http2.statusCode) {
                     throw AuthError.httpError(http2.statusCode, String(data: data2, encoding: .utf8))
                 }
-                return try JSONDecoder.esi.decode(T.self, from: data2)
+                return try await Self.decode(T.self, data2)
             }
             guard (200..<300).contains(http.statusCode) else {
                 throw AuthError.httpError(http.statusCode, String(data: data, encoding: .utf8))
             }
         }
 
-        return try JSONDecoder.esi.decode(T.self, from: data)
+        return try await Self.decode(T.self, data)
     }
 
     // MARK: - Public GET (no auth)
@@ -468,7 +481,7 @@ public final class CharacterService {
                 throw AuthError.httpError(http.statusCode, String(data: data, encoding: .utf8))
             }
         }
-        return try JSONDecoder.esi.decode(T.self, from: data)
+        return try await Self.decode(T.self, data)
     }
 
     private func makeRequest(path: String) -> URLRequest {
@@ -481,7 +494,7 @@ public final class CharacterService {
 
     private func esiGetPaginated<T: Decodable & Sendable>(_ path: String, as type: T.Type) async throws -> [T] {
         let (firstData, response) = try await esiRawRequest(path: path, page: 1)
-        let firstPage = try JSONDecoder.esi.decode([T].self, from: firstData)
+        let firstPage = try await Self.decode([T].self, firstData)
         let totalPages = response.value(forHTTPHeaderField: "X-Pages").flatMap(Int.init) ?? 1
         guard totalPages > 1 else { return firstPage }
 
@@ -492,7 +505,7 @@ public final class CharacterService {
             for page in 2...totalPages {
                 group.addTask {
                     let (data, _) = try await self.esiRawRequest(path: path, page: page)
-                    return (page, try JSONDecoder.esi.decode([T].self, from: data))
+                    return (page, try await Self.decode([T].self, data))
                 }
             }
 

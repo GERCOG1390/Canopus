@@ -465,6 +465,9 @@
       "shouldTranslate": false
     },
     "%@ — %@ LP": {},
+    "%@%@": {
+      "shouldTranslate": false
+    },
     "%@%@%% resistance": {
       "localizations": {
         "ru": {
@@ -1919,6 +1922,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бонусы за каждый уровень навыка "
+          }
+        }
+      }
+    },
+    "Bonuses per level of %@:": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонусы за каждый уровень навыка %@:"
           }
         }
       }

@@ -291,7 +291,7 @@ private struct DescriptionTab: View {
                 Card("Traits") {
                     ForEach(t.bySkill, id: \.skill) { s in
                         VStack(alignment: .leading, spacing: 4) {
-                            (Text("Bonuses per level of ") + Text(verbatim: refName(b, s.skill)).foregroundColor(C.accentText) + Text(verbatim: ":"))
+                            Text("Bonuses per level of \(Text(verbatim: refName(b, s.skill)).foregroundStyle(C.accentText)):")
                                 .font(.ui(13, .medium)).foregroundStyle(C.text)
                             ForEach(Array(s.bonuses.enumerated()), id: \.offset) { _, x in bonus(x) }
                         }

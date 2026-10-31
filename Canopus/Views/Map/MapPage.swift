@@ -491,7 +491,7 @@ struct MapPage: View {
                 }
                 .font(.mono(13))
                 if bridgeHops > 0 {
-                    (Text("Over bridges: \(bridgeHops)").foregroundColor(C.star) + Text(" · subcapitals only").foregroundColor(C.muted))
+                    Text("\(Text("Over bridges: \(bridgeHops)").foregroundStyle(C.star))\(Text(" · subcapitals only").foregroundStyle(C.muted))")
                         .font(.ui(12))
                     if flag != .shortest {
                         Text("Canopus works out routes with bridges: the safe one can differ from the game's by a couple of jumps.")
