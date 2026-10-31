@@ -94,6 +94,8 @@ belongs to.
   masteries and Russian texts (l10n, type_traits_ru, zlib-compressed type_descriptions_ru). Database
   43 MB (was 31). Item names elsewhere in the app stay English for now.
 - 2026-10-28: names in the app's language everywhere (SDENames); EFT export stays English, EFT / fleet /
-  search accept both. Next: the fitting screen's modules tab in the desktop's layout (still the old
-  amber list with English slot labels), then phase 4.
+  search accept both. The fitting screen in the desktop's layout: ship card, DPS / EHP / CPU / PG
+  metrics, slot groups with the game's icons and used / total, module rows (state button cycling as
+  the desktop's nextState, identical modules as "6×", charge, problems, remove one), empty slots,
+  drones with launched −/+ and ×+1, implants, cargo. Next: phase 4 (economy).
 

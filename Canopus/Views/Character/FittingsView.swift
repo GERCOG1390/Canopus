@@ -13,7 +13,11 @@ struct ModuleConfig: Equatable {
     var chargeTypeId: Int? = nil
 }
 
-private struct FlagItem: Identifiable { let id: String }
+private struct FlagItem: Identifiable {
+    let id: String
+    /// Identical modules shown as one row: a state or charge change applies to all of them.
+    var group: [String] = []
+}
 
 private struct FittingShipEntry: Identifiable {
     let id: Int         // shipTypeId
@@ -480,6 +484,10 @@ struct FitDetailView: View {
     @State private var fitSpec: JSFitSpec?
     @State private var fitShot: FitShotData?
     @State private var preparingShot = false
+    /// Slots whose identical modules are shown one per row (the desktop's expanded groups).
+    @State private var expandedSlots: Set<String> = []
+    /// Drones launched per type when the pilot changed it (otherwise five in all, first stacks first).
+    @State private var droneActive: [Int: Int] = [:]
     /// A fit opened from the tools (popular fits).
     @State private var toolFit: DraftFitRoute?
     @State private var moduleTypeProfiles: [Int: TypeProfile] = [:]
@@ -765,16 +773,6 @@ private struct SubsystemSlotDefinition: Identifiable {
         return items.filter(isFittedType)
     }
 
-    private func moduleCostKey(flag: String, typeId: Int) -> String {
-        "\(flag)#\(typeId)"
-    }
-
-    private func moduleCostMap(_ costs: [FittedModuleCost]) -> [String: FittedModuleCost] {
-        costs.reduce(into: [:]) { result, cost in
-            result[moduleCostKey(flag: cost.flag, typeId: cost.typeId)] = cost
-        }
-    }
-
     private var subsystemSlotDefinitions: [SubsystemSlotDefinition] {
         [
             SubsystemSlotDefinition(dogmaSlotId: 125, flagIndex: 0, title: "Core"),
@@ -835,11 +833,6 @@ private struct SubsystemSlotDefinition: Identifiable {
         return (0..<capacity)
             .filter { !usedIndexes.contains($0) }
             .map { "\(prefix)\($0)" }
-    }
-
-    private func slotUsageText(_ slot: Slot) -> String? {
-        guard let capacity = slotCapacity(slot) else { return nil }
-        return "\(moduleItems(in: slot).count)/\(capacity)"
     }
 
     private func hardpointCapacity(_ kind: WeaponHardpointKind) -> Int {
@@ -936,8 +929,7 @@ private struct SubsystemSlotDefinition: Identifiable {
     var body: some View {
         VStack(spacing: 0) {
             shipHeader
-            EVESeparator(kind: .section)
-            if stats != nil { resourceBar }
+            if let s = fitStats { metricsStrip(s) }
             tabBar
             EVESeparator(kind: .section)
             tabContent
@@ -1015,7 +1007,7 @@ private struct SubsystemSlotDefinition: Identifiable {
                     moduleEffectIds: moduleTypeProfiles[item.typeId]?.effectIds ?? [],
                     config: Binding(
                         get: { configs[flagItem.id] ?? ModuleConfig() },
-                        set: { configs[flagItem.id] = $0 }
+                        set: { new in for f in flagItem.group.isEmpty ? [flagItem.id] : flagItem.group { configs[f] = new } }
                     ),
                     chargeNames: $chargeNames,
                     chargeTypeAttrs: $chargeTypeAttrs,
@@ -1074,68 +1066,72 @@ private struct SubsystemSlotDefinition: Identifiable {
         }
     }
 
-    // MARK: - Ship header
+    // MARK: - Ship header (the desktop's fit-ship card)
 
     private var shipHeader: some View {
-        HStack(spacing: 14) {
-            EVERenderImage(typeId: fit.shipTypeId, size: 60)
-                .clipShape(CutCorner(size: 10))
-                .overlay(CutCorner(size: 10).stroke(Color.eveAmber.opacity(0.3), lineWidth: 1))
-            VStack(alignment: .leading, spacing: 4) {
-                Text(fit.name).font(.ui(18, .semibold)).foregroundStyle(Color.eveText)
-                Text(typeName(fit.shipTypeId, fallback: "")).font(.ui(12)).foregroundStyle(Color.eveText.opacity(0.50))
+        HStack(spacing: 12) {
+            NavigationLink { TypeDetailView(typeId: fit.shipTypeId, typeName: typeName(fit.shipTypeId, fallback: "")) } label: {
+                EVERenderImage(typeId: fit.shipTypeId, size: 72).clipShape(EVECut())
+            }
+            .buttonStyle(.plain)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(verbatim: fit.name).font(.display(18)).foregroundStyle(C.text).lineLimit(2)
+                Text(verbatim: typeName(fit.shipTypeId, fallback: "")).font(.ui(13)).foregroundStyle(C.accentText)
                 HStack(spacing: 6) {
-                    Text(liveItems == nil ? "SAVED FIT" : "LIVE SHIP")
-                        .font(.ui(11, .semibold)).monospacedDigit()
-                        .foregroundStyle(liveItems == nil ? Color.eveText.opacity(0.45) : Color.eveGreen)
-                    Text("\(currentItems.count) items")
-                        .font(.ui(11)).monospacedDigit()
-                        .foregroundStyle(Color.eveText.opacity(0.35))
+                    Pill(text: liveItems == nil ? String(localized: "Saved fit") : String(localized: "Live ship"), color: liveItems == nil ? C.muted : C.good)
+                    Text(characterSkills.isEmpty ? "Skills: all V" : "Skills: \(characterService.tokens.characterName)")
+                        .font(.ui(11)).foregroundStyle(C.muted).lineLimit(1)
                 }
             }
-            Spacer()
+            Spacer(minLength: 0)
         }
-        .padding(.horizontal, 20).padding(.vertical, 14)
-        .background(Color.eveBackground)
+        .padding(.horizontal, 16).padding(.vertical, 12)
+        .background(C.panel)
     }
 
-    // MARK: - Resource bar (PG / CPU used of total)
+    // MARK: - Metrics (the desktop's FitMetrics: the numbers a pilot checks first)
 
-    private var resourceBar: some View {
-        HStack(spacing: 0) {
-            if let s = stats, s.pgTotal > 0 {
-                resourceCell("PG", used: s.pgUsed, total: s.pgTotal, unit: "MW", color: .eveAmber)
-                EVEVerticalSeparator()
-                resourceCell("CPU", used: s.cpuUsed, total: s.cpuTotal, unit: "Tf", color: .eveCyan)
-            }
+    private func metricsStrip(_ s: JSFitStats) -> some View {
+        HStack(spacing: 6) {
+            metric("DPS", Text(verbatim: s.offense.totalDps.formatted(.number.precision(.fractionLength(0...1)))), color: C.accentText)
+            metric("EHP", Text(verbatim: s.defense.ehp.formatted(.number.precision(.fractionLength(0)))), color: C.text)
+            resource("CPU", s.ship.cpu)
+            resource("PG", s.ship.power)
         }
-        .background(Color.eveCard)
-        .frame(height: 36)
+        .padding(.horizontal, 12).padding(.vertical, 8)
+        .background(C.nav)
     }
 
-    private func resourceCell(_ label: String, used: Double, total: Double, unit: String, color: Color) -> some View {
-        // Used / total, as on the desktop; red when the fit doesn't fit.
-        let frac = total > 0 ? min(1, max(0, used / total)) : 0
-        let over = used > total + 1e-6
-        return HStack(spacing: 6) {
-            Text(LocalizedStringKey(label)).hudLabel()
-            GeometryReader { geo in
+    private func metric(_ label: LocalizedStringKey, _ value: Text, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label).font(.ui(10, .medium)).tracking(1.2).textCase(.uppercase).foregroundStyle(C.muted)
+            value.font(.display(17)).foregroundStyle(color).lineLimit(1).minimumScaleFactor(0.6)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(8)
+        .background(C.card, in: EVECut())
+    }
+
+    /// Used / total with a bar; amber when nearly full, red when over (the desktop's ResourceCard).
+    private func resource(_ label: LocalizedStringKey, _ u: JSFitStats.Use) -> some View {
+        let over = u.used > u.total + 1e-6
+        let near = !over && u.total > 0 && u.total - u.used < u.total * 0.03
+        let color = over ? C.bad : near ? C.warn : C.accent
+        return VStack(alignment: .leading, spacing: 3) {
+            Text(label).font(.ui(10, .medium)).tracking(1.2).textCase(.uppercase).foregroundStyle(C.muted)
+            Text(verbatim: "\(u.used.formatted(.number.precision(.fractionLength(0...1)))) / \(u.total.formatted(.number.precision(.fractionLength(0...1))))")
+                .font(.mono(12, medium: true)).foregroundStyle(over ? C.bad : C.text).lineLimit(1).minimumScaleFactor(0.6)
+            GeometryReader { g in
                 ZStack(alignment: .leading) {
-                    Rectangle().fill(color.opacity(0.12))
-                    Rectangle().fill(over ? Color.eveRed : color.opacity(0.65)).frame(width: geo.size.width * frac)
+                    Rectangle().fill(C.panel2)
+                    Rectangle().fill(color).frame(width: g.size.width * min(1, u.total > 0 ? u.used / u.total : 0))
                 }
-                .clipShape(RoundedRectangle(cornerRadius: 2))
             }
-            .frame(height: 6)
-            Text(String(format: "%.1f / %.1f %@", used, total, unit))
-                .font(.ui(11)).monospacedDigit()
-                .foregroundStyle((over ? Color.eveRed : color).opacity(0.85))
-                .lineLimit(1)
-                .minimumScaleFactor(0.75)
-                .frame(width: 92, alignment: .trailing)
+            .frame(height: 3)
         }
-        .padding(.horizontal, 10)
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(8)
+        .background(C.card, in: EVECut())
     }
 
     // MARK: - Tab bar
@@ -1161,196 +1157,285 @@ private struct SubsystemSlotDefinition: Identifiable {
     // MARK: - Modules tab
 
     private var modulesTabView: some View {
-        let costsByModule = moduleCostMap(stats?.moduleCosts ?? [])
-
-        return ScrollView {
-            VStack(spacing: 0) {
-                ForEach(displayedSlots, id: \.self) { slot in
-                    let items = currentItems.filter { slotFor($0.flag) == slot }
-                    let visibleItems = slot == .cargo || slot == .drone ? items : moduleItems(in: slot)
-                    if !visibleItems.isEmpty || editableItems != nil || fit.items.isEmpty {
-                        slotSection(slot, items: items, visibleItems: visibleItems, costsByModule: costsByModule)
-                        EVESeparator(kind: .section)
-                    }
+        ScrollView {
+            VStack(alignment: .leading, spacing: 10) {
+                ForEach(displayedSlots.filter { $0 != .drone && $0 != .cargo }, id: \.self) { slot in
+                    if (slotCapacity(slot) ?? 0) > 0 || !moduleItems(in: slot).isEmpty { slotGroup(slot) }
                 }
+                dronesGroup
+                implantsGroup
+                if !currentItems.filter({ slotFor($0.flag) == .cargo }).isEmpty { cargoGroup }
             }
+            .padding(12)
             .padding(.bottom, EVELayout.scrollBottomClearance)
         }
     }
 
-    private func slotSection(
-        _ slot: Slot,
-        items: [ESIFittingItem],
-        visibleItems: [ESIFittingItem],
-        costsByModule: [String: FittedModuleCost]
-    ) -> some View {
-        VStack(alignment: .leading, spacing: 0) {
-            EVESectionHeader(slot.rawValue) {
-                if let usage = slotUsageText(slot) {
-                    Text(usage)
-                        .font(.ui(11, .semibold)).monospacedDigit()
-                        .foregroundStyle(Color.eveText.opacity(0.45))
-                }
-            }
-            EVESeparator()
+    /// The game's slot icons (the desktop's SLOT_ATTR).
+    private func slotIcon(_ slot: Slot) -> Int {
+        switch slot {
+        case .high: 14
+        case .mid: 13
+        case .low: 12
+        case .rig: 1137
+        default: 1367
+        }
+    }
 
-            let isGrouped = (slot == .drone || slot == .cargo)
-            if isGrouped {
-                // Cargo/drones: group by typeId
-                let grouped = Dictionary(grouping: items, by: \.typeId)
-                ForEach(grouped.keys.sorted(), id: \.self) { typeId in
-                    let qty = grouped[typeId]!.reduce(0) { $0 + $1.quantity }
-                    groupedRow(typeId: typeId, quantity: qty)
-                    EVESeparator()
+    private func slotLabel(_ slot: Slot) -> LocalizedStringKey {
+        switch slot {
+        case .high: "High power"
+        case .mid: "Medium power"
+        case .low: "Low power"
+        case .rig: "Rigs"
+        case .sub: "Subsystems"
+        case .drone: "Drones"
+        case .cargo: "Cargo hold"
+        }
+    }
+
+    private func slotHead<Trailing: View>(_ icon: Int?, _ label: LocalizedStringKey, @ViewBuilder trailing: () -> Trailing) -> some View {
+        HStack(spacing: 8) {
+            if let icon { GameIcon.attribute(icon, size: 20) }
+            Text(label).font(.ui(12, .medium)).tracking(1.2).textCase(.uppercase).foregroundStyle(C.text2)
+            trailing()
+            Spacer(minLength: 0)
+        }
+        .padding(.horizontal, 4)
+    }
+
+    /// One slot group: identical modules (type, state, charge) together as "6×", empty slots after.
+    private func slotGroup(_ slot: Slot) -> some View {
+        let mods = moduleItems(in: slot).sorted { $0.flag.localizedStandardCompare($1.flag) == .orderedAscending }
+        let total = slotCapacity(slot) ?? mods.count
+        let expanded = expandedSlots.contains(slot.rawValue)
+        var groups: [[ESIFittingItem]] = []
+        if expanded {
+            groups = mods.map { [$0] }
+        } else {
+            var index: [String: Int] = [:]
+            for m in mods {
+                let cfg = configs[m.flag] ?? ModuleConfig()
+                let key = "\(m.typeId):\(cfg.state.rawValue):\(cfg.chargeTypeId ?? embeddedCharge(for: m)?.typeId ?? 0)"
+                if let i = index[key] { groups[i].append(m) } else { index[key] = groups.count; groups.append([m]) }
+            }
+        }
+        return VStack(alignment: .leading, spacing: 4) {
+            slotHead(slotIcon(slot), slotLabel(slot)) {
+                Text(verbatim: "\(mods.count)/\(total)").font(.mono(12)).foregroundStyle(mods.count > total ? C.bad : C.muted)
+            }
+            ForEach(groups, id: \.first!.flag) { g in moduleRow(g, slot: slot, expanded: expanded) }
+            ForEach(emptySlotFlags(for: slot), id: \.self) { flag in emptySlotRow(slot: slot, flag: flag) }
+        }
+    }
+
+    private func nextState(_ s: ModuleState, typeId: Int) -> ModuleState {
+        var states: [ModuleState] = [.offline, .online]
+        if activation[typeId]?.activatable == true { states.append(.active) }
+        if activation[typeId]?.activatable == true && activation[typeId]?.overloadable == true { states.append(.overload) }
+        let i = states.firstIndex(of: s) ?? 0
+        return states[(i + 1) % states.count]
+    }
+
+    private func stateColor(_ s: ModuleState) -> Color {
+        switch s {
+        case .offline: .clear
+        case .online: C.faint
+        case .active: C.good
+        case .overload: C.bad
+        }
+    }
+
+    private func stateLabel(_ s: ModuleState) -> LocalizedStringKey {
+        switch s {
+        case .offline: "Offline"
+        case .online: "Online"
+        case .active: "Active"
+        case .overload: "Overheated"
+        }
+    }
+
+    /// The desktop's module row: state button, "6×", the module, its charge, problems, remove.
+    private func moduleRow(_ group: [ESIFittingItem], slot: Slot, expanded: Bool) -> some View {
+        let item = group[0]
+        let flags = group.map(\.flag)
+        let cfg = configs[item.flag] ?? ModuleConfig()
+        let chargeId = cfg.chargeTypeId ?? embeddedCharge(for: item)?.typeId
+        let problems = flags.flatMap { moduleProblems[$0] ?? [] }.reduce(into: [String]()) { if !$0.contains($1) { $0.append($1) } }
+        return VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 8) {
+                Button {
+                    let next = nextState(cfg.state, typeId: item.typeId)
+                    for f in flags { configs[f, default: ModuleConfig()].state = next }
+                } label: {
+                    Circle().fill(stateColor(cfg.state))
+                        .overlay(Circle().strokeBorder(cfg.state == .overload ? Color(hex: 0xFF8A80) : cfg.state == .offline ? C.lineStrong : stateColor(cfg.state), lineWidth: 1.5))
+                        .shadow(color: cfg.state == .overload ? C.bad : .clear, radius: 4)
+                        .frame(width: 18, height: 18)
+                        .padding(4)
                 }
-            } else {
-                // Module slots: individual rows, each tappable
-                ForEach(visibleItems.sorted(by: { $0.flag < $1.flag }), id: \.flag) { item in
-                    moduleRow(item, fittingCost: costsByModule[moduleCostKey(flag: item.flag, typeId: item.typeId)])
-                        .contextMenu {
-                            Button(role: .destructive) {
-                                removeItem(flag: item.flag, typeId: item.typeId)
-                            } label: {
-                                Text("Remove")
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(stateLabel(cfg.state)))
+                if group.count > 1 || expanded {
+                    Button { if expandedSlots.contains(slot.rawValue) { expandedSlots.remove(slot.rawValue) } else { expandedSlots.insert(slot.rawValue) } } label: {
+                        Text(verbatim: group.count > 1 ? "\(group.count)×" : "⋯")
+                            .font(.mono(12, medium: true)).foregroundStyle(C.accentText)
+                            .padding(.horizontal, 5).padding(.vertical, 1)
+                            .background(C.accentSoft, in: RoundedRectangle(cornerRadius: 5))
+                    }
+                    .buttonStyle(.plain)
+                }
+                Button { sheetFlag = FlagItem(id: item.flag, group: flags) } label: {
+                    HStack(spacing: 8) {
+                        EVETypeIcon(typeId: item.typeId, size: 28).opacity(cfg.state == .offline ? 0.45 : 1)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(verbatim: typeName(item.typeId, fallback: "#\(item.typeId)"))
+                                .font(.ui(14)).foregroundStyle(cfg.state == .offline ? C.muted : C.text).lineLimit(1)
+                            if let chargeId {
+                                Text(verbatim: chargeNames[chargeId] ?? typeName(chargeId, fallback: "#\(chargeId)"))
+                                    .font(.ui(11)).foregroundStyle(C.accentText).lineLimit(1)
                             }
                         }
-                    EVESeparator()
-                }
-
-                ForEach(emptySlotFlags(for: slot), id: \.self) { flag in
-                    emptySlotRow(slot: slot, flag: flag)
-                    EVESeparator()
-                }
-            }
-
-            if isGrouped || slotCapacity(slot) == nil {
-                Button {
-                    openPicker(for: slot)
-                } label: {
-                    HStack(spacing: 10) {
-                        EVEActionIndicator(kind: .add)
-                        Text("ADD \(slot.shortTitle.uppercased())")
-                            .font(.ui(11, .semibold)).monospacedDigit()
-                            .tracking(1.0)
-                            .foregroundStyle(Color.eveAmber.opacity(0.82))
-                        Spacer()
+                        Spacer(minLength: 0)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 11)
-                    .background(Color.eveBackground)
                     .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                if !problems.isEmpty { Text(verbatim: "⚠").foregroundStyle(C.bad) }
+                Button { removeItem(flag: flags.last!, typeId: item.typeId) } label: {
+                    Text(verbatim: "✕").font(.ui(13)).foregroundStyle(C.bad).padding(6)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(group.count > 1 ? "Remove one module" : "Remove the module"))
+            }
+            ForEach(problems, id: \.self) { Text("⚠ " + $0).font(.ui(11)).foregroundStyle(C.bad).padding(.leading, 34) }
+        }
+        .padding(.horizontal, 6).padding(.vertical, 4)
+        .background(problems.isEmpty ? C.panel : C.badFill.opacity(0.08), in: EVECut())
+        .overlay(EVECut().strokeBorder(problems.isEmpty ? C.border : C.bad.opacity(0.5), lineWidth: 1))
+    }
+
+    private func emptySlotRow(slot: Slot, flag: String) -> some View {
+        let subsystem = subsystemDefinition(for: flag)
+        return Button {
+            openPicker(for: slot, preferredFlag: flag, requiredSubsystemSlotId: subsystem?.dogmaSlotId)
+        } label: {
+            Text(subsystem.map { "— \(String(localized: String.LocalizationValue($0.title))) —" } ?? String(localized: "— empty slot —"))
+                .font(.ui(12)).foregroundStyle(C.muted)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 9)
+                .overlay(EVECut().stroke(C.border, style: StrokeStyle(lineWidth: 1, dash: [4, 3])))
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+    }
+
+    /// Drones: launched / total per type, one more, remove (the desktop's drone rows).
+    private var dronesGroup: some View {
+        let stacks = currentItems.filter { slotFor($0.flag) == .drone }
+            .reduce(into: [(typeId: Int, count: Int)]()) { acc, item in
+                if let i = acc.firstIndex(where: { $0.typeId == item.typeId }) { acc[i].count += max(1, item.quantity) } else { acc.append((item.typeId, max(1, item.quantity))) }
+            }
+        let launched = launchedDrones(stacks)
+        return VStack(alignment: .leading, spacing: 4) {
+            slotHead(nil, "Drones") {
+                if let s = fitStats {
+                    Text(verbatim: "\(Int(s.ship.droneBay.used))/\(Int(s.ship.droneBay.total)) m³ · \(launched.values.reduce(0, +))/\(Int(s.ship.maxActiveDrones))")
+                        .font(.mono(11)).foregroundStyle(C.muted)
+                }
+                Spacer(minLength: 0)
+                Button("+") { openPicker(for: .drone) }.buttonStyle(.canopusSmall)
+            }
+            ForEach(stacks, id: \.typeId) { d in
+                let active = launched[d.typeId] ?? 0
+                HStack(spacing: 8) {
+                    EVETypeIcon(typeId: d.typeId, size: 28)
+                    Text(verbatim: typeName(d.typeId, fallback: "#\(d.typeId)")).font(.ui(14)).foregroundStyle(C.text).lineLimit(1)
+                    Spacer(minLength: 4)
+                    Button("−") { setLaunched(d.typeId, max(0, active - 1)) }.buttonStyle(.canopusSmall)
+                    Text(verbatim: "\(active)/\(d.count)").font(.mono(12, medium: true)).foregroundStyle(C.text2)
+                    Button("+") { setLaunched(d.typeId, min(d.count, active + 1)) }.buttonStyle(.canopusSmall)
+                    Button("×+1") { changeDrones(d.typeId, by: 1) }.buttonStyle(.canopusSmall)
+                    Button { changeDrones(d.typeId, by: -d.count) } label: { Text(verbatim: "✕").foregroundStyle(C.bad).padding(4) }.buttonStyle(.plain)
+                }
+                .padding(.horizontal, 6).padding(.vertical, 4)
+                .background(C.panel, in: EVECut())
+                .overlay(EVECut().strokeBorder(C.border, lineWidth: 1))
+            }
+            if stacks.isEmpty {
+                Button { openPicker(for: .drone) } label: {
+                    Text("— no drones —").font(.ui(12)).foregroundStyle(C.muted).frame(maxWidth: .infinity).padding(.vertical, 9)
+                        .overlay(EVECut().stroke(C.border, style: StrokeStyle(lineWidth: 1, dash: [4, 3]))).contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
         }
     }
 
-    private func moduleRow(_ item: ESIFittingItem, fittingCost: FittedModuleCost?) -> some View {
-        let cfg = configs[item.flag] ?? ModuleConfig()
-        let isOffline = cfg.state == .offline
-
-        return Button { sheetFlag = FlagItem(id: item.flag) } label: {
-            HStack(spacing: 12) {
-                EVETypeIcon(typeId: item.typeId, size: 36)
-                    .clipShape(CutCorner(size: 5))
-                    .overlay(CutCorner(size: 5).stroke(Color.white.opacity(0.08), lineWidth: 1))
-                    .opacity(isOffline ? 0.38 : 1.0)
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(typeName(item.typeId, fallback: "Module \(item.typeId)"))
-                        .font(.ui(14))
-                        .foregroundStyle(isOffline ? Color.eveText.opacity(0.38) : Color.eveText)
-                        .lineLimit(1)
-                    if let chargeId = cfg.chargeTypeId ?? embeddedCharge(for: item)?.typeId {
-                        Text(typeName(chargeId, fallback: "Charge \(chargeId)"))
-                            .font(.ui(11))
-                            .foregroundStyle(Color.eveAmber.opacity(0.65))
-                            .lineLimit(1)
-                    }
-                    ForEach(moduleProblems[item.flag] ?? [], id: \.self) { problem in
-                        Text("⚠ " + problem)
-                            .font(.ui(11))
-                            .foregroundStyle(C.bad)
-                            .fixedSize(horizontal: false, vertical: true)
-                    }
-                    if let fittingCost {
-                        Text(String(format: "CPU %.1f Tf  PG %.1f MW", fittingCost.cpu, fittingCost.pg))
-                            .font(.ui(11)).monospacedDigit()
-                            .foregroundStyle(Color.eveText.opacity(0.42))
-                            .lineLimit(1)
-                    } else if stats != nil {
-                        Text("NOT COUNTED IN FITTING STATS")
-                            .font(.ui(11, .semibold)).monospacedDigit()
-                            .foregroundStyle(Color.eveRed.opacity(0.78))
-                            .lineLimit(1)
-                    }
-                }
-
-                Spacer()
-
-                HStack(spacing: 9) {
-                    EVEModuleStateBadge(state: cfg.state)
-                    EVEActionIndicator(kind: .navigate)
-                }
-            }
-            .padding(.horizontal, 20).padding(.vertical, 9)
-            .background(Color.eveBackground)
-            .contentShape(Rectangle())
+    /// Launched per type: the pilot's choice, else five in all, first stacks first (the desktop's rule).
+    private func launchedDrones(_ stacks: [(typeId: Int, count: Int)]) -> [Int: Int] {
+        var out: [Int: Int] = [:]
+        var toLaunch = 5
+        for d in stacks {
+            let n = droneActive[d.typeId].map { min($0, d.count) } ?? min(d.count, toLaunch)
+            out[d.typeId] = n
+            if droneActive[d.typeId] == nil { toLaunch = max(0, toLaunch - n) }
         }
-        .buttonStyle(.plain)
+        return out
     }
 
-    private func emptySlotRow(slot: Slot, flag: String) -> some View {
-        let subsystemDefinition = subsystemDefinition(for: flag)
-
-        return Button {
-            openPicker(for: slot, preferredFlag: flag, requiredSubsystemSlotId: subsystemDefinition?.dogmaSlotId)
-        } label: {
-            HStack(spacing: 12) {
-                ZStack {
-                    CutCorner(size: 5)
-                        .stroke(Color.eveAmber.opacity(0.22), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
-                        .frame(width: 36, height: 36)
-                    Text("+")
-                        .font(.ui(18, .medium))
-                        .foregroundStyle(Color.eveAmber.opacity(0.82))
-                }
-
-                VStack(alignment: .leading, spacing: 3) {
-                    Text(subsystemDefinition.map { "Empty \($0.title) Subsystem" } ?? "Empty \(slot.shortTitle)")
-                        .font(.ui(14))
-                        .foregroundStyle(Color.eveText.opacity(0.62))
-                    Text(flag)
-                        .font(.ui(11)).monospacedDigit()
-                        .foregroundStyle(Color.eveText.opacity(0.32))
-                }
-
-                Spacer()
-                EVEActionIndicator(kind: .navigate)
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 9)
-            .background(Color.eveBackground)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
+    private func setLaunched(_ typeId: Int, _ n: Int) {
+        droneActive[typeId] = n
+        scheduleFitRefresh(debounceNanoseconds: 0)
     }
 
-    private func groupedRow(typeId: Int, quantity: Int) -> some View {
-        HStack(spacing: 12) {
-            EVETypeIcon(typeId: typeId, size: 32)
-                .clipShape(CutCorner(size: 5))
-                .overlay(CutCorner(size: 5).stroke(Color.white.opacity(0.08), lineWidth: 1))
-            Text(typeName(typeId, fallback: "Item \(typeId)"))
-                .font(.ui(14)).foregroundStyle(Color.eveText)
-            Spacer()
-            if quantity > 1 {
-                Text("×\(quantity)")
-                    .font(.ui(12)).monospacedDigit().foregroundStyle(Color.eveAmber.opacity(0.75))
+    private func changeDrones(_ typeId: Int, by delta: Int) {
+        var items = currentItems
+        if let i = items.firstIndex(where: { slotFor($0.flag) == .drone && $0.typeId == typeId }) {
+            let total = items.filter { slotFor($0.flag) == .drone && $0.typeId == typeId }.reduce(0) { $0 + $1.quantity }
+            items.removeAll { slotFor($0.flag) == .drone && $0.typeId == typeId }
+            let next = total + delta
+            if next > 0 { items.insert(ESIFittingItem(typeId: typeId, flag: "DroneBay", quantity: next), at: min(i, items.count)) }
+            if next <= 0 { droneActive[typeId] = nil }
+        }
+        editableItems = items
+        scheduleFitRefresh(debounceNanoseconds: 0)
+    }
+
+    /// The character's implants, which the stats use.
+    private var implantsGroup: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            slotHead(nil, "Implants") {
+                Text(characterSkills.isEmpty ? "none: skills at V" : "the character's").font(.ui(11)).foregroundStyle(C.muted)
+            }
+            ForEach(implantIds, id: \.self) { id in
+                HStack(spacing: 8) {
+                    EVETypeIcon(typeId: id, size: 24)
+                    Text(verbatim: typeName(id, fallback: "#\(id)")).font(.ui(13)).foregroundStyle(C.text2).lineLimit(1)
+                    Spacer(minLength: 0)
+                }
+                .padding(.horizontal, 6).padding(.vertical, 3)
+            }
+            if implantIds.isEmpty {
+                Text("— no implants —").font(.ui(12)).foregroundStyle(C.muted).frame(maxWidth: .infinity).padding(.vertical, 6)
             }
         }
-        .padding(.horizontal, 20).padding(.vertical, 9)
-        .background(Color.eveBackground)
+    }
+
+    private var cargoGroup: some View {
+        let grouped = Dictionary(grouping: currentItems.filter { slotFor($0.flag) == .cargo }, by: \.typeId)
+        return VStack(alignment: .leading, spacing: 4) {
+            slotHead(nil, "Cargo hold") { EmptyView() }
+            ForEach(grouped.keys.sorted { typeName($0, fallback: "") < typeName($1, fallback: "") }, id: \.self) { id in
+                HStack(spacing: 8) {
+                    EVETypeIcon(typeId: id, size: 24)
+                    Text(verbatim: typeName(id, fallback: "#\(id)")).font(.ui(13)).foregroundStyle(C.text2).lineLimit(1)
+                    Spacer(minLength: 0)
+                    Text(verbatim: "×\(grouped[id]!.reduce(0) { $0 + $1.quantity })").font(.mono(12)).foregroundStyle(C.muted)
+                }
+                .padding(.horizontal, 6).padding(.vertical, 3)
+            }
+        }
     }
 
     private func addType(_ type: ItemType, to slot: Slot, preferredFlag: String? = nil) {
@@ -2200,6 +2285,8 @@ private struct SubsystemSlotDefinition: Identifiable {
             do {
                 implantIds = try await characterService.implants()
                 fittingWarning = nil
+                // Their names for the implants list on the modules tab.
+                if let repo = env.repository { await resolveLocalNames(repo: repo, typeIds: Set(implantIds)) }
             } catch {
                 implantIds = []
                 fittingWarning = String(localized: "WARNING: implants failed to load; stats may be incomplete")
@@ -2252,8 +2339,12 @@ private struct SubsystemSlotDefinition: Identifiable {
         }
         var toLaunch = 5
         for i in drones.indices {
-            drones[i].active = min(drones[i].count, toLaunch)
-            toLaunch -= drones[i].active
+            if let chosen = droneActive[drones[i].typeId] {
+                drones[i].active = min(drones[i].count, chosen)
+            } else {
+                drones[i].active = min(drones[i].count, toLaunch)
+                toLaunch -= drones[i].active
+            }
         }
         let spec = JSFitSpec(
             shipTypeId: fit.shipTypeId,

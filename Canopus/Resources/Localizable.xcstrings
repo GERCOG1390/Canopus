@@ -3690,6 +3690,16 @@
         }
       }
     },
+    "High power": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Большой мощности"
+          }
+        }
+      }
+    },
     "High slots": {
       "localizations": {
         "ru": {
@@ -4608,6 +4618,16 @@
         }
       }
     },
+    "Live ship": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текущий корабль"
+          }
+        }
+      }
+    },
     "Loading assets…": {
       "localizations": {
         "ru": {
@@ -4777,6 +4797,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Мин."
+          }
+        }
+      }
+    },
+    "Low power": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Малой мощности"
           }
         }
       }
@@ -5116,6 +5146,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Средний"
+          }
+        }
+      }
+    },
+    "Medium power": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средней мощности"
           }
         }
       }
@@ -6111,6 +6151,26 @@
         }
       }
     },
+    "Offline": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выключен"
+          }
+        }
+      }
+    },
+    "Online": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Онлайн"
+          }
+        }
+      }
+    },
     "Open": {
       "localizations": {
         "ru": {
@@ -6181,6 +6241,16 @@
         }
       }
     },
+    "Overheated": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перегрев"
+          }
+        }
+      }
+    },
     "Owned in Assets": {
       "extractionState": "stale",
       "localizations": {
@@ -6214,6 +6284,7 @@
         }
       }
     },
+    "PG": {},
     "PI Export Tax": {
       "localizations": {
         "ru": {
@@ -6704,6 +6775,26 @@
         }
       }
     },
+    "Remove one module": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снять один модуль"
+          }
+        }
+      }
+    },
+    "Remove the module": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снять модуль"
+          }
+        }
+      }
+    },
     "Repair": {
       "localizations": {
         "ru": {
@@ -6828,6 +6919,16 @@
       }
     },
     "Rig slots": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Риги"
+          }
+        }
+      }
+    },
+    "Rigs": {
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7164,6 +7265,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сохраните фиты в игре, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Saved fit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранённый фит"
           }
         }
       }
@@ -9492,6 +9603,16 @@
         }
       }
     },
+    "none: skills at V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет: навыки на V"
+          }
+        }
+      }
+    },
     "not published": {
       "localizations": {
         "ru": {
@@ -9772,6 +9893,16 @@
         }
       }
     },
+    "the character's": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "персонажа"
+          }
+        }
+      }
+    },
     "tracking": {
       "localizations": {
         "ru": {
@@ -9890,13 +10021,49 @@
       "shouldTranslate": false
     },
     "×%lld": {},
+    "×+1": {
+      "shouldTranslate": false
+    },
     "—": {
       "shouldTranslate": false
+    },
+    "— empty slot —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— пустой слот —"
+          }
+        }
+      }
+    },
+    "— no drones —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— нет дронов —"
+          }
+        }
+      }
+    },
+    "— no implants —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— нет имплантов —"
+          }
+        }
+      }
     },
     "…": {
       "shouldTranslate": false
     },
     "→ %@": {
+      "shouldTranslate": false
+    },
+    "−": {
       "shouldTranslate": false
     },
     "✓": {
