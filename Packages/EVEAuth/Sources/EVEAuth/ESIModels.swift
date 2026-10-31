@@ -130,6 +130,16 @@ public struct ESIContract: Decodable, Sendable, Identifiable {
     public let reward: Double?
     public let collateral: Double?
     public let volume: Double?
+    public let startLocationId: Int?
+    public let endLocationId: Int?
+}
+
+public struct ESIContractItem: Decodable, Sendable, Identifiable {
+    public var id: Int { recordId }
+    public let recordId: Int
+    public let typeId: Int
+    public let quantity: Int
+    public let isIncluded: Bool
 }
 
 // MARK: - Server Status

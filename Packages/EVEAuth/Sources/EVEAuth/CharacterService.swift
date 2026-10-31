@@ -141,6 +141,12 @@ public final class CharacterService {
         }
     }
 
+    public func contractItems(contractId: Int) async throws -> [ESIContractItem] {
+        try await cached("contractItems:\(contractId)", ttl: 3_600) {
+            try await esiGet("/characters/\(tokens.characterId)/contracts/\(contractId)/items/", as: [ESIContractItem].self)
+        }
+    }
+
     public func currentShip() async throws -> ESICurrentShip {
         try await cached("currentShip", ttl: 15) {
             try await esiGet("/characters/\(tokens.characterId)/ship/", as: ESICurrentShip.self)

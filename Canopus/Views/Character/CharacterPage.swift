@@ -53,9 +53,9 @@ struct CharacterPage: View {
                     case .skills: SkillsView()
                     case .clones: CloneView(characterService: s)
                     case .fits: FittingsView(characterService: s)
-                    case .assets: AssetsView(characterService: s)
-                    case .wallet: WalletTabView(characterService: s)
-                    case .contracts: ContractsView(characterService: s)
+                    case .assets: AssetsTab(characterService: s)
+                    case .wallet: WalletTab(characterService: s)
+                    case .contracts: ContractsTab(characterService: s)
                     }
                 }
                 .id(s.tokens.characterId)

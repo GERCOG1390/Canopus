@@ -218,37 +218,38 @@ struct EVEActionIndicator: View {
 
 // MARK: - Wallet journal ref-type labels
 
+/// Wallet journal entry types in words (the desktop's REF_TYPES).
 func eveRefLabel(_ refType: String) -> String {
     switch refType {
-    case "player_trading":                  return String(localized: "Trade")
-    case "market_transaction":              return String(localized: "Market Transaction")
-    case "daily_goal_payouts":              return String(localized: "Daily Goal Payouts")
-    case "corporation_account_deposit":     return String(localized: "Corp Deposit")
-    case "industry_job_tax":                return String(localized: "Industry Tax")
-    case "structure_gate_jump":             return String(localized: "Jump Bridge Fee")
-    case "market_escrow":                   return String(localized: "Market Escrow")
-    case "transaction_tax":                 return String(localized: "Transaction Tax")
-    case "brokers_fee":                     return String(localized: "Brokers Fee")
-    case "bounty_prizes":                   return String(localized: "Bounty")
-    case "contract_price":                  return String(localized: "Contract")
-    case "contract_reward":                 return String(localized: "Contract Reward")
-    case "contract_collateral":             return String(localized: "Contract Collateral")
-    case "contract_deposit":                return String(localized: "Contract Deposit")
-    case "contract_deposit_refund":         return String(localized: "Contract Refund")
-    case "agent_mission_reward":            return String(localized: "Mission Reward")
-    case "agent_mission_time_bonus_reward": return String(localized: "Mission Bonus")
-    case "character_donation":              return String(localized: "Donation")
-    case "corporation_account_withdrawal":  return String(localized: "Corp Withdrawal")
-    case "manufacturing":                   return String(localized: "Manufacturing")
-    case "reprocessing_tax":                return String(localized: "Reprocessing Tax")
-    case "jump_clone_activation_fee":       return String(localized: "Clone Jump Fee")
-    case "planetary_export_tax":            return String(localized: "PI Export Tax")
-    case "planetary_import_tax":            return String(localized: "PI Import Tax")
-    case "skill_purchase":                  return String(localized: "Skill Purchase")
-    case "insurance":                       return String(localized: "Insurance")
-    case "inheritance":                     return String(localized: "Inheritance")
-    default:
-        return refType.replacingOccurrences(of: "_", with: " ").capitalized
+    case "market_transaction": String(localized: "Market transaction")
+    case "market_escrow": String(localized: "Order escrow")
+    case "brokers_fee": String(localized: "Broker fee")
+    case "transaction_tax": String(localized: "Sales tax")
+    case "bounty_prizes": String(localized: "NPC bounties")
+    case "ess_escrow_transfer": String(localized: "ESS payout")
+    case "agent_mission_reward": String(localized: "Mission reward")
+    case "agent_mission_time_bonus_reward": String(localized: "Mission time bonus")
+    case "player_donation": String(localized: "Transfer from a player")
+    case "player_trading": String(localized: "Trade")
+    case "corporation_account_withdrawal", "corporate_reward_payout": String(localized: "Corporation payout")
+    case "insurance": String(localized: "Insurance")
+    case "industry_job_tax": String(localized: "Industry tax")
+    case "planetary_import_tax": String(localized: "PI import tax")
+    case "planetary_export_tax": String(localized: "PI export tax")
+    case "contract_price": String(localized: "Contract: price")
+    case "contract_reward": String(localized: "Contract: reward")
+    case "contract_collateral": String(localized: "Contract: collateral")
+    case "contract_brokers_fee": String(localized: "Contract: fee")
+    case "contract_sales_tax": String(localized: "Contract: tax")
+    case "contract_price_payment_corp": String(localized: "Contract: corporation payment")
+    case "jump_clone_installation_fee": String(localized: "Jump clone installation")
+    case "jump_clone_activation_fee": String(localized: "Clone jump")
+    case "reprocessing_tax": String(localized: "Reprocessing tax")
+    case "daily_goal_payouts": String(localized: "Daily goals")
+    case "skill_purchase": String(localized: "Skill purchase")
+    case "structure_gate_jump": String(localized: "Ansiblex jump")
+    case "project_discovery_reward": "Project Discovery"
+    default: refType.replacingOccurrences(of: "_", with: " ")
     }
 }
 

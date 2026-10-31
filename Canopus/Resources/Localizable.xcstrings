@@ -692,6 +692,16 @@
         }
       }
     },
+    "%lld stacks": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "стеков: %lld"
+          }
+        }
+      }
+    },
     "%lld types": {
       "localizations": {
         "ru": {
@@ -1261,6 +1271,16 @@
         }
       }
     },
+    "Ansiblex jump": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжок через Ansiblex"
+          }
+        }
+      }
+    },
     "Any": {
       "localizations": {
         "ru": {
@@ -1451,6 +1471,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Атрибуты"
+          }
+        }
+      }
+    },
+    "Auction": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Аукцион"
           }
         }
       }
@@ -1866,6 +1896,16 @@
         }
       }
     },
+    "Broker fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Брокерская комиссия"
+          }
+        }
+      }
+    },
     "Broker fee, %": {
       "localizations": {
         "ru": {
@@ -2141,6 +2181,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нельзя установить на этот корабль"
+          }
+        }
+      }
+    },
+    "Cancelled": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменён"
           }
         }
       }
@@ -2517,6 +2567,16 @@
         }
       }
     },
+    "Collateral: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Залог: %@"
+          }
+        }
+      }
+    },
     "Collecting prices…": {
       "localizations": {
         "ru": {
@@ -2661,6 +2721,66 @@
         }
       }
     },
+    "Contract: collateral": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт: залог"
+          }
+        }
+      }
+    },
+    "Contract: corporation payment": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт: оплата корпорации"
+          }
+        }
+      }
+    },
+    "Contract: fee": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт: комиссия"
+          }
+        }
+      }
+    },
+    "Contract: price": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт: цена"
+          }
+        }
+      }
+    },
+    "Contract: reward": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт: награда"
+          }
+        }
+      }
+    },
+    "Contract: tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Контракт: налог"
+          }
+        }
+      }
+    },
     "Contracts": {
       "localizations": {
         "ru": {
@@ -2762,12 +2882,32 @@
         }
       }
     },
+    "Corporation payout": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выплата корпорации"
+          }
+        }
+      }
+    },
     "Cost %@": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Стоимость %@"
+          }
+        }
+      }
+    },
+    "Courier": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Курьер"
           }
         }
       }
@@ -2818,6 +2958,16 @@
     },
     "DPS": {},
     "Daily Goal Payouts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ежедневные цели"
+          }
+        }
+      }
+    },
+    "Daily goals": {
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2971,6 +3121,16 @@
         }
       }
     },
+    "Deleted": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалён"
+          }
+        }
+      }
+    },
     "Description": {
       "extractionState": "stale",
       "localizations": {
@@ -3112,6 +3272,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ИСТОРИЯ КОРПОРАЦИЙ · %lld"
+          }
+        }
+      }
+    },
+    "ESS payout": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выплата ESS"
           }
         }
       }
@@ -3446,6 +3616,16 @@
         }
       }
     },
+    "Expires: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Истекает: %@"
+          }
+        }
+      }
+    },
     "Explosive": {
       "localizations": {
         "ru": {
@@ -3571,6 +3751,16 @@
         }
       }
     },
+    "Failed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Провален"
+          }
+        }
+      }
+    },
     "Fastest %@ %@ · slowest %@ %@": {
       "localizations": {
         "ru": {
@@ -3659,6 +3849,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Найти сделки"
+          }
+        }
+      }
+    },
+    "Finished": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Завершён"
           }
         }
       }
@@ -3828,6 +4028,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отсюда"
+          }
+        }
+      }
+    },
+    "From: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откуда: %@"
           }
         }
       }
@@ -4271,6 +4481,16 @@
         }
       }
     },
+    "In progress": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выполняется"
+          }
+        }
+      }
+    },
     "In progress (%lld)": {
       "localizations": {
         "ru": {
@@ -4416,6 +4636,16 @@
         }
       }
     },
+    "Industry tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на производство"
+          }
+        }
+      }
+    },
     "Inheritance": {
       "localizations": {
         "ru": {
@@ -4487,6 +4717,16 @@
         }
       }
     },
+    "Item exchange": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обмен"
+          }
+        }
+      }
+    },
     "Item name (Russian or English)…": {
       "localizations": {
         "ru": {
@@ -4525,6 +4765,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предметов"
+          }
+        }
+      }
+    },
+    "Items (stacks)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предметов (стеков)"
           }
         }
       }
@@ -4582,6 +4832,16 @@
         }
       }
     },
+    "Journal (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Журнал (%lld)"
+          }
+        }
+      }
+    },
     "Jump Bridge Fee": {
       "localizations": {
         "ru": {
@@ -4593,6 +4853,16 @@
       }
     },
     "Jump Drive Calibration V": {},
+    "Jump clone installation": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установка джамп-клона"
+          }
+        }
+      }
+    },
     "Jump clones": {
       "extractionState": "stale",
       "localizations": {
@@ -5075,6 +5345,16 @@
         }
       }
     },
+    "Loading assets and prices…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Загрузка ассетов и цен…"
+          }
+        }
+      }
+    },
     "Loading assets…": {
       "localizations": {
         "ru": {
@@ -5131,6 +5411,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Загружаю магазин и цены Jita…"
+          }
+        }
+      }
+    },
+    "Loan": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Заём"
           }
         }
       }
@@ -5436,7 +5726,7 @@
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Статьи за 30 дней"
+            "value": "Основные статьи за 30 дней"
           }
         }
       }
@@ -5541,6 +5831,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ордера"
+          }
+        }
+      }
+    },
+    "Market transaction": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделка на рынке"
+          }
+        }
+      }
+    },
+    "Market transactions (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделки на рынке (%lld)"
           }
         }
       }
@@ -5773,6 +6083,26 @@
         }
       }
     },
+    "Mission reward": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Награда за миссию"
+          }
+        }
+      }
+    },
+    "Mission time bonus": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус за скорость"
+          }
+        }
+      }
+    },
     "Mobile warp disruptors": {
       "localizations": {
         "ru": {
@@ -5965,6 +6295,16 @@
         }
       }
     },
+    "NPC bounties": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Награды за NPC"
+          }
+        }
+      }
+    },
     "NPCs: %lld": {
       "localizations": {
         "ru": {
@@ -6014,6 +6354,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Чистая прибыль"
+          }
+        }
+      }
+    },
+    "Net, 30 days": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Итого за 30 дней"
           }
         }
       }
@@ -6143,6 +6493,16 @@
         }
       }
     },
+    "No access to this data.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет доступа к этим данным."
+          }
+        }
+      }
+    },
     "No active orders": {
       "extractionState": "stale",
       "localizations": {
@@ -6264,6 +6624,16 @@
         }
       }
     },
+    "No entries": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Записей нет"
+          }
+        }
+      }
+    },
     "No fit-related skills found for this fit.": {
       "localizations": {
         "ru": {
@@ -6323,6 +6693,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет производственных работ"
+          }
+        }
+      }
+    },
+    "No items (or ESI doesn't give them for this contract).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предметов нет (или ESI не отдаёт их для этого контракта)."
           }
         }
       }
@@ -6485,6 +6865,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет истории торгов"
+          }
+        }
+      }
+    },
+    "No transactions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сделок нет"
           }
         }
       }
@@ -6819,6 +7209,16 @@
         }
       }
     },
+    "Only active": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только активные"
+          }
+        }
+      }
+    },
     "Open": {
       "localizations": {
         "ru": {
@@ -6859,6 +7259,16 @@
         }
       }
     },
+    "Order escrow": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Залог ордера"
+          }
+        }
+      }
+    },
     "Other": {
       "extractionState": "stale",
       "localizations": {
@@ -6887,6 +7297,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перечиниваются"
+          }
+        }
+      }
+    },
+    "Outstanding": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыт"
           }
         }
       }
@@ -6966,6 +7386,26 @@
       }
     },
     "PI Import Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на импорт PI"
+          }
+        }
+      }
+    },
+    "PI export tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на экспорт PI"
+          }
+        }
+      }
+    },
+    "PI import tax": {
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7176,6 +7616,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Убийства игроков за последний час из живой ленты zKillboard — рядом с вашим персонажем (по ESI) и на маршруте с карты. Отмечаются кемпы на гейтах, бубли и смартбомбы. Радар работает, пока Canopus открыт."
+          }
+        }
+      }
+    },
+    "Player structure": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Структура"
           }
         }
       }
@@ -7565,6 +8015,16 @@
         }
       }
     },
+    "Rejected": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отклонён"
+          }
+        }
+      }
+    },
     "Remove": {
       "localizations": {
         "ru": {
@@ -7627,6 +8087,16 @@
       }
     },
     "Reprocessing Tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на переработку"
+          }
+        }
+      }
+    },
+    "Reprocessing tax": {
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8191,6 +8661,16 @@
         }
       }
     },
+    "Search by place or item (Russian or English)…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск по локации или предмету (рус/англ)…"
+          }
+        }
+      }
+    },
     "Search journal…": {
       "localizations": {
         "ru": {
@@ -8688,6 +9168,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Навыки этого персонажа ещё не загружены."
+          }
+        }
+      }
+    },
+    "Skill purchase": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Покупка навыка"
           }
         }
       }
@@ -9352,6 +9842,16 @@
         }
       }
     },
+    "The token lacks the %@ permission: sign in with this character again in Settings — the new token gets every permission.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Токену не хватает разрешения %@: войдите этим персонажем заново в «Настройках» — новый токен получит все разрешения."
+          }
+        }
+      }
+    },
     "Their statistics and recent fights from zKillboard.": {
       "localizations": {
         "ru": {
@@ -9472,6 +9972,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Куда"
+          }
+        }
+      }
+    },
+    "To: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Куда: %@"
           }
         }
       }
@@ -9631,6 +10141,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сделки"
+          }
+        }
+      }
+    },
+    "Transfer from a player": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перевод от игрока"
           }
         }
       }
@@ -9808,6 +10328,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Объём"
+          }
+        }
+      }
+    },
+    "Volume: %@ m³": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Объём: %@ м³"
           }
         }
       }
@@ -10274,6 +10804,16 @@
         }
       }
     },
+    "asks": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "просит"
+          }
+        }
+      }
+    },
     "at Jita %@": {
       "localizations": {
         "ru": {
@@ -10321,6 +10861,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "вне дальности полёта"
+          }
+        }
+      }
+    },
+    "blueprint copies not counted": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "без учёта копий чертежей"
           }
         }
       }
@@ -10456,6 +11006,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "с продаж %@ минус налоги и комиссии"
+          }
+        }
+      }
+    },
+    "gives": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "отдаёт"
           }
         }
       }
@@ -10886,6 +11446,16 @@
         }
       }
     },
+    "public": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "публичный"
+          }
+        }
+      }
+    },
     "ready": {
       "localizations": {
         "ru": {
@@ -11125,6 +11695,16 @@
         }
       }
     },
+    "untitled": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "без названия"
+          }
+        }
+      }
+    },
     "updating Jita prices…": {
       "localizations": {
         "ru": {
@@ -11320,6 +11900,16 @@
     },
     "✓": {
       "shouldTranslate": false
+    },
+    "✓ Only active": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Только активные"
+          }
+        }
+      }
     },
     "✓ Show blueprints": {
       "localizations": {

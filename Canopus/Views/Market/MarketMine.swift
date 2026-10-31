@@ -62,7 +62,7 @@ struct MyOrders: View {
                 Text("best \(b.map(isk) ?? "—")").foregroundStyle(outbid ? C.bad : C.muted)
                 Text(verbatim: "\(o.volumeRemain.formatted()) / \(o.volumeTotal.formatted())")
                 Spacer(minLength: 4)
-                Text(verbatim: places[o.locationId] ?? String(localized: "Structure")).lineLimit(1)
+                Text(verbatim: places[o.locationId] ?? String(localized: "Player structure")).lineLimit(1)
             }
             .font(.mono(10)).foregroundStyle(C.muted)
         }
