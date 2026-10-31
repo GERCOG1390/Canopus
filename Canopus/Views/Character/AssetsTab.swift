@@ -23,6 +23,8 @@ struct AssetsTab: View {
     @State private var total = 0.0
     @State private var stacks = 0
     @State private var typeNames: [Int: String] = [:]
+    /// Lower-cased names for the search, made once per load rather than on every keystroke.
+    @State private var searchNames: [Int: String] = [:]
     @State private var filter = ""
     @State private var open: Int?
     @State private var error: Error?
@@ -63,7 +65,7 @@ struct AssetsTab: View {
         .background(C.panel2, in: RoundedRectangle(cornerRadius: 8))
         .overlay(RoundedRectangle(cornerRadius: 8).stroke(C.border))
         let f = filter.trimmingCharacters(in: .whitespaces).lowercased()
-        let matches = { (id: Int) in (typeNames[id] ?? "").lowercased().contains(f) }
+        let matches = { (id: Int) in searchNames[id]?.contains(f) ?? false }
         let visible = groups.filter { f.isEmpty || $0.name.lowercased().contains(f) || $0.items.keys.contains(where: matches) }
         Card {
             if visible.isEmpty { Text("Nothing found").font(.ui(13)).foregroundStyle(C.muted) }
@@ -132,6 +134,7 @@ struct AssetsTab: View {
                 out[r] = g
             }
             typeNames = ((try? await env.repository?.types(ids: typeIds)) ?? [:]).mapValues(\.name)
+            searchNames = typeNames.mapValues { $0.lowercased() }
             let names = await LocationNames.resolve(out.keys, service: characterService)
             for k in out.keys { out[k]?.name = names[k] ?? String(localized: "Location \(k)") }
             total = sum

@@ -1108,12 +1108,14 @@ private struct SubsystemSlotDefinition: Identifiable {
         var names = typeNames
         for (id, t) in localTypes { names[id] = t.name }
         names.merge(localTypeNames) { a, _ in a }
+        let items = draftSnapshot
+        let used = Set(items.map(\.typeId)).union([fit.shipTypeId])
         FitDraftStore.shared.save(FitDraft(
             fittingId: fit.fittingId, name: fit.name, description: fit.description, shipTypeId: fit.shipTypeId,
-            items: draftSnapshot,
+            items: items,
             configs: configs.mapValues { FitDraft.Config(state: $0.state.rawValue, chargeTypeId: $0.chargeTypeId) },
             droneActive: droneActive,
-            typeNames: names.filter { id, _ in id == fit.shipTypeId || draftSnapshot.contains { $0.typeId == id } }
+            typeNames: names.filter { used.contains($0.key) }
         ))
     }
 

@@ -288,7 +288,7 @@ struct FitStatsPanel: View {
     }
 
     /// The engine's problems (resources, slots, hardpoints, drones and per-module rules), in the app's language.
-    private var problems: [String] { s.problems.map(EngineProblem.localized) }
+    private var problems: [String] { s.problems.map { EngineProblem.localized($0) } }
 
     private func rangeText(_ w: JSFitStats.Weapon) -> String? {
         if w.kind == "missile" { return "\(km(w.optimal ?? 0)) · \(n0(w.explosionRadius ?? 0)) m" }

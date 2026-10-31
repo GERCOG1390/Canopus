@@ -411,9 +411,8 @@ struct CharacterRootView: View {
                         EVECorpLogo(corpId: h.corporationId, size: 20)
                         Text(verbatim: corpNames[h.corporationId] ?? "#\(h.corporationId)").font(.ui(13)).foregroundStyle(C.text).lineLimit(1)
                         Spacer(minLength: 6)
-                        Text(verbatim: "\(h.startDate.formatted(.iso8601.year().month().day())) — ")
-                            .font(.mono(11)).foregroundStyle(C.muted)
-                        + Text(i == 0 ? String(localized: "now") : history[i - 1].startDate.formatted(.iso8601.year().month().day()))
+                        let until = i == 0 ? String(localized: "now") : history[i - 1].startDate.formatted(.iso8601.year().month().day())
+                        Text(verbatim: "\(h.startDate.formatted(.iso8601.year().month().day())) — \(until)")
                             .font(.mono(11)).foregroundStyle(C.muted)
                     }
                 }

@@ -54,12 +54,25 @@ private final class MarketIndex: @unchecked Sendable {
     static let lock = NSLock()
 }
 
+/// Dropped with the other static caches when a new database is installed.
+func resetMarketIndex() { MarketIndex.lock.withLock { MarketIndex.shared = nil } }
+
+private let latinLookalikes: [Character: Character] = [
+    "A": "А", "B": "В", "C": "С", "E": "Е", "H": "Н", "K": "К", "M": "М", "O": "О", "P": "Р",
+    "T": "Т", "X": "Х", "a": "а", "c": "с", "e": "е", "o": "о", "p": "р", "x": "х", "y": "у",
+]
+
 /// Some Russian SDE names contain Latin look-alike letters ("Cооружения"), which would sort them first.
 func marketSortKey(_ s: String) -> String {
     guard s.range(of: "[а-яё]", options: [.regularExpression, .caseInsensitive]) != nil else { return s }
-    let map: [Character: Character] = ["A": "А", "B": "В", "C": "С", "E": "Е", "H": "Н", "K": "К", "M": "М", "O": "О", "P": "Р",
-                                       "T": "Т", "X": "Х", "a": "а", "c": "с", "e": "е", "o": "о", "p": "р", "x": "х", "y": "у"]
-    return String(s.map { map[$0] ?? $0 })
+    return String(s.map { latinLookalikes[$0] ?? $0 })
+}
+
+/// Sorts by name once per element (the key is not rebuilt inside every comparison).
+private func sortedByName<T>(_ items: [T], name: (T) -> String) -> [T] {
+    items.map { (marketSortKey(name($0)), $0) }
+        .sorted { $0.0.localizedStandardCompare($1.0) == .orderedAscending }
+        .map(\.1)
 }
 
 /// Tech I, Tech II, storyline, faction, deadspace, officer, Tech III — the game's order of meta groups.
@@ -79,10 +92,9 @@ extension SDERepository {
     /// One level of the market tree (nil = the root): non-empty subgroups by name, then the group's items.
     public func marketLevel(parent: Int?) async throws -> MarketTreeLevel {
         let idx = try await marketIndex()
-        let groups = (idx.children[parent ?? 0] ?? [])
+        let groups = sortedByName((idx.children[parent ?? 0] ?? [])
             .filter { (idx.count[$0] ?? 0) > 0 }
-            .compactMap { id in idx.groups[id].map { MarketNode(id: id, name: $0.name, iconId: $0.icon, count: idx.count[id] ?? 0) } }
-            .sorted { marketSortKey($0.name).localizedStandardCompare(marketSortKey($1.name)) == .orderedAscending }
+            .compactMap { id in idx.groups[id].map { MarketNode(id: id, name: $0.name, iconId: $0.icon, count: idx.count[id] ?? 0) } }) { $0.name }
         let ids = parent.flatMap { idx.types[$0] } ?? []
         guard !ids.isEmpty else { return MarketTreeLevel(groups: groups, types: []) }
         let list = ids.map(String.init).joined(separator: ",")
@@ -94,13 +106,13 @@ extension SDERepository {
             }
             return (types, levels)
         }
-        let sorted = types.sorted { a, b in
-            let ra = metaRank(a.metaGroupId), rb = metaRank(b.metaGroupId)
-            if ra != rb { return ra < rb }
-            let la = levels[a.id] ?? 0, lb = levels[b.id] ?? 0
-            if la != lb { return la < lb }
-            return marketSortKey(a.name).localizedStandardCompare(marketSortKey(b.name)) == .orderedAscending
+        let keyed = types.map { (rank: metaRank($0.metaGroupId), level: levels[$0.id] ?? 0, name: marketSortKey($0.name), type: $0) }
+        let sorted = keyed.sorted { a, b in
+            if a.rank != b.rank { return a.rank < b.rank }
+            if a.level != b.level { return a.level < b.level }
+            return a.name.localizedStandardCompare(b.name) == .orderedAscending
         }
+        .map(\.type)
         return MarketTreeLevel(groups: groups, types: sorted)
     }
 

@@ -77,6 +77,7 @@ public struct SDERepository: Sendable {
 
     public static func clearSharedCache() async {
         await SDEStaticCache.shared.reset()
+        resetMarketIndex()
     }
 
     // MARK: - Categories

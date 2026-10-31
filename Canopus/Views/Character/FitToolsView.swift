@@ -428,9 +428,11 @@ private struct FitAbyssView: View {
                 Text("Resists (\(String(localized: String.LocalizationValue(layerLabel[r.layer] ?? r.layer))))").font(.ui(13)).foregroundStyle(C.text2)
                 Spacer(minLength: 4)
                 Text(verbatim: r.normal.resist.map { n0($0 * 100) }.joined(separator: "/")).frame(width: 110, alignment: .trailing)
-                r.inWeather.resist.enumerated().reduce(Text(verbatim: "")) { acc, e in
-                    acc + Text(verbatim: (e.offset > 0 ? "/" : "") + n0(e.element * 100)).foregroundColor(e.offset == weather.hole ? C.bad : C.text)
-                }
+                Text(r.inWeather.resist.enumerated().reduce(into: AttributedString()) { acc, e in
+                    var part = AttributedString((e.offset > 0 ? "/" : "") + n0(e.element * 100))
+                    part.foregroundColor = e.offset == weather.hole ? C.bad : C.text
+                    acc += part
+                })
                 .frame(width: 110, alignment: .trailing)
             }
             .font(.mono(12))
@@ -454,8 +456,7 @@ private struct FitAbyssView: View {
         if let f {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Median kill time: **\(seconds(f.ttkMedian))**").font(.ui(13)).foregroundStyle(C.text2)
-                (Text("The most dangerous hits for ") + Text(n0(f.worstTaken)).bold().foregroundColor(f.worstTaken > r.inWeather.repair ? C.bad : C.good)
-                    + Text(" DPS through your resists; you repair \(n0(r.inWeather.repair)) HP/s"))
+                Text("The most dangerous hits for \(Text(n0(f.worstTaken)).bold().foregroundStyle(f.worstTaken > r.inWeather.repair ? C.bad : C.good)) DPS through your resists; you repair \(n0(r.inWeather.repair)) HP/s")
                     .font(.ui(13)).foregroundStyle(C.text2)
             }
             VStack(spacing: 0) {

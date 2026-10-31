@@ -10303,6 +10303,16 @@
         }
       }
     },
+    "The most dangerous hits for %@ DPS through your resists; you repair %@ HP/s": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Самый опасный бьёт на %@ DPS сквозь ваши сопротивления, ремонт — %@ HP/с"
+          }
+        }
+      }
+    },
     "The numbers stay the same": {
       "localizations": {
         "ru": {

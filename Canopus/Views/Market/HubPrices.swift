@@ -35,23 +35,31 @@ enum HubPrices {
 
     /// Best prices and volumes at a station, per type (200 types per request).
     static func hub(station: Int, typeIds: Set<Int>) async throws -> [Int: HubPrice] {
-        var out: [Int: HubPrice] = [:]
         let ids = typeIds.sorted()
-        for start in stride(from: 0, to: ids.count, by: 200) {
-            let chunk = ids[start..<min(start + 200, ids.count)]
-            var url = URLComponents(string: "https://market.fuzzwork.co.uk/aggregates/")!
-            url.queryItems = [URLQueryItem(name: "station", value: String(station)), URLQueryItem(name: "types", value: chunk.map(String.init).joined(separator: ","))]
-            var request = URLRequest(url: url.url!)
-            request.setValue(EVEConstants.userAgent, forHTTPHeaderField: "User-Agent")
-            let (data, _) = try await URLSession.shared.data(for: request)
-            // Values come as strings, or as plain numbers for types without orders.
-            let raw = try JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]] ?? [:]
-            let number = { (v: Any?) in (v as? String).flatMap(Double.init) ?? (v as? NSNumber)?.doubleValue ?? 0 }
-            for (id, sides) in raw {
-                guard let id = Int(id) else { continue }
-                out[id] = HubPrice(sell: number(sides["sell"]?["min"]), sellVolume: number(sides["sell"]?["volume"]),
-                                   buy: number(sides["buy"]?["max"]), buyVolume: number(sides["buy"]?["volume"]))
-            }
+        let chunks = stride(from: 0, to: ids.count, by: 200).map { Array(ids[$0..<min($0 + 200, ids.count)]) }
+        // Large lists (a pilot's assets) take several requests: run them together.
+        return try await withThrowingTaskGroup(of: [Int: HubPrice].self) { group in
+            for chunk in chunks { group.addTask { try await chunkPrices(station: station, chunk: chunk) } }
+            var out: [Int: HubPrice] = [:]
+            for try await part in group { out.merge(part) { a, _ in a } }
+            return out
+        }
+    }
+
+    private nonisolated static func chunkPrices(station: Int, chunk: [Int]) async throws -> [Int: HubPrice] {
+        var out: [Int: HubPrice] = [:]
+        var url = URLComponents(string: "https://market.fuzzwork.co.uk/aggregates/")!
+        url.queryItems = [URLQueryItem(name: "station", value: String(station)), URLQueryItem(name: "types", value: chunk.map(String.init).joined(separator: ","))]
+        var request = URLRequest(url: url.url!)
+        request.setValue(EVEConstants.userAgent, forHTTPHeaderField: "User-Agent")
+        let (data, _) = try await URLSession.shared.data(for: request)
+        // Values come as strings, or as plain numbers for types without orders.
+        let raw = try JSONSerialization.jsonObject(with: data) as? [String: [String: [String: Any]]] ?? [:]
+        let number = { (v: Any?) in (v as? String).flatMap(Double.init) ?? (v as? NSNumber)?.doubleValue ?? 0 }
+        for (id, sides) in raw {
+            guard let id = Int(id) else { continue }
+            out[id] = HubPrice(sell: number(sides["sell"]?["min"]), sellVolume: number(sides["sell"]?["volume"]),
+                               buy: number(sides["buy"]?["max"]), buyVolume: number(sides["buy"]?["volume"]))
         }
         return out
     }

@@ -219,10 +219,11 @@ struct MyTrades: View {
         do {
             // ESI gives the newest 2500 transactions and pages back with from_id.
             var all: [ESIWalletTransaction] = []
+            var seen: Set<Int> = []
             var from: Int?
             for _ in 0..<6 {
                 let batch = try await svc.walletTransactions(fromId: from)
-                let fresh = batch.filter { t in !all.contains { $0.transactionId == t.transactionId } }
+                let fresh = batch.filter { seen.insert($0.transactionId).inserted }
                 guard !fresh.isEmpty else { break }
                 all += fresh
                 from = (fresh.map(\.transactionId).min() ?? 0) - 1

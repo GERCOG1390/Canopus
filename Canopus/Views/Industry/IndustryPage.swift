@@ -50,6 +50,19 @@ struct IndustryPage: View {
 /// SCC surcharge added to every industry job.
 private let sccSurcharge = 0.04
 
+/// ESI's adjusted prices (~15 000 types) and every system's cost indices: large, and they change about
+/// once an hour, so one download serves every calculator until then.
+private enum IndustryMarketCache {
+    static var adjusted: (at: Date, map: [Int: Double])?
+    static var indices: (at: Date, map: [Int: [String: Double]])?
+    static let ttl: TimeInterval = 3600
+
+    static func fresh<T>(_ entry: (at: Date, map: T)?) -> T? {
+        guard let entry, Date().timeIntervalSince(entry.at) < ttl else { return nil }
+        return entry.map
+    }
+}
+
 private struct ManufacturingCalculator: View {
     @Environment(AppEnvironment.self) private var env
     @State private var product: ItemType?
@@ -287,17 +300,23 @@ private struct ManufacturingCalculator: View {
         loadingMarket = true
         defer { loadingMarket = false }
         let market = MarketService()
+        let cachedAdjusted = IndustryMarketCache.fresh(IndustryMarketCache.adjusted)
+        let cachedIndices = IndustryMarketCache.fresh(IndustryMarketCache.indices)
         async let p = try? HubPrices.hub(station: HubPrices.jitaStation, typeIds: Set([job.productId] + job.materials.map(\.typeId)))
-        async let adj = adjusted.isEmpty ? (try? await market.marketPrices()) : nil
-        async let idx = indices.isEmpty ? (try? await market.industrySystems()) : nil
+        async let adj = cachedAdjusted == nil ? (try? await market.marketPrices()) : nil
+        async let idx = cachedIndices == nil ? (try? await market.industrySystems()) : nil
         prices = await p ?? [:]
         if let list = await adj {
-            adjusted = Dictionary(list.map { ($0.typeId, $0.adjustedPrice ?? 0) }, uniquingKeysWith: { a, _ in a })
+            let map = Dictionary(list.map { ($0.typeId, $0.adjustedPrice ?? 0) }, uniquingKeysWith: { a, _ in a })
+            IndustryMarketCache.adjusted = (Date(), map)
         }
         if let list = await idx {
-            indices = Dictionary(list.map { s in (s.solarSystemId, Dictionary(s.costIndices.map { ($0.activity, $0.costIndex) }, uniquingKeysWith: { a, _ in a })) },
+            let map = Dictionary(list.map { s in (s.solarSystemId, Dictionary(s.costIndices.map { ($0.activity, $0.costIndex) }, uniquingKeysWith: { a, _ in a })) },
                                  uniquingKeysWith: { a, _ in a })
+            IndustryMarketCache.indices = (Date(), map)
         }
+        adjusted = IndustryMarketCache.adjusted?.map ?? [:]
+        indices = IndustryMarketCache.indices?.map ?? [:]
         systemSec = try? await env.repository?.systems(ids: [system.id])[system.id]?.security
     }
 }
