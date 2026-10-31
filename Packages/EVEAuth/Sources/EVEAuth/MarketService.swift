@@ -110,6 +110,11 @@ public final class MarketService {
         try await get(path: "/markets/prices/", as: [ESIMarketPrice].self)
     }
 
+    /// Industry cost indices per solar system and activity.
+    public func industrySystems() async throws -> [ESIIndustrySystem] {
+        try await get(path: "/industry/systems/", as: [ESIIndustrySystem].self)
+    }
+
     public func history(regionId: Int, typeId: Int) async throws -> [ESIMarketHistory] {
         try await get(
             path: "/markets/\(regionId)/history/",

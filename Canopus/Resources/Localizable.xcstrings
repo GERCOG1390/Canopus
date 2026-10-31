@@ -341,6 +341,7 @@
       }
     },
     "%@ items": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -396,6 +397,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ м³"
+          }
+        }
+      }
+    },
+    "%@ per hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ в час"
           }
         }
       }
@@ -488,6 +499,7 @@
       }
     },
     "%lld BONUS REMAP%@ AVAILABLE": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -509,6 +521,7 @@
       }
     },
     "%lld RECORDS": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -713,6 +726,7 @@
       }
     },
     "%lld types": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -776,6 +790,7 @@
       }
     },
     "* Asset and implant values use ESI adjusted prices.\n  Items without market data are counted as 0 ISK.": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -828,9 +843,6 @@
           }
         }
       }
-    },
-    "@": {
-      "shouldTranslate": false
     },
     "@ %@": {
       "shouldTranslate": false
@@ -1018,6 +1030,7 @@
       }
     },
     "Active (%lld)": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1044,6 +1057,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Активные импланты"
+          }
+        }
+      }
+    },
+    "Active jobs: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активные работы: %lld"
           }
         }
       }
@@ -1109,6 +1132,7 @@
       }
     },
     "Add skills to your training queue in EVE Online.": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1414,6 +1438,7 @@
       }
     },
     "Assets": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1485,7 +1510,6 @@
       }
     },
     "Attributes": {
-      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1590,6 +1614,7 @@
       }
     },
     "BASE ATTRIBUTES": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1643,8 +1668,8 @@
         }
       }
     },
-    "BPC": {},
     "BREAKDOWN": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1666,6 +1691,7 @@
       }
     },
     "BUY": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1805,7 +1831,18 @@
         }
       }
     },
+    "Blueprint: %@ · %lld per run · max runs on a copy: %lld. Data: CCP SDE.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чертёж: %@ · выход %lld шт за прогон · макс. прогонов на копии: %lld. Данные: SDE CCP."
+          }
+        }
+      }
+    },
     "Blueprints": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1887,6 +1924,7 @@
       }
     },
     "Bounty": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -1968,6 +2006,7 @@
       }
     },
     "Brokers Fee": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2062,6 +2101,7 @@
       }
     },
     "CHARACTER": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2125,6 +2165,7 @@
       }
     },
     "CURRENT": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2135,6 +2176,7 @@
       }
     },
     "CURRENT STATUS": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2546,6 +2588,7 @@
       }
     },
     "Clone Jump Fee": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2567,7 +2610,6 @@
       }
     },
     "Clone jump": {
-      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2598,6 +2640,7 @@
       }
     },
     "Collateral %@": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2692,6 +2735,7 @@
       }
     },
     "Completed": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2712,6 +2756,7 @@
       }
     },
     "Contract": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2722,6 +2767,7 @@
       }
     },
     "Contract Collateral": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2732,6 +2778,7 @@
       }
     },
     "Contract Deposit": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2742,6 +2789,7 @@
       }
     },
     "Contract Refund": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2752,6 +2800,7 @@
       }
     },
     "Contract Reward": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2822,6 +2871,7 @@
       }
     },
     "Contracts": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2832,6 +2882,7 @@
       }
     },
     "Copies (BPC)": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2893,6 +2944,7 @@
       }
     },
     "Corp": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2903,6 +2955,7 @@
       }
     },
     "Corp Deposit": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2913,6 +2966,7 @@
       }
     },
     "Corp Withdrawal": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2953,6 +3007,7 @@
       }
     },
     "Corporations with LP": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -2968,6 +3023,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стоимость %@"
+          }
+        }
+      }
+    },
+    "Cost index (manufacturing)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Индекс стоимости (производство)"
+          }
+        }
+      }
+    },
+    "Cost index (reactions)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Индекс стоимости (реакции)"
           }
         }
       }
@@ -3028,6 +3103,7 @@
     },
     "DPS": {},
     "Daily Goal Payouts": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -3245,6 +3321,7 @@
       }
     },
     "Donation": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -3260,6 +3337,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Готово"
+          }
+        }
+      }
+    },
+    "Done — deliver it!": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово — заберите!"
           }
         }
       }
@@ -3337,6 +3424,7 @@
       }
     },
     "EMPLOYMENT HISTORY · %lld": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -3821,6 +3909,26 @@
         }
       }
     },
+    "Facility tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог сооружения"
+          }
+        }
+      }
+    },
+    "Facility tax, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог сооружения, %"
+          }
+        }
+      }
+    },
     "Factions": {
       "localizations": {
         "ru": {
@@ -3884,6 +3992,7 @@
       }
     },
     "Filter transactions": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4416,6 +4525,7 @@
       }
     },
     "IDENTITY": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4479,6 +4589,7 @@
     },
     "ISK": {},
     "ISK ESTIMATED VALUE": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4500,6 +4611,7 @@
       }
     },
     "Icon & Schema Package": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4520,6 +4632,7 @@
       }
     },
     "Implants & clones": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4707,6 +4820,7 @@
       }
     },
     "Industry Tax": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4727,11 +4841,22 @@
       }
     },
     "Inheritance": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Наследство"
+          }
+        }
+      }
+    },
+    "Installation cost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стоимость установки"
           }
         }
       }
@@ -4850,6 +4975,7 @@
       }
     },
     "Items (stacks)": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -4879,6 +5005,8 @@
         }
       }
     },
+    "Jita buy": {},
+    "Jita sell": {},
     "Jita: buy": {
       "extractionState": "stale",
       "localizations": {
@@ -4897,6 +5025,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jita: продажа"
+          }
+        }
+      }
+    },
+    "Job cost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стоимость работы"
           }
         }
       }
@@ -4923,6 +5061,7 @@
       }
     },
     "Jump Bridge Fee": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5155,6 +5294,7 @@
     },
     "L%lld → L%lld": {},
     "LAST REMAP %@": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5436,6 +5576,7 @@
       }
     },
     "Loading assets…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5446,6 +5587,7 @@
       }
     },
     "Loading item names…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5456,6 +5598,7 @@
       }
     },
     "Loading locations…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5466,6 +5609,7 @@
       }
     },
     "Loading market prices…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5717,6 +5861,7 @@
         }
       }
     },
+    "ME": {},
     "ME research": {
       "localizations": {
         "ru": {
@@ -5811,7 +5956,6 @@
       }
     },
     "Main items, 30 days": {
-      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5837,6 +5981,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Производство"
+          }
+        }
+      }
+    },
+    "Manufacturing calculator": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Калькулятор производства"
+          }
+        }
+      }
+    },
+    "Manufacturing system": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Система производства"
           }
         }
       }
@@ -5873,6 +6037,7 @@
       }
     },
     "Market Escrow": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5905,6 +6070,7 @@
       }
     },
     "Market Transaction": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -5976,12 +6142,42 @@
         }
       }
     },
+    "Material prices": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цены материалов"
+          }
+        }
+      }
+    },
     "Materials": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Материалы"
+          }
+        }
+      }
+    },
+    "Materials (bought at sell)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Материалы (покупка с рынка по sell)"
+          }
+        }
+      }
+    },
+    "Materials (through buy orders)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Материалы (через buy-ордера)"
           }
         }
       }
@@ -6143,6 +6339,7 @@
       }
     },
     "Mission Bonus": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -6164,6 +6361,7 @@
       }
     },
     "Mission Reward": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -6267,6 +6465,16 @@
         }
       }
     },
+    "My jobs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мои работы"
+          }
+        }
+      }
+    },
     "My orders": {
       "extractionState": "stale",
       "localizations": {
@@ -6343,6 +6551,7 @@
       }
     },
     "NO SKILLS TRAINING": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -6459,6 +6668,7 @@
       }
     },
     "Net, 30 days": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -6510,6 +6720,7 @@
       }
     },
     "No Journal Entries": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -6613,6 +6824,16 @@
         }
       }
     },
+    "No active jobs.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нет активных работ."
+          }
+        }
+      }
+    },
     "No active orders": {
       "extractionState": "stale",
       "localizations": {
@@ -6645,6 +6866,7 @@
       }
     },
     "No assets found": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7000,6 +7222,7 @@
       }
     },
     "No transactions found.": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7390,6 +7613,7 @@
       }
     },
     "Originals (BPO)": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7472,6 +7696,7 @@
       }
     },
     "Overview": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7516,6 +7741,7 @@
     },
     "PG": {},
     "PI Export Tax": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7526,6 +7752,7 @@
       }
     },
     "PI Import Tax": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -7683,6 +7910,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите предмет в дереве рынка или найдите по названию, чтобы сравнить цены в торговых хабах."
+          }
+        }
+      }
+    },
+    "Pick the item you want to build (search in Russian or English).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите предмет, который хотите произвести (поиск на русском или английском)."
           }
         }
       }
@@ -7885,6 +8122,36 @@
         }
       }
     },
+    "Product": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продукт"
+          }
+        }
+      }
+    },
+    "Production cost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Себестоимость"
+          }
+        }
+      }
+    },
+    "Profit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прибыль"
+          }
+        }
+      }
+    },
     "Profit by item": {
       "localizations": {
         "ru": {
@@ -7929,6 +8196,7 @@
       }
     },
     "QUEUE · %lld": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8227,6 +8495,7 @@
       }
     },
     "Reprocessing Tax": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8247,6 +8516,7 @@
       }
     },
     "Reputation": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8423,6 +8693,16 @@
         }
       }
     },
+    "Runs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прогонов"
+          }
+        }
+      }
+    },
     "SAVED FIT": {
       "extractionState": "stale",
       "localizations": {
@@ -8430,6 +8710,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "СОХРАНЁННЫЙ ФИТ"
+          }
+        }
+      }
+    },
+    "SCC surcharge": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Надбавка SCC"
           }
         }
       }
@@ -8455,6 +8745,7 @@
       }
     },
     "SECURITY STATUS": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8485,6 +8776,7 @@
       }
     },
     "SELL": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8561,6 +8853,7 @@
       }
     },
     "SKILL QUEUE": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8626,6 +8919,7 @@
       }
     },
     "SYSTEM": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8668,6 +8962,16 @@
         }
       }
     },
+    "Sale of %@ (Jita sell)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продажа %@ шт (Jita sell)"
+          }
+        }
+      }
+    },
     "Sales are matched to earlier buys of the same item (oldest first). ESI gives about three months of transactions: goods bought earlier aren't counted. Taxes and fees come from the wallet journal.": {
       "localizations": {
         "ru": {
@@ -8679,7 +8983,6 @@
       }
     },
     "Sales tax": {
-      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8802,6 +9105,7 @@
       }
     },
     "Search assets…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -8822,6 +9126,7 @@
       }
     },
     "Search journal…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -9076,6 +9381,7 @@
       }
     },
     "Ship & fits": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -9231,6 +9537,16 @@
         }
       }
     },
+    "Sign in with a character to see the jobs.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем, чтобы увидеть работы."
+          }
+        }
+      }
+    },
     "Sign in with a character to see your orders.": {
       "localizations": {
         "ru": {
@@ -9282,6 +9598,7 @@
       }
     },
     "Singleton": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -9303,6 +9620,7 @@
       }
     },
     "Skill Purchase": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -9333,7 +9651,6 @@
       }
     },
     "Skill queue": {
-      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -9370,6 +9687,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Навыки"
+          }
+        }
+      }
+    },
+    "Skills to start the job": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки для запуска работы"
           }
         }
       }
@@ -9655,11 +9982,22 @@
       }
     },
     "Structure": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Корпус"
+          }
+        }
+      }
+    },
+    "Structure bonus, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бонус структуры, %"
           }
         }
       }
@@ -9704,12 +10042,32 @@
         }
       }
     },
+    "System": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Система"
+          }
+        }
+      }
+    },
     "Systems in range: %lld": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Систем в досягаемости: %lld"
+          }
+        }
+      }
+    },
+    "System…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Система…"
           }
         }
       }
@@ -9735,6 +10093,7 @@
         }
       }
     },
+    "TE": {},
     "TE research": {
       "localizations": {
         "ru": {
@@ -9779,6 +10138,7 @@
       }
     },
     "TOTAL WEALTH": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -9800,6 +10160,7 @@
       }
     },
     "TRANSACTIONS": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10063,6 +10424,16 @@
         }
       }
     },
+    "This item has no blueprint or reaction formula.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для этого предмета нет чертежа или формулы реакции."
+          }
+        }
+      }
+    },
     "Threat is an estimate from your corporation and alliance and zKillboard statistics. \"Dangerous\": an active PvP pilot (kills this week, or many over the last months with a high danger ratio). Tap a pilot for the full record.": {
       "localizations": {
         "ru": {
@@ -10112,6 +10483,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уровень"
+          }
+        }
+      }
+    },
+    "Time": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Время"
           }
         }
       }
@@ -10285,6 +10666,7 @@
       }
     },
     "Transaction Tax": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10545,6 +10927,7 @@
       }
     },
     "WEALTH": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10576,6 +10959,7 @@
       }
     },
     "Wallet Journal": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10840,6 +11224,7 @@
       }
     },
     "Your contracts will appear here.": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10850,6 +11235,7 @@
       }
     },
     "Your in-game items will appear here.": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10900,6 +11286,7 @@
       }
     },
     "Your wallet transactions will appear here.": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -10908,9 +11295,6 @@
           }
         }
       }
-    },
-    "[%@]": {
-      "shouldTranslate": false
     },
     "align %@ s": {
       "localizations": {
@@ -11107,6 +11491,16 @@
         }
       }
     },
+    "e.g. Rifter, Hobgoblin II, Fernite Carbide": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Например: Rifter, Hobgoblin II, Fernite Carbide"
+          }
+        }
+      }
+    },
     "empty": {
       "localizations": {
         "ru": {
@@ -11118,6 +11512,7 @@
       }
     },
     "ends %@": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -11626,6 +12021,16 @@
         }
       }
     },
+    "per unit %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "за ед. %@"
+          }
+        }
+      }
+    },
     "public": {
       "localizations": {
         "ru": {
@@ -11811,6 +12216,16 @@
         }
       }
     },
+    "tax %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "налог %@"
+          }
+        }
+      }
+    },
     "the actual gain depends on the ship's mass": {
       "extractionState": "stale",
       "localizations": {
@@ -11896,6 +12311,7 @@
       }
     },
     "updating Jita prices…": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -11937,6 +12353,7 @@
       }
     },
     "without blueprint copies": {
+      "extractionState": "stale",
       "localizations": {
         "ru": {
           "stringUnit": {
@@ -11952,6 +12369,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "вы здесь"
+          }
+        }
+      }
+    },
+    "you have %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "у вас %lld"
           }
         }
       }
@@ -11988,9 +12415,6 @@
           }
         }
       }
-    },
-    "×%@": {
-      "shouldTranslate": false
     },
     "×%lld": {},
     "×+1": {

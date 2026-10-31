@@ -10,7 +10,7 @@ private func isk(_ v: Double) -> String { Fmt.isk(v) }
 private func n0(_ v: Double) -> String { v.formatted(.number.precision(.fractionLength(0))) }
 
 /// A number field with a caption (tax, margin…).
-private struct NumberField: View {
+struct NumberField: View {
     let label: LocalizedStringKey
     @Binding var value: Double
 

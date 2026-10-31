@@ -118,3 +118,9 @@ belongs to.
   fatigue and clone jump timer. Sidebar as the desktop: Pilot = character, mail; Economy = market,
   industry, mining (until Activities). Fixed: ESI 304 shown as an error; SDE packages compared by CCP
   build and importer version. Next: wallet, contracts, assets, blueprints and reputation tabs.
+- 2026-10-31: industry as the desktop's IndustryPage: manufacturing calculator (product or blueprint,
+  runs / ME / TE / structure bonus / facility and sales tax, materials at Jita sell or buy, job cost
+  from the system's ESI cost index + facility tax + 4 % SCC, profit, margin, time and ISK per hour,
+  required skills checked against the pilot) and my jobs with live progress. Character tabs also got
+  blueprints (station resolved through containers) and reputation. PI, structures and moons wait for
+  the new SSO permissions.

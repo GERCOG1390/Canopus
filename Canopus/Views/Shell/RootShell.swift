@@ -286,6 +286,8 @@ struct PageView: View {
             PilotPage()
         case .market:
             MarketPage()
+        case .industry:
+            IndustryPage()
         case .map:
             MapPage()
         default:
@@ -311,7 +313,6 @@ struct PageView: View {
         case .mail: MailView(characterService: s)
         case .fitting: FittingsView(characterService: s)
         case .orders: MarketPage(tab: .orders)
-        case .industry: IndustryView(characterService: s)
         case .mining: MiningLedgerView(characterService: s)
         case .loyalty: MarketPage(tab: .lp)
         default: EmptyView()

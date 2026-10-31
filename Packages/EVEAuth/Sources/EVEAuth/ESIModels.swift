@@ -266,6 +266,18 @@ public struct ESICharacterAttributes: Decodable, Sendable {
     public let bonusRemaps: Int?
 }
 
+// MARK: - Industry cost indices
+
+public struct ESIIndustrySystem: Decodable, Sendable {
+    public let solarSystemId: Int
+    public let costIndices: [CostIndex]
+
+    public struct CostIndex: Decodable, Sendable {
+        public let activity: String
+        public let costIndex: Double
+    }
+}
+
 // MARK: - Blueprints and standings
 
 public struct ESIBlueprint: Decodable, Sendable, Identifiable {
