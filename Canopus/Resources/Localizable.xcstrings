@@ -2354,7 +2354,16 @@
         }
       }
     },
-    "Checking...": {},
+    "Checking...": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверяю…"
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "ru": {
