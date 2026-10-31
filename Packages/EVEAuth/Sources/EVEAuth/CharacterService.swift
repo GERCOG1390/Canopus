@@ -529,8 +529,12 @@ public final class CharacterService {
             return (data, response)
         }
 
+        // 304: nothing changed — hand back the stored body with its original 200, and keep it for the
+        // new cache window (returning the 304 itself made callers report "ESI error 304: <body>").
         if http.statusCode == 304, let cached = responseCache[url] {
-            return (cached.data, http)
+            let expiresAt = http.value(forHTTPHeaderField: "Expires").flatMap(httpDate) ?? cached.expiresAt
+            responseCache[url] = CachedResponse(data: cached.data, etag: cached.etag, expiresAt: expiresAt, response: cached.response)
+            return (cached.data, cached.response)
         }
 
         if (200..<300).contains(http.statusCode) {

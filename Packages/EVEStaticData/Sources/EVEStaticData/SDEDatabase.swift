@@ -39,6 +39,9 @@ public enum SDEDatabase {
         public let build: String?
         public let generatedAt: String?
         public let schemaVersion: String?
+        /// CCP's SDE build the package was made from, and the sde-import version that made it.
+        public let ccpBuild: String?
+        public let importerVersion: String?
         public let source: Source
         public let fileSize: UInt64
         public let url: URL
@@ -141,11 +144,21 @@ public enum SDEDatabase {
         throw Error.notFound
     }
 
-    /// By build number, then by when the package was generated (ISO 8601, so text order is time order).
     static func isNewer(_ a: Metadata, than b: Metadata) -> Bool {
-        let ab = Int(a.build ?? "") ?? 0, bb = Int(b.build ?? "") ?? 0
-        if ab != bb { return ab > bb }
-        return (a.generatedAt ?? "") > (b.generatedAt ?? "")
+        isNewer(ccp: a.ccpBuild, importer: a.importerVersion, build: a.build, generated: a.generatedAt,
+                than: b.ccpBuild, b.importerVersion, b.build, b.generatedAt)
+    }
+
+    /// By CCP's build (the game data), then the importer version (what was taken from it), then when the
+    /// package was made. `build` is only the date of the import, so a fresh import of older game data
+    /// must not count as newer.
+    public static func isNewer(ccp: String?, importer: String?, build: String?, generated: String?,
+                               than ccp2: String?, _ importer2: String?, _ build2: String?, _ generated2: String?) -> Bool {
+        let n = { (s: String?) in Int((s ?? "").filter(\.isNumber)) ?? 0 }
+        if n(ccp) != n(ccp2) { return n(ccp) > n(ccp2) }
+        if n(importer) != n(importer2) { return n(importer) > n(importer2) }
+        if n(build) != n(build2) { return n(build) > n(build2) }
+        return (generated ?? "") > (generated2 ?? "")
     }
 
     private static func installedWritableCopy(from bundledURL: URL, force: Bool = false) throws -> URL {
@@ -198,6 +211,9 @@ public enum SDEDatabase {
             build: values["build"],
             generatedAt: values["generated_at"],
             schemaVersion: values["schema_version"],
+            ccpBuild: values["ccp_build"],
+            // Databases from before importer 4 don't record it; the importer was 3 then at most.
+            importerVersion: values["importer_version"] ?? (values["ccp_build"] == nil ? nil : "3"),
             source: source,
             fileSize: signature.size,
             url: url

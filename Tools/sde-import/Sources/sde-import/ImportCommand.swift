@@ -82,6 +82,7 @@ struct ImportCommand: AsyncParsableCommand {
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('build', ?)", arguments: [buildNumber])
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('generated_at', ?)", arguments: [generatedAt])
             try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('schema_version', '1')")
+            try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('importer_version', ?)", arguments: [importerVersion])
             if let ccp = ccpBuildNumber(inputURL) {
                 try db.execute(sql: "INSERT OR REPLACE INTO meta VALUES ('ccp_build', ?)", arguments: [ccp])
             }

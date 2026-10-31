@@ -12,6 +12,8 @@ public struct SDEUpdateManifest: Decodable, Equatable, Sendable {
     public let sha256: String?
     public let byteSize: Int64?
     public let iconVersion: String?
+    public let ccpBuild: String?
+    public let importerVersion: String?
 
     enum CodingKeys: String, CodingKey {
         case build
@@ -22,6 +24,8 @@ public struct SDEUpdateManifest: Decodable, Equatable, Sendable {
         case sha256
         case byteSize = "byte_size"
         case iconVersion = "icon_version"
+        case ccpBuild = "ccp_build"
+        case importerVersion = "importer_version"
     }
 }
 
@@ -224,12 +228,9 @@ public final class SDEUpdateManager {
     }
 
     private func isRemoteNewer(_ manifest: SDEUpdateManifest) -> Bool {
-        guard let localBuild = localMetadata?.build else { return true }
-        return buildNumber(manifest.build) > buildNumber(localBuild)
-    }
-
-    private func buildNumber(_ value: String) -> Int {
-        Int(value.filter(\.isNumber)) ?? 0
+        guard let local = localMetadata else { return true }
+        return SDEDatabase.isNewer(ccp: manifest.ccpBuild, importer: manifest.importerVersion, build: manifest.build, generated: manifest.generatedAt,
+                                   than: local.ccpBuild, local.importerVersion, local.build, local.generatedAt)
     }
 
     private func verifyDownloadedFile(at url: URL, manifest: SDEUpdateManifest) throws {

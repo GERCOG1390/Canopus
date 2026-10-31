@@ -114,7 +114,7 @@ public struct SDEUpdateView: View {
 
                 // Icon / Schema Package Card
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Icon & Schema Package")
+                    Text("Built")
                         .font(.ui(15, .semibold))
                         .foregroundStyle(Color.eveText.opacity(0.85))
 
@@ -297,29 +297,33 @@ public struct SDEUpdateView: View {
         }
     }
 
+    /// CCP's game data build and the importer version ("3660036 · v4"): what tells packages apart.
+    private func packageVersion(ccp: String?, importer: String?, build: String?) -> String {
+        guard let ccp else { return build ?? "—" }
+        return importer.map { "\(ccp) · v\($0)" } ?? ccp
+    }
+
     private var currentBuildVersion: String {
-        env.sdeUpdates.localMetadata?.build ?? "3503375"
+        let m = env.sdeUpdates.localMetadata
+        return packageVersion(ccp: m?.ccpBuild, importer: m?.importerVersion, build: m?.build)
     }
 
     private var latestBuildVersion: String {
-        env.sdeUpdates.remoteManifest?.build ?? (env.sdeUpdates.phase == .checking ? "Checking..." : currentBuildVersion)
+        guard let m = env.sdeUpdates.remoteManifest else { return env.sdeUpdates.phase == .checking ? String(localized: "Checking...") : currentBuildVersion }
+        return packageVersion(ccp: m.ccpBuild, importer: m.importerVersion, build: m.build)
     }
 
-    private var currentIconVersion: String {
-        if let schema = env.sdeUpdates.localMetadata?.schemaVersion {
-            return "v\(schema)"
-        }
-        return "v1"
-    }
+    /// When each package was made (generated_at, shown as a date).
+    private var currentIconVersion: String { Self.day(env.sdeUpdates.localMetadata?.generatedAt) }
 
     private var latestIconVersion: String {
-        if let iconVer = env.sdeUpdates.remoteManifest?.iconVersion {
-            return iconVer
-        }
-        if let schema = env.sdeUpdates.remoteManifest?.schemaVersion {
-            return "v\(schema)"
-        }
-        return env.sdeUpdates.phase == .checking ? "Checking..." : currentIconVersion
+        guard let m = env.sdeUpdates.remoteManifest else { return env.sdeUpdates.phase == .checking ? String(localized: "Checking...") : currentIconVersion }
+        return Self.day(m.generatedAt)
+    }
+
+    private static func day(_ iso: String?) -> String {
+        guard let iso, let date = ISO8601DateFormatter().date(from: iso) else { return "—" }
+        return date.formatted(date: .abbreviated, time: .shortened)
     }
 
     private var isBusy: Bool {
