@@ -64,6 +64,9 @@ func parseItemList(_ text: String) -> [(name: String, qty: Int)] {
             name = String(m.1); qty = max(1, num(m.2))
         } else if let m = line.firstMatch(of: #/^([\d\s,.]+?)\s*[xX]?\s+(.+)$/#) {
             name = String(m.2); qty = max(1, num(m.1))
+        } else if let m = line.firstMatch(of: #/^(.+?)\s+(\d[\d\s,.]*)$/#) {
+            // "Tritanium 10000". A name ending in a number joined by a hyphen (HG-1005) has no space there.
+            name = String(m.1); qty = max(1, num(m.2))
         }
         name = name.trimmingCharacters(in: CharacterSet(charactersIn: "*")).trimmingCharacters(in: .whitespaces)
         guard !name.isEmpty else { continue }

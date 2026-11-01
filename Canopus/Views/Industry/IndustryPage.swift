@@ -8,11 +8,12 @@ import EVEAuth
 import EVEStaticData
 
 enum IndustryPageTab: String, CaseIterable {
-    case calc, jobs
+    case calc, reprocess, jobs
 
     var label: String {
         switch self {
         case .calc: "Manufacturing calculator"
+        case .reprocess: "Reprocessing"
         case .jobs: "My jobs"
         }
     }
@@ -36,6 +37,7 @@ struct IndustryPage: View {
                 .padding(.horizontal, 12).padding(.vertical, 8)
             switch tab {
             case .calc: ScrollView { ManufacturingCalculator().padding(16) }
+            case .reprocess: ScrollView { ReprocessingCalc().padding(16) }
             case .jobs: ScrollView { IndustryJobs().padding(16) }
             }
         }

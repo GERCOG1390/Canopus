@@ -638,6 +638,16 @@
         }
       }
     },
+    "%lld left over (batch %lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "остаток %lld (партия %lld)"
+          }
+        }
+      }
+    },
     "%lld levels": {
       "localizations": {
         "ru": {
@@ -1266,6 +1276,16 @@
         }
       }
     },
+    "All skills V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все навыки V"
+          }
+        }
+      }
+    },
     "Alliance": {
       "localizations": {
         "ru": {
@@ -1832,6 +1852,16 @@
         }
       }
     },
+    "Better": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выгоднее"
+          }
+        }
+      }
+    },
     "Better for extra ISK": {
       "extractionState": "stale",
       "localizations": {
@@ -2220,6 +2250,16 @@
         }
       }
     },
+    "Calculate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Рассчитать"
+          }
+        }
+      }
+    },
     "Calculated with the desktop engine from SDE dogma: skills, hull bonuses, modules, charges, implants and stacking penalties.": {
       "localizations": {
         "ru": {
@@ -2287,6 +2327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нельзя установить на этот корабль"
+          }
+        }
+      }
+    },
+    "Can't be reprocessed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не перерабатывается"
           }
         }
       }
@@ -2576,6 +2626,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверяю…"
+          }
+        }
+      }
+    },
+    "Citadel / engineering complex": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цитадель / инженерный комплекс"
           }
         }
       }
@@ -2932,6 +2992,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скопируйте из инвентаря (Ctrl+A, Ctrl+C) или введите по одному в строке: Tritanium 10000 · 5 x Hobgoblin I"
+          }
+        }
+      }
+    },
+    "Copy from the inventory (Ctrl+A, Ctrl+C) or type one per line: Veldspar 10000 · 5 x Hobgoblin I": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопируйте из инвентаря (Ctrl+A, Ctrl+C) или введите по одному в строке: Veldspar 10000 · 5 x Hobgoblin I"
           }
         }
       }
@@ -4377,6 +4447,16 @@
         }
       }
     },
+    "Highsec": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хайсек"
+          }
+        }
+      }
+    },
     "Highsec and Pochven can't be jumped to. Bridges are closed to capitals.": {
       "localizations": {
         "ru": {
@@ -4552,6 +4632,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пакет иконок и схемы"
+          }
+        }
+      }
+    },
+    "Implant": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имплант"
           }
         }
       }
@@ -4876,6 +4966,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Предметов (стеков)"
+          }
+        }
+      }
+    },
+    "Items as they are": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предметы как есть"
           }
         }
       }
@@ -5651,6 +5751,16 @@
         }
       }
     },
+    "Lowsec": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лоусек"
+          }
+        }
+      }
+    },
     "Loyalty Points": {
       "extractionState": "stale",
       "localizations": {
@@ -6137,6 +6247,26 @@
         }
       }
     },
+    "Minerals": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Минералы"
+          }
+        }
+      }
+    },
+    "Minerals after tax": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Минералы после налога"
+          }
+        }
+      }
+    },
     "Mining Ledger": {
       "extractionState": "stale",
       "localizations": {
@@ -6459,6 +6589,16 @@
         }
       }
     },
+    "NPC station": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "NPC-станция"
+          }
+        }
+      }
+    },
     "NPCs: %lld": {
       "localizations": {
         "ru": {
@@ -6747,6 +6887,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Чертежей нет"
+          }
+        }
+      }
+    },
+    "No character: skills at 0": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Персонаж не вошёл: навыки 0"
           }
         }
       }
@@ -7278,6 +7428,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уведомления для Canopus выключены в настройках iPhone."
+          }
+        }
+      }
+    },
+    "Nullsec / W-space": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нули / ВХ"
           }
         }
       }
@@ -8305,6 +8465,16 @@
         }
       }
     },
+    "Reprocess": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Переработать"
+          }
+        }
+      }
+    },
     "Reprocessing": {
       "extractionState": "stale",
       "localizations": {
@@ -8438,6 +8608,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Повторить"
+          }
+        }
+      }
+    },
+    "Rig": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Риг"
           }
         }
       }
@@ -9026,6 +9206,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Продажа (%lld)"
+          }
+        }
+      }
+    },
+    "Sell as is": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продать как есть"
           }
         }
       }
@@ -9772,6 +9962,26 @@
         }
       }
     },
+    "Station base yield, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Базовый выход станции, %"
+          }
+        }
+      }
+    },
+    "Station tax, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог станции, %"
+          }
+        }
+      }
+    },
     "Stats": {
       "extractionState": "stale",
       "localizations": {
@@ -9811,6 +10021,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бонус структуры, %"
+          }
+        }
+      }
+    },
+    "Structure tax, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог структуры, %"
           }
         }
       }
@@ -10855,6 +11075,16 @@
         }
       }
     },
+    "What goes in": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Что перерабатываем"
+          }
+        }
+      }
+    },
     "What to learn": {
       "extractionState": "stale",
       "localizations": {
@@ -11043,6 +11273,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выход при 100%% эффективности переработки из %lld единиц."
+          }
+        }
+      }
+    },
+    "Yield per EVE University's formulas; ore skills come from the SDE. Leftovers smaller than a batch stay unprocessed.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выход — по формулам EVE University; навыки руды берутся из SDE. Остаток меньше партии не перерабатывается."
           }
         }
       }
@@ -11519,6 +11759,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "предметы %@"
+          }
+        }
+      }
+    },
+    "items without a price not compared": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "предметы без цены не сравниваются"
           }
         }
       }
@@ -12296,6 +12546,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "✓ Все персонажи"
+          }
+        }
+      }
+    },
+    "✓ All skills V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Все навыки V"
           }
         }
       }
