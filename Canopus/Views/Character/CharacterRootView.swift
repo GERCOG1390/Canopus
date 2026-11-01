@@ -43,9 +43,8 @@ struct CharacterRootView: View {
     @State private var shipLocation: ShipLocationSummary?
     @State private var serverStatus: ESIServerStatus?
     @State private var online: ESIOnlineStatus?
-    @State private var attributes: ESICharacterAttributes?
+    @State private var attributes: PilotAttributes?
     @State private var implants: [Int] = []
-    @State private var implantBonus: [Int: Int] = [:]
     @State private var typeNames: [Int: String] = [:]
     @State private var history: [ESIEmploymentHistoryItem] = []
     @State private var corpNames: [Int: String] = [:]
@@ -357,22 +356,21 @@ struct CharacterRootView: View {
 
     // MARK: - Attributes, implants, corporation history
 
-    /// Perception, memory, willpower, intelligence, charisma and the implant attribute that raises each.
-    private static let attributeRows: [(LocalizedStringKey, KeyPath<ESICharacterAttributes, Int>, Int)] = [
-        ("Perception", \.perception, 178), ("Memory", \.memory, 177), ("Willpower", \.willpower, 179),
-        ("Intelligence", \.intelligence, 176), ("Charisma", \.charisma, 175),
+    /// Perception, memory, willpower, intelligence, charisma (character attribute ids).
+    private static let attributeRows: [(LocalizedStringKey, Int)] = [
+        ("Perception", 167), ("Memory", 166), ("Willpower", 168), ("Intelligence", 165), ("Charisma", 164),
     ]
 
     private var attributesCard: some View {
         Card(String(localized: "Attributes")) {
             if let attributes {
                 VStack(spacing: 8) {
-                    ForEach(Self.attributeRows, id: \.2) { name, key, bonusAttr in
-                        let bonus = implantBonus[bonusAttr] ?? 0
+                    ForEach(Self.attributeRows, id: \.1) { name, attr in
+                        let bonus = attributes.implantBonus[attr] ?? 0
                         HStack {
                             Text(name).font(.ui(14)).foregroundStyle(C.text)
                             Spacer()
-                            Text(verbatim: "\(attributes[keyPath: key] + bonus)").font(.mono(14, medium: true)).foregroundStyle(C.text)
+                            Text(verbatim: "\(attributes.effective[attr] ?? 0)").font(.mono(14, medium: true)).foregroundStyle(C.text)
                             if bonus > 0 {
                                 Text("(+\(bonus) implants)").font(.ui(12)).foregroundStyle(C.good)
                             }
@@ -544,7 +542,7 @@ struct CharacterRootView: View {
     /// Online status, attributes, implants (with their attribute bonuses) and the corporation history.
     private func loadDetails(_ service: CharacterService) async {
         async let o = try? service.online()
-        async let a = try? service.characterAttributes()
+        async let a = PilotAttributes.load(service: service, repository: env.repository)
         async let imp = try? service.implants()
         async let h = try? service.employmentHistory()
         online = await o
@@ -552,13 +550,7 @@ struct CharacterRootView: View {
         implants = await imp ?? []
         let hist = (await h ?? []).sorted { $0.startDate > $1.startDate }
         if let repo = env.repository, !implants.isEmpty {
-            let maps = (try? await repo.typeAttributeMaps(typeIds: Set(implants))) ?? [:]
-            var bonus: [Int: Int] = [:]
-            for m in maps.values { for attr in 175...179 { bonus[attr, default: 0] += Int(m[attr] ?? 0) } }
-            implantBonus = bonus
             typeNames = ((try? await repo.types(ids: Set(implants))) ?? [:]).mapValues(\.name)
-        } else {
-            implantBonus = [:]
         }
         let ids = Array(Set(hist.map(\.corporationId)))
         if let resolved = try? await service.resolveNames(ids: ids) {

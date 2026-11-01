@@ -128,3 +128,11 @@ belongs to.
   from pasted lists (no game logs to read) and the kill radar only while the app is open, so it wasn't
   worth having. Gone: Local / D-scan / fleet / kill radar, radar notifications, the map → radar route,
   PublicESI.affiliations, SDERepository.typesNamed and their 58 strings. PvP stays (Views/PvP).
+- 2026-10-31: features gathered from Tritanium's public feature list (its source licence allows viewing
+  only, so none of its code is used) and built our way, desktop logic first. Skill plan tab as the
+  desktop's SkillPlanner (goals from the current fit, game fits or search; training order; time now,
+  best remap, two remaps, +5 implants; copy list for the game) plus large skill injectors and their
+  Jita cost. Fixed: overview attributes added implants on top of ESI numbers that already had them —
+  PilotAttributes now decides as the desktop (observed training rate, else the 99-point sum).
+  Next from the list: reprocessing calculator, item compare, market watchlists, universe (incursions,
+  factional warfare, sovereignty campaigns, wormholes, insurance), capital jump planner.

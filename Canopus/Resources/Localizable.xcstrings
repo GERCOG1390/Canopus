@@ -65,6 +65,16 @@
         }
       }
     },
+    " · bonus remaps: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " · бонусных ремапов: %lld"
+          }
+        }
+      }
+    },
     " · max runs %lld": {
       "localizations": {
         "ru": {
@@ -426,6 +436,16 @@
       "shouldTranslate": false
     },
     "%@ — %@ LP": {},
+    "%@ → after %lld levels: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ → после %lld уровней: %@"
+          }
+        }
+      }
+    },
     "%@%@": {
       "shouldTranslate": false
     },
@@ -618,6 +638,26 @@
         }
       }
     },
+    "%lld levels": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "уровней: %lld"
+          }
+        }
+      }
+    },
+    "%lld levels · %lld already trained": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "уровней: %lld · уже изучено %lld"
+          }
+        }
+      }
+    },
     "%lld min": {
       "localizations": {
         "ru": {
@@ -777,6 +817,36 @@
         }
       }
     },
+    "+ fit from fitting: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ фит из фитинга: %@"
+          }
+        }
+      }
+    },
+    "+ fit from the game…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ фит из игры…"
+          }
+        }
+      }
+    },
+    "+ ship, module or skill…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ корабль, модуль или навык…"
+          }
+        }
+      }
+    },
     "+%lld": {},
     "30-DAY TOTAL": {
       "localizations": {
@@ -800,6 +870,16 @@
     },
     "@ %@": {
       "shouldTranslate": false
+    },
+    "A remap is available now": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ремап доступен сейчас"
+          }
+        }
+      }
     },
     "A typical level 4 room: %@": {
       "localizations": {
@@ -1092,6 +1172,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте навыки в очередь в EVE Online."
+          }
+        }
+      }
+    },
+    "Add what you want to fly or use: a fit, a ship, a module — or a skill to the level you need.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте, на чём хотите летать или что использовать: фит, корабль, модуль — или навык до нужного уровня."
           }
         }
       }
@@ -2324,6 +2414,16 @@
         }
       }
     },
+    "Cha": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хар"
+          }
+        }
+      }
+    },
     "Changes": {
       "extractionState": "stale",
       "localizations": {
@@ -2785,6 +2885,16 @@
         }
       }
     },
+    "Copied": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скопировано"
+          }
+        }
+      }
+    },
     "Copies (BPC)": {
       "extractionState": "stale",
       "localizations": {
@@ -2822,6 +2932,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Скопируйте из инвентаря (Ctrl+A, Ctrl+C) или введите по одному в строке: Tritanium 10000 · 5 x Hobgoblin I"
+          }
+        }
+      }
+    },
+    "Copy list": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копировать список"
           }
         }
       }
@@ -3596,6 +3716,16 @@
         }
       }
     },
+    "Everything is trained — you can fly it.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Всё уже изучено — можно летать."
+          }
+        }
+      }
+    },
     "Everything that needs %@": {
       "localizations": {
         "ru": {
@@ -4106,6 +4236,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Гамма — дыра во взрыве"
+          }
+        }
+      }
+    },
+    "Goals": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цели"
           }
         }
       }
@@ -4637,6 +4777,16 @@
         }
       }
     },
+    "Int": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Инт"
+          }
+        }
+      }
+    },
     "Intelligence": {
       "localizations": {
         "ru": {
@@ -5142,6 +5292,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Большой"
+          }
+        }
+      }
+    },
+    "Large skill injectors": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Большие инъекторы"
           }
         }
       }
@@ -5916,6 +6076,16 @@
         }
       }
     },
+    "Mem": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пам"
+          }
+        }
+      }
+    },
     "Memory": {
       "localizations": {
         "ru": {
@@ -6363,6 +6533,16 @@
         }
       }
     },
+    "Next remap in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Следующий ремап через %@"
+          }
+        }
+      }
+    },
     "No": {
       "localizations": {
         "ru": {
@@ -6567,6 +6747,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Чертежей нет"
+          }
+        }
+      }
+    },
+    "No character: time for a new character's attributes without implants, every skill from zero.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Персонаж не вошёл: время посчитано по атрибутам нового персонажа без имплантов, все навыки — с нуля."
           }
         }
       }
@@ -7491,6 +7681,16 @@
         }
       }
     },
+    "Per": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вос"
+          }
+        }
+      }
+    },
     "Per NPC, not per room: the game data has no room spawns. NPC damage is on paper (every shot hits, disintegrators spooled up); \"hits you for\" is after your resists in the weather. The weather applies to NPCs too: their resist hole and HP bonus are counted. Kill time: no travel or reload, NPC self-repair counted.": {
       "localizations": {
         "ru": {
@@ -8041,6 +8241,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отклонён"
+          }
+        }
+      }
+    },
+    "Remap + implants +5": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ремап + импланты +5"
           }
         }
       }
@@ -9252,6 +9462,16 @@
         }
       }
     },
+    "Skill plan": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "План навыков"
+          }
+        }
+      }
+    },
     "Skill purchase": {
       "localizations": {
         "ru": {
@@ -10082,6 +10302,26 @@
         }
       }
     },
+    "Time now": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Время сейчас"
+          }
+        }
+      }
+    },
+    "Time uses the character's attributes and implants (Omega). The remap tries every legal split (17–27, 14 points on top).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Время — по атрибутам и имплантам персонажа (Omega). Ремап перебирает все допустимые распределения атрибутов (17–27, 14 очков сверху)."
+          }
+        }
+      }
+    },
     "To": {
       "localizations": {
         "ru": {
@@ -10331,6 +10571,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Турели %1$lld/%2$lld"
+          }
+        }
+      }
+    },
+    "Two remaps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Два ремапа"
           }
         }
       }
@@ -10686,12 +10936,32 @@
         }
       }
     },
+    "Wil": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вол"
+          }
+        }
+      }
+    },
     "Willpower": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Сила воли"
+          }
+        }
+      }
+    },
+    "With +5 implants": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "С имплантами +5"
           }
         }
       }
@@ -10703,6 +10973,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ордером на продажу (цена продажи Jita)"
+          }
+        }
+      }
+    },
+    "With the best remap": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "С лучшим ремапом"
           }
         }
       }
@@ -11976,6 +12256,16 @@
     },
     "−": {
       "shouldTranslate": false
+    },
+    "≈ %@ at Jita · %@ SP": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ по Jita · %@ SP"
+          }
+        }
+      }
     },
     "≈ %@ at the best rate": {
       "localizations": {
