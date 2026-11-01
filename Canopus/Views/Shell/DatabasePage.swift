@@ -10,6 +10,14 @@ struct DatabasePage: View {
     @State private var picked: ItemType?
     @State private var debugType: Int?
     @State private var treeSelected: Int?
+    @State private var tab: Tab = {
+        #if DEBUG
+        if UserDefaults.standard.string(forKey: "dbTab") == "compare" { return .compare }
+        #endif
+        return .items
+    }()
+
+    private enum Tab: Hashable { case items, compare }
 
     var body: some View {
         browser
@@ -39,10 +47,20 @@ struct DatabasePage: View {
         case .failed(let error):
             EmptyState("Database unavailable", icon: "win_warning") { Text(error.localizedDescription) }
         case .ready:
-            ScrollView {
-                ItemLookup(onPick: { treeSelected = $0.id; picked = $0 }, selected: treeSelected, infoButton: false,
-                           hint: "Tap an item for its full info: description, attributes, requirements, variations, industry and prices.")
-                    .padding(16)
+            VStack(alignment: .leading, spacing: 0) {
+                CanopusTabs(tabs: [(id: Tab.items, label: String(localized: "Browse items")),
+                                   (id: .compare, label: String(localized: "Compare (\(CompareStore.shared.ids.count))"))], selection: $tab)
+                    .padding(.horizontal, 12).padding(.vertical, 8)
+                ScrollView {
+                    switch tab {
+                    case .items:
+                        ItemLookup(onPick: { treeSelected = $0.id; picked = $0 }, selected: treeSelected, infoButton: false,
+                                   hint: "Tap an item for its full info: description, attributes, requirements, variations, industry and prices.")
+                            .padding(16)
+                    case .compare:
+                        CompareView().padding(16)
+                    }
+                }
             }
         }
     }

@@ -847,6 +847,16 @@
         }
       }
     },
+    "+ item to compare…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ предмет для сравнения…"
+          }
+        }
+      }
+    },
     "+ ship, module or skill…": {
       "localizations": {
         "ru": {
@@ -1171,6 +1181,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте персонажа"
+          }
+        }
+      }
+    },
+    "Add at least two items: search here or tap “Compare” on an item's info.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте хотя бы два предмета: поиском здесь или кнопкой «Сравнить» в карточке предмета."
           }
         }
       }
@@ -2090,6 +2110,16 @@
         }
       }
     },
+    "Browse items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предметы"
+          }
+        }
+      }
+    },
     "Built": {
       "localizations": {
         "ru": {
@@ -2761,6 +2791,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бой"
+          }
+        }
+      }
+    },
+    "Compare": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сравнить"
+          }
+        }
+      }
+    },
+    "Compare (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сравнение (%lld)"
           }
         }
       }
@@ -7544,6 +7594,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Только активные"
+          }
+        }
+      }
+    },
+    "Only differences": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только различия"
           }
         }
       }
@@ -12560,12 +12620,32 @@
         }
       }
     },
+    "✓ In comparison": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ В сравнении"
+          }
+        }
+      }
+    },
     "✓ Only active": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "✓ Только активные"
+          }
+        }
+      }
+    },
+    "✓ Only differences": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Только различия"
           }
         }
       }

@@ -52,6 +52,15 @@ struct TypeDetailView: View {
             return .systemAction
         })
         .navigationDestination(item: $linked) { id in TypeDetailView(typeId: id, typeName: "") }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                let added = CompareStore.shared.ids.contains(typeId)
+                Button(added ? String(localized: "✓ In comparison") : String(localized: "Compare")) {
+                    if added { CompareStore.shared.remove(typeId) } else { CompareStore.shared.add(typeId) }
+                }
+                .buttonStyle(.canopusSmall)
+            }
+        }
         .task(id: typeId) { await load() }
     }
 
@@ -157,7 +166,7 @@ struct PilotSkills {
 }
 
 private let roman = ["0", "I", "II", "III", "IV", "V"]
-private func n(_ v: Double, _ digits: Int = 2) -> String { v.formatted(.number.precision(.fractionLength(0...digits))) }
+fileprivate func n(_ v: Double, _ digits: Int = 2) -> String { v.formatted(.number.precision(.fractionLength(0...digits))) }
 
 /// A type name that opens its own info.
 private struct TypeLink: View {
@@ -340,7 +349,7 @@ private struct DescriptionTab: View {
 // MARK: - Attributes
 
 /// The desktop's CATEGORY_RU, as English keys translated in the catalog.
-private let attributeCategoryKey: [String: String] = [
+let attributeCategoryKey: [String: String] = [
     "Fitting": "Fitting capabilities", "Shield": "Shields", "Armor": "Armor", "Structure": "Structure", "Capacitor": "Capacitor",
     "Targeting": "Targeting", "Miscellaneous": "Miscellaneous", "Required Skills": "Required Skills", "Speed and Travel": "Speed and Travel",
     "EW - Resistance": "EW - Resistance", "EW - Target Painting": "EW - Target Painting", "EW - Energy Neutralizing": "EW - Energy Neutralizing",
@@ -393,7 +402,7 @@ private struct AttributesTab: View {
 private let characterAttributeName: [Int: LocalizedStringKey] = [164: "Charisma", 165: "Intelligence", 166: "Memory", 167: "Perception", 168: "Willpower"]
 
 /// A dogma value with its unit, as the desktop's formatValue.
-private func formatValue(_ value: Double, unit: Int?, unitName: String?) -> String {
+func formatValue(_ value: Double, unit: Int?, unitName: String?) -> String {
     switch unit {
     case 101: return String(localized: "\(n(value / 1000)) s")
     case 108: return "\(n((1 - value) * 100)) %"
