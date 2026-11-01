@@ -213,11 +213,13 @@ struct SDEMapPosition: Decodable {
 
 struct SDEMapRegion: Decodable {
     let name: LocalizedString?
+    let wormholeClassID: Int?
 }
 
 struct SDEMapConstellation: Decodable {
     let regionID: Int
     let name: LocalizedString?
+    let wormholeClassID: Int?
 }
 
 struct SDEMapSolarSystem: Decodable {
@@ -225,6 +227,13 @@ struct SDEMapSolarSystem: Decodable {
     let name: LocalizedString?
     let position: SDEMapPosition?
     let securityStatus: Double?
+    let wormholeClassID: Int?
+}
+
+/// A system's second sun: wormhole effects (Magnetar, Pulsar…) come from its effect beacon.
+struct SDEMapSecondarySun: Decodable {
+    let solarSystemID: Int
+    let effectBeaconTypeID: Int?
 }
 
 struct SDEMapStargate: Decodable {

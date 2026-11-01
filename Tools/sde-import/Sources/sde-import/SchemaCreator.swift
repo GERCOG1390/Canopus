@@ -152,7 +152,11 @@ enum SchemaCreator {
                 constellation_id INTEGER NOT NULL,
                 name             TEXT    NOT NULL,
                 security         REAL    NOT NULL,
-                x REAL, y REAL, z REAL
+                x REAL, y REAL, z REAL,
+                -- Wormhole class (the system's own, else its constellation's, else its region's) and the
+                -- wormhole effect beacon type (Magnetar, Pulsar…), importer 5.
+                wormhole_class   INTEGER,
+                effect_type_id   INTEGER
             );
 
             -- Stargate links, one row per direction (from mapStargates).

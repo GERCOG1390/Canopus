@@ -386,6 +386,11 @@ struct SDEImporter {
         let constellations = try parseYAMLMap(constellationsURL, as: SDEMapConstellation.self)
         let systems = try parseYAMLMap(systemsURL, as: SDEMapSolarSystem.self)
         let gates = try parseYAMLMap(gatesURL, as: SDEMapStargate.self)
+        let suns = findFile("mapSecondarySuns.yaml").flatMap { try? parseYAMLMap($0, as: SDEMapSecondarySun.self) } ?? []
+        let effect = Dictionary(suns.compactMap { s in s.value.effectBeaconTypeID.map { (s.value.solarSystemID, $0) } }, uniquingKeysWith: { a, _ in a })
+        let regionClass = Dictionary(regions.compactMap { r in r.value.wormholeClassID.map { (r.id, $0) } }, uniquingKeysWith: { a, _ in a })
+        let constellationClass = Dictionary(constellations.compactMap { c in (c.value.wormholeClassID ?? regionClass[c.value.regionID]).map { (c.id, $0) } },
+                                            uniquingKeysWith: { a, _ in a })
         try await db.write { database in
             for (id, r) in regions {
                 try database.execute(sql: "INSERT OR IGNORE INTO regions (id, name) VALUES (?, ?)", arguments: [id, r.name?.english ?? ""])
@@ -395,8 +400,12 @@ struct SDEImporter {
                                      arguments: [id, c.regionID, c.name?.english ?? ""])
             }
             for (id, s) in systems {
-                try database.execute(sql: "INSERT OR IGNORE INTO systems (id, constellation_id, name, security, x, y, z) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                                     arguments: [id, s.constellationID, s.name?.english ?? "", s.securityStatus ?? 0, s.position?.x, s.position?.y, s.position?.z])
+                try database.execute(sql: """
+                    INSERT OR IGNORE INTO systems (id, constellation_id, name, security, x, y, z, wormhole_class, effect_type_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    """,
+                    arguments: [id, s.constellationID, s.name?.english ?? "", s.securityStatus ?? 0, s.position?.x, s.position?.y, s.position?.z,
+                                s.wormholeClassID ?? constellationClass[s.constellationID], effect[id]])
             }
             for (_, g) in gates {
                 try database.execute(sql: "INSERT OR IGNORE INTO jumps (from_id, to_id) VALUES (?, ?)",
