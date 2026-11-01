@@ -50,11 +50,9 @@ final class AppEnvironment {
                 repository = repo
                 loadState = .ready
 
-                // Check for SDE updates in background automatically
+                // Check for SDE updates in background automatically (the environment lives as long as the app).
                 Task {
-                    await sdeUpdates.performStartupCheckAndAutoUpdate { [weak self] in
-                        await self?.reloadRepository()
-                    }
+                    await sdeUpdates.performStartupCheckAndAutoUpdate { await self.reloadRepository() }
                 }
             } catch {
                 loadState = .failed(error)

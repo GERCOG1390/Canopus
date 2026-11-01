@@ -6,7 +6,7 @@ import SwiftUI
 import UIKit
 
 enum GlyphName: String, CaseIterable {
-    case stream, character, mail, fleet, intel, fitting, pvp, market, industry, map, activities, settings
+    case stream, character, mail, fleet, fitting, pvp, market, industry, map, activities, settings
     case search, chevron, star, bolt, palette, update, user, globe, rows, assistant, alert
 
     /// Copied verbatim from Glyph.tsx.
@@ -16,7 +16,6 @@ enum GlyphName: String, CaseIterable {
         case .character: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 20c1.5-3.5 4.5-5 8-5s6.5 1.5 8 5"
         case .mail: "M3 6h18v12H3zM3 7l9 6 9-6"
         case .fleet: "M5 21V4M5 4h11l-2 4 2 4H5"
-        case .intel: "M12 12m-8 0a8 8 0 1 0 16 0a8 8 0 1 0-16 0M12 12m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0-7 0M12 12L18 6"
         case .fitting: "M12 3l7.8 4.5v9L12 21l-7.8-4.5v-9zM12 8.5l3 1.75v3.5L12 15.5l-3-1.75v-3.5z"
         case .pvp: "M12 12m-7 0a7 7 0 1 0 14 0a7 7 0 1 0-14 0M12 2v5M12 17v5M2 12h5M17 12h5"
         case .market: "M4 19V5M4 19h16M8 15l3-4 3 2 5-6"
@@ -53,7 +52,7 @@ struct Glyph: View {
     /// A template image of the glyph, for places that only take images (the tab bar).
     @MainActor static func image(_ name: GlyphName, size: CGFloat = 24) -> Image {
         let renderer = ImageRenderer(content: Glyph(name: name, size: size).foregroundStyle(.black).padding(1))
-        renderer.scale = UIScreen.main.scale
+        renderer.scale = UITraitCollection.current.displayScale
         guard let ui = renderer.uiImage else { return Image(systemName: "circle") }
         return Image(uiImage: ui.withRenderingMode(.alwaysTemplate))
     }

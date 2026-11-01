@@ -96,34 +96,6 @@ extension SDERepository {
 }
 
 extension SDERepository {
-    /// Type ids for exact names (any case), with the category: the fleet window names ships in text.
-    public func typesNamed(_ names: Set<String>) async throws -> [String: (id: Int, category: Int)] {
-        guard !names.isEmpty else { return [:] }
-        return try await dbReader.read { db in
-            let lower = names.map { $0.lowercased() }
-            var out: [String: (id: Int, category: Int)] = [:]
-            for start in stride(from: 0, to: lower.count, by: 500) {
-                let chunk = Array(lower[start..<min(start + 500, lower.count)])
-                for row in try Row.fetchAll(db, sql: """
-                    SELECT t.id, t.name, g.category_id FROM types t JOIN groups g ON g.id = t.group_id
-                    WHERE lower(t.name) IN (\(chunk.map { _ in "?" }.joined(separator: ","))) AND t.published = 1
-                    """, arguments: StatementArguments(chunk)) {
-                    out[(row["name"] as String).lowercased()] = (row["id"], row["category_id"])
-                }
-            }
-            // Lists copied from a Russian client name ships in Russian.
-            let ruHits = lower.filter { out[$0] == nil }.compactMap { n in SDENames.ruTypeIds[n].map { (n, $0) } }
-            if !ruHits.isEmpty {
-                let cats = try Row.fetchAll(db, sql: "SELECT t.id, g.category_id FROM types t JOIN groups g ON g.id = t.group_id WHERE t.id IN (\(ruHits.map { String($0.1) }.joined(separator: ",")))")
-                    .reduce(into: [Int: Int]()) { $0[$1["id"]] = $1["category_id"] }
-                for (n, id) in ruHits { out[n] = (id, cats[id] ?? 0) }
-            }
-            return out
-        }
-    }
-}
-
-extension SDERepository {
     /// Names and security of solar systems.
     public func systems(ids: Set<Int>) async throws -> [Int: (name: String, security: Double)] {
         guard !ids.isEmpty else { return [:] }

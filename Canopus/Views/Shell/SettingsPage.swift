@@ -143,7 +143,7 @@ struct SettingsPage: View {
     }
 }
 
-/// Skill training and radar notifications; iOS is asked for permission when one is turned on.
+/// Skill training notifications; iOS is asked for permission when one is turned on.
 struct NotificationsCard: View {
     @State private var settings = NotificationSettings.shared
 
@@ -152,10 +152,6 @@ struct NotificationsCard: View {
             check("When skill training completes", on: settings.skillDone) {
                 settings.skillDone.toggle()
                 if settings.skillDone { Task { await settings.authorize() } }
-            }
-            VStack(alignment: .leading, spacing: 6) {
-                Text("Kill radar").font(.ui(13)).foregroundStyle(C.text2)
-                RadarNotifyPicker()
             }
             if settings.status == .denied {
                 VStack(alignment: .leading, spacing: 6) {
@@ -182,36 +178,5 @@ struct NotificationsCard: View {
             }
         }
         .buttonStyle(.plain)
-    }
-}
-
-/// Radar alerts as the desktop: gate camps, bubbles and smartbombs; every kill nearby; none — and sound.
-struct RadarNotifyPicker: View {
-    @State private var settings = NotificationSettings.shared
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
-            HStack(spacing: 6) {
-                ForEach(RadarNotify.allCases, id: \.self) { mode in
-                    Button(label(mode)) {
-                        settings.radar = mode
-                        if mode != .off { Task { await settings.authorize() } }
-                    }
-                    .buttonStyle(CanopusButtonStyle(kind: settings.radar == mode ? .primary : .ghost, small: true))
-                }
-            }
-            if settings.radar != .off {
-                Button(settings.radarSound ? String(localized: "✓ With sound") : String(localized: "Without sound")) { settings.radarSound.toggle() }
-                    .buttonStyle(.canopusSmall)
-            }
-        }
-    }
-
-    private func label(_ m: RadarNotify) -> String {
-        switch m {
-        case .danger: String(localized: "Camps, bubbles, smartbombs")
-        case .all: String(localized: "Every kill nearby")
-        case .off: String(localized: "Off")
-        }
     }
 }

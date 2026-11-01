@@ -11,7 +11,7 @@ import UIKit
 
 enum Page: String, Hashable, CaseIterable, Identifiable {
     case character, skills, mail, clones
-    case intel, fitting, killboard
+    case fitting, killboard
     case market, wallet, orders, industry, mining, loyalty, contracts, assets
     case map
     case database
@@ -25,7 +25,6 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .skills: "Skills"
         case .mail: "Mail"
         case .clones: "Clones & implants"
-        case .intel: "Intel"
         case .fitting: "Fitting"
         case .killboard: "PvP"
         case .market: "Market"
@@ -49,7 +48,6 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .skills: "win_skills"
         case .mail: "win_evemail"
         case .clones: "win_jumpclones"
-        case .intel: "win_overview"
         case .fitting: "win_fitting"
         case .killboard: "win_killreport"
         case .market: "win_market"
@@ -67,7 +65,6 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
     }
 
     /// Pages that come with a later phase (docs/ROADMAP.md).
-    var comingSoon: Bool { self == .intel || self == .map }
 }
 
 enum NavSection: String, CaseIterable, Identifiable {
@@ -99,7 +96,7 @@ enum NavSection: String, CaseIterable, Identifiable {
     var pages: [Page] {
         switch self {
         case .pilot: [.character, .mail]
-        case .combat: [.intel, .fitting, .killboard]
+        case .combat: [.fitting, .killboard]
         case .economy: [.market, .industry, .mining]
         case .space: [.map]
         case .more: [.database, .settings]
@@ -250,9 +247,6 @@ struct PageRow: View {
                 .font(.ui(15))
                 .foregroundStyle(C.text)
             Spacer()
-            if page.comingSoon {
-                Pill(text: "Soon", color: C.muted)
-            }
             Glyph(name: .chevron, size: 14)
                 .foregroundStyle(C.faint)
         }
@@ -284,8 +278,6 @@ struct PageView: View {
             DatabasePage()
         case .settings:
             SettingsPage()
-        case .intel:
-            IntelPage()
         case .killboard:
             PilotPage()
         case .market:

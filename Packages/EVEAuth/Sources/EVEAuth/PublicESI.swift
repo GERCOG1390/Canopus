@@ -1,5 +1,5 @@
-// Public lookups for intel (the desktop's lib/intel.ts and PvpPage): names to ids, affiliations,
-// corporations, alliances, characters, and zKillboard's statistics and recent fights. No login needed;
+// Public lookups for the PvP page and the market (the desktop's PvpPage): names to ids, corporations,
+// alliances, characters, and zKillboard's statistics and recent fights. No login needed;
 // results are cached for the session (zKillboard statistics for 30 minutes, as the desktop).
 
 import Foundation
@@ -61,21 +61,6 @@ public actor PublicESI {
     /// A corporation's LP store offers (public).
     public func loyaltyOffers(corporationId: Int) async throws -> [ESILoyaltyStoreOffer] {
         try await get("https://esi.evetech.net/latest/loyalty/stores/\(corporationId)/offers/")
-    }
-
-    public struct Affiliation: Decodable, Sendable {
-        public let characterId: Int
-        public let corporationId: Int
-        public let allianceId: Int?
-    }
-
-    public func affiliations(_ ids: [Int]) async throws -> [Int: Affiliation] {
-        var out: [Int: Affiliation] = [:]
-        for start in stride(from: 0, to: ids.count, by: 1000) {
-            let rows: [Affiliation] = try await post("https://esi.evetech.net/latest/characters/affiliation/", body: Array(ids[start..<min(start + 1000, ids.count)]))
-            for r in rows { out[r.characterId] = r }
-        }
-        return out
     }
 
     public func corporation(_ id: Int) async -> ESICorporationInfo? {

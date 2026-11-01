@@ -289,7 +289,7 @@ final class GalaxyMTKView: MTKView, MTKViewDelegate {
                     col[i] = sov[data.ids[i]] ?? (data.security[i] >= 0.45 ? dim : open)
                 }
             }
-            col.withUnsafeBytes { memcpy(starColors.contents(), $0.baseAddress!, $0.count) }
+            _ = col.withUnsafeBytes { memcpy(starColors.contents(), $0.baseAddress!, $0.count) }
             var pos = [SIMD4<Float>](), mc = [SIMD4<Float>]()
             if o.sovColors != nil {
                 for (ids, color, size) in [(o.skyhooks, SIMD4<Float>(0xC7 / 255, 0x7D / 255, 1, 1), Float(13)), (o.timers, SIMD4<Float>(1, 0x9F / 255, 0x1C / 255, 1), 24)] {

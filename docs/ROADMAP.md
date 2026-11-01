@@ -124,3 +124,7 @@ belongs to.
   required skills checked against the pilot) and my jobs with live progress. Character tabs also got
   blueprints (station resolved through containers) and reputation. PI, structures and moons wait for
   the new SSO permissions.
+- 2026-10-31: Intel removed from the iOS app by the owner's decision: on the phone it could only work
+  from pasted lists (no game logs to read) and the kill radar only while the app is open, so it wasn't
+  worth having. Gone: Local / D-scan / fleet / kill radar, radar notifications, the map → radar route,
+  PublicESI.affiliations, SDERepository.typesNamed and their 58 strings. PvP stays (Views/PvP).
