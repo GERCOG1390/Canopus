@@ -103,7 +103,13 @@ private struct WormholeLookup: View {
     let types: [WormholeType]
     let onPick: (WormholeType) -> Void
     @Environment(AppEnvironment.self) private var env
-    @State private var query = ""
+    @State private var query: String = {
+        #if DEBUG
+        // Debug builds: `-whQuery J100001` (screenshots).
+        if let q = UserDefaults.standard.string(forKey: "whQuery") { return q }
+        #endif
+        return ""
+    }()
     @State private var system: WormholeSystem?
     @State private var effectName: String?
 
@@ -149,7 +155,7 @@ private struct WormholeLookup: View {
                 Text("Not found: type a hole's 4-character signature code or a J-system's name.").font(.ui(12)).foregroundStyle(C.muted)
             }
         }
-        .task(id: code) {
+        .task(id: "\(code)/\(env.repositoryVersion)") {
             system = nil
             effectName = nil
             guard code.count >= 4, code.hasPrefix("J") || ["THERA", "TURNUR"].contains(code), let repo = env.repository else { return }
@@ -282,12 +288,16 @@ private struct MassCalculator: View {
             }
 
             StatTile(label: "Mass left",
-                     value: "\((max(0, remLo) / 1e6).formatted(.number.precision(.fractionLength(0))))–\((max(0, remHi) / 1e6).formatted(.number.precision(.fractionLength(0)))) M kg",
+                     value: String(localized: "\((max(0, remLo) / 1e6).formatted(.number.precision(.fractionLength(0))))–\((max(0, remHi) / 1e6).formatted(.number.precision(.fractionLength(0)))) M kg"),
                      sub: String(localized: "with ±10 % and the hole's state; jumps: \(jumps.count)"))
             GeometryReader { geo in
+                // Against the most the hole can hold (+10 %): what is left for sure, then what may be.
+                let full = mass * 1.1
+                let sure = min(1, max(0, remLo / full))
+                let maybe = min(1 - sure, max(0, (remHi - max(0, remLo)) / full))
                 HStack(spacing: 0) {
-                    Rectangle().fill(C.accent).frame(width: geo.size.width * min(1, max(0, remLo / mass)))
-                    Rectangle().fill(C.accent.opacity(0.35)).frame(width: geo.size.width * min(1, max(0, (remHi - max(0, remLo)) / mass)))
+                    Rectangle().fill(C.accent).frame(width: geo.size.width * sure)
+                    Rectangle().fill(C.accent.opacity(0.35)).frame(width: geo.size.width * maybe)
                     Spacer(minLength: 0)
                 }
                 .background(C.panel2)

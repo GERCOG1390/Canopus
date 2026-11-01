@@ -269,6 +269,16 @@
         }
       }
     },
+    "%@ M kg": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ млн кг"
+          }
+        }
+      }
+    },
     "%@ SP": {},
     "%@ SP/hour": {
       "localizations": {
@@ -276,6 +286,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ SP/час"
+          }
+        }
+      }
+    },
+    "%@ a day": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ в сутки"
           }
         }
       }
@@ -297,6 +317,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ урона"
+          }
+        }
+      }
+    },
+    "%@ h": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ч"
+          }
+        }
+      }
+    },
+    "%@ h · %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ ч · %@"
           }
         }
       }
@@ -465,6 +505,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@: %2$@ %3$@ — изучено"
+          }
+        }
+      }
+    },
+    "%@–%@ M kg": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@–%@ млн кг"
           }
         }
       }
@@ -1195,6 +1245,16 @@
         }
       }
     },
+    "Add a ship…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить корабль…"
+          }
+        }
+      }
+    },
     "Add at least two items: search here or tap “Compare” on an item's info.": {
       "localizations": {
         "ru": {
@@ -1212,6 +1272,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте навыки в очередь в EVE Online."
+          }
+        }
+      }
+    },
+    "Add the ships you'll jump with: mass comes from the SDE, a hot jump has the AB / MWD on.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавьте корабли, которыми будете прыгать: масса берётся из SDE, «горячий» прыжок — с включённым AB/MWD."
           }
         }
       }
@@ -1802,6 +1872,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "ПОКУПКА · %lld"
+          }
+        }
+      }
+    },
+    "Back ❄": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обратно ❄"
+          }
+        }
+      }
+    },
+    "Back 🔥": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обратно 🔥"
           }
         }
       }
@@ -2700,6 +2790,16 @@
         }
       }
     },
+    "Class": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Класс"
+          }
+        }
+      }
+    },
     "Clear": {
       "localizations": {
         "ru": {
@@ -3252,6 +3352,16 @@
         }
       }
     },
+    "Critical (<10 %)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Критическая (<10%)"
+          }
+        }
+      }
+    },
     "Cruisers": {
       "extractionState": "stale",
       "localizations": {
@@ -3375,6 +3485,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Тёмная — дальность турелей"
+          }
+        }
+      }
+    },
+    "Data from CCP's SDE. A hole's real mass is random within ±10 % of the listed one. Tap a type to put it into the calculator.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Данные из SDE (CCP). Настоящая масса дыры случайна в пределах ±10% от указанной. Нажмите на тип, чтобы отправить его в калькулятор."
           }
         }
       }
@@ -3787,6 +3907,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Экономика"
+          }
+        }
+      }
+    },
+    "Effect": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эффект"
           }
         }
       }
@@ -4593,6 +4723,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бьёт по вам"
+          }
+        }
+      }
+    },
+    "Hole": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дыра"
           }
         }
       }
@@ -5578,6 +5718,36 @@
         }
       }
     },
+    "Lead anywhere": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ведут куда угодно"
+          }
+        }
+      }
+    },
+    "Lead into %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ведут в %@"
+          }
+        }
+      }
+    },
+    "Leads into": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ведёт в"
+          }
+        }
+      }
+    },
     "Length, ly": {
       "localizations": {
         "ru": {
@@ -5645,6 +5815,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущий корабль"
+          }
+        }
+      }
+    },
+    "Lives": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Живёт"
           }
         }
       }
@@ -5782,6 +5962,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Смотрю последние потери на zKillboard…"
+          }
+        }
+      }
+    },
+    "Lookup: hole code or J-system": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск: код дыры или J-система"
           }
         }
       }
@@ -6181,6 +6371,56 @@
           "stringUnit": {
             "state": "translated",
             "value": "Масса"
+          }
+        }
+      }
+    },
+    "Mass calculator (rolling)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Калькулятор массы (роллинг)"
+          }
+        }
+      }
+    },
+    "Mass left": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Осталось массы"
+          }
+        }
+      }
+    },
+    "Mass per jump": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Масса за прыжок"
+          }
+        }
+      }
+    },
+    "Mass per jump, M kg": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Масса за прыжок, млн кг"
+          }
+        }
+      }
+    },
+    "Mass regeneration": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Восстановление массы"
           }
         }
       }
@@ -6813,6 +7053,16 @@
         }
       }
     },
+    "No AB / MWD": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без AB/MWD"
+          }
+        }
+      }
+    },
     "No Compatible Charges": {
       "localizations": {
         "ru": {
@@ -7410,6 +7660,16 @@
         }
       }
     },
+    "Not disrupted (>50 %)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не нарушена (>50%)"
+          }
+        }
+      }
+    },
     "Not enough CPU": {
       "localizations": {
         "ru": {
@@ -7466,6 +7726,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не хватает точек монтажа турелей"
+          }
+        }
+      }
+    },
+    "Not found: type a hole's 4-character signature code or a J-system's name.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не найдено: введите 4-символьный код сигнатуры дыры или имя J-системы."
           }
         }
       }
@@ -7558,6 +7828,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уведомления для Canopus выключены в настройках iPhone."
+          }
+        }
+      }
+    },
+    "Nullsec": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нули"
           }
         }
       }
@@ -7777,6 +8057,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прочее (структуры, дроны, объекты)"
+          }
+        }
+      }
+    },
+    "Out ❄": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Туда ❄"
+          }
+        }
+      }
+    },
+    "Out 🔥": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Туда 🔥"
           }
         }
       }
@@ -8524,6 +8824,16 @@
         }
       }
     },
+    "Reduced (10–50 %)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уменьшена (10–50%)"
+          }
+        }
+      }
+    },
     "Refresh": {
       "localizations": {
         "ru": {
@@ -8540,6 +8850,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Обновляю…"
+          }
+        }
+      }
+    },
+    "Region": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Регион"
           }
         }
       }
@@ -8717,6 +9037,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сбросить"
+          }
+        }
+      }
+    },
+    "Reset jumps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить прыжки"
           }
         }
       }
@@ -9628,6 +9958,16 @@
         }
       }
     },
+    "Ships for rolling": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабли для роллинга"
+          }
+        }
+      }
+    },
     "Ships, modules, attributes and the map come from CCP's static data. Canopus checks for a new version and downloads it on request.": {
       "localizations": {
         "ru": {
@@ -10486,6 +10826,16 @@
         }
       }
     },
+    "The hole's state shows in the game's Show Info. Its real mass is random within ±10 %, so what's left is a range. Jump out only when the ship can still get back in the worst case: risky jumps are marked red.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состояние дыры видно в игре в Show Info. Настоящая масса случайна в пределах ±10%, поэтому остаток — диапазон. Прыгайте «туда» так, чтобы при худшем случае корабль успел вернуться: опасные прыжки помечены красным."
+          }
+        }
+      }
+    },
     "The most dangerous hits for ": {
       "extractionState": "stale",
       "localizations": {
@@ -10722,6 +11072,16 @@
         }
       }
     },
+    "To the mass calculator": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В калькулятор массы"
+          }
+        }
+      }
+    },
     "To: %@": {
       "localizations": {
         "ru": {
@@ -10801,6 +11161,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Всего SP"
+          }
+        }
+      }
+    },
+    "Total mass": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Общая масса"
+          }
+        }
+      }
+    },
+    "Total mass, M kg": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Общая масса, млн кг"
           }
         }
       }
@@ -10991,6 +11371,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нераспределено: %@"
+          }
+        }
+      }
+    },
+    "Undo jump": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отменить прыжок"
           }
         }
       }
@@ -11407,6 +11797,26 @@
         }
       }
     },
+    "Wormhole types (%lld)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Типы червоточин (%lld)"
+          }
+        }
+      }
+    },
+    "Wormholes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Червоточины"
+          }
+        }
+      }
+    },
     "Wrong rig size": {
       "localizations": {
         "ru": {
@@ -11643,6 +12053,16 @@
         }
       }
     },
+    "back": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "обратно"
+          }
+        }
+      }
+    },
     "best %@": {
       "localizations": {
         "ru": {
@@ -11684,6 +12104,16 @@
         }
       }
     },
+    "capital ships": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "капитальные корабли"
+          }
+        }
+      }
+    },
     "chain lightning": {
       "extractionState": "stale",
       "localizations": {
@@ -11701,6 +12131,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "сменена: %@"
+          }
+        }
+      }
+    },
+    "class %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "класс %lld"
           }
         }
       }
@@ -11732,6 +12172,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "дроны %@"
+          }
+        }
+      }
+    },
+    "e.g. C247 or J100001": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Например, C247 или J100001"
           }
         }
       }
@@ -11796,6 +12246,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "фоллоф"
+          }
+        }
+      }
+    },
+    "frigates and destroyers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "фрегаты и эсминцы"
           }
         }
       }
@@ -11953,6 +12413,16 @@
         }
       }
     },
+    "jump": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "прыжок"
+          }
+        }
+      }
+    },
     "kills in the last hour": {
       "localizations": {
         "ru": {
@@ -12009,6 +12479,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "маржа %@%%"
+          }
+        }
+      }
+    },
+    "may close on this jump": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "может схлопнуться на этом прыжке"
+          }
+        }
+      }
+    },
+    "may close — the ship is left outside!": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "может схлопнуться — корабль останется снаружи!"
           }
         }
       }
@@ -12183,6 +12673,16 @@
         }
       }
     },
+    "out": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "туда"
+          }
+        }
+      }
+    },
     "out of range": {
       "extractionState": "stale",
       "localizations": {
@@ -12190,6 +12690,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "вне дальности"
+          }
+        }
+      }
+    },
+    "outside": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "снаружи"
           }
         }
       }
@@ -12453,6 +12963,16 @@
         }
       }
     },
+    "the hole closes for sure": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "дыра схлопнется наверняка"
+          }
+        }
+      }
+    },
     "tracking": {
       "extractionState": "stale",
       "localizations": {
@@ -12496,6 +13016,16 @@
         }
       }
     },
+    "unknown": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "неизвестно"
+          }
+        }
+      }
+    },
     "unstable": {
       "localizations": {
         "ru": {
@@ -12512,6 +13042,36 @@
           "stringUnit": {
             "state": "translated",
             "value": "без названия"
+          }
+        }
+      }
+    },
+    "up to battlecruisers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "до линейных крейсеров"
+          }
+        }
+      }
+    },
+    "up to battleships": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "до линкоров"
+          }
+        }
+      }
+    },
+    "up to freighters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "до фрейтеров"
           }
         }
       }
@@ -12558,6 +13118,16 @@
         }
       }
     },
+    "with ±10 %% and the hole's state; jumps: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с учётом ±10%% и состояния дыры; прыжков: %lld"
+          }
+        }
+      }
+    },
     "without blueprint copies": {
       "extractionState": "stale",
       "localizations": {
@@ -12565,6 +13135,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "без учёта копий чертежей"
+          }
+        }
+      }
+    },
+    "won't pass: heavier than the jump limit": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "не пройдёт: тяжелее лимита за прыжок"
           }
         }
       }
