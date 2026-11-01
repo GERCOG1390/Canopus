@@ -136,3 +136,28 @@ belongs to.
   PilotAttributes now decides as the desktop (observed training rate, else the 99-point sum).
   Next from the list: reprocessing calculator, item compare, market watchlists, universe (incursions,
   factional warfare, sovereignty campaigns, wormholes, insurance), capital jump planner.
+
+## Where we stopped (2026-11-01) — the user moved back to the desktop app
+
+Done this stretch: market (prices, watchlists, appraisal, arbitrage, LP, my orders / trades), market tree
+and reference with item compare, character page with the desktop's tabs (overview, all characters,
+skills, skill plan with injectors, clones, fits, assets, blueprints, wallet, contracts, reputation),
+industry (manufacturing calculator, reprocessing calculator, jobs), wormholes page, fit drafts that
+survive SwiftUI rebuilds, Intel removed (owner's decision), sde-import 5 (CCP CDN icons, wormhole class
+and effects; release sde-latest is CCP 3662168 / importer 5 and is the bundled DB).
+
+Next, in this order:
+1. Capital jump planner and Thera / Turnur (desktop Map tabs: port JumpPlanner.tsx and the Thera tab).
+2. Universe from public ESI: incursions, factional warfare, sovereignty campaigns, ship insurance
+   (game icons exist: win_incursions, win_factionalwarfare, win_sovereignty, win_insurance).
+3. Activities (desktop ActivitiesPage: campaigns, freelance, sigs, ratting, mining, abyss) — mining
+   ledger moves there from Economy.
+4. Compare the remaining character tabs with the desktop: Skills, Implants & clones, Ship & fits.
+5. Waiting for the new EVE SSO scopes (user action on developers.eveonline.com; the full list is in the
+   2026-10-31 chat): contacts, calendar, mail sending, PI, corporation (wallets, members, structures,
+   moons), structure search, waypoints, open window. Add them to EVEConstants.scopes only after the
+   user confirms they are enabled, or login breaks with invalid_scope.
+6. TestFlight prep: real-device pass (fit draft restore on rotation / page switch is unverified on a
+   device), App Store screenshots, description, privacy policy.
+Tritanium (EstamelGG/EVE-Tritanium) was used only as a feature list: its licence allows viewing the
+source for education/review only, so none of its code is read or used.
