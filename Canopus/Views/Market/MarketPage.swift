@@ -7,11 +7,12 @@ import EVEAuth
 import EVEStaticData
 
 enum MarketTab: String, CaseIterable {
-    case prices, appraisal, arbitrage, lp, orders, trades
+    case prices, watch, appraisal, arbitrage, lp, orders, trades
 
     var label: String {
         switch self {
         case .prices: "Prices"
+        case .watch: "Watchlists"
         case .appraisal: "Loot appraisal"
         case .arbitrage: "Arbitrage"
         case .lp: "LP store"
@@ -39,6 +40,7 @@ struct MarketPage: View {
                 .padding(.horizontal, 12).padding(.vertical, 8)
             switch tab {
             case .prices: MarketPrices()
+            case .watch: ScrollView { Watchlists().padding(16) }
             case .appraisal: ScrollView { Appraisal().padding(16) }
             case .arbitrage: ScrollView { Arbitrage().padding(16) }
             case .lp: ScrollView { LpStore().padding(16) }

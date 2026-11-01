@@ -857,6 +857,16 @@
         }
       }
     },
+    "+ item…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ предмет…"
+          }
+        }
+      }
+    },
     "+ ship, module or skill…": {
       "localizations": {
         "ru": {
@@ -1202,6 +1212,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Добавьте навыки в очередь в EVE Online."
+          }
+        }
+      }
+    },
+    "Add to the list": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить в список"
           }
         }
       }
@@ -2157,6 +2177,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Покупка по лучшей цене продажи в одном хабе и продажа в другом — сразу в buy-ордера или своим ордером на продажу. Выберите категорию рынка: Canopus сравнит цены во всех пяти хабах (данные Fuzzwork, обновляются примерно раз в 30 минут)."
+          }
+        }
+      }
+    },
+    "Buy now (Jita sell)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Купить сейчас (Jita sell)"
           }
         }
       }
@@ -3202,6 +3232,26 @@
         }
       }
     },
+    "Create": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создать"
+          }
+        }
+      }
+    },
+    "Create a list: a shopping list for a fit, a doctrine's ships, the goods you trade.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создайте список: закупка под фит, корабли доктрины, товары, которыми торгуете."
+          }
+        }
+      }
+    },
     "Cruisers": {
       "extractionState": "stale",
       "localizations": {
@@ -3398,6 +3448,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Защита"
+          }
+        }
+      }
+    },
+    "Delete list": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить список"
           }
         }
       }
@@ -6723,6 +6783,16 @@
         }
       }
     },
+    "New list name…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Название нового списка…"
+          }
+        }
+      }
+    },
     "Next remap in %@": {
       "localizations": {
         "ru": {
@@ -7122,6 +7192,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В этой группе нет предметов"
+          }
+        }
+      }
+    },
+    "No items yet.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока пусто."
           }
         }
       }
@@ -7870,6 +7950,16 @@
         }
       }
     },
+    "Paste list": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вставить список"
+          }
+        }
+      }
+    },
     "Paste the bridge list, one per line: \"1DQ1-A » 8WA-Z6\", Dotlan's format (\"1DQ1-A @ 3-4 » 8WA-Z6 @ 1-1\") or structure names. Since Cradle of War bridges take subcapitals only, and a jump costs more the farther it is from the alliance capital.": {
       "localizations": {
         "ru": {
@@ -8144,6 +8234,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Оптимизация по цене"
+          }
+        }
+      }
+    },
+    "Price per unit: Jita sell / buy.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цена за штуку: Jita sell / buy."
           }
         }
       }
@@ -9276,6 +9376,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Продать как есть"
+          }
+        }
+      }
+    },
+    "Sell now (Jita buy)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продать сейчас (Jita buy)"
           }
         }
       }
@@ -11090,6 +11200,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Внимание"
+          }
+        }
+      }
+    },
+    "Watchlists": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Списки"
           }
         }
       }
