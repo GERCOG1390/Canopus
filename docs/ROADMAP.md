@@ -147,9 +147,9 @@ survive SwiftUI rebuilds, Intel removed (owner's decision), sde-import 5 (CCP CD
 and effects; release sde-latest is CCP 3662168 / importer 5 and is the bundled DB).
 
 Next, in this order:
-1. Capital jump planner and Thera / Turnur (desktop Map tabs: port JumpPlanner.tsx and the Thera tab).
-2. Universe from public ESI: incursions, factional warfare, sovereignty campaigns, ship insurance
-   (game icons exist: win_incursions, win_factionalwarfare, win_sovereignty, win_insurance).
+1. ~~Capital jump planner and Thera / Turnur~~ — done 2026-11-02 (JumpPlannerPage, TheraPage).
+2. ~~Universe from public ESI: incursions, factional warfare, sovereignty timers, ship insurance~~ —
+   done 2026-11-02 (UniversePage).
 3. Activities (desktop ActivitiesPage: campaigns, freelance, sigs, ratting, mining, abyss) — mining
    ledger moves there from Economy.
 4. Compare the remaining character tabs with the desktop: Skills, Implants & clones, Ship & fits.
