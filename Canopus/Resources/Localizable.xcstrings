@@ -7023,6 +7023,26 @@
         }
       }
     },
+    "New features need more permissions (%lld): sign in again with this character and pick it on the EVE page.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новым функциям нужны дополнительные разрешения (%lld): войдите заново этим персонажем и выберите его на странице EVE."
+          }
+        }
+      }
+    },
+    "New features need more permissions: sign in again with this character in Settings": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Новым функциям нужны дополнительные разрешения: войдите заново этим персонажем в «Настройках»"
+          }
+        }
+      }
+    },
     "New list name…": {
       "localizations": {
         "ru": {
@@ -10015,6 +10035,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сбоку"
+          }
+        }
+      }
+    },
+    "Sign in again": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войти заново"
           }
         }
       }

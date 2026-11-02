@@ -277,6 +277,9 @@ struct CharacterRootView: View {
 
     private var computedAlerts: [EVEAlert] {
         var a: [EVEAlert] = []
+        if let missing = svc?.tokens.missingScopes, !missing.isEmpty {
+            a.append(.init(title: "New features need more permissions: sign in again with this character in Settings", subtitle: charName, color: C.warn))
+        }
         if skillQueue.isEmpty, totalSP != nil {
             a.append(.init(title: "The skill queue is empty — the character is not training anything!", subtitle: charName, color: C.warn))
         } else if let end = queueEnd, end.timeIntervalSinceNow < 86_400 {

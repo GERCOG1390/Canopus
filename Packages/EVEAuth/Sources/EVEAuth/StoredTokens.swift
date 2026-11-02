@@ -31,6 +31,12 @@ public struct StoredTokens: Codable, Sendable, Identifiable, Hashable {
         scopes.contains(scope)
     }
 
+    /// Permissions Canopus asks for now that this login didn't grant (it predates them): signing in
+    /// again with the character grants them.
+    public var missingScopes: [String] {
+        EVEConstants.scopes.filter { $0 != "publicData" && !scopes.contains($0) }
+    }
+
     // URL for the character portrait (CCP CDN, no bundled assets).
     public func portraitURL(size: Int = 64) -> URL {
         EVEConstants.imageBase

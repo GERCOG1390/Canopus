@@ -44,6 +44,7 @@ struct SettingsPage: View {
                     .foregroundStyle(C.muted)
             }
             ForEach(store.characters, id: \.characterId) { c in
+                VStack(alignment: .leading, spacing: 6) {
                 HStack(spacing: 12) {
                     EVECharacterPortrait(characterId: c.characterId, size: 36)
                         .clipShape(RoundedRectangle(cornerRadius: 6))
@@ -61,6 +62,16 @@ struct SettingsPage: View {
                         store.removeCharacter(id: c.characterId)
                     }
                     .buttonStyle(CanopusButtonStyle(kind: .danger, small: true))
+                }
+                if !c.missingScopes.isEmpty {
+                    HStack(spacing: 8) {
+                        Text("New features need more permissions (\(c.missingScopes.count)): sign in again with this character and pick it on the EVE page.")
+                            .font(.ui(12)).foregroundStyle(C.warn)
+                        Spacer(minLength: 4)
+                        Button("Sign in again") { Task { await addCharacter() } }
+                            .buttonStyle(.canopusSmall).disabled(adding)
+                    }
+                }
                 }
             }
             if let error {
