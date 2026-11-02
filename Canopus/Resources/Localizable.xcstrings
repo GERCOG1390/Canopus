@@ -656,6 +656,16 @@
         }
       }
     },
+    "%lld h left": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "осталось %lld ч"
+          }
+        }
+      }
+    },
     "%lld in Queue": {
       "extractionState": "stale",
       "localizations": {
@@ -2654,6 +2664,16 @@
         }
       }
     },
+    "Capitals": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Капиталы"
+          }
+        }
+      }
+    },
     "Cargo": {
       "localizations": {
         "ru": {
@@ -3393,6 +3413,16 @@
         }
       }
     },
+    "Count jumps from": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Считать прыжки от"
+          }
+        }
+      }
+    },
     "Courier": {
       "localizations": {
         "ru": {
@@ -3576,6 +3606,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Данные из SDE (CCP). Настоящая масса дыры случайна в пределах ±10% от указанной. Нажмите на тип, чтобы отправить его в калькулятор."
+          }
+        }
+      }
+    },
+    "Data from EVE-Scout (eve-scout.com). Jumps: the shortest gate route to the exit system.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Данные предоставлены EVE-Scout (eve-scout.com). Прыжки — кратчайший маршрут по воротам до системы выхода."
           }
         }
       }
@@ -4556,6 +4596,16 @@
         }
       }
     },
+    "Freighters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фрейтеры"
+          }
+        }
+      }
+    },
     "Frigates": {
       "extractionState": "stale",
       "localizations": {
@@ -5499,6 +5549,16 @@
         }
       }
     },
+    "K-space only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только K-space"
+          }
+        }
+      }
+    },
     "KILL": {
       "extractionState": "stale",
       "localizations": {
@@ -5773,6 +5833,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Большой"
+          }
+        }
+      }
+    },
+    "Large (up to battleships)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Большие (до линкоров)"
           }
         }
       }
@@ -6657,6 +6727,16 @@
         }
       }
     },
+    "Medium (up to cruisers)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средние (до крейсеров)"
+          }
+        }
+      }
+    },
     "Medium power": {
       "localizations": {
         "ru": {
@@ -7438,6 +7518,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет подходящих модулей"
+          }
+        }
+      }
+    },
+    "No connections right now.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сейчас связей нет."
           }
         }
       }
@@ -10516,6 +10606,16 @@
         }
       }
     },
+    "Small (frigates, destroyers)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Малые (фрегаты, эсминцы)"
+          }
+        }
+      }
+    },
     "Solo kills": {
       "extractionState": "stale",
       "localizations": {
@@ -11144,6 +11244,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Его статистика и последние бои с zKillboard."
+          }
+        }
+      }
+    },
+    "Thera / Turnur": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тера / Турнур"
+          }
+        }
+      }
+    },
+    "Thera and Turnur": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тера и Турнур"
           }
         }
       }
@@ -13657,6 +13777,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "✓ В сравнении"
+          }
+        }
+      }
+    },
+    "✓ K-space only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Только K-space"
           }
         }
       }

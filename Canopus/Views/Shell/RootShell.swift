@@ -13,7 +13,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
     case character, skills, mail, clones
     case fitting, killboard
     case market, wallet, orders, industry, mining, loyalty, contracts, assets
-    case map, jumps, wormholes
+    case map, jumps, wormholes, thera
     case database
     case settings
 
@@ -38,6 +38,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .map: "Map"
         case .jumps: "Capital jumps"
         case .wormholes: "Wormholes"
+        case .thera: "Thera / Turnur"
         case .database: "Database"
         case .settings: "Settings"
         }
@@ -63,6 +64,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .map: "win_map"
         case .jumps: "jump_drive"
         case .wormholes: "win_navigation"
+        case .thera: "win_overview"
         case .database: "win_info"
         case .settings: "win_settings"
         }
@@ -102,7 +104,7 @@ enum NavSection: String, CaseIterable, Identifiable {
         case .pilot: [.character, .mail]
         case .combat: [.fitting, .killboard]
         case .economy: [.market, .industry, .mining]
-        case .space: [.map, .jumps, .wormholes]
+        case .space: [.map, .jumps, .wormholes, .thera]
         case .more: [.database, .settings]
         }
     }
@@ -294,6 +296,8 @@ struct PageView: View {
             JumpPlannerPage()
         case .wormholes:
             WormholesPage()
+        case .thera:
+            TheraPage()
         default:
             if let svc = env.characterStore.selectedService {
                 characterPage(svc)
