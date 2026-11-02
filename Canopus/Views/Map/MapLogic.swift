@@ -139,6 +139,53 @@ enum MapLogic {
         return (ids.reversed(), hops)
     }
 
+    // MARK: Capital jumps (the desktop's sde jumpRoute)
+
+    struct JumpHop: Hashable { let from: Int; let to: Int; let ly: Double }
+
+    /// Fewest jumps within the range from one system to another, then the fewest light years (less
+    /// fatigue): Dijkstra over lowsec and nullsec (not Pochven), neighbours found through a grid of
+    /// range-sized cells. Nil when the target can't be jumped to or isn't reachable.
+    static func jumpRoute(_ g: GalaxyData, from: Int, to: Int, rangeLy: Double) -> [JumpHop]? {
+        guard let s = g.index[from], let t = g.index[to], g.jumpable[t], rangeLy > 0 else { return nil }
+        let cell = Float(rangeLy)
+        struct Cell: Hashable { let x: Int, y: Int, z: Int }
+        func cellOf(_ p: SIMD3<Float>) -> Cell { Cell(x: Int((p.x / cell).rounded(.down)), y: Int((p.y / cell).rounded(.down)), z: Int((p.z / cell).rounded(.down))) }
+        var grid: [Cell: [Int]] = [:]
+        for i in 0..<g.count where g.jumpable[i] { grid[cellOf(g.positions[i]), default: []].append(i) }
+        var cost = [Double](repeating: .infinity, count: g.count)
+        var prev = [Int?](repeating: nil, count: g.count)
+        var done = [Bool](repeating: false, count: g.count)
+        var heap = Heap()
+        cost[s] = 0
+        heap.push((0, s))
+        while let (c, i) = heap.pop() {
+            if done[i] { continue }
+            done[i] = true
+            if i == t { break }
+            let p = g.positions[i], k = cellOf(p)
+            for x in (k.x - 1)...(k.x + 1) { for y in (k.y - 1)...(k.y + 1) { for z in (k.z - 1)...(k.z + 1) {
+                for n in grid[Cell(x: x, y: y, z: z)] ?? [] where !done[n] && n != i {
+                    let ly = Double(simd_length(p - g.positions[n]))
+                    guard ly <= rangeLy else { continue }
+                    // 1000 per jump plus light years: fewer jumps first, then less distance.
+                    let nc = c + 1000 + ly
+                    if nc < cost[n] {
+                        cost[n] = nc
+                        prev[n] = i
+                        heap.push((nc, n))
+                    }
+                }
+            } } }
+        }
+        guard prev[t] != nil else { return nil }
+        var path = [t]
+        while path[0] != s, let p = prev[path[0]] { path.insert(p, at: 0) }
+        return zip(path, path.dropFirst()).map { a, b in
+            JumpHop(from: g.ids[a], to: g.ids[b], ly: Double(simd_length(g.positions[a] - g.positions[b])))
+        }
+    }
+
     /// A binary min-heap of (cost, system index).
     private struct Heap {
         private var items: [(Double, Int)] = []

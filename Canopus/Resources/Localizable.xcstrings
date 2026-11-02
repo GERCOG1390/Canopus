@@ -361,6 +361,16 @@
         }
       }
     },
+    "%@ in all": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ всего"
+          }
+        }
+      }
+    },
     "%@ items": {
       "extractionState": "stale",
       "localizations": {
@@ -378,6 +388,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ км"
+          }
+        }
+      }
+    },
+    "%@ ly": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ св. лет"
           }
         }
       }
@@ -626,6 +646,16 @@
         }
       }
     },
+    "%lld h %lld min": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ч %lld мин"
+          }
+        }
+      }
+    },
     "%lld in Queue": {
       "extractionState": "stale",
       "localizations": {
@@ -748,6 +778,16 @@
         }
       }
     },
+    "%lld per light year": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld ед. на св. год"
+          }
+        }
+      }
+    },
     "%lld skills queued": {
       "extractionState": "stale",
       "localizations": {
@@ -801,6 +841,16 @@
       }
     },
     "%lld%%": {},
+    "%lld%% of the distance": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld%% дистанции"
+          }
+        }
+      }
+    },
     "%lldd %lldh": {
       "localizations": {
         "ru": {
@@ -1356,6 +1406,16 @@
         }
       }
     },
+    "All V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все V"
+          }
+        }
+      }
+    },
     "All characters": {
       "localizations": {
         "ru": {
@@ -1571,6 +1631,7 @@
         }
       }
     },
+    "Archon, Revelation, Rhea, Rorqual…": {},
     "Armor": {
       "localizations": {
         "ru": {
@@ -2583,6 +2644,16 @@
         }
       }
     },
+    "Capital jumps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжки капиталов"
+          }
+        }
+      }
+    },
     "Cargo": {
       "localizations": {
         "ru": {
@@ -3380,6 +3451,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Текущая версия"
+          }
+        }
+      }
+    },
+    "Current fatigue, min": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Текущая усталость, мин"
           }
         }
       }
@@ -4275,6 +4356,26 @@
         }
       }
     },
+    "Fatigue counts": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Усталость считается от"
+          }
+        }
+      }
+    },
+    "Fatigue on arrival": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Усталость по прибытии"
+          }
+        }
+      }
+    },
     "Female": {
       "localizations": {
         "ru": {
@@ -4502,6 +4603,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Откуда: %@"
+          }
+        }
+      }
+    },
+    "Fuel": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Топливо"
           }
         }
       }
@@ -5354,6 +5465,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прыжок из %@"
+          }
+        }
+      }
+    },
+    "Jump range": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Дальность прыжка"
+          }
+        }
+      }
+    },
+    "Jumps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прыжков"
           }
         }
       }
@@ -7587,6 +7718,16 @@
         }
       }
     },
+    "No route: the target is in highsec, a wormhole or out of reach (%@ direct, range %@).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маршрута нет: цель в хайсеке, в червоточине или вне досягаемости (%@ напрямую, дальность %@)."
+          }
+        }
+      }
+    },
     "No sales with a known buy price in this period.": {
       "localizations": {
         "ru": {
@@ -8401,6 +8542,16 @@
         }
       }
     },
+    "Pick the ship, where from and where to.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите корабль, откуда и куда прыгать."
+          }
+        }
+      }
+    },
     "Pilot": {
       "localizations": {
         "ru": {
@@ -9194,6 +9345,16 @@
         }
       }
     },
+    "Route: fewest jumps, then the shortest distance (less fatigue), lowsec and null only. Fatigue after a jump is max(10·(1+ly), fatigue·(1+ly)), up to 5 h; the activation timer is max(1+ly, fatigue/10), up to 30 min; fatigue wears off in real time. Each stop needs a cyno.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Маршрут: наименьшее число прыжков, затем наименьшая дистанция (меньше усталости), только лоусек и нули. Усталость после прыжка — max(10·(1+св. лет), усталость·(1+св. лет)), до 5 ч; таймер активации — max(1+св. лет, усталость/10), до 30 мин; усталость тает в реальном времени. Нужен цино в каждой точке."
+          }
+        }
+      }
+    },
     "Routes with danger checks, kills and jumps by system, sovereignty.": {
       "extractionState": "stale",
       "localizations": {
@@ -9934,6 +10095,16 @@
         }
       }
     },
+    "Ship with a jump drive": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корабль с прыжковым двигателем"
+          }
+        }
+      }
+    },
     "Ship, module, skill, implant…": {
       "extractionState": "stale",
       "localizations": {
@@ -10249,6 +10420,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Навыки"
+          }
+        }
+      }
+    },
+    "Skills of %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Навыки %@"
           }
         }
       }
@@ -11102,6 +11283,16 @@
         }
       }
     },
+    "To (lowsec or null)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Куда (лоусек или нули)"
+          }
+        }
+      }
+    },
     "To the mass calculator": {
       "localizations": {
         "ru": {
@@ -11308,6 +11499,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Перевод от игрока"
+          }
+        }
+      }
+    },
+    "Travel time": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Время в пути"
           }
         }
       }
@@ -12093,6 +12294,16 @@
         }
       }
     },
+    "base %@, Jump Drive Calibration %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "база %@, Jump Drive Calibration %lld"
+          }
+        }
+      }
+    },
     "best %@": {
       "localizations": {
         "ru": {
@@ -12171,6 +12382,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "класс %lld"
+          }
+        }
+      }
+    },
+    "combat capital": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "боевой капитал"
           }
         }
       }
@@ -12280,6 +12501,16 @@
         }
       }
     },
+    "fatigue %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "усталость %@"
+          }
+        }
+      }
+    },
     "frigates and destroyers": {
       "localizations": {
         "ru": {
@@ -12296,6 +12527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "с продаж %@ минус налоги и комиссии"
+          }
+        }
+      }
+    },
+    "fuel %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "топливо %@"
           }
         }
       }
@@ -12419,6 +12660,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "в космосе"
+          }
+        }
+      }
+    },
+    "industrial ship": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "промышленный корабль"
           }
         }
       }
@@ -12549,6 +12800,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ракеты %@"
+          }
+        }
+      }
+    },
+    "next jump timer %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "таймер следующего прыжка %@"
           }
         }
       }
@@ -12930,6 +13191,16 @@
         }
       }
     },
+    "start in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "старт через %@"
+          }
+        }
+      }
+    },
     "subsystem": {
       "localizations": {
         "ru": {
@@ -12999,6 +13270,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "дыра схлопнется наверняка"
+          }
+        }
+      }
+    },
+    "timer %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "таймер %@"
           }
         }
       }
@@ -13123,6 +13404,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "залп %@"
+          }
+        }
+      }
+    },
+    "waiting out activation timers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "с ожиданием таймеров активации"
           }
         }
       }
@@ -13296,6 +13587,16 @@
     },
     "−": {
       "shouldTranslate": false
+    },
+    "≈ %@ at Jita": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ по Jita"
+          }
+        }
+      }
     },
     "≈ %@ at Jita · %@ SP": {
       "localizations": {
