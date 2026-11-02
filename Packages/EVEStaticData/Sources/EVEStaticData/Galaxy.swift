@@ -107,4 +107,28 @@ extension SDERepository {
             return out
         }
     }
+
+    /// Systems with where they are: security, constellation and region names.
+    public func systemPlaces(ids: Set<Int>) async throws -> [Int: SystemPlace] {
+        guard !ids.isEmpty else { return [:] }
+        return try await dbReader.read { db in
+            var out: [Int: SystemPlace] = [:]
+            let sql = """
+                SELECT s.id, s.name, s.security, c.name AS constellation, r.name AS region FROM systems s
+                JOIN constellations c ON c.id = s.constellation_id JOIN regions r ON r.id = c.region_id
+                WHERE s.id IN (\(ids.map(String.init).joined(separator: ",")))
+                """
+            for row in try Row.fetchAll(db, sql: sql) {
+                out[row["id"]] = SystemPlace(name: row["name"], security: row["security"], constellation: row["constellation"], region: row["region"])
+            }
+            return out
+        }
+    }
+}
+
+public struct SystemPlace: Sendable, Hashable {
+    public let name: String
+    public let security: Double
+    public let constellation: String
+    public let region: String
 }

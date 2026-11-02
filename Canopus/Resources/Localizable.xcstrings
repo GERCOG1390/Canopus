@@ -452,6 +452,16 @@
         }
       }
     },
+    "%@ pilots · %lld systems": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "пилотов: %1$@ · систем: %2$lld"
+          }
+        }
+      }
+    },
     "%@ s": {
       "localizations": {
         "ru": {
@@ -825,6 +835,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "стеков: %lld"
+          }
+        }
+      }
+    },
+    "%lld systems": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "систем: %lld"
           }
         }
       }
@@ -1456,6 +1476,16 @@
         }
       }
     },
+    "All regions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все регионы"
+          }
+        }
+      }
+    },
     "All skills V": {
       "localizations": {
         "ru": {
@@ -2020,6 +2050,16 @@
         }
       }
     },
+    "Basic": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Базовая"
+          }
+        }
+      }
+    },
     "Battlecruisers": {
       "extractionState": "stale",
       "localizations": {
@@ -2287,6 +2327,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Брокерская комиссия"
+          }
+        }
+      }
+    },
+    "Bronze": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бронзовая"
           }
         }
       }
@@ -2974,6 +3024,16 @@
         }
       }
     },
+    "Closest to flipping": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ближе всего к смене владельца"
+          }
+        }
+      }
+    },
     "Collateral %@": {
       "extractionState": "stale",
       "localizations": {
@@ -3382,6 +3442,16 @@
         }
       }
     },
+    "Cost": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стоимость"
+          }
+        }
+      }
+    },
     "Cost %@": {
       "extractionState": "stale",
       "localizations": {
@@ -3678,6 +3748,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Системы защиты"
+          }
+        }
+      }
+    },
+    "Defense events for sovereignty structures: the attacker needs the score to reach 100% before the defender does.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Защита структур суверенитета: атакующим нужно набрать 100% раньше защитников."
           }
         }
       }
@@ -4127,6 +4207,16 @@
         }
       }
     },
+    "Established": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрепилась"
+          }
+        }
+      }
+    },
     "Every module on the ship": {
       "localizations": {
         "ru": {
@@ -4366,6 +4456,16 @@
         }
       }
     },
+    "Factional warfare": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фракционные войны"
+          }
+        }
+      }
+    },
     "Factions": {
       "localizations": {
         "ru": {
@@ -4596,6 +4696,16 @@
         }
       }
     },
+    "Freeport": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фрипорт"
+          }
+        }
+      }
+    },
     "Freighters": {
       "localizations": {
         "ru": {
@@ -4717,6 +4827,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Цели"
+          }
+        }
+      }
+    },
+    "Gold": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Золотая"
           }
         }
       }
@@ -4936,6 +5056,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Корпус"
+          }
+        }
+      }
+    },
+    "Hull at Jita sell: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпус по продаже в Jita: %@"
           }
         }
       }
@@ -5205,6 +5335,16 @@
         }
       }
     },
+    "Incursions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Инкурсии"
+          }
+        }
+      }
+    },
     "Industry": {
       "localizations": {
         "ru": {
@@ -5247,6 +5387,16 @@
         }
       }
     },
+    "Influence: how strong the incursion's hold is — at 100% the constellation's systems get the full penalties. The staging system is where fleets form up.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Влияние — насколько крепко держится инкурсия: при 100% системы созвездия получают полные штрафы. В стейджинговой системе собираются флоты."
+          }
+        }
+      }
+    },
     "Inheritance": {
       "extractionState": "stale",
       "localizations": {
@@ -5274,6 +5424,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Страховка"
+          }
+        }
+      }
+    },
+    "Insurance pays out when the ship is destroyed; a policy lasts 12 weeks. Loss is what losing the ship costs you with that policy: the hull at Jita sell plus the policy, minus the payout.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Страховка выплачивается при уничтожении корабля, полис действует 12 недель. Убыток — во что обойдётся потеря корабля с этим полисом: корпус по цене продажи в Jita плюс полис минус выплата."
           }
         }
       }
@@ -5646,6 +5806,16 @@
         }
       }
     },
+    "Kills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийства"
+          }
+        }
+      }
+    },
     "Kills in the last hour": {
       "localizations": {
         "ru": {
@@ -5888,6 +6058,16 @@
         }
       }
     },
+    "Last week": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "За неделю"
+          }
+        }
+      }
+    },
     "Latest Version": {
       "extractionState": "stale",
       "localizations": {
@@ -5965,6 +6145,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Письмо"
+          }
+        }
+      }
+    },
+    "Level": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уровень"
           }
         }
       }
@@ -6206,6 +6396,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Лосс"
+          }
+        }
+      }
+    },
+    "Loss if destroyed": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убыток"
           }
         }
       }
@@ -6947,6 +7147,16 @@
         }
       }
     },
+    "Mobilizing": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мобилизация"
+          }
+        }
+      }
+    },
     "Modules": {
       "extractionState": "stale",
       "localizations": {
@@ -6986,6 +7196,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ещё"
+          }
+        }
+      }
+    },
+    "Mothership": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Матка"
           }
         }
       }
@@ -7532,6 +7752,16 @@
         }
       }
     },
+    "No contested systems.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Оспариваемых систем нет."
+          }
+        }
+      }
+    },
     "No contracts": {
       "localizations": {
         "ru": {
@@ -7651,6 +7881,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Импланты не установлены."
+          }
+        }
+      }
+    },
+    "No incursions right now.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сейчас инкурсий нет."
           }
         }
       }
@@ -7824,6 +8064,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "За этот период нет продаж с известной ценой покупки."
+          }
+        }
+      }
+    },
+    "No sovereignty timers.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Таймеров суверенитета нет."
           }
         }
       }
@@ -8532,6 +8782,16 @@
         }
       }
     },
+    "Payout": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выплата"
+          }
+        }
+      }
+    },
     "Penalty:": {
       "localizations": {
         "ru": {
@@ -8691,6 +8951,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выставьте ордера на рынке EVE, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Platinum": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Платиновая"
           }
         }
       }
@@ -10410,6 +10680,16 @@
         }
       }
     },
+    "Silver": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Серебряная"
+          }
+        }
+      }
+    },
     "Singleton": {
       "extractionState": "stale",
       "localizations": {
@@ -10648,12 +10928,23 @@
         }
       }
     },
+    "Sovereignty Hub": {},
     "Sovereignty timer: %@ · %@ EVE": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Таймер суверенитета: %1$@ · %2$@ EVE"
+          }
+        }
+      }
+    },
+    "Sovereignty timers": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Таймеры суверенитета"
           }
         }
       }
@@ -10737,6 +11028,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Стабильность"
+          }
+        }
+      }
+    },
+    "Standard": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Стандартная"
           }
         }
       }
@@ -11319,6 +11620,16 @@
         }
       }
     },
+    "This ship can't be insured.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Этот корабль нельзя застраховать."
+          }
+        }
+      }
+    },
     "Through low/null": {
       "extractionState": "stale",
       "localizations": {
@@ -11726,12 +12037,32 @@
         }
       }
     },
+    "Under way": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Идёт"
+          }
+        }
+      }
+    },
     "Undo jump": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Отменить прыжок"
+          }
+        }
+      }
+    },
+    "Universe": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вселенная"
           }
         }
       }
@@ -11796,6 +12127,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Вариации"
+          }
+        }
+      }
+    },
+    "Victory points": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очки победы"
           }
         }
       }
@@ -12138,6 +12479,16 @@
         }
       }
     },
+    "Withdrawing": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отступает"
+          }
+        }
+      }
+    },
     "Within these limits no other version improves this without noticeable losses elsewhere.": {
       "localizations": {
         "ru": {
@@ -12194,6 +12545,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Да"
+          }
+        }
+      }
+    },
+    "Yesterday": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Вчера"
           }
         }
       }
@@ -12553,6 +12914,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Например, C247 или J100001"
+          }
+        }
+      }
+    },
+    "e.g. Raven, Catalyst, Vexor Navy Issue": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "например, Raven, Catalyst, Vexor Navy Issue"
           }
         }
       }

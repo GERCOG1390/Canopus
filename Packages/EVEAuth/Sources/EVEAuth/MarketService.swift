@@ -39,6 +39,44 @@ public struct ESISovereigntyCampaign: Decodable, Sendable {
     public let solarSystemId: Int
     public let eventType: String
     public let startTime: Date
+    public let constellationId: Int?
+    public let defenderId: Int?
+    public let defenderScore: Double?
+    public let attackersScore: Double?
+}
+
+public struct ESIIncursion: Decodable, Sendable {
+    public let constellationId: Int
+    public let factionId: Int
+    public let hasBoss: Bool
+    public let infestedSolarSystems: [Int]
+    public let influence: Double
+    public let stagingSolarSystemId: Int
+    public let state: String
+}
+
+public struct ESIFactionWarStats: Decodable, Sendable {
+    public struct Counts: Decodable, Sendable { public let yesterday: Int; public let lastWeek: Int; public let total: Int }
+    public let factionId: Int
+    public let kills: Counts
+    public let pilots: Int
+    public let systemsControlled: Int
+    public let victoryPoints: Counts
+}
+
+public struct ESIFactionWarSystem: Decodable, Sendable {
+    public let solarSystemId: Int
+    public let contested: String
+    public let occupierFactionId: Int
+    public let ownerFactionId: Int
+    public let victoryPoints: Int
+    public let victoryPointsThreshold: Int
+}
+
+public struct ESIInsurancePrice: Decodable, Sendable {
+    public struct Level: Decodable, Sendable { public let name: String; public let cost: Double; public let payout: Double }
+    public let typeId: Int
+    public let levels: [Level]
 }
 
 /// Route preference, as the game's autopilot.
@@ -166,6 +204,26 @@ public final class MarketService {
     /// Sovereignty timers (ihub / TCU defense events).
     public func sovereigntyCampaigns() async throws -> [ESISovereigntyCampaign] {
         try await getNew("/sovereignty/campaigns", as: [ESISovereigntyCampaign].self)
+    }
+
+    /// Incursions under way: the constellation, the staging system, Sansha's influence.
+    public func incursions() async throws -> [ESIIncursion] {
+        try await get(path: "/incursions/", as: [ESIIncursion].self)
+    }
+
+    /// Factional warfare totals per faction (pilots, systems, kills and victory points).
+    public func factionWarStats() async throws -> [ESIFactionWarStats] {
+        try await get(path: "/fw/stats/", as: [ESIFactionWarStats].self)
+    }
+
+    /// Every factional warfare system: who holds it and how close it is to flipping.
+    public func factionWarSystems() async throws -> [ESIFactionWarSystem] {
+        try await get(path: "/fw/systems/", as: [ESIFactionWarSystem].self)
+    }
+
+    /// Ship insurance: cost and payout of each level, per hull.
+    public func insurancePrices() async throws -> [ESIInsurancePrice] {
+        try await get(path: "/insurance/prices/", as: [ESIInsurancePrice].self)
     }
 
     /// Names of any EVE ids (alliances, systems, characters…), 1000 per request; unknown ids are skipped.
