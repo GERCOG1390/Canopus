@@ -152,9 +152,13 @@ Next, in this order:
    done 2026-11-02 (UniversePage).
 2a. ~~Planetary industry (Tritanium gap list, 2026-11-02)~~ — done: colonies with extractor notifications,
    PI calculator, colony finder; sde-import 6 (planet_schematics, system_planets).
-   Next from the Tritanium gap list: corporation (wallets, members, structures, moon mining), character
-   net worth + industry-done notifications, then entity search, agents, mutaplasmid calculator, fitting
-   implant presets / boosters.
+   Done 2026-11-02 too: corporation structures + moon mining (Industry tabs), timer notifications
+   (jobs, PI, structure fuel / reinforce, moon chunks — scheduled on every app open), character net worth,
+   People & corporations (ESI search + cards), fit's own implants and boosters.
+   Next: agents browser and mutaplasmid calculator (both need sde-import 7: agents / npc characters,
+   dynamic item attributes). Corporation wallets and members need new SSO scopes first
+   (esi-wallet.read_corporation_wallets.v1, esi-corporations.read_corporation_membership.v1) — the user
+   enables them on developers.eveonline.com before they go into EVEConstants.scopes.
 3. Activities (desktop ActivitiesPage: campaigns, freelance, sigs, ratting, mining, abyss) — mining
    ledger moves there from Economy.
 4. Compare the remaining character tabs with the desktop: Skills, Implants & clones, Ship & fits.
