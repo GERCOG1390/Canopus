@@ -46,6 +46,9 @@ struct SDEImporter {
         print("→ Importing the map…")
         print("  \(try await importMap())")
 
+        print("→ Importing planetary industry…")
+        print("  \(try await importPlanetary())")
+
         print("→ Building FTS index…")
         try await buildFTS()
         print("  done")
@@ -413,6 +416,48 @@ struct SDEImporter {
             }
         }
         return "\(regions.count) regions, \(constellations.count) constellations, \(systems.count) systems, \(gates.count) stargates"
+    }
+
+    /// Schematics (small: decoded) and planets per system. mapPlanets.yaml is ~50 MB of orbits and
+    /// statistics, so it is read line by line: each top-level planet entry carries `solarSystemID` and
+    /// `typeID` at two spaces of indent.
+    private func importPlanetary() async throws -> String {
+        guard let schematicsURL = findFile("planetSchematics.yaml") else { return "⚠️  planetSchematics.yaml not found" }
+        let schematics = try parseYAMLMap(schematicsURL, as: SDEPlanetSchematic.self)
+        var perSystem: [Int: [Int: Int]] = [:]
+        var planets = 0
+        if let planetsURL = findFile("mapPlanets.yaml") {
+            var system: Int?
+            var type: Int?
+            func flush() {
+                if let system, let type { perSystem[system, default: [:]][type, default: 0] += 1; planets += 1 }
+                system = nil
+                type = nil
+            }
+            let content = try String(contentsOf: planetsURL, encoding: .utf8)
+            for line in content.split(whereSeparator: \.isNewline) {
+                if let first = line.first, first != " " { flush(); continue }
+                if line.hasPrefix("  solarSystemID: ") { system = Int(line.dropFirst(17).trimmingCharacters(in: .whitespaces)) }
+                else if line.hasPrefix("  typeID: ") { type = Int(line.dropFirst(10).trimmingCharacters(in: .whitespaces)) }
+            }
+            flush()
+        }
+        let rows = perSystem.flatMap { system, types in types.map { (system, $0.key, $0.value) } }
+        try await db.write { database in
+            for (id, s) in schematics {
+                try database.execute(sql: "INSERT OR REPLACE INTO planet_schematics (id, name, cycle_time) VALUES (?, ?, ?)",
+                                     arguments: [id, s.name?.english ?? "", s.cycleTime ?? 0])
+                for (typeKey, t) in s.types ?? [:] {
+                    guard let typeId = Int(typeKey) else { continue }
+                    try database.execute(sql: "INSERT INTO planet_schematic_types (schematic_id, type_id, quantity, is_input) VALUES (?, ?, ?, ?)",
+                                         arguments: [id, typeId, t.quantity, t.isInput ? 1 : 0])
+                }
+            }
+            for (systemId, typeId, count) in rows {
+                try database.execute(sql: "INSERT INTO system_planets (system_id, type_id, count) VALUES (?, ?, ?)", arguments: [systemId, typeId, count])
+            }
+        }
+        return "\(schematics.count) schematics, \(planets) planets in \(perSystem.count) systems"
     }
 
     private func buildFTS() async throws {

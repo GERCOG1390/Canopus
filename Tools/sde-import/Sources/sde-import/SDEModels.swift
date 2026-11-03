@@ -248,3 +248,10 @@ struct SDEAttributeCategory: Decodable {
     let name: String?
 }
 
+
+struct SDEPlanetSchematic: Decodable {
+    struct TypeEntry: Decodable { let isInput: Bool; let quantity: Int }
+    let name: LocalizedString?
+    let cycleTime: Int?
+    let types: [String: TypeEntry]?
+}

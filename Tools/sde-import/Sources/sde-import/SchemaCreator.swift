@@ -268,6 +268,16 @@ enum SchemaCreator {
             CREATE INDEX idx_certificate_skills ON certificate_skills(certificate_id);
             CREATE TABLE masteries (type_id INTEGER NOT NULL, level INTEGER NOT NULL, certificate_id INTEGER NOT NULL);
             CREATE INDEX idx_masteries ON masteries(type_id);
+
+            -- Planetary industry (importer 6): schematics with their inputs / output, and how many planets of
+            -- each type every solar system has (for "where can I put this colony").
+            CREATE TABLE planet_schematics (id INTEGER PRIMARY KEY, name TEXT NOT NULL, cycle_time INTEGER NOT NULL);
+            CREATE TABLE planet_schematic_types (
+                schematic_id INTEGER NOT NULL, type_id INTEGER NOT NULL, quantity INTEGER NOT NULL, is_input INTEGER NOT NULL
+            );
+            CREATE INDEX idx_planet_schematic_types ON planet_schematic_types(schematic_id);
+            CREATE TABLE system_planets (system_id INTEGER NOT NULL, type_id INTEGER NOT NULL, count INTEGER NOT NULL);
+            CREATE INDEX idx_system_planets ON system_planets(system_id);
             CREATE INDEX idx_skill_requirements_skill ON skill_requirements(skill_id);
             """)
     }
