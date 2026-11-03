@@ -49,6 +49,23 @@ struct FitDetailView: View {
         return .modules
     }()
     @State var characterSkills: [Int: Int] = [:]
+    /// Trial skill levels (the desktop's TrialSkills): set on top of the character's skills or of all V.
+    @State var trialLevels: [Int: Int] = {
+        #if DEBUG
+        // Debug builds: `-fitTrial 3337:2,3319:5` starts with trial levels (screenshots).
+        let pairs = (UserDefaults.standard.string(forKey: "fitTrial") ?? "").split(separator: ",").compactMap { p -> (Int, Int)? in
+            let kv = p.split(separator: ":").compactMap { Int($0) }
+            return kv.count == 2 ? (kv[0], kv[1]) : nil
+        }
+        return Dictionary(pairs, uniquingKeysWith: { a, _ in a })
+        #else
+        return [:]
+        #endif
+    }()
+    /// The stats with the real skills while trial levels are set, for the differences.
+    @State var realFitStats: JSFitStats?
+    /// Skills worth trying: the fit's requirements and the skills that change its modules.
+    @State var trialCandidates: [Int: (name: String, required: Int?)] = [:]
     @State var implantIds: [Int] = []
     /// The pilot changed the fit's implants (kept in the draft); otherwise they follow the character.
     @State var implantsCustom = false
@@ -500,7 +517,9 @@ struct SubsystemSlotDefinition: Identifiable {
                     Button {
                         Task {
                             // EFT is read by the game and other tools: English names whatever the app shows.
-                            let ids = Set([fit.shipTypeId] + currentItems.map(\.typeId) + configs.values.compactMap(\.chargeTypeId))
+                            var ids: Set<Int> = [fit.shipTypeId]
+                            ids.formUnion(currentItems.map(\.typeId))
+                            ids.formUnion(configs.values.compactMap(\.chargeTypeId))
                             let english = (try? await env.repository?.englishNames(ids: ids)) ?? [:]
                             exportSheet = FittingTextSheet(title: "EXPORT FIT", text: exportEFT(english: english))
                         }
@@ -618,20 +637,7 @@ struct SubsystemSlotDefinition: Identifiable {
         }
         .onChange(of: draftSnapshot) { _, _ in saveDraft() }
         .onChange(of: droneActive) { _, _ in saveDraft() }
-        .onChange(of: implantIds) { _, _ in
-            saveDraft()
-            if skillsReady { scheduleFitRefresh(debounceNanoseconds: 0) }
-        }
-        .sheet(isPresented: $showImplantPicker) {
-            ImplantPickerSheet(catalog: implantCatalog, current: implantIds) { entry in
-                localTypeNames[entry.id] = entry.name
-                implantsCustom = true
-                implantIds = implantIds.filter { id in
-                    guard let e = implantCatalog[id] else { return true }
-                    return e.slot != entry.slot || e.isBooster != entry.isBooster
-                } + [entry.id]
-            }
-        }
+        .modifier(FitEditObservers(view: self))
         .onAppear { if let listId { FitDraftStore.shared.setOpen(listId) } }
         .onDisappear {
             recalcTask?.cancel()
@@ -693,17 +699,36 @@ struct SubsystemSlotDefinition: Identifiable {
         .background(C.panel)
     }
 
+    // MARK: - Skill source
+
+    /// The skills the stats use: the character's (or all V), with the trial levels on top.
+    var skillSource: JSSkills {
+        if characterSkills.isEmpty { return trialLevels.isEmpty ? .all5 : .all5Trial(trialLevels) }
+        return .character(characterSkills.merging(trialLevels) { _, trial in trial })
+    }
+
+    var realSkillSource: JSSkills { characterSkills.isEmpty ? .all5 : .character(characterSkills) }
+
     // MARK: - Metrics (the desktop's FitMetrics: the numbers a pilot checks first)
 
     func metricsStrip(_ s: JSFitStats) -> some View {
         HStack(spacing: 6) {
-            metric("DPS", Text(verbatim: s.offense.totalDps.formatted(.number.precision(.fractionLength(0...1)))), color: C.accentText)
-            metric("EHP", Text(verbatim: s.defense.ehp.formatted(.number.precision(.fractionLength(0)))), color: C.text)
+            metric("DPS", withDelta(s.offense.totalDps.formatted(.number.precision(.fractionLength(0...1))), s.offense.totalDps, realFitStats?.offense.totalDps), color: C.accentText)
+            metric("EHP", withDelta(s.defense.ehp.formatted(.number.precision(.fractionLength(0))), s.defense.ehp, realFitStats?.defense.ehp), color: C.text)
             resource("CPU", s.ship.cpu)
             resource("PG", s.ship.power)
         }
         .padding(.horizontal, 12).padding(.vertical, 8)
         .background(C.nav)
+    }
+
+    /// The value, and the change from the real skills while trial levels are set: "745.5  +12.4".
+    func withDelta(_ shown: String, _ value: Double, _ real: Double?) -> Text {
+        guard let real, abs(value - real) >= 0.05 else { return Text(verbatim: shown) }
+        let d = value - real
+        let change = Text(verbatim: "  " + (d > 0 ? "+" : "−") + abs(d).formatted(.number.precision(.fractionLength(0...1))))
+            .font(.mono(11, medium: true)).foregroundColor(d > 0 ? C.good : C.bad)
+        return Text("\(Text(verbatim: shown))\(change)")
     }
 
     func metric(_ label: LocalizedStringKey, _ value: Text, color: Color) -> some View {
@@ -992,10 +1017,11 @@ struct SubsystemSlotDefinition: Identifiable {
             drones: drones,
             implants: implantIds
         )
-        let skills: JSSkills = characterSkills.isEmpty ? .all5 : .character(characterSkills)
+        let skills = skillSource
         guard let dogma = env.dogma else { return }
         do {
             let js = try await dogma.calculate(spec, skills: skills)
+            realFitStats = trialLevels.isEmpty ? nil : try? await dogma.calculate(spec, skills: realSkillSource)
             guard !Task.isCancelled else { return }
             stats = ShipStats(js: js, flags: flags)
             fitStats = js
@@ -1014,5 +1040,30 @@ struct SubsystemSlotDefinition: Identifiable {
         } catch {
             if !error.isCancellation { fittingWarning = error.localizedDescription }
         }
+    }
+}
+
+/// Trial levels and the fit's implants: recalculated and kept in the draft when they change (split out of
+/// the screen's body, which is too large for the type checker as one expression).
+struct FitEditObservers: ViewModifier {
+    let view: FitDetailView
+
+    func body(content: Content) -> some View {
+        content
+            .onChange(of: view.trialLevels) { _, _ in if view.skillsReady { view.scheduleFitRefresh(debounceNanoseconds: 0) } }
+            .onChange(of: view.implantIds) { _, _ in
+                view.saveDraft()
+                if view.skillsReady { view.scheduleFitRefresh(debounceNanoseconds: 0) }
+            }
+            .sheet(isPresented: view.$showImplantPicker) {
+                ImplantPickerSheet(catalog: view.implantCatalog, current: view.implantIds) { entry in
+                    view.localTypeNames[entry.id] = entry.name
+                    view.implantsCustom = true
+                    view.implantIds = view.implantIds.filter { id in
+                        guard let e = view.implantCatalog[id] else { return true }
+                        return e.slot != entry.slot || e.isBooster != entry.isBooster
+                    } + [entry.id]
+                }
+            }
     }
 }

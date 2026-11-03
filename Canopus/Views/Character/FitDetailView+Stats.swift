@@ -19,6 +19,8 @@ extension FitDetailView {
                     if let fittingWarning {
                         warningBand(fittingWarning)
                     }
+                    TrialSkillsCard(candidates: trialCandidates, real: characterSkills, trial: $trialLevels,
+                                    service: characterService)
                     FitStatsPanel(
                         stats: s,
                         typeName: { id in chargeNames[id] ?? typeName(id, fallback: "#\(id)") },
@@ -155,7 +157,7 @@ extension FitDetailView {
             if let spec = fitSpec {
                 FitToolsView(context: FitToolContext(
                     spec: spec,
-                    skills: characterSkills.isEmpty ? .all5 : .character(characterSkills),
+                    skills: skillSource,
                     levels: characterSkills.isEmpty ? nil : characterSkills,
                     typeName: { id in chargeNames[id] ?? typeName(id, fallback: "#\(id)") },
                     apply: applySwaps,

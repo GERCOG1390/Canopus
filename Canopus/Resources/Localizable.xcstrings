@@ -898,6 +898,16 @@
         }
       }
     },
+    "%lld skills": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "навыков: %lld"
+          }
+        }
+      }
+    },
     "%lld skills queued": {
       "extractionState": "stale",
       "localizations": {
@@ -915,6 +925,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "навыков: %lld · %@ SP"
+          }
+        }
+      }
+    },
+    "%lld skills · train ≈ %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "навыков: %1$lld · изучить ≈ %2$@"
           }
         }
       }
@@ -1053,6 +1073,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "+ Добавить фит для сравнения"
+          }
+        }
+      }
+    },
+    "+ another skill…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ другой навык…"
           }
         }
       }
@@ -5065,6 +5095,16 @@
         }
       }
     },
+    "Fitting with every skill at V: lower some skills here to see what changes.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расчёт со всеми навыками V: здесь можно понизить отдельные навыки и увидеть, что изменится."
+          }
+        }
+      }
+    },
     "Fittings": {
       "extractionState": "stale",
       "localizations": {
@@ -6697,6 +6737,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Уровни"
+          }
+        }
+      }
+    },
+    "Levels on top of the character's skills: set a skill you don't have yet to I–V and see the stats. Hull bonuses come from the skills the ship requires.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уровни поверх навыков персонажа: поставьте навык, которого у вас ещё нет, на I–V и посмотрите характеристики. Бонусы корпуса дают навыки, требуемые кораблём."
           }
         }
       }
@@ -10352,6 +10402,16 @@
         }
       }
     },
+    "Required at V": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Требуемые на V"
+          }
+        }
+      }
+    },
     "Requirements": {
       "extractionState": "stale",
       "localizations": {
@@ -10370,6 +10430,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Требует %@"
+          }
+        }
+      }
+    },
+    "Reset": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сбросить"
           }
         }
       }
@@ -12946,6 +13016,16 @@
         }
       }
     },
+    "Trial skill levels": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пробные уровни навыков"
+          }
+        }
+      }
+    },
     "Triglavians": {
       "extractionState": "stale",
       "localizations": {
@@ -13857,6 +13937,16 @@
         }
       }
     },
+    "below yours": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ниже вашего"
+          }
+        }
+      }
+    },
     "best %@": {
       "localizations": {
         "ru": {
@@ -14447,6 +14537,16 @@
         }
       }
     },
+    "needs %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нужен %@"
+          }
+        }
+      }
+    },
     "next jump timer %@": {
       "localizations": {
         "ru": {
@@ -14989,6 +15089,16 @@
         }
       }
     },
+    "train %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "учить %@"
+          }
+        }
+      }
+    },
     "turrets %@": {
       "localizations": {
         "ru": {
@@ -15288,6 +15398,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "— выберите корпорацию —"
+          }
+        }
+      }
+    },
+    "— see the fit with other levels": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— посмотреть фит с другими уровнями"
           }
         }
       }

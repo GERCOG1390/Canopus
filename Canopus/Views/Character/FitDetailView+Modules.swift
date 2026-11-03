@@ -491,6 +491,9 @@ extension FitDetailView {
         let allSkillIds = Set(requirements.keys).union(influenceBySkill.keys)
         let skillTypes = (try? await repo.types(ids: allSkillIds)) ?? [:]
 
+        trialCandidates = Dictionary(uniqueKeysWithValues: allSkillIds.map { id in
+            (id, (name: skillTypes[id]?.name ?? influenceBySkill[id]?.skill.name ?? "#\(id)", required: requirements[id]?.level))
+        })
         var recommendations: [FitSkillRecommendation] = []
         for skillId in allSkillIds {
             let currentLevel = characterSkills[skillId] ?? 0

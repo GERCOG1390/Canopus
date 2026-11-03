@@ -76,6 +76,8 @@ public struct JSFitSpec: Codable, Sendable {
 public enum JSSkills: Sendable {
     case all5
     case character([Int: Int])
+    /// Every skill at V except the trial levels given (the fitting's trial skills).
+    case all5Trial([Int: Int])
 
     /// The engine's SkillSource as JSON (levels sorted, so equal skills give equal text).
     public var json: String {
@@ -85,6 +87,9 @@ public enum JSSkills: Sendable {
         case .character(let levels):
             let pairs = levels.sorted { $0.key < $1.key }.map { "\"\($0.key)\":\($0.value)" }.joined(separator: ",")
             return #"{"mode":"char","levels":{"# + pairs + "}}"
+        case .all5Trial(let overrides):
+            let pairs = overrides.sorted { $0.key < $1.key }.map { "\"\($0.key)\":\($0.value)" }.joined(separator: ",")
+            return #"{"mode":"all5","overrides":{"# + pairs + "}}"
         }
     }
 }
