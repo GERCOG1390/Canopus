@@ -8,13 +8,15 @@ import EVEAuth
 import EVEStaticData
 
 enum IndustryPageTab: String, CaseIterable {
-    case calc, reprocess, jobs
+    case calc, reprocess, jobs, structures, moons
 
     var label: String {
         switch self {
         case .calc: "Manufacturing calculator"
         case .reprocess: "Reprocessing"
         case .jobs: "My jobs"
+        case .structures: "Structures"
+        case .moons: "Moons"
         }
     }
 }
@@ -39,6 +41,8 @@ struct IndustryPage: View {
             case .calc: ScrollView { ManufacturingCalculator().padding(16) }
             case .reprocess: ScrollView { ReprocessingCalc().padding(16) }
             case .jobs: ScrollView { IndustryJobs().padding(16) }
+            case .structures: ScrollView { CorpStructuresView().padding(16) }
+            case .moons: ScrollView { MoonMiningView().padding(16) }
             }
         }
         .background(C.bg)

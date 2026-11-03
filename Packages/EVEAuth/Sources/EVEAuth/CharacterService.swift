@@ -156,6 +156,33 @@ public final class CharacterService {
         }
     }
 
+    // MARK: - Corporation (roles: Station Manager for structures and extractions, Accountant for ledgers)
+
+    public func corporationStructures(corpId: Int) async throws -> [ESICorpStructure] {
+        try await cached("corpStructures.\(corpId)", ttl: 300) { [self] in
+            try await esiGetPaginated("/corporations/\(corpId)/structures/", as: ESICorpStructure.self)
+        }
+    }
+
+    public func moonExtractions(corpId: Int) async throws -> [ESIMoonExtraction] {
+        try await cached("moonExtractions.\(corpId)", ttl: 300) { [self] in
+            try await esiGetPaginated("/corporation/\(corpId)/mining/extractions/", as: ESIMoonExtraction.self)
+        }
+    }
+
+    public func miningObservers(corpId: Int) async throws -> [ESIMiningObserver] {
+        try await cached("miningObservers.\(corpId)", ttl: 600) { [self] in
+            try await esiGetPaginated("/corporation/\(corpId)/mining/observers/", as: ESIMiningObserver.self)
+        }
+    }
+
+    /// Who mined what at one moon drill in the last 30 days.
+    public func observerLedger(corpId: Int, observerId: Int) async throws -> [ESIObserverEntry] {
+        try await cached("observerLedger.\(observerId)", ttl: 600) { [self] in
+            try await esiGetPaginated("/corporation/\(corpId)/mining/observers/\(observerId)/", as: ESIObserverEntry.self)
+        }
+    }
+
     public func marketOrders() async throws -> [ESIMarketOrder] {
         try await cached("marketOrders", ttl: 120) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/orders/", as: [ESIMarketOrder].self)

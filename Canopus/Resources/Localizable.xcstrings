@@ -1577,6 +1577,16 @@
         }
       }
     },
+    "Anchoring": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Установка"
+          }
+        }
+      }
+    },
     "Angel Cartel": {
       "extractionState": "stale",
       "localizations": {
@@ -1708,6 +1718,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ремонт брони"
+          }
+        }
+      }
+    },
+    "Armor vulnerable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Броня уязвима"
           }
         }
       }
@@ -2443,6 +2463,26 @@
         }
       }
     },
+    "By ore": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По руде"
+          }
+        }
+      }
+    },
+    "By pilot": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "По пилотам"
+          }
+        }
+      }
+    },
     "CAPSULEER": {
       "extractionState": "stale",
       "localizations": {
@@ -2947,6 +2987,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Проверяю…"
+          }
+        }
+      }
+    },
+    "Chunk ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Чанк готов"
           }
         }
       }
@@ -3481,6 +3531,16 @@
         }
       }
     },
+    "Corporation structures: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Структуры корпорации: %lld"
+          }
+        }
+      }
+    },
     "Corporations with LP": {
       "extractionState": "stale",
       "localizations": {
@@ -3873,6 +3933,16 @@
         }
       }
     },
+    "Deploying": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Развёртывание"
+          }
+        }
+      }
+    },
     "Description": {
       "extractionState": "stale",
       "localizations": {
@@ -4016,6 +4086,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ИСТОРИЯ КОРПОРАЦИЙ · %lld"
+          }
+        }
+      }
+    },
+    "ESI refused: the character needs the %@ role in the corporation.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ESI отказал: у персонажа нет роли %@ в корпорации."
           }
         }
       }
@@ -5200,6 +5280,16 @@
         }
       }
     },
+    "Hull vulnerable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпус уязвим"
+          }
+        }
+      }
+    },
     "IDENTITY": {
       "extractionState": "stale",
       "localizations": {
@@ -5614,6 +5704,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Изобретение"
+          }
+        }
+      }
+    },
+    "Invulnerable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Неуязвима"
           }
         }
       }
@@ -7318,6 +7418,36 @@
         }
       }
     },
+    "Moon extractions": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лунные экстракции"
+          }
+        }
+      }
+    },
+    "Moon ore, 30 days (Jita buy)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добыто с лун за 30 дней (Jita buy)"
+          }
+        }
+      }
+    },
+    "Moons": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Луны"
+          }
+        }
+      }
+    },
     "Mordu's Legion": {
       "extractionState": "stale",
       "localizations": {
@@ -7786,6 +7916,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет доступа к этим данным."
+          }
+        }
+      }
+    },
+    "No active extractions.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активных экстракций нет."
           }
         }
       }
@@ -8625,6 +8765,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Онлайн"
+          }
+        }
+      }
+    },
+    "Onlining": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Включение"
           }
         }
       }
@@ -9703,6 +9853,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Регион %lld"
+          }
+        }
+      }
+    },
+    "Reinforced (armor)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Реинфорс (броня)"
+          }
+        }
+      }
+    },
+    "Reinforced (hull)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Реинфорс (корпус)"
           }
         }
       }
@@ -10961,6 +11131,26 @@
         }
       }
     },
+    "Sign in with a character to see the corporation's moon mining.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем, чтобы увидеть лунную добычу корпорации."
+          }
+        }
+      }
+    },
+    "Sign in with a character to see the corporation's structures.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем, чтобы увидеть структуры корпорации."
+          }
+        }
+      }
+    },
     "Sign in with a character to see the jobs.": {
       "localizations": {
         "ru": {
@@ -11518,6 +11708,16 @@
         }
       }
     },
+    "Structures": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Структуры"
+          }
+        }
+      }
+    },
     "Subsystems": {
       "localizations": {
         "ru": {
@@ -11775,6 +11975,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В базе SDE пока нет схем планетарки: фабрики не учтены. Обновите базу в «Настройках»."
+          }
+        }
+      }
+    },
+    "The corporation has no structures.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "У корпорации нет структур."
           }
         }
       }
@@ -12414,6 +12624,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нераспределено: %@"
+          }
+        }
+      }
+    },
+    "Unanchored": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Снята с якоря"
           }
         }
       }
@@ -13463,6 +13683,16 @@
         }
       }
     },
+    "fractured": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "уже взорван"
+          }
+        }
+      }
+    },
     "frigates and destroyers": {
       "localizations": {
         "ru": {
@@ -13816,6 +14046,16 @@
         }
       }
     },
+    "no fuel": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "без топлива"
+          }
+        }
+      }
+    },
     "no implants": {
       "localizations": {
         "ru": {
@@ -14132,6 +14372,16 @@
         }
       }
     },
+    "self-fractures in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "взорвётся сам через %@"
+          }
+        }
+      }
+    },
     "shield": {
       "extractionState": "stale",
       "localizations": {
@@ -14262,6 +14512,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "таймер %@"
+          }
+        }
+      }
+    },
+    "timer in %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "таймер через %@"
           }
         }
       }

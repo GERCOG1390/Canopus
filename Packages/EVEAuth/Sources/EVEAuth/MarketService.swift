@@ -232,6 +232,12 @@ public final class MarketService {
         return try await get(path: "/universe/planets/\(id)/", as: Planet.self).name
     }
 
+    /// A moon's name ("Perimeter IV - Moon 1").
+    public func moonName(_ id: Int) async throws -> String {
+        struct Moon: Decodable { let name: String }
+        return try await get(path: "/universe/moons/\(id)/", as: Moon.self).name
+    }
+
     /// Names of any EVE ids (alliances, systems, characters…), 1000 per request; unknown ids are skipped.
     public func names(ids: [Int]) async throws -> [Int: String] {
         var out: [Int: String] = [:]

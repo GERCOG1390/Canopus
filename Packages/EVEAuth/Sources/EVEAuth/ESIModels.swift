@@ -628,3 +628,41 @@ public struct ESIPlanetLayout: Codable, Sendable {
     }
     public let pins: [Pin]
 }
+
+// MARK: - Corporation structures and moon mining
+
+public struct ESICorpStructure: Codable, Sendable, Identifiable {
+    public struct Service: Codable, Sendable { public let name: String; public let state: String }
+    public var id: Int { structureId }
+    public let structureId: Int
+    public let name: String?
+    public let typeId: Int
+    public let systemId: Int
+    public let state: String
+    public let stateTimerEnd: Date?
+    public let fuelExpires: Date?
+    public let services: [Service]?
+}
+
+public struct ESIMoonExtraction: Codable, Sendable {
+    public let structureId: Int
+    public let moonId: Int
+    public let extractionStartTime: Date
+    public let chunkArrivalTime: Date
+    public let naturalDecayTime: Date
+}
+
+public struct ESIMiningObserver: Codable, Sendable {
+    public let observerId: Int
+    public let observerType: String?
+    /// "2026-10-30" (a date without time)
+    public let lastUpdated: String?
+}
+
+public struct ESIObserverEntry: Codable, Sendable {
+    public let characterId: Int
+    public let typeId: Int
+    public let quantity: Int
+    /// "2026-10-30" (a date without time)
+    public let lastUpdated: String?
+}
