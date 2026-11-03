@@ -151,6 +151,16 @@ struct RootShell: View {
             #if DEBUG
             // Debug builds: `-startPage skills` opens a page at launch (screenshots, UI checks).
             if let p = UserDefaults.standard.string(forKey: "startPage").flatMap(Page.init(rawValue:)) { open(p) }
+            // `-demoTour "character,fitting,market"` walks through pages, 4 s each (App Store previews).
+            if let tour = UserDefaults.standard.string(forKey: "demoTour") {
+                let seconds = UserDefaults.standard.double(forKey: "demoStep") > 0 ? UserDefaults.standard.double(forKey: "demoStep") : 4
+                // `-demoFirst 9`: the first page stays longer while its data loads (the video starts later).
+                let first = UserDefaults.standard.double(forKey: "demoFirst")
+                for (i, p) in tour.split(separator: ",").compactMap({ Page(rawValue: String($0)) }).enumerated() {
+                    open(p)
+                    try? await Task.sleep(for: .seconds(i == 0 && first > 0 ? first : seconds))
+                }
+            }
             #endif
         }
         // Timers the game would announce (jobs, extractors, structures): scheduled as local notifications.
