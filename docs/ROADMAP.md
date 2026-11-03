@@ -155,8 +155,9 @@ Next, in this order:
    Done 2026-11-02 too: corporation structures + moon mining (Industry tabs), timer notifications
    (jobs, PI, structure fuel / reinforce, moon chunks — scheduled on every app open), character net worth,
    People & corporations (ESI search + cards), fit's own implants and boosters.
-   Next: agents browser and mutaplasmid calculator (both need sde-import 7: agents / npc characters,
-   dynamic item attributes). Corporation wallets and members need new SSO scopes first
+   Also done: trial skill levels in the fitting, Support Canopus card, agents page and mutaplasmid
+   calculator (sde-import 7, which also refilled the empty stations table).
+   Next: TestFlight prep (real-device pass, App Store screenshots, description, privacy policy). Corporation wallets and members need new SSO scopes first
    (esi-wallet.read_corporation_wallets.v1, esi-corporations.read_corporation_membership.v1) — the user
    enables them on developers.eveonline.com before they go into EVEConstants.scopes.
 3. Activities (desktop ActivitiesPage: campaigns, freelance, sigs, ratting, mining, abyss) — mining
