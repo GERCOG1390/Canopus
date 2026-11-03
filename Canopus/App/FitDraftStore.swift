@@ -23,7 +23,7 @@ struct FitDraft: Codable, Equatable {
     var implants: [Int]? = nil
 
     var fitting: ESIFitting {
-        ESIFitting(fittingId: fittingId, name: name, description: description, shipTypeId: shipTypeId,
+        ESIFitting(fittingId: fittingId, name: name.htmlEntitiesDecoded, description: description, shipTypeId: shipTypeId,
                    items: items.map { ESIFittingItem(typeId: $0.typeId, flag: $0.flag, quantity: $0.quantity) })
     }
 

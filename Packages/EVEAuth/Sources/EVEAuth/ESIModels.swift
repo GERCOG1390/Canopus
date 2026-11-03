@@ -386,6 +386,28 @@ public struct ESIFitting: Decodable, Sendable, Identifiable {
         self.shipTypeId = shipTypeId
         self.items = items
     }
+
+    private enum CodingKeys: String, CodingKey { case fittingId, name, description, shipTypeId, items }
+
+    /// ESI gives names and descriptions HTML-escaped as the game stores them ("Cerberus*&lt;/lo").
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        fittingId = try c.decode(Int.self, forKey: .fittingId)
+        name = try c.decode(String.self, forKey: .name).htmlEntitiesDecoded
+        description = try c.decode(String.self, forKey: .description).htmlEntitiesDecoded
+        shipTypeId = try c.decode(Int.self, forKey: .shipTypeId)
+        items = try c.decode([ESIFittingItem].self, forKey: .items)
+    }
+}
+
+extension String {
+    /// The few entities the game writes into names: &lt; &gt; &quot; &#39; &amp; (last, so "&amp;lt;" stays "&lt;").
+    public var htmlEntitiesDecoded: String {
+        guard contains("&") else { return self }
+        return replacingOccurrences(of: "&lt;", with: "<").replacingOccurrences(of: "&gt;", with: ">")
+            .replacingOccurrences(of: "&quot;", with: "\"").replacingOccurrences(of: "&#39;", with: "'")
+            .replacingOccurrences(of: "&amp;", with: "&")
+    }
 }
 
 public struct ESIFittingItem: Decodable, Sendable, Identifiable {
