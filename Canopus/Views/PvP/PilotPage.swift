@@ -74,7 +74,7 @@ struct PilotBoard: View {
     }
 }
 
-private struct PilotBoardContent: View {
+struct PilotBoardContent: View {
     let pilotId: Int
     let name: String
     @Environment(AppEnvironment.self) private var env

@@ -48,6 +48,13 @@ public struct ESICorporationInfo: Decodable, Sendable {
     public let ticker: String
     public let allianceId: Int?
     public let memberCount: Int?
+    public let ceoId: Int?
+    public let creatorId: Int?
+    public let dateFounded: Date?
+    public let description: String?
+    public let taxRate: Double?
+    public let factionId: Int?
+    public let url: String?
 }
 
 // MARK: - Alliance
@@ -55,6 +62,17 @@ public struct ESICorporationInfo: Decodable, Sendable {
 public struct ESIAllianceInfo: Decodable, Sendable {
     public let name: String
     public let ticker: String
+    public let dateFounded: Date?
+    public let executorCorporationId: Int?
+    public let creatorId: Int?
+    public let factionId: Int?
+}
+
+/// /characters/{id}/search/: ids per category.
+public struct ESISearchResult: Decodable, Sendable {
+    public let character: [Int]?
+    public let corporation: [Int]?
+    public let alliance: [Int]?
 }
 
 // MARK: - Assets

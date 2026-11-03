@@ -838,6 +838,16 @@
         }
       }
     },
+    "%lld members": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "участников: %lld"
+          }
+        }
+      }
+    },
     "%lld min": {
       "localizations": {
         "ru": {
@@ -1606,6 +1616,16 @@
         }
       }
     },
+    "Alliances": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Альянсы"
+          }
+        }
+      }
+    },
     "Allowed loss:": {
       "localizations": {
         "ru": {
@@ -1819,6 +1839,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Имущество и импланты — по Jita sell (копии чертежей не считаются); ордера на продажу — по их цене; buy-ордера — по ISK в эскроу."
+          }
+        }
+      }
+    },
+    "At least three letters of a name.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Хотя бы три буквы имени."
           }
         }
       }
@@ -2348,6 +2378,16 @@
         }
       }
     },
+    "Born %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создан %@"
+          }
+        }
+      }
+    },
     "Bounty": {
       "extractionState": "stale",
       "localizations": {
@@ -2574,6 +2614,7 @@
         }
       }
     },
+    "CEO": {},
     "CHANGED": {
       "extractionState": "stale",
       "localizations": {
@@ -2964,6 +3005,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Навыки персонажа"
+          }
+        }
+      }
+    },
+    "Character, corporation or alliance…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Персонаж, корпорация или альянс…"
           }
         }
       }
@@ -3627,6 +3678,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Структуры корпорации: топливо на 3 дня, таймеры реинфорса, лунные чанки"
+          }
+        }
+      }
+    },
+    "Corporations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпорации"
           }
         }
       }
@@ -4425,6 +4486,16 @@
         }
       }
     },
+    "Employment history": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "История корпораций"
+          }
+        }
+      }
+    },
     "Empty %@": {
       "extractionState": "stale",
       "localizations": {
@@ -4523,6 +4594,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Всё, что требует этот навык"
+          }
+        }
+      }
+    },
+    "Executor": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исполнительная корпорация"
           }
         }
       }
@@ -4869,6 +4950,16 @@
         }
       }
     },
+    "Find anyone in New Eden": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Найдите кого угодно в Новом Эдеме"
+          }
+        }
+      }
+    },
     "Find deals": {
       "localizations": {
         "ru": {
@@ -4961,6 +5052,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Фиты"
+          }
+        }
+      }
+    },
+    "Founded": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Основан"
           }
         }
       }
@@ -6186,6 +6287,16 @@
         }
       }
     },
+    "Kills and losses (zKillboard)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убийства и потери (zKillboard)"
+          }
+        }
+      }
+    },
     "Kills in the last hour": {
       "localizations": {
         "ru": {
@@ -7323,6 +7434,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Пам"
+          }
+        }
+      }
+    },
+    "Member corporations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпорации альянса"
+          }
+        }
+      }
+    },
+    "Members": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Участников"
           }
         }
       }
@@ -8761,6 +8892,16 @@
         }
       }
     },
+    "Nothing found.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ничего не найдено."
+          }
+        }
+      }
+    },
     "Nothing in %@": {
       "localizations": {
         "ru": {
@@ -9319,6 +9460,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Сила штрафа:"
+          }
+        }
+      }
+    },
+    "People & corporations": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Люди и корпорации"
           }
         }
       }
@@ -11351,6 +11502,16 @@
         }
       }
     },
+    "Sign in with a character: ESI search works on behalf of a character.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем: поиск ESI работает от имени персонажа."
+          }
+        }
+      }
+    },
     "Signature": {
       "localizations": {
         "ru": {
@@ -12104,6 +12265,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Дальность захвата, км"
+          }
+        }
+      }
+    },
+    "Tax rate": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог"
           }
         }
       }

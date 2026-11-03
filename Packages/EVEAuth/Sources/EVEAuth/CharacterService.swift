@@ -183,6 +183,37 @@ public final class CharacterService {
         }
     }
 
+    // MARK: - Search and public cards
+
+    /// Characters, corporations and alliances whose name contains `text` (esi-search.search_structures.v1).
+    public func search(_ text: String) async throws -> ESISearchResult {
+        try await esiGet("/characters/\(tokens.characterId)/search/", queryItems: [
+            URLQueryItem(name: "categories", value: "character,corporation,alliance"),
+            URLQueryItem(name: "search", value: text),
+            URLQueryItem(name: "strict", value: "false"),
+        ], as: ESISearchResult.self)
+    }
+
+    /// Any character's public card.
+    public func characterInfo(id: Int) async throws -> ESICharacterInfo {
+        try await cached("characterInfo:\(id)", ttl: 3_600) { [self] in
+            try await esiGetPublic("/characters/\(id)/", as: ESICharacterInfo.self)
+        }
+    }
+
+    /// Any character's corporations, newest first.
+    public func corporationHistory(characterId: Int) async throws -> [ESIEmploymentHistoryItem] {
+        try await cached("corpHistory:\(characterId)", ttl: 3_600) { [self] in
+            try await esiGetPublic("/characters/\(characterId)/corporationhistory/", as: [ESIEmploymentHistoryItem].self)
+        }
+    }
+
+    public func allianceCorporations(allianceId: Int) async throws -> [Int] {
+        try await cached("allianceCorps:\(allianceId)", ttl: 3_600) { [self] in
+            try await esiGetPublic("/alliances/\(allianceId)/corporations/", as: [Int].self)
+        }
+    }
+
     public func marketOrders() async throws -> [ESIMarketOrder] {
         try await cached("marketOrders", ttl: 120) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/orders/", as: [ESIMarketOrder].self)
