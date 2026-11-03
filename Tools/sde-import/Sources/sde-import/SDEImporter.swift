@@ -49,6 +49,9 @@ struct SDEImporter {
         print("→ Importing planetary industry…")
         print("  \(try await importPlanetary())")
 
+        print("→ Importing stations, agents and mutaplasmids…")
+        print("  \(try await importAgentsAndMutaplasmids())")
+
         print("→ Building FTS index…")
         try await buildFTS()
         print("  done")

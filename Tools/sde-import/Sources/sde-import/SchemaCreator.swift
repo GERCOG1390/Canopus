@@ -278,6 +278,20 @@ enum SchemaCreator {
             CREATE INDEX idx_planet_schematic_types ON planet_schematic_types(schematic_id);
             CREATE TABLE system_planets (system_id INTEGER NOT NULL, type_id INTEGER NOT NULL, count INTEGER NOT NULL);
             CREATE INDEX idx_system_planets ON system_planets(system_id);
+
+            -- Mission agents and NPC corporations (importer 7).
+            CREATE TABLE npc_corporations (id INTEGER PRIMARY KEY, name TEXT NOT NULL, faction_id INTEGER);
+            CREATE TABLE npc_divisions (id INTEGER PRIMARY KEY, name TEXT NOT NULL);
+            CREATE TABLE agents (
+                id INTEGER PRIMARY KEY, name TEXT NOT NULL, corporation_id INTEGER NOT NULL, division_id INTEGER,
+                level INTEGER NOT NULL, agent_type INTEGER, is_locator INTEGER NOT NULL, station_id INTEGER, system_id INTEGER
+            );
+            CREATE INDEX idx_agents_corp ON agents(corporation_id);
+            -- Mutaplasmids (importer 7): attribute ranges and the modules each one turns into an abyssal one.
+            CREATE TABLE dynamic_attributes (mutaplasmid_id INTEGER NOT NULL, attribute_id INTEGER NOT NULL, min REAL NOT NULL, max REAL NOT NULL);
+            CREATE INDEX idx_dynamic_attributes ON dynamic_attributes(mutaplasmid_id);
+            CREATE TABLE dynamic_mappings (mutaplasmid_id INTEGER NOT NULL, source_type_id INTEGER NOT NULL, result_type_id INTEGER NOT NULL);
+            CREATE INDEX idx_dynamic_mappings_source ON dynamic_mappings(source_type_id);
             CREATE INDEX idx_skill_requirements_skill ON skill_requirements(skill_id);
             """)
     }
