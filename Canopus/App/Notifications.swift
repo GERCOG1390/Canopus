@@ -12,6 +12,9 @@ final class NotificationSettings {
     var skillDone = UserDefaults.standard.object(forKey: "notify.skillDone") as? Bool ?? true {
         didSet { UserDefaults.standard.set(skillDone, forKey: "notify.skillDone") }
     }
+    var piExtractors = UserDefaults.standard.object(forKey: "notify.piExtractors") as? Bool ?? true {
+        didSet { UserDefaults.standard.set(piExtractors, forKey: "notify.piExtractors") }
+    }
     private(set) var status: UNAuthorizationStatus = .notDetermined
 
     func refresh() async {

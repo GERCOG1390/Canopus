@@ -142,6 +142,20 @@ public final class CharacterService {
         }
     }
 
+    /// Planetary colonies (ESI refreshes one only when the pilot opens it in the game).
+    public func planets() async throws -> [ESIPlanetColony] {
+        try await cached("planets", ttl: 600) { [self] in
+            try await esiGet("/characters/\(tokens.characterId)/planets/", as: [ESIPlanetColony].self)
+        }
+    }
+
+    /// One colony's layout: extractors, factories, storage.
+    public func planet(_ planetId: Int) async throws -> ESIPlanetLayout {
+        try await cached("planet.\(planetId)", ttl: 600) { [self] in
+            try await esiGet("/characters/\(tokens.characterId)/planets/\(planetId)/", as: ESIPlanetLayout.self)
+        }
+    }
+
     public func marketOrders() async throws -> [ESIMarketOrder] {
         try await cached("marketOrders", ttl: 120) { [self] in
             try await esiGet("/characters/\(tokens.characterId)/orders/", as: [ESIMarketOrder].self)

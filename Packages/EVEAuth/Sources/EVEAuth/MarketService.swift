@@ -226,6 +226,12 @@ public final class MarketService {
         try await get(path: "/insurance/prices/", as: [ESIInsurancePrice].self)
     }
 
+    /// A planet's name ("Perimeter IV"): /universe/names/ doesn't resolve planets.
+    public func planetName(_ id: Int) async throws -> String {
+        struct Planet: Decodable { let name: String }
+        return try await get(path: "/universe/planets/\(id)/", as: Planet.self).name
+    }
+
     /// Names of any EVE ids (alliances, systems, characters…), 1000 per request; unknown ids are skipped.
     public func names(ids: [Int]) async throws -> [Int: String] {
         var out: [Int: String] = [:]

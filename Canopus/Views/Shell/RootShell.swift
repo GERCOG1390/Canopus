@@ -12,7 +12,7 @@ import UIKit
 enum Page: String, Hashable, CaseIterable, Identifiable {
     case character, skills, mail, clones
     case fitting, killboard
-    case market, wallet, orders, industry, mining, loyalty, contracts, assets
+    case market, wallet, orders, industry, planets, mining, loyalty, contracts, assets
     case map, jumps, wormholes, thera, universe
     case database
     case settings
@@ -31,6 +31,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .wallet: "Wallet"
         case .orders: "Market orders"
         case .industry: "Industry"
+        case .planets: "Planetary industry"
         case .mining: "Mining ledger"
         case .loyalty: "Loyalty points"
         case .contracts: "Contracts"
@@ -58,6 +59,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .wallet: "win_wallet"
         case .orders: "win_marketorders"
         case .industry: "win_industry"
+        case .planets: "win_planets"
         case .mining: "win_miningledger"
         case .loyalty: "win_lpstore"
         case .contracts: "win_contracts"
@@ -105,7 +107,7 @@ enum NavSection: String, CaseIterable, Identifiable {
         switch self {
         case .pilot: [.character, .mail]
         case .combat: [.fitting, .killboard]
-        case .economy: [.market, .industry, .mining]
+        case .economy: [.market, .industry, .planets, .mining]
         case .space: [.map, .jumps, .wormholes, .thera, .universe]
         case .more: [.database, .settings]
         }
@@ -292,6 +294,8 @@ struct PageView: View {
             MarketPage()
         case .industry:
             IndustryPage()
+        case .planets:
+            PlanetaryPage()
         case .map:
             MapPage()
         case .jumps:

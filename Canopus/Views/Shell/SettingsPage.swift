@@ -164,6 +164,10 @@ struct NotificationsCard: View {
                 settings.skillDone.toggle()
                 if settings.skillDone { Task { await settings.authorize() } }
             }
+            check("When planetary extractors stop", on: settings.piExtractors) {
+                settings.piExtractors.toggle()
+                if settings.piExtractors { Task { await settings.authorize() } }
+            }
             if settings.status == .denied {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Notifications are off for Canopus in the iPhone settings.").font(.ui(12)).foregroundStyle(C.bad)

@@ -597,3 +597,34 @@ extension JSONDecoder {
         return d
     }()
 }
+
+// MARK: - Planetary industry
+
+public struct ESIPlanetColony: Codable, Sendable, Hashable {
+    public let planetId: Int
+    public let planetType: String
+    public let solarSystemId: Int
+    public let upgradeLevel: Int
+    public let numPins: Int
+    public let lastUpdate: Date
+}
+
+public struct ESIPlanetLayout: Codable, Sendable {
+    public struct Pin: Codable, Sendable {
+        public struct Extractor: Codable, Sendable {
+            public let productTypeId: Int?
+            public let qtyPerCycle: Int?
+            /// Seconds
+            public let cycleTime: Int?
+        }
+        public struct Content: Codable, Sendable { public let typeId: Int; public let amount: Int }
+        public let pinId: Int
+        public let typeId: Int
+        public let expiryTime: Date?
+        public let installTime: Date?
+        public let extractorDetails: Extractor?
+        public let schematicId: Int?
+        public let contents: [Content]?
+    }
+    public let pins: [Pin]
+}

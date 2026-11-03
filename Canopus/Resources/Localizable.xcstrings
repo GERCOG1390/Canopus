@@ -300,6 +300,16 @@
         }
       }
     },
+    "%@ a day, before taxes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ в сутки, до налогов"
+          }
+        }
+      }
+    },
     "%@ cheaper": {
       "localizations": {
         "ru": {
@@ -535,6 +545,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%1$@: %2$@ %3$@ — изучено"
+          }
+        }
+      }
+    },
+    "%@: %@ — restart the extraction programs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ — перезапустите программы добычи"
           }
         }
       }
@@ -2382,6 +2402,16 @@
         }
       }
     },
+    "Buy at Jita": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закупка в Jita"
+          }
+        }
+      }
+    },
     "Buy at the best sell price in one hub and sell in another: straight into buy orders or with your own sell order. Pick a market category: Canopus compares prices in all five hubs (Fuzzwork data, refreshed about every 30 minutes).": {
       "localizations": {
         "ru": {
@@ -3065,6 +3095,16 @@
         }
       }
     },
+    "Colonies": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Колоний"
+          }
+        }
+      }
+    },
     "Combat": {
       "extractionState": "stale",
       "localizations": {
@@ -3072,6 +3112,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бой"
+          }
+        }
+      }
+    },
+    "Command Center level %lld · factories: %lld · updated %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Командный центр ур. %1$lld · фабрик: %2$lld · обновлено %3$@"
           }
         }
       }
@@ -3565,6 +3615,36 @@
         }
       }
     },
+    "Customs per hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налоги таможни в час"
+          }
+        }
+      }
+    },
+    "Customs tax, %": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог таможни, %"
+          }
+        }
+      }
+    },
+    "Customs tax: the unit's base value from the SDE (P0 5, P1 400, P2 7 200, P3 60 000, P4 1 200 000 ISK) × the rate; import is half of export (EVE University). Moving goods between your planets isn't counted.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог таможни: базовая стоимость единицы из SDE (P0 5, P1 400, P2 7 200, P3 60 000, P4 1 200 000 ISK) × ставка; ввоз — половина вывоза (по EVE University). Перевозка товаров между вашими планетами не учтена."
+          }
+        }
+      }
+    },
     "DATE": {
       "extractionState": "stale",
       "localizations": {
@@ -3936,6 +4016,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ИСТОРИЯ КОРПОРАЦИЙ · %lld"
+          }
+        }
+      }
+    },
+    "ESI updates a colony only when you open it in the game. Output per hour: running extractors and factories (if they have input) minus what the planet's own factories use, at Jita sell before customs taxes.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ESI обновляет данные колонии, только когда вы открываете её в игре. Выход в час — работающие экстракторы и фабрики (если им хватает сырья) минус то, что фабрики планеты сами потребляют; оценка по Jita sell до налогов таможни."
           }
         }
       }
@@ -4350,6 +4440,16 @@
         }
       }
     },
+    "Extractors stopped": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экстракторы остановлены"
+          }
+        }
+      }
+    },
     "FINAL BLOW": {
       "extractionState": "stale",
       "localizations": {
@@ -4472,6 +4572,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Фракции"
+          }
+        }
+      }
+    },
+    "Factories: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Фабрики: %@"
           }
         }
       }
@@ -4753,6 +4863,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Отсюда"
+          }
+        }
+      }
+    },
+    "From system": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "От системы"
           }
         }
       }
@@ -5229,6 +5349,16 @@
         }
       }
     },
+    "Import tax on bought inputs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Налог на ввоз купленного"
+          }
+        }
+      }
+    },
     "In Space": {
       "extractionState": "stale",
       "localizations": {
@@ -5404,6 +5534,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Наследство"
+          }
+        }
+      }
+    },
+    "Inputs per hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закупка в час"
           }
         }
       }
@@ -7220,6 +7360,16 @@
         }
       }
     },
+    "My colonies": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мои колонии"
+          }
+        }
+      }
+    },
     "My jobs": {
       "extractionState": "stale",
       "localizations": {
@@ -7732,6 +7882,16 @@
         }
       }
     },
+    "No colonies.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Колоний нет."
+          }
+        }
+      }
+    },
     "No compatible modules": {
       "localizations": {
         "ru": {
@@ -8088,6 +8248,16 @@
         }
       }
     },
+    "No suitable systems in this radius — widen it.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В этом радиусе подходящих систем нет — увеличьте радиус."
+          }
+        }
+      }
+    },
     "No trade history": {
       "localizations": {
         "ru": {
@@ -8439,6 +8609,16 @@
         }
       }
     },
+    "One factory: %lld units per %lld min cycle = %@ units/h.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Одна фабрика: %1$lld шт за цикл %2$lld мин = %3$@ шт/час."
+          }
+        }
+      }
+    },
     "Online": {
       "localizations": {
         "ru": {
@@ -8592,6 +8772,26 @@
         }
       }
     },
+    "Output per hour (Jita sell)": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выход в час (Jita sell)"
+          }
+        }
+      }
+    },
+    "Output, units/h": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выход, шт/час"
+          }
+        }
+      }
+    },
     "Outstanding": {
       "localizations": {
         "ru": {
@@ -8644,6 +8844,7 @@
         }
       }
     },
+    "P%lld": {},
     "PERCEPTION": {
       "extractionState": "stale",
       "localizations": {
@@ -8685,6 +8886,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Налог на импорт PI"
+          }
+        }
+      }
+    },
+    "PI calculator": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Калькулятор планетарки"
           }
         }
       }
@@ -8852,6 +9063,16 @@
         }
       }
     },
+    "Pick a product: the calculator shows the chain, the planets and the profit.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите продукт: калькулятор покажет цепочку, планеты и прибыль."
+          }
+        }
+      }
+    },
     "Pick a ship with a jump drive": {
       "localizations": {
         "ru": {
@@ -8898,6 +9119,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выберите корабль, откуда и куда прыгать."
+          }
+        }
+      }
+    },
+    "Pick the system to search from: systems nearby with planets for every raw resource of the chain.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Укажите систему, от которой искать: покажу системы рядом, где есть планеты под всё сырьё цепочки."
           }
         }
       }
@@ -8951,6 +9182,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "Выставьте ордера на рынке EVE, и они появятся здесь."
+          }
+        }
+      }
+    },
+    "Planet types are from the SDE. Planetary industry is not possible in some systems (trade hubs such as Jita) — check in the game.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Типы планет — из SDE. Планетарка недоступна в некоторых системах (например, торговые хабы вроде Jita) — проверяйте в игре."
+          }
+        }
+      }
+    },
+    "Planetary industry": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Планетарка"
           }
         }
       }
@@ -9110,6 +9361,26 @@
         }
       }
     },
+    "Product tier": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Уровень продукта"
+          }
+        }
+      }
+    },
+    "Production chain": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цепочка производства"
+          }
+        }
+      }
+    },
     "Production cost": {
       "extractionState": "stale",
       "localizations": {
@@ -9138,6 +9409,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Прибыль по предметам"
+          }
+        }
+      }
+    },
+    "Profit per hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прибыль в час"
           }
         }
       }
@@ -9251,12 +9532,32 @@
         }
       }
     },
+    "Radius, jumps": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Радиус, прыжков"
+          }
+        }
+      }
+    },
     "Rank (multiplier)": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "Ранг (множитель)"
+          }
+        }
+      }
+    },
+    "Raw resources and planets": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сырьё P0 и планеты"
           }
         }
       }
@@ -9629,6 +9930,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Повторить"
+          }
+        }
+      }
+    },
+    "Revenue per hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выручка в час"
           }
         }
       }
@@ -10200,6 +10511,16 @@
         }
       }
     },
+    "Security": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Безопасность"
+          }
+        }
+      }
+    },
     "Security status": {
       "localizations": {
         "ru": {
@@ -10257,6 +10578,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Продать сейчас (Jita buy)"
+          }
+        }
+      }
+    },
+    "Sell the product": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продажа продукта"
           }
         }
       }
@@ -10616,6 +10947,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Войдите персонажем, чтобы сравнить с вашими навыками."
+          }
+        }
+      }
+    },
+    "Sign in with a character to see the colonies.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Войдите персонажем, чтобы увидеть колонии."
           }
         }
       }
@@ -11073,6 +11414,16 @@
         }
       }
     },
+    "Start from": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начинать с"
+          }
+        }
+      }
+    },
     "Station": {
       "extractionState": "stale",
       "localizations": {
@@ -11111,6 +11462,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Характеристики"
+          }
+        }
+      }
+    },
+    "Stopped": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Остановлены"
           }
         }
       }
@@ -11394,6 +11755,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "The Forge, 30 дней"
+          }
+        }
+      }
+    },
+    "The SDE database has no PI schematics yet. Update the database in Settings.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В базе SDE пока нет схем планетарки. Обновите базу в «Настройках»."
+          }
+        }
+      }
+    },
+    "The SDE database has no PI schematics yet: factories are left out. Update the database in Settings.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В базе SDE пока нет схем планетарки: фабрики не учтены. Обновите базу в «Настройках»."
           }
         }
       }
@@ -12337,6 +12718,16 @@
         }
       }
     },
+    "What an extractor gives depends on the planet, the spot and the cycle time — check the resource scanner in the game.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сколько даёт экстрактор, зависит от планеты, места и времени цикла — смотрите сканер ресурсов в игре."
+          }
+        }
+      }
+    },
     "What goes in": {
       "localizations": {
         "ru": {
@@ -12388,6 +12779,16 @@
         }
       }
     },
+    "When planetary extractors stop": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Когда останавливаются экстракторы планетарки"
+          }
+        }
+      }
+    },
     "When skill training completes": {
       "localizations": {
         "ru": {
@@ -12404,6 +12805,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Где я"
+          }
+        }
+      }
+    },
+    "Where to put the colonies": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Где ставить колонии"
           }
         }
       }
@@ -12683,6 +13094,16 @@
         }
       }
     },
+    "all extracted": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "всё из добычи"
+          }
+        }
+      }
+    },
     "any": {
       "localizations": {
         "ru": {
@@ -12822,6 +13243,26 @@
           "stringUnit": {
             "state": "translated",
             "value": "мосты"
+          }
+        }
+      }
+    },
+    "buying P%lld at Jita": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "покупки P%lld в Jita"
+          }
+        }
+      }
+    },
+    "buying P%lld at Jita sell": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "покупка P%lld по Jita sell"
           }
         }
       }
@@ -12981,6 +13422,26 @@
         }
       }
     },
+    "export %@ · import %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "вывоз %1$@ · ввоз %2$@"
+          }
+        }
+      }
+    },
+    "extracting P0": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "добычи P0"
+          }
+        }
+      }
+    },
     "falloff": {
       "extractionState": "stale",
       "localizations": {
@@ -13089,6 +13550,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "хайсек"
+          }
+        }
+      }
+    },
+    "highsec only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "только хайсек"
           }
         }
       }
@@ -13245,6 +13716,16 @@
         }
       }
     },
+    "lowsec and below": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "лоусек и ниже"
+          }
+        }
+      }
+    },
     "margin %@%%": {
       "localizations": {
         "ru": {
@@ -13291,6 +13772,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ракеты %@"
+          }
+        }
+      }
+    },
+    "missing: %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет: %@"
           }
         }
       }
@@ -13994,6 +14485,26 @@
         }
       }
     },
+    "· buy": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· купить"
+          }
+        }
+      }
+    },
+    "· factories %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "· фабрик %@"
+          }
+        }
+      }
+    },
     "· logins: %@": {
       "localizations": {
         "ru": {
@@ -14016,6 +14527,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "— все —"
+          }
+        }
+      }
+    },
+    "— choose a product —": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "— выберите продукт —"
           }
         }
       }
@@ -14078,6 +14599,16 @@
     },
     "−": {
       "shouldTranslate": false
+    },
+    "≈ %@ an hour": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "≈ %@ в час"
+          }
+        }
+      }
     },
     "≈ %@ at Jita": {
       "localizations": {
@@ -14142,6 +14673,16 @@
         }
       }
     },
+    "✓ Import tax on bought inputs": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Налог на ввоз купленного"
+          }
+        }
+      }
+    },
     "✓ In comparison": {
       "localizations": {
         "ru": {
@@ -14198,6 +14739,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "✔ Использование: все навыки изучены"
+          }
+        }
+      }
+    },
+    "✔ every raw resource": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✔ всё сырьё"
           }
         }
       }
