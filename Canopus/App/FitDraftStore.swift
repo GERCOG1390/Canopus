@@ -19,6 +19,8 @@ struct FitDraft: Codable, Equatable {
     var configs: [String: Config]
     var droneActive: [Int: Int]
     var typeNames: [Int: String]
+    /// The fit's own implants and boosters when the pilot changed them (nil: the character's).
+    var implants: [Int]? = nil
 
     var fitting: ESIFitting {
         ESIFitting(fittingId: fittingId, name: name, description: description, shipTypeId: shipTypeId,

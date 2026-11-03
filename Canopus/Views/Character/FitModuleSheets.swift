@@ -308,3 +308,74 @@ struct ChargePickerView: View {
         }
     }
 }
+
+// MARK: - Implants and boosters
+
+/// The desktop's implant browser: implants by slot 1–10 and boosters by slot 1–4, with a search. Picking
+/// one replaces whatever the fit has in that slot.
+struct ImplantPickerSheet: View {
+    let catalog: [Int: ImplantEntry]
+    let current: [Int]
+    let onPick: (ImplantEntry) -> Void
+    @Environment(\.dismiss) private var dismiss
+    @State private var query = ""
+    @State private var boosters = false
+    @State private var slot = 1
+
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(spacing: 6) {
+                    Button("Implants") { boosters = false; slot = 1 }.buttonStyle(CanopusButtonStyle(kind: boosters ? .ghost : .primary, small: true))
+                    Button("Boosters") { boosters = true; slot = 1 }.buttonStyle(CanopusButtonStyle(kind: boosters ? .primary : .ghost, small: true))
+                }
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 6) {
+                        Text("Slot").font(.ui(11)).foregroundStyle(C.muted)
+                        ForEach(1...(boosters ? 4 : 10), id: \.self) { s in
+                            Button("\(s)") { slot = s }.buttonStyle(CanopusButtonStyle(kind: slot == s && query.isEmpty ? .primary : .ghost, small: true))
+                        }
+                    }
+                }
+                TextField("Search by name…", text: $query)
+                    .font(.ui(14)).autocorrectionDisabled().textInputAutocapitalization(.never)
+                    .padding(.horizontal, 10).frame(minHeight: 36)
+                    .background(C.panel2, in: RoundedRectangle(cornerRadius: 8))
+                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(C.border))
+                List {
+                    ForEach(shown) { e in
+                        Button {
+                            onPick(e)
+                            dismiss()
+                        } label: {
+                            HStack(spacing: 8) {
+                                Text(verbatim: e.isBooster ? "B\(e.slot)" : "\(e.slot)").font(.mono(10)).foregroundStyle(C.muted).frame(width: 22)
+                                EVETypeIcon(typeId: e.id, size: 26)
+                                Text(verbatim: e.name).font(.ui(13)).foregroundStyle(current.contains(e.id) ? C.accentText : C.text).lineLimit(2)
+                                Spacer(minLength: 0)
+                                if current.contains(e.id) { Text(verbatim: "✓").foregroundStyle(C.accentText) }
+                            }
+                        }
+                        .listRowBackground(C.card)
+                    }
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+            }
+            .padding(16)
+            .background(C.bg)
+            .navigationTitle(boosters ? "Boosters" : "Implants")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } } }
+        }
+    }
+
+    /// The chosen slot, or every match of the search across slots.
+    private var shown: [ImplantEntry] {
+        let q = query.trimmingCharacters(in: .whitespaces).lowercased()
+        return catalog.values
+            .filter { $0.isBooster == boosters && (q.isEmpty ? $0.slot == slot : $0.name.lowercased().contains(q)) }
+            .sorted { $0.slot != $1.slot ? $0.slot < $1.slot : $0.name < $1.name }
+            .prefix(300).map { $0 }
+    }
+}

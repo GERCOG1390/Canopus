@@ -50,6 +50,12 @@ struct FitDetailView: View {
     }()
     @State var characterSkills: [Int: Int] = [:]
     @State var implantIds: [Int] = []
+    /// The pilot changed the fit's implants (kept in the draft); otherwise they follow the character.
+    @State var implantsCustom = false
+    @State var characterImplants: [Int] = []
+    @State var showImplantPicker = false
+    /// Every implant and booster with its slot (one per slot, as in the game).
+    @State var implantCatalog: [Int: ImplantEntry] = [:]
     /// Start state and overload ability per module type (the desktop's rules).
     @State var activation: [Int: ModuleActivation] = [:]
     @State var liveItems: [ESIFittingItem]?
@@ -612,6 +618,20 @@ struct SubsystemSlotDefinition: Identifiable {
         }
         .onChange(of: draftSnapshot) { _, _ in saveDraft() }
         .onChange(of: droneActive) { _, _ in saveDraft() }
+        .onChange(of: implantIds) { _, _ in
+            saveDraft()
+            if skillsReady { scheduleFitRefresh(debounceNanoseconds: 0) }
+        }
+        .sheet(isPresented: $showImplantPicker) {
+            ImplantPickerSheet(catalog: implantCatalog, current: implantIds) { entry in
+                localTypeNames[entry.id] = entry.name
+                implantsCustom = true
+                implantIds = implantIds.filter { id in
+                    guard let e = implantCatalog[id] else { return true }
+                    return e.slot != entry.slot || e.isBooster != entry.isBooster
+                } + [entry.id]
+            }
+        }
         .onAppear { if let listId { FitDraftStore.shared.setOpen(listId) } }
         .onDisappear {
             recalcTask?.cancel()
@@ -639,13 +659,14 @@ struct SubsystemSlotDefinition: Identifiable {
         for (id, t) in localTypes { names[id] = t.name }
         names.merge(localTypeNames) { a, _ in a }
         let items = draftSnapshot
-        let used = Set(items.map(\.typeId)).union([fit.shipTypeId])
+        let used = Set(items.map(\.typeId)).union([fit.shipTypeId]).union(implantIds)
         FitDraftStore.shared.save(FitDraft(
             fittingId: fit.fittingId, name: fit.name, description: fit.description, shipTypeId: fit.shipTypeId,
             items: items,
             configs: configs.mapValues { FitDraft.Config(state: $0.state.rawValue, chargeTypeId: $0.chargeTypeId) },
             droneActive: droneActive,
-            typeNames: names.filter { used.contains($0.key) }
+            typeNames: names.filter { used.contains($0.key) },
+            implants: implantsCustom ? implantIds : nil
         ))
     }
 
@@ -745,6 +766,7 @@ struct SubsystemSlotDefinition: Identifiable {
         if let saved, editableItems == nil {
             editableItems = saved.fitting.items
             droneActive = saved.droneActive
+            if let implants = saved.implants { implantIds = implants; implantsCustom = true }
         } else {
             await loadLiveItemsIfCurrentShip()
         }
@@ -890,13 +912,23 @@ struct SubsystemSlotDefinition: Identifiable {
                 skillsResponse.skills.map { ($0.skillId, $0.activeSkillLevel) }
             )
             do {
-                implantIds = try await characterService.implants()
+                characterImplants = try await characterService.implants()
+                if !implantsCustom { implantIds = characterImplants }
                 fittingWarning = nil
-                // Their names for the implants list on the modules tab.
-                if let repo = env.repository { await resolveLocalNames(repo: repo, typeIds: Set(implantIds)) }
             } catch {
-                implantIds = []
+                if !implantsCustom { implantIds = [] }
                 fittingWarning = String(localized: "WARNING: implants failed to load; stats may be incomplete")
+            }
+            // Their names for the implants list on the modules tab, and the slots for the picker.
+            if let repo = env.repository {
+                await resolveLocalNames(repo: repo, typeIds: Set(implantIds + characterImplants))
+                if implantCatalog.isEmpty, let all = try? await repo.implantCatalog() {
+                    implantCatalog = Dictionary(all.map { ($0.id, $0) }, uniquingKeysWith: { a, _ in a })
+                }
+                #if DEBUG
+                // Debug builds: `-openImplantPicker YES` opens the implant picker (screenshots).
+                if UserDefaults.standard.bool(forKey: "openImplantPicker") { showImplantPicker = true }
+                #endif
             }
         } catch {
             fittingWarning = String(localized: "WARNING: skills failed to load; stats use all skills at V")

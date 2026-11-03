@@ -1037,6 +1037,16 @@
         }
       }
     },
+    "+ Add": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "+ Добавить"
+          }
+        }
+      }
+    },
     "+ Add a fit to compare": {
       "localizations": {
         "ru": {
@@ -2374,6 +2384,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Бонусы за каждый уровень навыка %@:"
+          }
+        }
+      }
+    },
+    "Boosters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Бустеры"
           }
         }
       }
@@ -5604,6 +5624,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Импланты"
+          }
+        }
+      }
+    },
+    "Implants & boosters": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты и бустеры"
           }
         }
       }
@@ -10940,6 +10970,16 @@
         }
       }
     },
+    "Search by name…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поиск по названию…"
+          }
+        }
+      }
+    },
     "Search by place or item (Russian or English)…": {
       "localizations": {
         "ru": {
@@ -11734,6 +11774,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Слиперы"
+          }
+        }
+      }
+    },
+    "Slot": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Слот"
           }
         }
       }
@@ -13046,6 +13096,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Расход / пик регена"
+          }
+        }
+      }
+    },
+    "Use mine": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Взять мои"
           }
         }
       }

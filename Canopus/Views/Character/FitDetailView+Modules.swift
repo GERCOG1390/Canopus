@@ -257,17 +257,36 @@ extension FitDetailView {
         scheduleFitRefresh(debounceNanoseconds: 0)
     }
 
-    /// The character's implants, which the stats use.
+    /// The implants and boosters the stats use: the character's, or the fit's own set once changed.
     var implantsGroup: some View {
         VStack(alignment: .leading, spacing: 4) {
-            slotHead(nil, "Implants") {
-                Text(characterSkills.isEmpty ? "none: skills at V" : "the character's").font(.ui(11)).foregroundStyle(C.muted)
+            slotHead(nil, "Implants & boosters") {
+                HStack(spacing: 6) {
+                    if implantsCustom, !characterImplants.isEmpty || !implantIds.isEmpty {
+                        Button("Use mine") {
+                            implantsCustom = false
+                            implantIds = characterImplants
+                        }
+                        .buttonStyle(.canopusSmall)
+                    } else if !implantsCustom {
+                        Text(characterSkills.isEmpty ? "none: skills at V" : "the character's").font(.ui(11)).foregroundStyle(C.muted)
+                    }
+                    Button("+ Add") { showImplantPicker = true }.buttonStyle(.canopusSmall).disabled(implantCatalog.isEmpty)
+                }
             }
-            ForEach(implantIds, id: \.self) { id in
+            ForEach(implantIds.sorted { slotOrder($0) < slotOrder($1) }, id: \.self) { id in
                 HStack(spacing: 8) {
+                    if let e = implantCatalog[id] {
+                        Text(verbatim: e.isBooster ? "B\(e.slot)" : "\(e.slot)").font(.mono(10)).foregroundStyle(C.muted).frame(width: 20)
+                    }
                     EVETypeIcon(typeId: id, size: 24)
                     Text(verbatim: typeName(id, fallback: "#\(id)")).font(.ui(13)).foregroundStyle(C.text2).lineLimit(1)
                     Spacer(minLength: 0)
+                    Button {
+                        implantsCustom = true
+                        implantIds.removeAll { $0 == id }
+                    } label: { Text(verbatim: "✕").font(.ui(12)).foregroundStyle(C.bad) }
+                    .buttonStyle(.plain)
                 }
                 .padding(.horizontal, 6).padding(.vertical, 3)
             }
@@ -275,6 +294,12 @@ extension FitDetailView {
                 Text("— no implants —").font(.ui(12)).foregroundStyle(C.muted).frame(maxWidth: .infinity).padding(.vertical, 6)
             }
         }
+    }
+
+    /// Implants 1–10 first, then boosters.
+    private func slotOrder(_ id: Int) -> Int {
+        guard let e = implantCatalog[id] else { return 99 }
+        return (e.isBooster ? 20 : 0) + e.slot
     }
 
     var cargoGroup: some View {
