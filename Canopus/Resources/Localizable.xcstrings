@@ -706,6 +706,16 @@
         }
       }
     },
+    "%lld clones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "клонов: %lld"
+          }
+        }
+      }
+    },
     "%lld days": {
       "localizations": {
         "ru": {
@@ -854,6 +864,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld модулей"
+          }
+        }
+      }
+    },
+    "%lld orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ордеров: %lld"
           }
         }
       }
@@ -1793,6 +1813,16 @@
         }
       }
     },
+    "Assets and implants at Jita sell (blueprint copies count as nothing); sell orders at their own price; buy orders by the ISK held in escrow.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имущество и импланты — по Jita sell (копии чертежей не считаются); ордера на продажу — по их цене; buy-ордера — по ISK в эскроу."
+          }
+        }
+      }
+    },
     "At level V": {
       "extractionState": "stale",
       "localizations": {
@@ -2488,6 +2518,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Купить сейчас (Jita sell)"
+          }
+        }
+      }
+    },
+    "Buy order escrow": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эскроу buy-ордеров"
           }
         }
       }
@@ -5489,6 +5529,26 @@
         }
       }
     },
+    "Implants in jump clones": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты в джамп-клонах"
+          }
+        }
+      }
+    },
+    "Implants in the head": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Импланты в голове"
+          }
+        }
+      }
+    },
     "Import EFT": {
       "localizations": {
         "ru": {
@@ -7550,6 +7610,16 @@
         }
       }
     },
+    "Most valuable items": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Самые дорогие предметы"
+          }
+        }
+      }
+    },
     "Mothership": {
       "localizations": {
         "ru": {
@@ -7789,6 +7859,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Чистая прибыль"
+          }
+        }
+      }
+    },
+    "Net worth": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Состояние"
           }
         }
       }
@@ -10828,6 +10908,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Продать сейчас (Jita buy)"
+          }
+        }
+      }
+    },
+    "Sell orders": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ордера на продажу"
           }
         }
       }
@@ -14142,6 +14232,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "следующее: %@"
+          }
+        }
+      }
+    },
+    "no access": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "нет доступа"
           }
         }
       }

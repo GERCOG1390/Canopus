@@ -105,6 +105,8 @@ public struct ESIMarketOrder: Decodable, Sendable, Identifiable {
     public let volumeTotal: Int
     public let volumeRemain: Int
     public let minVolume: Int?
+    /// ISK held for a buy order
+    public let escrow: Double?
     public let issued: Date
     public let duration: Int
     public let state: String
