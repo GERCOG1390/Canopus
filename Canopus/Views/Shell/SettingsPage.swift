@@ -168,6 +168,16 @@ struct NotificationsCard: View {
                 settings.piExtractors.toggle()
                 if settings.piExtractors { Task { await settings.authorize() } }
             }
+            check("When industry jobs finish", on: settings.industryDone) {
+                settings.industryDone.toggle()
+                if settings.industryDone { Task { await settings.authorize() } }
+            }
+            check("Corporation structures: fuel for 3 days, reinforce timers, moon chunks", on: settings.structures) {
+                settings.structures.toggle()
+                if settings.structures { Task { await settings.authorize() } }
+            }
+            Text("They are scheduled each time Canopus opens (iOS gives it no background checks): open the app now and then so the timers stay current.")
+                .font(.ui(11)).foregroundStyle(C.faint)
             if settings.status == .denied {
                 VStack(alignment: .leading, spacing: 6) {
                     Text("Notifications are off for Canopus in the iPhone settings.").font(.ui(12)).foregroundStyle(C.bad)

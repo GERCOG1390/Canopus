@@ -123,6 +123,7 @@ struct RootShell: View {
     @State private var sidebarPage: Page? = .character
     /// Per-section navigation stacks on iPhone, so switching tabs keeps where each one was.
     @State private var paths: [NavSection: NavigationPath] = [:]
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack {
@@ -147,6 +148,11 @@ struct RootShell: View {
             // Debug builds: `-startPage skills` opens a page at launch (screenshots, UI checks).
             if let p = UserDefaults.standard.string(forKey: "startPage").flatMap(Page.init(rawValue:)) { open(p) }
             #endif
+        }
+        // Timers the game would announce (jobs, extractors, structures): scheduled as local notifications.
+        .task(id: "\(env.repositoryVersion)/\(env.characterStore.services.count)/\(scenePhase == .active)") {
+            guard scenePhase == .active else { return }
+            await TimerNotices.refreshAll(env.characterStore.services, repo: env.repository)
         }
     }
 

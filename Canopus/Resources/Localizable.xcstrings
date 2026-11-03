@@ -549,12 +549,52 @@
         }
       }
     },
+    "%@: %@ ×%lld — deliver it": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%1$@: %2$@ ×%3$lld — заберите"
+          }
+        }
+      }
+    },
     "%@: %@ — restart the extraction programs": {
       "localizations": {
         "ru": {
           "stringUnit": {
             "state": "translated",
             "value": "%1$@: %2$@ — перезапустите программы добычи"
+          }
+        }
+      }
+    },
+    "%@: fracture it before it self-fractures": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: взорвите его, пока он не взорвался сам"
+          }
+        }
+      }
+    },
+    "%@: fuel running low": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: заканчивается топливо"
+          }
+        }
+      }
+    },
+    "%@: out of reinforce in 30 minutes": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: выход из реинфорса через 30 минут"
           }
         }
       }
@@ -3541,6 +3581,16 @@
         }
       }
     },
+    "Corporation structures: fuel for 3 days, reinforce timers, moon chunks": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Структуры корпорации: топливо на 3 дня, таймеры реинфорса, лунные чанки"
+          }
+        }
+      }
+    },
     "Corporations with LP": {
       "extractionState": "stale",
       "localizations": {
@@ -4977,6 +5027,16 @@
         }
       }
     },
+    "Fuel for 3 days left": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Топлива осталось на 3 дня"
+          }
+        }
+      }
+    },
     "GATE CAMP": {
       "extractionState": "stale",
       "localizations": {
@@ -5593,6 +5653,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Налог на производство"
+          }
+        }
+      }
+    },
+    "Industry job done": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работа в индустрии завершена"
           }
         }
       }
@@ -7414,6 +7484,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Модули группы «%@»"
+          }
+        }
+      }
+    },
+    "Moon chunk ready": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лунный чанк готов"
           }
         }
       }
@@ -12120,6 +12200,16 @@
         }
       }
     },
+    "The structure becomes vulnerable": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Структура станет уязвимой"
+          }
+        }
+      }
+    },
     "The token lacks the %@ permission: sign in with this character again in Settings — the new token gets every permission.": {
       "localizations": {
         "ru": {
@@ -12166,6 +12256,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Термический"
+          }
+        }
+      }
+    },
+    "They are scheduled each time Canopus opens (iOS gives it no background checks): open the app now and then so the timers stay current.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Они планируются при каждом открытии Canopus (iOS не даёт проверять в фоне): заходите в приложение время от времени, чтобы таймеры были актуальны."
           }
         }
       }
@@ -12985,6 +13085,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "При активации"
+          }
+        }
+      }
+    },
+    "When industry jobs finish": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Когда завершаются работы в индустрии"
           }
         }
       }

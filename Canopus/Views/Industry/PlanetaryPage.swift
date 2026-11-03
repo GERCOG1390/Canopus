@@ -7,7 +7,6 @@ import SwiftUI
 import Domain
 import EVEAuth
 import EVEStaticData
-import UserNotifications
 
 enum PlanetaryTab: String, CaseIterable {
     case colonies, calc
@@ -269,21 +268,12 @@ private struct ColoniesView: View {
 
     /// One notification per colony when its first extractor stops (Settings → Notifications).
     private func scheduleExtractorNotifications(_ list: [Colony], character: String) async {
-        let center = UNUserNotificationCenter.current()
-        let prefix = "canopus.pi.\(env.characterStore.selectedId ?? 0)."
-        let old = await center.pendingNotificationRequests().map(\.identifier).filter { $0.hasPrefix(prefix) }
-        center.removePendingNotificationRequests(withIdentifiers: old)
-        guard NotificationSettings.shared.piExtractors, await center.notificationSettings().authorizationStatus == .authorized else { return }
-        for c in list {
-            guard let e = c.expiry, e > .now else { continue }
-            let content = UNMutableNotificationContent()
-            content.title = String(localized: "Extractors stopped")
-            content.body = String(localized: "\(character): \(c.name) — restart the extraction programs")
-            content.sound = .default
-            let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: e)
-            try? await center.add(UNNotificationRequest(identifier: prefix + "\(c.id)", content: content,
-                                                        trigger: UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)))
+        let notices = list.compactMap { c in
+            c.expiry.map { TimedNotice(id: "\(c.id)", date: $0, title: String(localized: "Extractors stopped"),
+                                       body: String(localized: "\(character): \(c.name) — restart the extraction programs")) }
         }
+        await TimedNotices.replace(prefix: "canopus.pi.\(env.characterStore.selectedId ?? 0).", with: notices,
+                                   enabled: NotificationSettings.shared.piExtractors)
     }
 }
 
