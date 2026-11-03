@@ -40,7 +40,7 @@ enum FitSpecBuilder {
             if flag.hasPrefix("MedSlot") { return "med" }
             if flag.hasPrefix("LoSlot") { return "lo" }
             if flag.hasPrefix("RigSlot") { return "rig" }
-            if flag.hasPrefix("SubSystem") { return "sub" }
+            if flag.hasPrefix("SubSystemSlot") { return "sub" }
             return nil
         }
         let isModule = { (id: Int) in !(profiles[id]?.effectIds.isDisjoint(with: [11, 12, 13, 2663, 3772]) ?? true) }

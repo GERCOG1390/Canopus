@@ -313,7 +313,8 @@ struct SubsystemSlotDefinition: Identifiable {
         if flag.hasPrefix("MedSlot")   { return .mid }
         if flag.hasPrefix("LoSlot")    { return .low }
         if flag.hasPrefix("RigSlot")   { return .rig }
-        if flag.hasPrefix("SubSystem") { return .sub }
+        // SubSystemSlot0–3 are fitted; SubSystemBay is the hold for spare subsystems (counted as cargo).
+        if flag.hasPrefix("SubSystemSlot") { return .sub }
         if flag == "DroneBay" || flag == "FighterBay" { return .drone }
         return .cargo
     }

@@ -50,6 +50,8 @@ struct CharacterRootView: View {
     @State private var corpNames: [Int: String] = [:]
     @State private var switcherOpen = false
     @State private var error: Error?
+    /// Debug builds: `-openActiveShip YES` opens the current ship's fit once the ship is known.
+    @State private var debugActiveShip = false
 
     enum Destination: Hashable {
         case activeShipFit
@@ -86,6 +88,12 @@ struct CharacterRootView: View {
         .navigationDestination(for: Destination.self) { dest in
             destinationView(for: dest)
         }
+        .navigationDestination(isPresented: $debugActiveShip) { destinationView(for: .activeShipFit) }
+        #if DEBUG
+        .onChange(of: ship?.shipItemId) { _, id in
+            if id != nil, UserDefaults.standard.bool(forKey: "openActiveShip") { debugActiveShip = true }
+        }
+        #endif
         .task(id: env.dataKey) { await load() }
         .alert("Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
