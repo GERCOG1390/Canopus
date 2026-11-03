@@ -183,6 +183,22 @@ public final class CharacterService {
         }
     }
 
+    // MARK: - In the game client (the character must be logged in to the game)
+
+    /// Opens the show-info window of a character, corporation, item… in the game.
+    public func openInfoInGame(targetId: Int) async throws {
+        try await esiUIPost("/ui/openwindow/information/", queryItems: [URLQueryItem(name: "target_id", value: "\(targetId)")])
+    }
+
+    /// Sets the autopilot destination (or adds a waypoint) in the game.
+    public func setDestinationInGame(systemId: Int, addWaypoint: Bool = false) async throws {
+        try await esiUIPost("/ui/autopilot/waypoint/", queryItems: [
+            URLQueryItem(name: "destination_id", value: "\(systemId)"),
+            URLQueryItem(name: "add_to_beginning", value: "false"),
+            URLQueryItem(name: "clear_other_waypoints", value: addWaypoint ? "false" : "true"),
+        ])
+    }
+
     // MARK: - Search and public cards
 
     /// Characters, corporations and alliances whose name contains `text` (esi-search.search_structures.v1).
@@ -494,6 +510,19 @@ public final class CharacterService {
             }
         }
         return try await Self.decode(T.self, data)
+    }
+
+    /// ESI's UI calls answer 204 with no body (esi-ui.open_window.v1, esi-ui.write_waypoint.v1).
+    private func esiUIPost(_ path: String, queryItems: [URLQueryItem]) async throws {
+        if !tokens.isAccessTokenValid { tokens = try await authClient.refresh(tokens) }
+        var req = makeRequestWithQuery(path: path, queryItems: queryItems)
+        req.httpMethod = "POST"
+        req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
+        let (data, response) = try await urlSession.data(for: req)
+        if let http = response as? HTTPURLResponse {
+            updateErrorLimit(from: http)
+            guard (200..<300).contains(http.statusCode) else { throw AuthError.httpError(http.statusCode, String(data: data, encoding: .utf8)) }
+        }
     }
 
     private func makeRequestWithQuery(path: String, queryItems: [URLQueryItem]) -> URLRequest {

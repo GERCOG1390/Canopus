@@ -1138,6 +1138,36 @@
       }
     },
     "+%lld": {},
+    "1. Tap “Open in game” — the character's card opens in the game client (or find him by name).": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Нажмите «Открыть в игре» — в клиенте откроется карточка персонажа (или найдите его по имени)."
+          }
+        }
+      }
+    },
+    "2. Right-click the portrait → “Give Money”.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Правый клик по портрету → «Give Money» (передать ISK)."
+          }
+        }
+      }
+    },
+    "3. Write “Canopus” in the transfer's reason.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "3. В комментарии к переводу напишите «Canopus»."
+          }
+        }
+      }
+    },
     "30-DAY TOTAL": {
       "localizations": {
         "ru": {
@@ -2885,6 +2915,26 @@
     },
     "Canopus": {},
     "Canopus %@ (%@)": {},
+    "Canopus author": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автор Canopus"
+          }
+        }
+      }
+    },
+    "Canopus is free and will stay free — no ads, subscriptions or paid features. If it saves you time or ISK, you can send the author any amount of ISK in the game. Every transfer helps the app grow — thank you!": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Canopus бесплатен и останется бесплатным — без рекламы, подписок и платных функций. Если он экономит вам время или ISK, можно отправить автору любую сумму ISK в игре. Каждый перевод помогает развивать приложение — спасибо!"
+          }
+        }
+      }
+    },
     "Canopus works out routes with bridges: the safe one can differ from the game's by a couple of jumps.": {
       "localizations": {
         "ru": {
@@ -3624,6 +3674,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Копировать список"
+          }
+        }
+      }
+    },
+    "Copy name": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Копировать имя"
           }
         }
       }
@@ -8042,6 +8102,16 @@
         }
       }
     },
+    "Name copied": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имя скопировано"
+          }
+        }
+      }
+    },
     "Navigation": {
       "extractionState": "stale",
       "localizations": {
@@ -9190,6 +9260,16 @@
         }
       }
     },
+    "Open in game": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть в игре"
+          }
+        }
+      }
+    },
     "Open on zKillboard": {
       "localizations": {
         "ru": {
@@ -9206,6 +9286,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Открыть настройки"
+          }
+        }
+      }
+    },
+    "Opened in the game": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыто в игре"
           }
         }
       }
@@ -12179,6 +12269,16 @@
         }
       }
     },
+    "Support Canopus": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поддержать Canopus"
+          }
+        }
+      }
+    },
     "Sustained DPS without reloads, travel between targets or missile flight time. Each NPC orbits at its cruise speed at its orbit distance, or closer when your weapons reach less far (you fly in: \"approach\" marks classes that orbit beyond your weapons). NPC self-repairs are counted. For comparing fits, not a stopwatch.": {
       "localizations": {
         "ru": {
@@ -12450,6 +12550,16 @@
         }
       }
     },
+    "The donation is voluntary: every Canopus feature works the same for everyone.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пожертвование добровольное: все функции Canopus работают одинаково для всех."
+          }
+        }
+      }
+    },
     "The drones don't fit in the drone bay": {
       "localizations": {
         "ru": {
@@ -12486,6 +12596,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "В базе игры пока нет карты. Она придёт со следующим обновлением базы."
+          }
+        }
+      }
+    },
+    "The game didn't answer: is the character logged in?": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Игра не ответила: персонаж в игре?"
           }
         }
       }

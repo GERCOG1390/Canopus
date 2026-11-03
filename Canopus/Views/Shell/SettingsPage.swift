@@ -19,6 +19,7 @@ struct SettingsPage: View {
                 NotificationsCard()
                 languageCard
                 databaseCard
+                SupportCard()
                 aboutCard
             }
             .padding(16)
