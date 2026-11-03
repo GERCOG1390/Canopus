@@ -589,6 +589,16 @@
         }
       }
     },
+    "%@: opened in the game": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@: открыто в игре"
+          }
+        }
+      }
+    },
     "%@: out of reinforce in 30 minutes": {
       "localizations": {
         "ru": {
@@ -1566,6 +1576,16 @@
         }
       }
     },
+    "Agents: %lld": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Агентов: %lld"
+          }
+        }
+      }
+    },
     "Align time": {
       "localizations": {
         "ru": {
@@ -2014,6 +2034,16 @@
         }
       }
     },
+    "Average": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Средний"
+          }
+        }
+      }
+    },
     "Avg": {
       "extractionState": "stale",
       "localizations": {
@@ -2288,6 +2318,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Линкоры"
+          }
+        }
+      }
+    },
+    "Best": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Лучший"
           }
         }
       }
@@ -3762,6 +3802,16 @@
         }
       }
     },
+    "Corporation or agent…": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Корпорация или агент…"
+          }
+        }
+      }
+    },
     "Corporation payout": {
       "localizations": {
         "ru": {
@@ -4247,6 +4297,16 @@
         }
       }
     },
+    "Distribution division": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Доставка"
+          }
+        }
+      }
+    },
     "Donation": {
       "extractionState": "stale",
       "localizations": {
@@ -4508,6 +4568,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "ЭКСПОРТ ФИТА"
+          }
+        }
+      }
+    },
+    "Each attribute rolls independently between the mutaplasmid's minimum and maximum multiplier of the module's own value. Set the slider to where your roll landed — or check what a perfect or a bad roll gives.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Каждый атрибут роллится независимо между минимальным и максимальным множителем мутаплазмида от значения исходного модуля. Поставьте ползунок туда, куда выпал ваш ролл, — или посмотрите, что дадут лучший и худший."
           }
         }
       }
@@ -5505,6 +5575,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Хайсек и Почвень недоступны для прыжка. Мосты капиталам закрыты."
+          }
+        }
+      }
+    },
+    "Highsec only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только хайсек"
           }
         }
       }
@@ -6968,6 +7048,16 @@
         }
       }
     },
+    "Locators": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Локаторы"
+          }
+        }
+      }
+    },
     "Looking at recent losses on zKillboard…": {
       "localizations": {
         "ru": {
@@ -7680,6 +7770,16 @@
         }
       }
     },
+    "Mining division": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добыча"
+          }
+        }
+      }
+    },
     "Mining ledger": {
       "extractionState": "stale",
       "localizations": {
@@ -7798,6 +7898,16 @@
         }
       }
     },
+    "Module": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Модуль"
+          }
+        }
+      }
+    },
     "Modules": {
       "extractionState": "stale",
       "localizations": {
@@ -7897,6 +8007,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Матка"
+          }
+        }
+      }
+    },
+    "Mutaplasmids": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Мутаплазмиды"
           }
         }
       }
@@ -8402,6 +8522,16 @@
         }
       }
     },
+    "No agents match.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подходящих агентов нет."
+          }
+        }
+      }
+    },
     "No ammunition found for this weapon.": {
       "localizations": {
         "ru": {
@@ -8735,6 +8865,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Нет модификаторов"
+          }
+        }
+      }
+    },
+    "No mutaplasmid applies to this module.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "К этому модулю мутаплазмиды не применяются."
           }
         }
       }
@@ -10120,6 +10260,16 @@
         }
       }
     },
+    "R&D division": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "НИОКР"
+          }
+        }
+      }
+    },
     "RACE": {
       "extractionState": "stale",
       "localizations": {
@@ -11198,6 +11348,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Безопасность"
+          }
+        }
+      }
+    },
+    "Security division": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Охрана"
           }
         }
       }
@@ -12540,6 +12700,26 @@
         }
       }
     },
+    "The SDE database has no agents yet. Update the database in Settings.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В базе SDE пока нет агентов. Обновите базу в «Настройках»."
+          }
+        }
+      }
+    },
+    "The SDE database has no mutaplasmids yet. Update the database in Settings.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В базе SDE пока нет мутаплазмидов. Обновите базу в «Настройках»."
+          }
+        }
+      }
+    },
     "The corporation has no structures.": {
       "localizations": {
         "ru": {
@@ -12637,6 +12817,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "Самый опасный бьёт на %@ DPS сквозь ваши сопротивления, ремонт — %@ HP/с"
+          }
+        }
+      }
+    },
+    "The nearest 150 are shown.": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показаны 150 ближайших."
           }
         }
       }
@@ -13781,6 +13971,16 @@
         }
       }
     },
+    "Worst": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Худший"
+          }
+        }
+      }
+    },
     "Wrong rig size": {
       "localizations": {
         "ru": {
@@ -14047,6 +14247,16 @@
         }
       }
     },
+    "base %@": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "база %@"
+          }
+        }
+      }
+    },
     "base %@, Jump Drive Calibration %lld": {
       "localizations": {
         "ru": {
@@ -14206,6 +14416,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "дроны %@"
+          }
+        }
+      }
+    },
+    "e.g. 10MN Afterburner II, Large Shield Extender II": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "например, 10MN Afterburner II, Large Shield Extender II"
           }
         }
       }
@@ -15610,6 +15830,16 @@
           "stringUnit": {
             "state": "translated",
             "value": "✓ Все навыки V"
+          }
+        }
+      }
+    },
+    "✓ Highsec only": {
+      "localizations": {
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "✓ Только хайсек"
           }
         }
       }

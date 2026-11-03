@@ -13,11 +13,12 @@ struct DatabasePage: View {
     @State private var tab: Tab = {
         #if DEBUG
         if UserDefaults.standard.string(forKey: "dbTab") == "compare" { return .compare }
+        if UserDefaults.standard.string(forKey: "dbTab") == "mutaplasmids" { return .mutaplasmids }
         #endif
         return .items
     }()
 
-    private enum Tab: Hashable { case items, compare }
+    private enum Tab: Hashable { case items, compare, mutaplasmids }
 
     var body: some View {
         browser
@@ -49,7 +50,8 @@ struct DatabasePage: View {
         case .ready:
             VStack(alignment: .leading, spacing: 0) {
                 CanopusTabs(tabs: [(id: Tab.items, label: String(localized: "Browse items")),
-                                   (id: .compare, label: String(localized: "Compare (\(CompareStore.shared.ids.count))"))], selection: $tab)
+                                   (id: .compare, label: String(localized: "Compare (\(CompareStore.shared.ids.count))")),
+                                   (id: .mutaplasmids, label: String(localized: "Mutaplasmids"))], selection: $tab)
                     .padding(.horizontal, 12).padding(.vertical, 8)
                 ScrollView {
                     switch tab {
@@ -59,6 +61,8 @@ struct DatabasePage: View {
                             .padding(16)
                     case .compare:
                         CompareView().padding(16)
+                    case .mutaplasmids:
+                        MutaplasmidCalc().padding(16)
                     }
                 }
             }

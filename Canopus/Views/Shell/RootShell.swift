@@ -14,7 +14,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
     case fitting, killboard
     case market, wallet, orders, industry, planets, mining, loyalty, contracts, assets
     case map, jumps, wormholes, thera, universe
-    case database, people
+    case database, people, agents
     case settings
 
     var id: String { rawValue }
@@ -43,6 +43,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .universe: "Universe"
         case .database: "Database"
         case .people: "People & corporations"
+        case .agents: "Agents"
         case .settings: "Settings"
         }
     }
@@ -72,6 +73,7 @@ enum Page: String, Hashable, CaseIterable, Identifiable {
         case .universe: "win_sovereignty"
         case .database: "win_info"
         case .people: "win_contacts"
+        case .agents: "win_agent"
         case .settings: "win_settings"
         }
     }
@@ -111,7 +113,7 @@ enum NavSection: String, CaseIterable, Identifiable {
         case .combat: [.fitting, .killboard]
         case .economy: [.market, .industry, .planets, .mining]
         case .space: [.map, .jumps, .wormholes, .thera, .universe]
-        case .more: [.database, .people, .settings]
+        case .more: [.database, .people, .agents, .settings]
         }
     }
 }
@@ -296,6 +298,8 @@ struct PageView: View {
             DatabasePage()
         case .people:
             EntitySearchPage()
+        case .agents:
+            AgentsPage()
         case .settings:
             SettingsPage()
         case .killboard:
