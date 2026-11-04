@@ -16,9 +16,12 @@ if [ -n "$(/usr/bin/git status --porcelain)" ]; then
   echo "Uncommitted changes: commit first, the stamp is for a commit."; /usr/bin/git status --short; exit 1
 fi
 
-step "2/6 Package tests (engine vs Pyfa, item lists → fits, SDE queries)"
-swift test --package-path Packages/EVEStaticData --scratch-path "$WORK/spm" 2>&1 | tail -3
-swift test --package-path Packages/EVEStaticData --scratch-path "$WORK/spm" 2>&1 | grep -q "passed after" || { echo "Package tests failed"; exit 1; }
+step "2/6 Package tests (engine vs Pyfa, item lists → fits, SDE queries, ESI decoding)"
+for pkg in EVEStaticData EVEAuth; do
+  swift test --package-path "Packages/$pkg" --scratch-path "$WORK/spm-$pkg" > "$WORK/test-$pkg.log" 2>&1 || true
+  grep -E "Test run with" "$WORK/test-$pkg.log" | tail -1
+  grep -qE "Test run with .* passed" "$WORK/test-$pkg.log" || { grep -E "✘" "$WORK/test-$pkg.log" | head -20; echo "$pkg tests failed"; exit 1; }
+done
 
 step "3/6 Release build for a device (what the archive compiles)"
 xcodebuild -project Canopus.xcodeproj -scheme Canopus -configuration Release -destination 'generic/platform=iOS' \

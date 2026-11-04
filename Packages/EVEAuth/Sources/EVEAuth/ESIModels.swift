@@ -350,6 +350,48 @@ public struct ESICurrentShip: Decodable, Sendable {
     public let shipItemId: Int
     public let shipName: String
     public let shipTypeId: Int
+
+    private enum CodingKeys: String, CodingKey { case shipItemId, shipName, shipTypeId }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        shipItemId = try c.decode(Int.self, forKey: .shipItemId)
+        shipName = try c.decode(String.self, forKey: .shipName).esiPythonLiteralDecoded
+        shipTypeId = try c.decode(Int.self, forKey: .shipTypeId)
+    }
+}
+
+extension String {
+    /// ESI gives some ship names as a Python 2 literal — u'Hurricane\xa0\u2014 Alexandr Gercog' for
+    /// "Hurricane — Alexandr Gercog" (a name with characters outside ASCII). Other text is left alone.
+    public var esiPythonLiteralDecoded: String {
+        guard count >= 3, hasPrefix("u'") || hasPrefix("u\""), last == "'" || last == "\"" else { return self }
+        let body = Array(dropFirst(2).dropLast())
+        var out = ""
+        var i = 0
+        func hex(_ n: Int) -> Character? {
+            guard i + n < body.count || i + n == body.count, let v = UInt32(String(body[i..<(i + n)]), radix: 16), let u = Unicode.Scalar(v) else { return nil }
+            i += n
+            return Character(u)
+        }
+        while i < body.count {
+            let ch = body[i]
+            i += 1
+            guard ch == "\\", i < body.count else { out.append(ch); continue }
+            let e = body[i]
+            i += 1
+            switch e {
+            case "x": if let c = hex(2) { out.append(c) } else { out += "\\x" }
+            case "u": if let c = hex(4) { out.append(c) } else { out += "\\u" }
+            case "U": if let c = hex(8) { out.append(c) } else { out += "\\U" }
+            case "n": out.append("\n")
+            case "t": out.append("\t")
+            case "\\", "'", "\"": out.append(e)
+            default: out.append("\\"); out.append(e)
+            }
+        }
+        return out.replacingOccurrences(of: "\u{00A0}", with: " ")
+    }
 }
 
 // MARK: - Universe locations
