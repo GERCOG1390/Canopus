@@ -1,0 +1,31 @@
+# Strings that read the same in Russian (formats, units, names, game terms): the release gate doesn't ask
+# for a translation of these. One per line, exactly as the catalog key.
+Canopus
+DPS
+EHP
+ISK
+PG
+TE
+ME
+type_id
+Jita buy
+Jita sell
+https://example.com/manifest.json
+Jump Drive Calibration V
+Archon, Revelation, Rhea, Rorqual…
+Canopus %@ (%@)
+L%lld → L%lld
+P%lld
++%lld
+%@ — %@ LP
+%@ (%lld)
+%@ DPS
+%@ HP
+%@ SP
+%lld
+%lld %@
+%lld%%
+%lld×
+%lldx
+CEO
+Sovereignty Hub

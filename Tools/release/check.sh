@@ -33,7 +33,11 @@ APP="$WORK/sim/Build/Products/Debug-iphonesimulator/Canopus.app"
 echo "Simulator build OK"
 
 step "5/6 Translations (every visible string has Russian)"
-MISSING=$(python3 Tools/l10n/sync_strings.py "$WORK/sim" | awk '/^app:/{f=1;next}/^widget:/{f=0}f' | grep -vE "^\s+'([^a-zA-Z]*|Canopus|DPS|EHP|ISK|PG|TE|ME|type_id|Jita (buy|sell)|https://.*|Jump Drive Calibration V|Archon, Revelation, Rhea, Rorqual…|Canopus %@ \(%@\)|L%lld → L%lld|P%lld|\+%lld)'$" || true)
+MISSING=$(python3 Tools/l10n/sync_strings.py "$WORK/sim" | awk '/^app:/{f=1;next}/^widget:/{f=0}f' \
+  | python3 -c "import sys,ast; same={l.rstrip('\n') for l in open('Tools/release/l10n-same.txt') if l.strip() and not l.startswith('#')}
+for l in sys.stdin:
+    k=ast.literal_eval(l.strip())
+    if k not in same: print('   ', repr(k))")
 /usr/bin/git checkout -- Canopus/Resources/Localizable.xcstrings CanopusWidget/Localizable.xcstrings 2>/dev/null || true
 if [ -n "$MISSING" ]; then echo "No Russian for:"; echo "$MISSING"; exit 1; fi
 echo "Translations OK"
