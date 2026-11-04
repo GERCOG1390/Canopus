@@ -308,15 +308,17 @@ struct SubsystemSlotDefinition: Identifiable {
     var flag: String { "SubSystemSlot\(flagIndex)" }
 }
 
+    /// The slot an ESI flag stands for (FitItems: only numbered slots are fitted, bays are holds).
     func slotFor(_ flag: String) -> Slot {
-        if flag.hasPrefix("HiSlot")    { return .high }
-        if flag.hasPrefix("MedSlot")   { return .mid }
-        if flag.hasPrefix("LoSlot")    { return .low }
-        if flag.hasPrefix("RigSlot")   { return .rig }
-        // SubSystemSlot0–3 are fitted; SubSystemBay is the hold for spare subsystems (counted as cargo).
-        if flag.hasPrefix("SubSystemSlot") { return .sub }
-        if flag == "DroneBay" || flag == "FighterBay" { return .drone }
-        return .cargo
+        switch FitItems.slot(forFlag: flag) {
+        case .hi: .high
+        case .med: .mid
+        case .lo: .low
+        case .rig: .rig
+        case .sub: .sub
+        case .drone: .drone
+        case .cargo: .cargo
+        }
     }
 
     func isFittedType(_ item: ESIFittingItem) -> Bool {
@@ -877,9 +879,10 @@ struct SubsystemSlotDefinition: Identifiable {
             return
         }
 
-        let children = assets.filter {
-            $0.locationType == "item" && $0.locationId == ship.shipItemId
-        }
+        let children = FitItems.liveShip(assets: assets.map {
+            FitAsset(itemId: $0.itemId, typeId: $0.typeId, locationId: $0.locationId, locationType: $0.locationType,
+                     flag: $0.locationFlag, quantity: $0.quantity)
+        }, shipItemId: ship.shipItemId)
         guard !children.isEmpty else {
             if fit.items.isEmpty {
                 fittingWarning = "WARNING: active ship has no visible fitted assets; showing hull-only stats"
@@ -888,7 +891,7 @@ struct SubsystemSlotDefinition: Identifiable {
         }
 
         let mappedItems = children.map {
-            ESIFittingItem(typeId: $0.typeId, flag: $0.locationFlag, quantity: $0.quantity)
+            ESIFittingItem(typeId: $0.typeId, flag: $0.flag, quantity: $0.quantity)
         }
 
         guard ship.shipName == fit.name || fit.items.isEmpty || fittedSlotsMatch(mappedItems, fit.items) else {

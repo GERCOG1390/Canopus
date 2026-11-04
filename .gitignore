@@ -23,3 +23,4 @@ Canopus/Recovered References/
 # SQLite side files
 *.sqlite-shm
 *.sqlite-wal
+.release/
