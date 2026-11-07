@@ -40,6 +40,13 @@ struct TokenRefreshTests {
         #expect(!AuthError.networkError(URLError(.notConnectedToInternet)).isDeadRefreshToken)
     }
 
+    /// EVE's tokens are base64: an unescaped "+" reaches the server as a space and the token is "invalid".
+    @Test func formBodyEscapesTokens() throws {
+        let body = EVEAuthClient.formBody(["refresh_token": "ab+cd/ef==", "grant_type": "refresh_token", "redirect": "eveauth-canopus://callback"])
+        let text = try #require(String(data: body, encoding: .utf8))
+        #expect(text == "grant_type=refresh_token&redirect=eveauth-canopus%3A%2F%2Fcallback&refresh_token=ab%2Bcd%2Fef%3D%3D")
+    }
+
     /// Every path that refreshes goes through the single flight: one call to the client in the service.
     @Test func serviceRefreshesInOnePlace() throws {
         let source = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()

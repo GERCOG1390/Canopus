@@ -57,14 +57,24 @@ public final class EVEAuthClient {
         ])
     }
 
+    /// application/x-www-form-urlencoded, as the desktop's URLSearchParams. URLComponents won't do: it leaves
+    /// "+" as it is, the server reads that as a space, and a base64 refresh token with a "+" is refused
+    /// (invalid_grant) — the pilot gets signed out.
+    nonisolated static func formBody(_ fields: [String: String]) -> Data {
+        var allowed = CharacterSet.alphanumerics
+        allowed.insert(charactersIn: "-._~")
+        let pairs = fields.sorted { $0.key < $1.key }.map { key, value in
+            "\(key.addingPercentEncoding(withAllowedCharacters: allowed) ?? key)=\(value.addingPercentEncoding(withAllowedCharacters: allowed) ?? value)"
+        }
+        return Data(pairs.joined(separator: "&").utf8)
+    }
+
     private func tokenRequest(body: [String: String]) async throws -> StoredTokens {
         var req = URLRequest(url: EVEConstants.tokenURL)
         req.httpMethod = "POST"
         req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         req.setValue(EVEConstants.userAgent, forHTTPHeaderField: "User-Agent")
-        var components = URLComponents()
-        components.queryItems = body.map { URLQueryItem(name: $0.key, value: $0.value) }
-        req.httpBody = components.percentEncodedQuery?.data(using: .utf8)
+        req.httpBody = Self.formBody(body)
 
         let (data, response) = try await urlSession.data(for: req)
         let statusCode = (response as? HTTPURLResponse)?.statusCode ?? 0
