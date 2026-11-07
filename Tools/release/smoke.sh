@@ -5,11 +5,24 @@
 #
 #   Tools/release/smoke.sh <Canopus.app built for the simulator> <output dir> [iphone-udid] [ipad-udid]
 #
-# The simulators should have a character signed in (the character pages are part of the run).
+# The simulators should have a character signed in (the character pages are part of the run): without one
+# those pages only show the sign-in prompt, so check the contact sheets.
 set -u
 APP=$1; OUT=$2
-IPHONE=${3:-C8FAEB5B-E8EE-41B5-A2A3-4399A9E36760}
-IPAD=${4:-B8DC8FA4-7C9D-41DF-AF3A-6A601290E9A5}
+# The newest available simulator of a kind (names change with Xcode, ids with every machine).
+find_sim() {
+  xcrun simctl list devices available -j | python3 -c "
+import json, re, sys
+devices = json.load(sys.stdin)['devices']
+for runtime in sorted(devices, reverse=True):
+    for d in devices[runtime]:
+        if re.fullmatch(sys.argv[1], d['name']): print(d['udid']); sys.exit()
+" "$1"
+}
+IPHONE=${3:-$(find_sim 'iPhone \\d+ Pro Max')}
+IPAD=${4:-$(find_sim 'iPad Pro 13-inch.*')}
+[ -n "$IPHONE" ] && [ -n "$IPAD" ] || { echo "SMOKE FAILED: no iPhone Pro Max / iPad Pro 13-inch simulator"; exit 1; }
+echo "iPhone $IPHONE, iPad $IPAD"
 BUNDLE=AlexPlumbing.Canopus
 WAIT=${SMOKE_WAIT:-12}
 mkdir -p "$OUT"; rm -f "$OUT"/*.png "$OUT"/failures.txt
@@ -61,7 +74,8 @@ SCENARIOS=(
 fail=0
 run_device() {
   local dev=$1 tag=$2
-  xcrun simctl boot "$dev" 2>/dev/null; xcrun simctl bootstatus "$dev" -b >/dev/null 2>&1
+  xcrun simctl boot "$dev" 2>/dev/null || true
+  xcrun simctl bootstatus "$dev" -b >/dev/null 2>&1 || { echo "$tag: simulator did not boot" >> "$OUT/failures.txt"; fail=1; return; }
   xcrun simctl install "$dev" "$APP" || { echo "$tag: install failed" >> "$OUT/failures.txt"; fail=1; return; }
   xcrun simctl status_bar "$dev" override --time "9:41" --batteryState charged --batteryLevel 100 >/dev/null 2>&1
   for s in "${SCENARIOS[@]}"; do
