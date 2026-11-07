@@ -8,6 +8,8 @@ public struct KeychainTokenStore: Sendable {
 
     public func save(_ tokens: StoredTokens) throws {
         let data = try JSONEncoder().encode(tokens)
+        // The old item is found by its identity alone: a rotated refresh token must never fail to replace it.
+        delete(characterId: tokens.characterId)
         let query: [CFString: Any] = [
             kSecClass:           kSecClassGenericPassword,
             kSecAttrService:     Self.service,
@@ -15,7 +17,6 @@ public struct KeychainTokenStore: Sendable {
             kSecAttrAccessible:  kSecAttrAccessibleAfterFirstUnlock,
             kSecValueData:       data,
         ]
-        SecItemDelete(query as CFDictionary)
         let status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { throw AuthError.keychainError(status) }
     }

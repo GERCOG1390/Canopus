@@ -64,7 +64,15 @@ struct SettingsPage: View {
                     }
                     .buttonStyle(CanopusButtonStyle(kind: .danger, small: true))
                 }
-                if !c.missingScopes.isEmpty {
+                if store.services.first(where: { $0.tokens.characterId == c.characterId })?.sessionExpired == true {
+                    HStack(spacing: 8) {
+                        Text("EVE no longer accepts this character's sign-in. Sign in again to continue.")
+                            .font(.ui(12)).foregroundStyle(C.bad)
+                        Spacer(minLength: 4)
+                        Button("Sign in again") { Task { await addCharacter() } }
+                            .buttonStyle(.canopusSmall).disabled(adding)
+                    }
+                } else if !c.missingScopes.isEmpty {
                     HStack(spacing: 8) {
                         Text("New features need more permissions (\(c.missingScopes.count)): sign in again with this character and pick it on the EVE page.")
                             .font(.ui(12)).foregroundStyle(C.warn)

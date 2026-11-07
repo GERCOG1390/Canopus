@@ -1,4 +1,5 @@
 import SwiftUI
+import AuthenticationServices
 import EVEAuth
 import EVEStaticData
 import Domain
@@ -29,6 +30,7 @@ struct CharacterRootView: View {
     var openTab: (CharacterTab) -> Void = { _ in }
 
     @Environment(AppEnvironment.self) private var env
+    @Environment(\.webAuthenticationSession) private var webAuthSession
     @State private var skillQueue: [SkillQueueEntry] = []
     @State private var walletBalance: Double?
     @State private var totalSP: Int?
@@ -95,12 +97,36 @@ struct CharacterRootView: View {
         }
         #endif
         .task(id: env.dataKey) { await load() }
-        .alert("Error", isPresented: Binding(
+        .alert(sessionExpired ? "Sign in again" : "Error", isPresented: Binding(
             get: { error != nil }, set: { if !$0 { error = nil } })
         ) {
-            Button("Retry") { Task { await load() } }
-            Button("Dismiss", role: .cancel) {}
+            if sessionExpired {
+                Button("Sign in again") { Task { await signInAgain() } }
+                Button("Later", role: .cancel) {}
+            } else {
+                Button("Retry") { Task { await load() } }
+                Button("Dismiss", role: .cancel) {}
+            }
         } message: { Text(error?.localizedDescription ?? "") }
+    }
+
+    // MARK: - Signing in again
+
+    /// EVE refused the character's refresh token: the alert offers a new sign-in instead of a retry.
+    private var sessionExpired: Bool {
+        if case AuthError.sessionExpired? = error { return true }
+        return false
+    }
+
+    private func signInAgain() async {
+        do {
+            try await env.characterStore.addCharacter { url in
+                try await webAuthSession.authenticate(using: url, callbackURLScheme: EVEConstants.callbackScheme)
+            }
+            await load()
+        } catch {
+            if !error.isCancellation, (error as? ASWebAuthenticationSessionError)?.code != .canceledLogin { self.error = error }
+        }
     }
 
     // MARK: - Destination

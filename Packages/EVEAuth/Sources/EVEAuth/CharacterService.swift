@@ -8,6 +8,9 @@ public final class CharacterService {
     private let urlSession: URLSession
     private var errorLimitRemaining = 100
     private var errorLimitResetAt: Date?
+    private let refreshFlight = SingleFlight<StoredTokens>()
+    /// EVE refused the refresh token: nothing works until the pilot signs in again (a new service).
+    public private(set) var sessionExpired = false
 
     // Short-lived cache for endpoints that get re-requested every time a tab
     // is revisited (assets, wallet, skills, queue, location, fittings). ESI
@@ -45,6 +48,18 @@ public final class CharacterService {
         guard let value = try await task.value as? T else { throw URLError(.cannotDecodeContentData) }
         cacheStore[key] = (value, Date())
         return value
+    }
+
+    /// A new access token; requests running at the same moment share this one refresh.
+    private func refreshTokens() async throws {
+        if sessionExpired { throw AuthError.sessionExpired }
+        do {
+            let current = tokens
+            tokens = try await refreshFlight.run { [authClient] in try await authClient.refresh(current) }
+        } catch let error as AuthError where error.isDeadRefreshToken {
+            sessionExpired = true
+            throw AuthError.sessionExpired
+        }
     }
 
     /// JSON decoding off the main thread: assets, the journal and contracts can be thousands of rows.
@@ -407,7 +422,7 @@ public final class CharacterService {
     // MARK: - Authenticated GET (with optional query items)
 
     private func esiGet<T: Decodable & Sendable>(_ path: String, queryItems: [URLQueryItem], as type: T.Type) async throws -> T {
-        if !tokens.isAccessTokenValid { tokens = try await authClient.refresh(tokens) }
+        if !tokens.isAccessTokenValid { try await refreshTokens() }
         try ensureErrorBudget()
         var req = makeRequestWithQuery(path: path, queryItems: queryItems)
         req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
@@ -415,7 +430,7 @@ public final class CharacterService {
         if let http = response as? HTTPURLResponse {
             updateErrorLimit(from: http)
             if http.statusCode == 401 {
-                tokens = try await authClient.refresh(tokens)
+                try await refreshTokens()
                 req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
                 let (data2, resp2) = try await self.data(for: req, allowsCaching: false)
                 if let http2 = resp2 as? HTTPURLResponse, !(200..<300).contains(http2.statusCode) {
@@ -433,7 +448,7 @@ public final class CharacterService {
     // MARK: - Authenticated PUT
 
     private func esiPut(_ path: String, body: Data) async throws -> Data {
-        if !tokens.isAccessTokenValid { tokens = try await authClient.refresh(tokens) }
+        if !tokens.isAccessTokenValid { try await refreshTokens() }
         try ensureErrorBudget()
         var req = makeRequest(path: path)
         req.httpMethod = "PUT"
@@ -444,7 +459,7 @@ public final class CharacterService {
         if let http = response as? HTTPURLResponse {
             updateErrorLimit(from: http)
             if http.statusCode == 401 {
-                tokens = try await authClient.refresh(tokens)
+                try await refreshTokens()
                 req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
                 let (data2, resp2) = try await urlSession.data(for: req)
                 if let http2 = resp2 as? HTTPURLResponse {
@@ -482,7 +497,7 @@ public final class CharacterService {
     // MARK: - Authenticated POST
 
     private func esiPost<T: Decodable & Sendable>(_ path: String, body: Data, as type: T.Type) async throws -> T {
-        if !tokens.isAccessTokenValid { tokens = try await authClient.refresh(tokens) }
+        if !tokens.isAccessTokenValid { try await refreshTokens() }
         try ensureErrorBudget()
 
         var req = makeRequest(path: path)
@@ -494,7 +509,7 @@ public final class CharacterService {
         if let http = response as? HTTPURLResponse {
             updateErrorLimit(from: http)
             if http.statusCode == 401 {
-                tokens = try await authClient.refresh(tokens)
+                try await refreshTokens()
                 req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
                 let (data2, resp2) = try await urlSession.data(for: req)
                 if let http2 = resp2 as? HTTPURLResponse {
@@ -514,7 +529,7 @@ public final class CharacterService {
 
     /// ESI's UI calls answer 204 with no body (esi-ui.open_window.v1, esi-ui.write_waypoint.v1).
     private func esiUIPost(_ path: String, queryItems: [URLQueryItem]) async throws {
-        if !tokens.isAccessTokenValid { tokens = try await authClient.refresh(tokens) }
+        if !tokens.isAccessTokenValid { try await refreshTokens() }
         var req = makeRequestWithQuery(path: path, queryItems: queryItems)
         req.httpMethod = "POST"
         req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
@@ -539,7 +554,7 @@ public final class CharacterService {
 
     private func esiGet<T: Decodable & Sendable>(_ path: String, as type: T.Type) async throws -> T {
         if !tokens.isAccessTokenValid {
-            tokens = try await authClient.refresh(tokens)
+            try await refreshTokens()
         }
 
         try ensureErrorBudget()
@@ -553,7 +568,7 @@ public final class CharacterService {
             updateErrorLimit(from: http)
             if http.statusCode == 401 {
                 // One retry after forced refresh.
-                tokens = try await authClient.refresh(tokens)
+                try await refreshTokens()
                 req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
                 let (data2, resp2) = try await self.data(for: req, allowsCaching: false)
                 if let http2 = resp2 as? HTTPURLResponse {
@@ -620,7 +635,7 @@ public final class CharacterService {
 
     private func esiRawRequest(path: String, page: Int = 1) async throws -> (Data, HTTPURLResponse) {
         if !tokens.isAccessTokenValid {
-            tokens = try await authClient.refresh(tokens)
+            try await refreshTokens()
         }
         try ensureErrorBudget()
 
@@ -633,7 +648,7 @@ public final class CharacterService {
         updateErrorLimit(from: http)
 
         if http.statusCode == 401 {
-            tokens = try await authClient.refresh(tokens)
+            try await refreshTokens()
             req.setValue("Bearer \(tokens.accessToken)", forHTTPHeaderField: "Authorization")
             let (data2, resp2) = try await urlSession.data(for: req)
             if let http2 = resp2 as? HTTPURLResponse {
