@@ -171,3 +171,8 @@ Next, in this order:
    device), App Store screenshots, description, privacy policy.
 Tritanium (EstamelGG/EVE-Tritanium) was used only as a feature list: its licence allows viewing the
 source for education/review only, so none of its code is read or used.
+
+## Where we stopped (2026-11-06) — back to the desktop app
+
+1.0 (build 1) is live on the App Store. 1.0.1 (5) is uploaded and carries: the refresh-token "+" escaping (about 29% of tokens failed at the first refresh), one refresh at a time, Sign in again instead of a raw error, the T3 subsystem bay fix, ship names. Still to do by the owner: create version 1.0.1, pick build 5, submit, request an expedited review. Not confirmed on a real token with "+" yet: reopen the app on the phone without signing in again.
+Next on iOS: corporation wallets and members (need new SSO scopes first), Activities. Every release goes through docs/RELEASE.md.
