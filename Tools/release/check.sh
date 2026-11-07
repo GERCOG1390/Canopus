@@ -5,6 +5,8 @@
 #   Tools/release/check.sh            # full run (about 20 minutes: two simulators, every screen)
 #   SMOKE_WAIT=8 Tools/release/check.sh
 set -euo pipefail
+# The system git: an old Intel one earlier in PATH can't run here, and SwiftPM needs git for dependencies.
+export PATH="/usr/bin:$PATH"
 ROOT=$(cd "$(dirname "$0")/../.." && pwd); cd "$ROOT"
 WORK=${CANOPUS_RELEASE_WORK:-${TMPDIR:-/tmp}/canopus-release}
 mkdir -p "$WORK"
@@ -19,8 +21,11 @@ fi
 step "2/6 Package tests (engine vs Pyfa, item lists → fits, SDE queries, ESI decoding)"
 for pkg in EVEStaticData EVEAuth; do
   swift test --package-path "Packages/$pkg" --scratch-path "$WORK/spm-$pkg" > "$WORK/test-$pkg.log" 2>&1 || true
+  if ! grep -qE "Test run with .* passed" "$WORK/test-$pkg.log"; then
+    grep -E "✘|error:" "$WORK/test-$pkg.log" | head -20 || true
+    echo "$pkg tests failed (log: $WORK/test-$pkg.log)"; exit 1
+  fi
   grep -E "Test run with" "$WORK/test-$pkg.log" | tail -1
-  grep -qE "Test run with .* passed" "$WORK/test-$pkg.log" || { grep -E "✘" "$WORK/test-$pkg.log" | head -20; echo "$pkg tests failed"; exit 1; }
 done
 
 step "3/6 Release build for a device (what the archive compiles)"

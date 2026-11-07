@@ -2,6 +2,7 @@
 # Archives and uploads the current commit to App Store Connect — only after Tools/release/check.sh passed
 # for this very commit. The build number must be higher than any uploaded before (CURRENT_PROJECT_VERSION).
 set -euo pipefail
+export PATH="/usr/bin:$PATH"
 ROOT=$(cd "$(dirname "$0")/../.." && pwd); cd "$ROOT"
 WORK=${CANOPUS_RELEASE_WORK:-${TMPDIR:-/tmp}/canopus-release}
 HEAD=$(/usr/bin/git rev-parse --short HEAD)
