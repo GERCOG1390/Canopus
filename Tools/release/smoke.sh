@@ -19,7 +19,7 @@ for runtime in sorted(devices, reverse=True):
         if re.fullmatch(sys.argv[1], d['name']): print(d['udid']); sys.exit()
 " "$1"
 }
-IPHONE=${3:-$(find_sim 'iPhone \\d+ Pro Max')}
+IPHONE=${3:-$(find_sim 'iPhone \d+ Pro Max')}
 IPAD=${4:-$(find_sim 'iPad Pro 13-inch.*')}
 [ -n "$IPHONE" ] && [ -n "$IPAD" ] || { echo "SMOKE FAILED: no iPhone Pro Max / iPad Pro 13-inch simulator"; exit 1; }
 echo "iPhone $IPHONE, iPad $IPAD"
